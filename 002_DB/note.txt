@@ -1,0 +1,6 @@
+DB:MySQLを用いる
+UserAccount:
+  ・id:root / pass:root  全schemaの全権限(ルートアカウント)
+  ・id:user / pass:braingate2911  schema[test]のテーブル操作権限(SEL/INS/DEL/UPDのみ付与)
+DB(Schema):
+   ・testを作成  

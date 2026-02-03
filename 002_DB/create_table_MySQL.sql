@@ -1,20 +1,22 @@
 ------------------------------------------------------------------------------------------------
 -- MariaDB(MySQL)向け
 ------------------------------------------------------------------------------------------------
+-- DataBase(schema)に[test]を用いる前提
+-- MySQLコマンド mysql> CREATE DATABASE test などで作成する
 
 -- テーブル削除
--- drop table stock_master;
--- drop table stock_type_master;
--- drop table stock_type_data;
--- drop table auth_master;
--- drop table staff_data;
--- drop table stock_data;
+DROP TABLE IF EXISTS test.stock_master;
+DROP TABLE IF EXISTS test.stock_type_master;
+DROP TABLE IF EXISTS test.stock_type_data;
+DROP TABLE IF EXISTS test.auth_master;
+DROP TABLE IF EXISTS test.staff_data;
+DROP TABLE IF EXISTS test.stock_data;
 
 -- 項目名変更
--- ALTER TABLE stock_master RENAME COLUMN type TO stock_type; 
+-- ALTER TABLE test.stock_master RENAME COLUMN type TO stock_type; 
 
 -- テーブル作成
-create table stock_master( 
+CREATE TABLE test.stock_master( 
     stock_code varchar (20) NOT NULL PRIMARY KEY comment "シリアルナンバー"
     , name varchar (100) comment "備品名称"
     , model varchar (100) comment "型番"
@@ -25,14 +27,14 @@ create table stock_master(
     , del boolean comment "削除フラグ"
 ) comment "備品マスター"; 
 
-create table stock_type_master( 
+CREATE TABLE test.stock_type_master( 
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT comment "採番"
     , stock_type int comment "分類コード"
     , name varchar (100) comment "分類名称"
     , del boolean comment "削除フラグ"
 ) comment "備品分類マスター"; 
 
-create table stock_type_data( 
+CREATE TABLE test.stock_type_data( 
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT comment "採番"
     , stock_type int comment "分類コード"
     , auth_no int comment "権限"
@@ -42,21 +44,21 @@ create table stock_type_data(
     , del boolean comment "削除フラグ"
 ) comment "備品分類データ"; 
 
-create table auth_master( 
+CREATE TABLE test.auth_master( 
     auth_no int NOT NULL PRIMARY KEY comment "権限"
     , auth_name varchar (20) comment "権限の名称"
     , remarks varchar (4000) comment "備考"
     , del boolean comment "削除フラグ"
 ) comment "権限マスター"; 
 
-create table staff_data( 
+CREATE TABLE test.staff_data( 
     staff_no int NOT NULL PRIMARY KEY comment "社員番号"
     , name varchar (40) comment "氏名"
     , auth_no int comment "権限"
     , del boolean comment "削除フラグ"
 ) comment "社員データ"; 
 
-create table stock_data( 
+CREATE TABLE test.stock_data( 
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT comment "採番"
     , stock_code varchar (20) NOT NULL comment "シリアルナンバー"
     , parent_stock_code varchar (20) comment "親シリアルナンバー"
