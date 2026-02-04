@@ -1,21 +1,32 @@
 package application;
 	
 import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
 
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Main.fxml"));
-			Scene scene = new Scene(root,400,400);
+
+			/* 画面ファイル(FXML)の呼び出し
+			 * ⇒　生成した画面のパネルで受けること
+			 * クラス名と同名のFXMLファイルを呼び出し
+			 */
+			Pane root = (Pane)FXMLLoader.load(getClass().getResource(getClass().getSimpleName() + ".fxml"));
+			
+			// シーン生成(引数の画面サイズを設定した場合、優先される)
+			// Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root);
+			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
