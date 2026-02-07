@@ -77,7 +77,7 @@
 	
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\AssetManagementSystem">
+			<fileset dir="F:\Ecripse\001_備品管理システム\003_製造\AssetManagementSystem">
 				<include name="src/**" />
 			</fileset>
 		</copy>

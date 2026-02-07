@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Window.InventoryList.FormController">
+   <children>
+      <Label id="label1" fx:id="label_TEST" alignment="CENTER" layoutX="90.0" layoutY="57.0" prefHeight="81.0" prefWidth="424.0" text="TEST" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="NextPage" layoutX="224.0" layoutY="200.0" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="75.0" prefWidth="155.0" text="次へ">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

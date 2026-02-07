@@ -4,6 +4,7 @@ eclipse.preferences.version=1
 glanceColorBackground=0,255,0
 isOccurrenceGoToNextNavigationTarget=true
 lineNumberRuler=true
+net.sf.eclipsecs.error.text.style=NONE
 occurrenceHighlighting=false
 occurrenceIndication=true
 occurrenceIndicationColor=0,255,255
