@@ -19,10 +19,65 @@
 	
 		<mkdir dir="externalLibs" />
 	
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="jdk.jsobject.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="javafx.base.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="javafx-swt.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="javafx.swing.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="javafx.controls.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="javafx.web.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="jfx.incubator.richtext.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="javafx.fxml.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="javafx.graphics.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="jfx.incubator.input.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\javafx-sdk-25.0.2\lib">
+				<filename name="javafx.media.jar"/>
+			</fileset>
+		</copy>
 	
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="C:\Users\User\Desktop\Works\002_Repositories\004_TEST_Source\JavaFxSample">
+			<fileset dir="F:\Ecripse\001_備品管理システム\004_TEST_Source\JavaFxSample">
 				<include name="src/**" />
 			</fileset>
 		</copy>
@@ -38,6 +93,17 @@
 		<!-- Copy project-libs references -->
 		<copy todir="build/libs">
 			<fileset dir="externalLibs">
+				<include name="jfx.incubator.input.jar"/>
+				<include name="javafx-swt.jar"/>
+				<include name="javafx.fxml.jar"/>
+				<include name="jfx.incubator.richtext.jar"/>
+				<include name="javafx.swing.jar"/>
+				<include name="jdk.jsobject.jar"/>
+				<include name="javafx.graphics.jar"/>
+				<include name="javafx.base.jar"/>
+				<include name="javafx.web.jar"/>
+				<include name="javafx.media.jar"/>
+				<include name="javafx.controls.jar"/>
 			</fileset>
 		</copy>
 	
