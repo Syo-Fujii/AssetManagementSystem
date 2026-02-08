@@ -15,8 +15,6 @@ public final class Main extends JavaFxManager {
 	 * @param args 起動引数
 	 */
 	public static void main(String[] args) {
-		
-		// Application.launch(JavaFxManager.class, args);
 		JavaFxManager.launch(args);
 	}
 
@@ -34,5 +32,4 @@ public final class Main extends JavaFxManager {
 		// 最初に表示する画面を設定
 		this.setPage(new FormController());
 	}
-
 }

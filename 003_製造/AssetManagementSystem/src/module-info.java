@@ -11,5 +11,5 @@ module AssetManagementSystem {
 	
 	opens application to javafx.graphics, javafx.fxml;
 	opens application.Window.InventoryList to javafx.fxml;
-	
+	opens application.Window.TestNextWindow to javafx.fxml;
 }
