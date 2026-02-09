@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 /**
  * エントリポイント
- * JavaFxを用いたWindowアプリケーションの為、JavaFxを継承する
+ * @note JavaFxを用いたWindowアプリケーションの為、JavaFxを継承する
  */
 public final class Main extends JavaFxManager {
 	

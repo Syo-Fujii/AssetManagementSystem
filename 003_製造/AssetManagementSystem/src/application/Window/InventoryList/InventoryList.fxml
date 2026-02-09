@@ -7,25 +7,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="676.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Window.InventoryList.FormController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Window.InventoryList.FormController">
    <children>
-      <Label id="label1" fx:id="label_TEST" alignment="CENTER" layoutX="7.0" layoutY="6.0" prefHeight="81.0" prefWidth="424.0" text="TEST" textAlignment="CENTER">
+      <Label id="label1" fx:id="label_TEST" layoutX="32.0" layoutY="37.0" prefHeight="58.0" prefWidth="235.0" text="備品一覧画面" textAlignment="CENTER">
          <font>
-            <Font size="36.0" />
+            <Font size="21.0" />
          </font>
       </Label>
-      <Button fx:id="NextPage" layoutX="467.0" layoutY="29.0" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="75.0" prefWidth="155.0" text="次へ">
+      <Button fx:id="NextPage" layoutX="405.0" layoutY="37.0" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="44.0" prefWidth="114.0" text="次へ">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <TableView layoutX="15.0" layoutY="127.0" prefHeight="472.0" prefWidth="646.0" AnchorPane.rightAnchor="15.0">
+      <TableView fx:id="tableListView" layoutX="32.0" layoutY="119.0" prefHeight="472.0" prefWidth="487.0" snapToPixel="false">
         <columns>
-          <TableColumn editable="false" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" resizable="false" text="名称" />
-            <TableColumn minWidth="0.0" prefWidth="37.0" text="C1" />
-          <TableColumn minWidth="3.0" prefWidth="72.0" text="C1" />
-            <TableColumn minWidth="2.0" prefWidth="32.0" text="C2" />
-            <TableColumn prefWidth="129.0" text="C2" />
+          <TableColumn id="item" fx:id="col_itemName" editable="false" maxWidth="300.0" minWidth="250.0" prefWidth="265.0" resizable="false" text="名称" />
+            <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="貸出" />
+          <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="返却" />
+            <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="不明" />
+            <TableColumn maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" text="合計" />
         </columns>
       </TableView>
    </children>

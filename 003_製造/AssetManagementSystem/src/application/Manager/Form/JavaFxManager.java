@@ -8,9 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /** 画面生成マネージャ(JavaFx ※OpenJFx) 
- * 継承したアプリケーション(JavaFx)クラス
+ * @brief 継承したアプリケーション(JavaFx)クラス
  * すべてのJavaFXアプリケーションは、Applicationクラス(javafx.application.Application) のサブクラスとして実装します。
  * アプリケーションのソースコードは以下のような構造になります。
  * アプリケーションの中身は抽象メソッドのstartをオーバライドすることにより記述します。
@@ -45,7 +46,7 @@ public class JavaFxManager extends Application{
 	* @param　cls 遷移先画面のclass
 	* @param　fxml 遷移先画面のfxml
 	* @param　params 遷移先画面用パラメータ
-	* 表示枠(Stage)にコンテンツ内容(Scene)を設定・表示する
+	* @brief 表示枠(Stage)にコンテンツ内容(Scene)を設定・表示する
 	* BasePage を継承した Controller は遷移先画面の class と fxml名、任意に渡すパラメータで遷移を実行する
 	*/
 	public void setPage(BaseFormPage cls, Object...params) throws Exception{
@@ -71,6 +72,26 @@ public class JavaFxManager extends Application{
 		page.loadParameter(params);
 		*/
 		
+		// Event 付与(Control.VisibleChanged Form.Activated相当)
+		stage.sceneProperty().addListener((observable,oldScene,newScene) -> {
+		    if (newScene == null) {
+		        // ノード(stage)よりシーンから削除された
+		    } else {
+		        // ノード(stage)にシーンが追加(変更)された
+                newScene.windowProperty().addListener((obs, oldWindow, newWindow) -> {
+                    if (newWindow != null) {
+                        // Window (Stage) が確定した時の処理
+                    }       
+                });
+            }
+		});
+		
+		// Event 付与(Form Shown相当)
+        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> {
+        	this.FormShown();
+        });		
+		
+		
 		// 継承したJavaFxアプリの設定
 		//cls.setApp(this);
 		// 画面内容(パラメータ設定)の展開
@@ -80,4 +101,15 @@ public class JavaFxManager extends Application{
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	/**
+	 * (stage)画面表示Event 
+     * @brief .NET Shown相当 
+     * Shownイベントは 、フォームが初めて表示されたときにのみ発生します。
+     * その後、最小化、最大化、復元、非表示、表示、無効化、再描画は、このイベントを発生させません。
+     * Window(Stage)の呼び出しは初回(primaryStage start)のみのため、１回しか呼び出されない
+	 */
+	private void FormShown(){
+    	System.out.println("FormShown");
+	}	
 }

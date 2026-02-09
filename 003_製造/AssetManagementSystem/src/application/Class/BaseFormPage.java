@@ -93,7 +93,8 @@ public abstract class BaseFormPage {
 	public void setWindowTitle(String windowTitle) {
 		this.windowTitle = windowTitle;
 	}	
-
+	
+	
 	/**
 	 * 遷移先画面の設定
 	 * @param cls 遷移先画面
@@ -108,6 +109,13 @@ public abstract class BaseFormPage {
 		}
 	}
 
+	/**
+	 * (stage)画面表示Event 
+	 * 初回表示の際に設定する場合、使用する。
+	 */
+	public void FormShown(){
+	}
+	
 	/**
 	 * 
 	 * @param params
