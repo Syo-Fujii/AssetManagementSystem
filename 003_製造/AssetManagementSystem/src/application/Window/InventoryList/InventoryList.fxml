@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import application.manager.TableViewManager?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Window.InventoryList.FormController">
    <children>
@@ -19,14 +20,14 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <TableView fx:id="tableListView" layoutX="32.0" layoutY="119.0" prefHeight="472.0" prefWidth="487.0" snapToPixel="false">
+      <TableViewManager fx:id="tableListView" layoutX="32.0" layoutY="119.0" prefHeight="472.0" prefWidth="487.0" snapToPixel="false">
         <columns>
           <TableColumn id="item" fx:id="col_itemName" editable="false" maxWidth="300.0" minWidth="250.0" prefWidth="265.0" resizable="false" text="名称" />
-            <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="貸出" />
+            <TableColumn id="loan" fx:id="col_loanCnt" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="貸出" />
           <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="返却" />
             <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="不明" />
             <TableColumn maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" text="合計" />
         </columns>
-      </TableView>
+      </TableViewManager>
    </children>
 </AnchorPane>

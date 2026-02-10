@@ -1,17 +1,15 @@
 package application.Window.InventoryList;
 
-import java.nio.file.Paths;
-
 import application.Class.BaseFormPage;
 import application.Class.TableViewListModel.InventoryListDataModel;
 import application.Window.TestNextWindow.Form2;
+import application.manager.TableViewManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -22,9 +20,10 @@ public class FormController extends BaseFormPage{
 	
 	@FXML private Button NextPage;
 	@FXML private Label label_TEST;
-	@FXML private TableView<InventoryListDataModel> tableListView;
+
+	@FXML private TableViewManager<InventoryListDataModel> tableListView;
 	@FXML private TableColumn<InventoryListDataModel, String> col_itemName;
-	
+	@FXML private TableColumn<InventoryListDataModel, Integer> col_loanCnt;
 	
 	private int count = 0;
 	
@@ -35,8 +34,7 @@ public class FormController extends BaseFormPage{
 	{
 		this.setfxmlFilePath("/application/Window/InventoryList/InventoryList.fxml");
 		this.setWindowTitle("備品管理システム");
-		
-		String a = Paths.get("").toAbsolutePath().toString();
+
 	}
 	
     @FXML
@@ -62,20 +60,23 @@ public class FormController extends BaseFormPage{
     
     private void testTableView()
     {
-    	// col_itemName = new TableColumn<> ("ItemName");
-    	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName") );
-    	// tableListView.getColumns().add(col_itemName);
+
+    	this.bindColumnSource();
     	
-    	// tableListView.getColumns().add(col_itemName);
     	
     	
     	
     	// 初期設定
     	// データを追加
         ObservableList<InventoryListDataModel> data = FXCollections.observableArrayList(
-                new InventoryListDataModel( "１行１列"  )
+                new InventoryListDataModel( "1行１列" , 100 ),
+                new InventoryListDataModel( "2行１列" , 0 ),
+                new InventoryListDataModel( "3行１列" , 9999 ),
+                new InventoryListDataModel( "4行１列" , 1234 )
         );
-         
+
+        
+        //tableListView.test(new InventoryListDataModel( "１行１列" , 100 ));
         // データを登録
         tableListView.setItems( data );
          
@@ -113,5 +114,16 @@ public class FormController extends BaseFormPage{
     	//tableListView.setItems( FXCollections.observableArrayList( "1st" , "2nd" , "3rd" ) );
     	// tableListView.getSelectionModel().selectFirst();
     }
+    
+    private void bindColumnSource() {
+    	
+    	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName"));
+    	col_loanCnt.setCellValueFactory( new PropertyValueFactory<>("loanCount"));
+    	
+    	
+    }
+    
+    
+    
 }
 
