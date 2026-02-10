@@ -1,6 +1,6 @@
 package application.Class;
 
-import application.manager.Form.JavaFxManager;
+import application.manager.form.JavaFxManager;
 
 /** 画面生成基底クラス 
  *  画面設定(Controller)に対するクラス
