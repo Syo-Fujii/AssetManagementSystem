@@ -1,7 +1,7 @@
 package application.window.inventoryList;
 
-import application.Class.BaseFormPage;
-import application.Class.tableViewListModel.InventoryListDataModel;
+import application.base.BaseFormPage;
+import application.base.tableViewListModel.InventoryListDataModel;
 import application.manager.TableViewManager;
 import application.window.testNextWindow.Form2;
 import javafx.collections.FXCollections;

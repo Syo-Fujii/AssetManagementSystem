@@ -1,6 +1,6 @@
 package application.window.testNextWindow;
 
-import application.Class.BaseFormPage;
+import application.base.BaseFormPage;
 import application.window.inventoryList.FormController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

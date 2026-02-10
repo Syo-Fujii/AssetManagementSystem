@@ -1,6 +1,6 @@
-package application.Class.tableViewListModel;
+package application.base.tableViewListModel;
 
-import application.Class.BaseTableViewModel;
+import application.base.BaseTableViewModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,7 +13,7 @@ import javafx.beans.property.StringProperty;
  * ※ １行分のデータ
  * 画面Controllerにて呼び出される前提
  */
-public class InventoryListDataModel extends BaseTableViewModel  {
+public class InventoryListDataModel extends BaseTableViewModel {
 	
     private final StringProperty itemName;
     private IntegerProperty loanCount = new SimpleIntegerProperty(0);    

@@ -1,6 +1,6 @@
 package application.manager;
 
-import application.Class.BaseTableViewModel;
+import application.base.BaseTableViewModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 

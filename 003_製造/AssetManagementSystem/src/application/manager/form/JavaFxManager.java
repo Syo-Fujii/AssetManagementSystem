@@ -2,7 +2,7 @@ package application.manager.form;
 
 import java.util.Objects;
 
-import application.Class.BaseFormPage;
+import application.base.BaseFormPage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

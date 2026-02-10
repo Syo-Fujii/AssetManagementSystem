@@ -1,4 +1,4 @@
-package application.Class;
+package application.base;
 
 import application.manager.form.JavaFxManager;
 
