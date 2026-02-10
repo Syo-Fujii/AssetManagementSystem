@@ -10745,3 +10745,252 @@ java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.remove(Objec
 	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
 	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:19.594
+!MESSAGE 23:34:50.394 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/BaseFormPage.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:39.134
+!MESSAGE 23:35:39.133 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file deleted event: [file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/TableViewListModel/InventoryListDataModel.java]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:39.179
+!MESSAGE 23:35:39.150 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/TableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:39.359
+!MESSAGE 23:35:39.358 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file created event: [file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/Class/tableViewListModel/InventoryListDataModel.class]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:39.626
+!MESSAGE 23:35:39.360 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: [file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/window/inventoryList/FormController.class]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:44.434
+!MESSAGE 23:35:39.689 [pool-5-thread-75] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:44.435
+!MESSAGE 23:35:39.694 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:44.759
+!MESSAGE 23:35:44.759 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:45.246
+!MESSAGE 23:35:44.854 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:45.754
+!MESSAGE 23:35:45.752 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:45.760
+!MESSAGE 23:35:45.758 [pool-5-thread-75] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:49.282
+!MESSAGE 23:35:49.281 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:49.791
+!MESSAGE 23:35:49.790 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:57.313
+!MESSAGE 23:35:49.806 [pool-5-thread-75] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:57.313
+!MESSAGE 23:35:56.712 [pool-3-thread-164] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:57.827
+!MESSAGE 23:35:57.402 [pool-3-thread-164] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:57.966
+!MESSAGE 23:35:57.838 [pool-5-thread-75] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:58.478
+!MESSAGE 23:35:58.114 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:58.488
+!MESSAGE 23:35:58.487 [pool-5-thread-75] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:59.348
+!MESSAGE 23:35:59.346 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - doc save event: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:35:59.401
+!MESSAGE 23:35:59.399 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:00.060
+!MESSAGE 23:35:59.545 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: [file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/window/inventoryList/FormController.class]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:16.456
+!MESSAGE 23:36:12.789 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:30.996
+!MESSAGE 23:36:30.994 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - doc save event: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:31.081
+!MESSAGE 23:36:31.080 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Class/tableViewListModel/InventoryListDataModel.java
+
+!ENTRY org.eclipse.debug.core 4 2 2026-02-10 23:36:31.143
+!MESSAGE プラグイン "org.eclipse.debug.core" からのコードの起動で問題が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.contains(Object)" because "this.processes" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveProcessTracker.processCreated(LiveProcessTracker.java:75)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:86)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 125 2026-02-10 23:36:31.143
+!MESSAGE デバッグ・イベントのディスパッチ中に例外が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.contains(Object)" because "this.processes" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveProcessTracker.processCreated(LiveProcessTracker.java:75)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:86)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 2 2026-02-10 23:36:31.144
+!MESSAGE プラグイン "org.eclipse.debug.core" からのコードの起動で問題が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedHashMap.remove(Object)" because "this.configs" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveAndDeadProcessTracker.processCreated(LiveAndDeadProcessTracker.java:94)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:86)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 125 2026-02-10 23:36:31.145
+!MESSAGE デバッグ・イベントのディスパッチ中に例外が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedHashMap.remove(Object)" because "this.configs" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveAndDeadProcessTracker.processCreated(LiveAndDeadProcessTracker.java:94)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:86)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 2 2026-02-10 23:36:31.249
+!MESSAGE プラグイン "org.eclipse.debug.core" からのコードの起動で問題が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.remove(Object)" because "this.processes" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveProcessTracker.processTerminated(LiveProcessTracker.java:64)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:91)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 125 2026-02-10 23:36:31.249
+!MESSAGE デバッグ・イベントのディスパッチ中に例外が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.remove(Object)" because "this.processes" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveProcessTracker.processTerminated(LiveProcessTracker.java:64)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:91)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:38.095
+!MESSAGE 23:36:36.240 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:39.254
+!MESSAGE 23:36:39.253 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:39.646
+!MESSAGE 23:36:39.348 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:40.156
+!MESSAGE 23:36:40.155 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:43.710
+!MESSAGE 23:36:43.709 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - doc save event: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-10 23:36:43.798
+!MESSAGE 23:36:43.797 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.debug.core 4 2 2026-02-10 23:36:43.918
+!MESSAGE プラグイン "org.eclipse.debug.core" からのコードの起動で問題が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.contains(Object)" because "this.processes" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveProcessTracker.processCreated(LiveProcessTracker.java:75)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:86)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 125 2026-02-10 23:36:43.919
+!MESSAGE デバッグ・イベントのディスパッチ中に例外が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.contains(Object)" because "this.processes" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveProcessTracker.processCreated(LiveProcessTracker.java:75)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:86)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 2 2026-02-10 23:36:43.926
+!MESSAGE プラグイン "org.eclipse.debug.core" からのコードの起動で問題が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedHashMap.remove(Object)" because "this.configs" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveAndDeadProcessTracker.processCreated(LiveAndDeadProcessTracker.java:94)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:86)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 125 2026-02-10 23:36:43.927
+!MESSAGE デバッグ・イベントのディスパッチ中に例外が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedHashMap.remove(Object)" because "this.configs" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveAndDeadProcessTracker.processCreated(LiveAndDeadProcessTracker.java:94)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:86)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 2 2026-02-10 23:36:47.002
+!MESSAGE プラグイン "org.eclipse.debug.core" からのコードの起動で問題が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.remove(Object)" because "this.processes" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveProcessTracker.processTerminated(LiveProcessTracker.java:64)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:91)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.core 4 125 2026-02-10 23:36:47.003
+!MESSAGE デバッグ・イベントのディスパッチ中に例外が発生しました。
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "java.util.LinkedList.remove(Object)" because "this.processes" is null
+	at org.springsource.ide.eclipse.commons.ui.launch.LiveProcessTracker.processTerminated(LiveProcessTracker.java:64)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList.handleDebugEvent(LaunchList.java:91)
+	at org.springsource.ide.eclipse.commons.ui.launch.LaunchList$1.handleDebugEvents(LaunchList.java:63)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.run(DebugPlugin.java:1422)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.debug.core.DebugPlugin$EventNotifier.dispatch(DebugPlugin.java:1456)
+	at org.eclipse.debug.core.DebugPlugin$EventDispatchJob.run(DebugPlugin.java:521)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)

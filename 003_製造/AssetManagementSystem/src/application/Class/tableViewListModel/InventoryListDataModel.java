@@ -1,4 +1,4 @@
-package application.Class.TableViewListModel;
+package application.Class.tableViewListModel;
 
 import application.Class.BaseTableViewModel;
 import javafx.beans.property.IntegerProperty;
