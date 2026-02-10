@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import application.manager.TableViewManager?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Window.InventoryList.FormController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.window.InventoryList.FormController">
    <children>
       <Label id="label1" fx:id="label_TEST" layoutX="32.0" layoutY="37.0" prefHeight="58.0" prefWidth="235.0" text="備品一覧画面" textAlignment="CENTER">
          <font>
