@@ -1,7 +1,7 @@
 package application;
 
 import application.manager.Form.JavaFxManager;
-import application.window.InventoryList.FormController;
+import application.window.inventoryList.FormController;
 import javafx.stage.Stage;
 
 /**

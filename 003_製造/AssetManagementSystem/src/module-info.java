@@ -11,8 +11,8 @@ module AssetManagementSystem {
 	requires javafx.base;
 	
 	opens application to javafx.graphics, javafx.fxml;
-	opens application.window.InventoryList to javafx.fxml;
-	opens application.window.TestNextWindow to javafx.fxml;
+	opens application.window.inventoryList to javafx.fxml;
+	opens application.window.testNextWindow to javafx.fxml;
 	opens application.Class.TableViewListModel to javafx.base;
 	opens application.manager to javafx.base, javafx.fxml;
 }

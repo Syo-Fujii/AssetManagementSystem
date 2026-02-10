@@ -1,9 +1,9 @@
-package application.window.InventoryList;
+package application.window.inventoryList;
 
 import application.Class.BaseFormPage;
 import application.Class.TableViewListModel.InventoryListDataModel;
 import application.manager.TableViewManager;
-import application.window.TestNextWindow.Form2;
+import application.window.testNextWindow.Form2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
