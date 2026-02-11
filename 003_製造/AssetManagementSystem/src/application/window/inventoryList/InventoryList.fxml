@@ -20,7 +20,12 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <TableViewManager fx:id="tableListView" layoutX="32.0" layoutY="119.0" prefHeight="472.0" prefWidth="487.0" snapToPixel="false">
+      <TableViewManager fx:id="tableListView"
+                          layoutX="32.0" 
+                          layoutY="119.0" 
+                          prefHeight="459.0" 
+                          prefWidth="487.0" 
+                          snapToPixel="false">
         <columns>
           <TableColumn id="item" fx:id="col_itemName" editable="false" maxWidth="300.0" minWidth="250.0" prefWidth="265.0" resizable="false" text="名称" />
             <TableColumn id="loan" fx:id="col_loanCnt" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="貸出" />

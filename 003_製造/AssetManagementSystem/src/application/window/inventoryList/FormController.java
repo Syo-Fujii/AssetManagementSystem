@@ -1,6 +1,7 @@
 package application.window.inventoryList;
 
 import application.base.BaseFormPage;
+import application.base.BaseTableViewModel;
 import application.base.tableViewListModel.InventoryListDataModel;
 import application.manager.TableViewManager;
 import application.window.testNextWindow.Form2;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+//import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -22,6 +24,7 @@ public class FormController extends BaseFormPage{
 	@FXML private Label label_TEST;
 
 	@FXML private TableViewManager<InventoryListDataModel> tableListView;
+	//@FXML private TableView<InventoryListDataModel> tableListView;
 	@FXML private TableColumn<InventoryListDataModel, String> col_itemName;
 	@FXML private TableColumn<InventoryListDataModel, Integer> col_loanCnt;
 	
@@ -32,7 +35,7 @@ public class FormController extends BaseFormPage{
 	 */
 	public FormController() 
 	{
-		this.setfxmlFilePath("/application/Window/InventoryList/InventoryList.fxml");
+		this.setfxmlFilePath("/application/window/inventoryList/InventoryList.fxml");
 		this.setWindowTitle("備品管理システム");
 
 	}
@@ -48,7 +51,8 @@ public class FormController extends BaseFormPage{
     	
     	label_TEST.setText("押下回数：" + count + "回");
     	System.out.println("initialize");
-    	this.testTableView();
+    	
+    	this.tableViewSettings();
     }	
     
     @FXML
@@ -57,13 +61,44 @@ public class FormController extends BaseFormPage{
     	super.setPage(new Form2());
     }
     
-    
-    private void testTableView()
-    {
+    @Override
+    /**
+     * 項目Bind設定(継承)
+     */
+    public void bindTableColumnSource() {
+    	
+    	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName"));
+    	col_loanCnt.setCellValueFactory( new PropertyValueFactory<>("loanCount"));
+    }    
 
-    	this.bindColumnSource();
+    @Override
+	/**
+	 * 行選択Event(継承)
+	 * @param row
+	 */
+	public void onTableSelectedRowsEvent(BaseTableViewModel row) {
+	
+    	super.onTableSelectedRowsEvent(row);
+    	
+    	// 行が選択された時の処理
+        System.out.println("継承先　選択された行のデータ: " + row);
+	}   
+    
+    
+    
+    
+    /**
+     * 
+     */
+    private void tableViewSettings()
+    {
+    	tableListView.setIsRowsMultiSelected(false);
+    	tableListView.setIsCellSelected(false);
+    	tableListView.tableViewSettings(this);
+
     	
     	
+
     	
     	
     	// 初期設定
@@ -114,16 +149,5 @@ public class FormController extends BaseFormPage{
     	//tableListView.setItems( FXCollections.observableArrayList( "1st" , "2nd" , "3rd" ) );
     	// tableListView.getSelectionModel().selectFirst();
     }
-    
-    private void bindColumnSource() {
-    	
-    	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName"));
-    	col_loanCnt.setCellValueFactory( new PropertyValueFactory<>("loanCount"));
-    	
-    	
-    }
-    
-    
-    
 }
 

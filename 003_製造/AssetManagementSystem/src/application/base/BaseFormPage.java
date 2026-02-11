@@ -94,6 +94,19 @@ public abstract class BaseFormPage {
 		this.windowTitle = windowTitle;
 	}	
 	
+	/**
+	 * 
+	 */
+	 public void bindTableColumnSource() {};
+	
+	 /**
+	 * 
+	 */
+	 public void onTableSelectedRowsEvent(BaseTableViewModel data) {
+
+		 // 行が選択された時の処理
+		 System.out.println("選択された行のデータ: " + data);
+	 };
 	
 	/**
 	 * 遷移先画面の設定

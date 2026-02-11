@@ -15,7 +15,7 @@ public class Form2 extends BaseFormPage{
 	
 	public Form2() 
 	{
-		this.setfxmlFilePath("/application/Window/TestNextWindow/TestWindow.fxml");
+		this.setfxmlFilePath("/application/window/testNextWindow/TestWindow.fxml");
 		this.setWindowTitle("備品管理システム");
 	}	
 	
@@ -27,5 +27,12 @@ public class Form2 extends BaseFormPage{
 
     	super.setPage(new FormController());
     }	
-	
+
+    @Override
+    /**
+     * 項目Bind設定(継承)
+     */
+    public void bindTableColumnSource () {
+    	
+    }    
 }

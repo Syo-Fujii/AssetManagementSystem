@@ -51,7 +51,7 @@ public class JavaFxManager extends Application{
 	*/
 	public void setPage(BaseFormPage cls, Object...params) throws Exception{
 		FXMLLoader loader = new FXMLLoader();
-
+		
 		Parent root = (Parent)loader.load(cls.getClass().getResourceAsStream(cls.getfxmlFilePath()));
 		
 		// シーン(ステージに表示する内容)の生成
@@ -100,6 +100,9 @@ public class JavaFxManager extends Application{
 		stage.setTitle(cls.getWindowTitle());
 		stage.setScene(scene);
 		stage.show();
+		
+		System.out.println("setPage");
+		
 	}
 	
 	/**
