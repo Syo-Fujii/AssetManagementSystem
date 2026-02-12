@@ -1,7 +1,7 @@
-package application.window.testNextWindow;
+package application.java.window.testNextWindow;
 
 import application.java.base.BaseFormPage;
-import application.window.inventoryList.FormController;
+import application.java.window.inventoryList.FormController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,7 +15,7 @@ public class Form2 extends BaseFormPage{
 	
 	public Form2() 
 	{
-		this.setfxmlFilePath("/application/window/testNextWindow/TestWindow.fxml");
+		this.setfxmlFilePath("/application/resources/fxml/TestWindow.fxml");
 		this.setWindowTitle("備品管理システム");
 	}	
 	

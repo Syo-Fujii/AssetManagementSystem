@@ -8323,3 +8323,543 @@ java.lang.NullPointerException: Cannot invoke "String.lastIndexOf(int)" because 
 	at org.eclipse.wst.sse.ui.internal.reconcile.DocumentRegionProcessor.process(DocumentRegionProcessor.java:323)
 	at org.eclipse.wst.sse.ui.internal.reconcile.StructuredRegionProcessor.process(StructuredRegionProcessor.java:260)
 	at org.eclipse.wst.sse.ui.internal.reconcile.DirtyRegionProcessor$BackgroundThread.run(DirtyRegionProcessor.java:694)
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-02-12 09:53:45.045
+!MESSAGE Could not get language server due to timeout after 50 milliseconds
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-02-12 09:53:45.124
+!MESSAGE Could not get language server due to timeout after 50 milliseconds
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:53:45.707
+!MESSAGE 09:53:45.702 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file created event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java, file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:53:45.749
+!MESSAGE 09:53:45.713 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file deleted event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/FormController.java, file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/inventoryList/InventoryList.fxml, file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/testNextWindow/Form2.java, file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/window/testNextWindow/TestWindow.fxml]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:53:45.826
+!MESSAGE 09:53:45.825 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:53:46.123
+!MESSAGE 09:53:45.848 [pool-3-thread-31] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:53:46.144
+!MESSAGE 09:53:46.130 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file deleted event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/window/inventoryList/FormController.class, file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/window/inventoryList/InventoryList.fxml, file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/window/testNextWindow/Form2.class, file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/window/testNextWindow/TestWindow.fxml]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:53:46.335
+!MESSAGE 09:53:46.334 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:53:46.411
+!MESSAGE 09:53:46.410 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:00.307
+!MESSAGE 09:53:46.665 [pool-3-thread-31] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:01.296
+!MESSAGE 09:54:01.295 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:01.420
+!MESSAGE 09:54:01.406 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:01.749
+!MESSAGE 09:54:01.748 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 4
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:01.873
+!MESSAGE 09:54:01.868 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 5
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:02.372
+!MESSAGE 09:54:02.371 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:02.402
+!MESSAGE 09:54:02.401 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:02.439
+!MESSAGE 09:54:02.437 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:02.468
+!MESSAGE 09:54:02.468 [pool-3-thread-31] INFO  o.s.i.v.c.l.c.VscodeCompletionEngineAdapter - completion handling - retrieve lastest snapshot for: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:02.939
+!MESSAGE 09:54:02.468 [pool-3-thread-31] INFO  o.s.i.v.c.l.c.VscodeCompletionEngineAdapter - Got 0 completions in 0ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:05.722
+!MESSAGE 09:54:02.946 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:05.727
+!MESSAGE 09:54:02.968 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:06.253
+!MESSAGE 09:54:06.252 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:06.384
+!MESSAGE 09:54:06.377 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:06.820
+!MESSAGE 09:54:06.819 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 9
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:06.926
+!MESSAGE 09:54:06.880 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:07.339
+!MESSAGE 09:54:07.338 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 11
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:07.421
+!MESSAGE 09:54:07.395 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:09.973
+!MESSAGE 09:54:07.853 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:09.977
+!MESSAGE 09:54:09.973 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:10.717
+!MESSAGE 09:54:10.060 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:22.665
+!MESSAGE 09:54:22.456 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:25.782
+!MESSAGE 09:54:22.974 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:25.786
+!MESSAGE 09:54:22.988 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:25.790
+!MESSAGE 09:54:22.988 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:26.414
+!MESSAGE 09:54:26.286 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change message work done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:26.418
+!MESSAGE 09:54:26.410 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:26.699
+!MESSAGE 09:54:26.699 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:26.844
+!MESSAGE 09:54:26.842 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:27.343
+!MESSAGE 09:54:27.343 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 6
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:27.365
+!MESSAGE 09:54:27.365 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - completion request arrived: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:27.877
+!MESSAGE 09:54:27.437 [pool-3-thread-31] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:27.881
+!MESSAGE 09:54:27.877 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:29.847
+!MESSAGE 09:54:29.847 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - doc save event: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:29.908
+!MESSAGE 09:54:29.903 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:29.911
+!MESSAGE 09:54:29.909 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 9
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:29.945
+!MESSAGE 09:54:29.941 [pool-3-thread-30] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [didSave event]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:30.083
+!MESSAGE 09:54:30.004 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/java/window/testNextWindow/Form2.class]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:33.381
+!MESSAGE 09:54:30.429 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:36.873
+!MESSAGE 09:54:33.406 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:40.092
+!MESSAGE 09:54:38.851 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:40.277
+!MESSAGE 09:54:40.276 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 8
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:40.456
+!MESSAGE 09:54:40.455 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 9
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:40.592
+!MESSAGE 09:54:40.591 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 10
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:40.983
+!MESSAGE 09:54:40.982 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:41.036
+!MESSAGE 09:54:41.035 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - completion request arrived: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:41.039
+!MESSAGE 09:54:41.035 [pool-3-thread-30] INFO  o.s.i.v.c.l.c.CompositeCompletionEngine - languageId = LanguageId [java]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:41.493
+!MESSAGE 09:54:41.491 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:41.513
+!MESSAGE 09:54:41.512 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:43.087
+!MESSAGE 09:54:43.087 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - doc save event: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:48.587
+!MESSAGE 09:54:46.938 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:48.589
+!MESSAGE 09:54:48.585 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 1
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:48.657
+!MESSAGE 09:54:48.657 [pool-3-thread-32] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:49.103
+!MESSAGE 09:54:49.102 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:54.673
+!MESSAGE 09:54:54.673 [pool-3-thread-30] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:55.556
+!MESSAGE 09:54:55.555 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:55.578
+!MESSAGE 09:54:55.576 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:55.850
+!MESSAGE 09:54:55.848 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 14
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:55.938
+!MESSAGE 09:54:55.936 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 15
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:56.913
+!MESSAGE 09:54:56.399 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:56.916
+!MESSAGE 09:54:56.914 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:58.049
+!MESSAGE 09:54:58.049 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:58.556
+!MESSAGE 09:54:58.077 [pool-3-thread-32] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:58.560
+!MESSAGE 09:54:58.558 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:59.368
+!MESSAGE 09:54:59.368 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:54:59.883
+!MESSAGE 09:54:59.881 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:02.396
+!MESSAGE 09:55:02.395 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:02.902
+!MESSAGE 09:55:02.507 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:03.008
+!MESSAGE 09:55:03.007 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:03.469
+!MESSAGE 09:55:03.469 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 23
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:03.492
+!MESSAGE 09:55:03.491 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - completion request arrived: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:03.973
+!MESSAGE 09:55:03.495 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:03.977
+!MESSAGE 09:55:03.975 [pool-5-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:05.643
+!MESSAGE 09:55:05.643 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:05.854
+!MESSAGE 09:55:05.644 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:55:11.063
+!MESSAGE 09:55:11.062 [pool-3-thread-30] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:56:20.235
+!MESSAGE 09:55:43.963 [pool-3-thread-32] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:56:36.911
+!MESSAGE 09:56:36.910 [pool-3-thread-33] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 0ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:56:58.777
+!MESSAGE 09:56:46.679 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/Main.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:57:20.106
+!MESSAGE 09:57:10.946 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - Closed: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:57:20.216
+!MESSAGE 09:57:20.115 [pool-3-thread-33] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:57:35.213
+!MESSAGE 09:57:20.620 [pool-5-thread-8] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:57:35.216
+!MESSAGE 09:57:35.212 [pool-3-thread-33] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:58:51.239
+!MESSAGE 09:58:49.522 [pool-3-thread-32] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:58:53.367
+!MESSAGE 09:58:53.366 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:58:53.498
+!MESSAGE 09:58:53.495 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change message work done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:58:53.860
+!MESSAGE 09:58:53.850 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:58:53.968
+!MESSAGE 09:58:53.967 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:58:54.391
+!MESSAGE 09:58:54.390 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:58:55.462
+!MESSAGE 09:58:54.899 [pool-5-thread-9] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:58:55.466
+!MESSAGE 09:58:54.927 [Reconciler-1] INFO  o.s.i.v.b.j.r.JdtReconciler - reconciling (JDT): file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java done in 28ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:03.395
+!MESSAGE 09:59:03.394 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:03.910
+!MESSAGE 09:59:03.909 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:03.924
+!MESSAGE 09:59:03.924 [pool-5-thread-9] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:08.155
+!MESSAGE 09:59:08.154 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:08.288
+!MESSAGE 09:59:08.288 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 3
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:08.603
+!MESSAGE 09:59:08.602 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 4
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:08.719
+!MESSAGE 09:59:08.718 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 5
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:09.129
+!MESSAGE 09:59:08.775 [pool-3-thread-33] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:10.416
+!MESSAGE 09:59:09.286 [pool-3-thread-33] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:10.420
+!MESSAGE 09:59:09.664 [pool-5-thread-9] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:10.422
+!MESSAGE 09:59:09.664 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: end work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:12.229
+!MESSAGE 09:59:12.119 [pool-3-thread-33] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [didSave event]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:12.245
+!MESSAGE 09:59:12.232 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:12.293
+!MESSAGE 09:59:12.291 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:12.743
+!MESSAGE 09:59:12.369 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/java/window/inventoryList/FormController.class, file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/java/window/testNextWindow/Form2.class]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 09:59:22.607
+!MESSAGE 09:59:22.606 [pool-3-thread-32] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:01:57.021
+!MESSAGE 10:00:03.025 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:01:57.257
+!MESSAGE 10:01:57.256 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file created event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/bin/application/resources/fxml/InventoryList.fxml]
+
+!ENTRY mergedoc.encoding 2 0 2026-02-12 10:02:05.286
+!MESSAGE リソース '/AssetManagementSystem/src/application/java/window/testNextWindow/TestWindow.fxml' が存在しません。
+
+!ENTRY mergedoc.encoding 2 0 2026-02-12 10:02:05.291
+!MESSAGE リソース '/AssetManagementSystem/src/application/java/window/testNextWindow/TestWindow.fxml' が存在しません。
+
+!ENTRY mergedoc.encoding 2 0 2026-02-12 10:02:05.299
+!MESSAGE リソース '/AssetManagementSystem/src/application/java/window/testNextWindow/TestWindow.fxml' が存在しません。
+
+!ENTRY mergedoc.encoding 2 0 2026-02-12 10:02:05.304
+!MESSAGE リソース '/AssetManagementSystem/src/application/java/window/testNextWindow/TestWindow.fxml' が存在しません。
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:05.582
+!MESSAGE 10:02:05.278 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file deleted event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/TestWindow.fxml]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:25.443
+!MESSAGE 10:02:25.442 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:36.967
+!MESSAGE 10:02:31.474 [pool-3-thread-34] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:37.065
+!MESSAGE 10:02:37.064 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 8
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:37.575
+!MESSAGE 10:02:37.543 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:37.672
+!MESSAGE 10:02:37.640 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:37.677
+!MESSAGE 10:02:37.640 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:37.683
+!MESSAGE 10:02:37.671 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 9
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:38.039
+!MESSAGE 10:02:37.893 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change message work done in 0ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:38.206
+!MESSAGE 10:02:38.205 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:38.555
+!MESSAGE 10:02:38.554 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:39.070
+!MESSAGE 10:02:39.069 [pool-3-thread-34] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:39.691
+!MESSAGE 10:02:39.140 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:39.695
+!MESSAGE 10:02:39.690 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:40.005
+!MESSAGE 10:02:40.000 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:40.514
+!MESSAGE 10:02:40.513 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:40.546
+!MESSAGE 10:02:40.546 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:02:54.825
+!MESSAGE 10:02:54.825 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:00.092
+!MESSAGE 10:02:59.637 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:01.317
+!MESSAGE 10:03:01.277 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:01.421
+!MESSAGE 10:03:01.420 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:01.934
+!MESSAGE 10:03:01.933 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:01.983
+!MESSAGE 10:03:01.982 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:02.326
+!MESSAGE 10:03:02.325 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 19
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:02.381
+!MESSAGE 10:03:02.379 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:02.839
+!MESSAGE 10:03:02.839 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:02.884
+!MESSAGE 10:03:02.882 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:05.673
+!MESSAGE 10:03:05.672 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - doc save event: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:05.718
+!MESSAGE 10:03:05.717 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:05.953
+!MESSAGE 10:03:05.719 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:14.067
+!MESSAGE 10:03:05.969 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: end work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:14.070
+!MESSAGE 10:03:14.064 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:14.594
+!MESSAGE 10:03:14.566 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:23.160
+!MESSAGE 10:03:23.158 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:23.298
+!MESSAGE 10:03:23.199 [pool-3-thread-34] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:24.023
+!MESSAGE 10:03:23.705 [pool-3-thread-34] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:24.206
+!MESSAGE 10:03:24.205 [pool-3-thread-34] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:24.914
+!MESSAGE 10:03:24.904 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:25.222
+!MESSAGE 10:03:24.965 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change message work done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:25.964
+!MESSAGE 10:03:25.339 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:25.969
+!MESSAGE 10:03:25.449 [pool-3-thread-34] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:26.133
+!MESSAGE 10:03:25.975 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:27.662
+!MESSAGE 10:03:26.275 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:27.666
+!MESSAGE 10:03:26.655 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:27.668
+!MESSAGE 10:03:26.655 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:27.671
+!MESSAGE 10:03:27.506 [pool-3-thread-34] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:28.120
+!MESSAGE 10:03:27.966 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:28.575
+!MESSAGE 10:03:28.419 [pool-3-thread-34] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:30.619
+!MESSAGE 10:03:28.886 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:30.826
+!MESSAGE 10:03:30.826 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:31.210
+!MESSAGE 10:03:31.209 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 13
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:31.214
+!MESSAGE 10:03:31.209 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:31.536
+!MESSAGE 10:03:31.535 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:32.050
+!MESSAGE 10:03:31.654 [pool-3-thread-35] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:32.061
+!MESSAGE 10:03:32.060 [pool-5-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:32.063
+!MESSAGE 10:03:32.061 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:34.624
+!MESSAGE 10:03:34.623 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - doc save event: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-12 10:03:34.675
+!MESSAGE 10:03:34.674 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java

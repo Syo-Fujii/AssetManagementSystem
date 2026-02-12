@@ -1,10 +1,10 @@
-package application.window.inventoryList;
+package application.java.window.inventoryList;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
 import application.java.manager.TableViewManager;
-import application.window.testNextWindow.Form2;
+import application.java.window.testNextWindow.Form2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,7 +35,7 @@ public class FormController extends BaseFormPage{
 	 */
 	public FormController() 
 	{
-		this.setfxmlFilePath("/application/window/inventoryList/InventoryList.fxml");
+		this.setfxmlFilePath("/application/resources/fxml/InventoryList.fxml");
 		this.setWindowTitle("備品管理システム");
 
 	}
