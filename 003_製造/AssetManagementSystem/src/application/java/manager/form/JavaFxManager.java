@@ -1,4 +1,4 @@
-package application.manager.form;
+package application.java.manager.form;
 
 import java.util.Objects;
 

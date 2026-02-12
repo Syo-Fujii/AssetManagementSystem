@@ -1,4 +1,4 @@
-package application.manager;
+package application.java.manager;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;

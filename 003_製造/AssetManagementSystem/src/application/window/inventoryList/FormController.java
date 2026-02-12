@@ -3,7 +3,7 @@ package application.window.inventoryList;
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
-import application.manager.TableViewManager;
+import application.java.manager.TableViewManager;
 import application.window.testNextWindow.Form2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
