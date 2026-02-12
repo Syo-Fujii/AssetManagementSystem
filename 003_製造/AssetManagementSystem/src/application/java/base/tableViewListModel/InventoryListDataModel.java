@@ -1,6 +1,6 @@
-package application.base.tableViewListModel;
+package application.java.base.tableViewListModel;
 
-import application.base.BaseTableViewModel;
+import application.java.base.BaseTableViewModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;

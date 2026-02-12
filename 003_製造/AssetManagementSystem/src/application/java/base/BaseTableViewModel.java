@@ -1,4 +1,4 @@
-package application.base;
+package application.java.base;
 
 public class BaseTableViewModel {
 

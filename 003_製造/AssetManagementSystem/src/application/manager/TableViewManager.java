@@ -1,7 +1,7 @@
 package application.manager;
 
-import application.base.BaseFormPage;
-import application.base.BaseTableViewModel;
+import application.java.base.BaseFormPage;
+import application.java.base.BaseTableViewModel;
 //import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 //import javafx.scene.control.TableColumn;
@@ -70,11 +70,11 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	}
 	
 	/**
-	 * 
+	 * 行選択Event
 	 */
 	private void addSelectedRowsEvent(BaseFormPage form) {
         
-		// 選択を検知するバインディングを設定
+		// 行選択EVENTの登録
 		this.getSelectionModel().selectedItemProperty().addListener((ov , old , current) -> {
 		    if (current != null) {
 		    	form.onTableSelectedRowsEvent(current);

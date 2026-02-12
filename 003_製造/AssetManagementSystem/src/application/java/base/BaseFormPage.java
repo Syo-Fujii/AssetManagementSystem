@@ -1,8 +1,8 @@
-package application.base;
+package application.java.base;
 
 import application.manager.form.JavaFxManager;
 
-/** 画面生成基底クラス 
+/** 画面生成基底クラス(Controller基底クラス) 
  *  画面設定(Controller)に対するクラス
  */
 public abstract class BaseFormPage {
@@ -95,7 +95,8 @@ public abstract class BaseFormPage {
 	}	
 	
 	/**
-	 * 
+	 * TableView設定(項目BIND設定)
+	 * @brief 画面
 	 */
 	 public void bindTableColumnSource() {};
 	
