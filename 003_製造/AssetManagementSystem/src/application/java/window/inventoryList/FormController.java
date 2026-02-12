@@ -1,7 +1,6 @@
 package application.java.window.inventoryList;
 
 import application.java.base.BaseFormPage;
-import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
 import application.java.manager.TableViewManager;
 import application.java.window.testNextWindow.Form2;
@@ -16,9 +15,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * 備品一覧画面
- * @brief 画面操作メソッド(Controller)
+ * @brief 画面操作メソッド(Controller)<br>
+ * <p>
+ * TableViewを継承した[TableViewManager](カスタムControl)を用いる場合、
+ * 画目デザイン(Screen Builder)では正しく操作できない。<br>
+ * ⇒ Screen Builderでは、カスタムControlはブラックボックス化されTableViewの操作(変更や項目追加など)が行えない。<br>
+ * なので画面レイアウトを変更・操作(ableViewManagerの配置・変更など)する場合は、<br>
+ * 手動で、Source上の[TableViewManager]を[TableView]に書き換えてScreen Builderを起動・デザインの変更を行う。<br>
+ * デザインを変更・確定後にControlを[TableViewManager]の戻すことで編集を行う。<br>
+ * ※ Screen Builderでは、カスタムControlの継承元に関する各機能は実行できない。<br>
+ * ※ [TableViewManager]を用いても、Build・動作は正常におこなわれる。
  */
-public class FormController extends BaseFormPage{
+public class FormController extends BaseFormPage {
 	
 	@FXML private Button NextPage;
 	@FXML private Label label_TEST;
@@ -60,41 +68,24 @@ public class FormController extends BaseFormPage{
 
     	super.setPage(new Form2());
     }
-    
-    @Override
-    /**
-     * 項目Bind設定(継承)
-     */
-    public void bindTableColumnSource() {
-    	
-    	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName"));
-    	col_loanCnt.setCellValueFactory( new PropertyValueFactory<>("loanCount"));
-    }    
 
-    @Override
-	/**
-	 * 行選択Event(継承)
-	 * @param row
-	 */
-	public void onTableSelectedRowsEvent(BaseTableViewModel row) {
-	
-    	super.onTableSelectedRowsEvent(row);
-    	
-    	// 行が選択された時の処理
-        System.out.println("継承先　選択された行のデータ: " + row);
-	}   
-    
-    
+ 
     
     
     /**
-     * 
+     * TableView設定
      */
     private void tableViewSettings()
     {
+    	// カラムBIND設定
+    	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
+    	
+    	// 選択動作　設定
     	tableListView.setIsRowsMultiSelected(false);
-    	tableListView.setIsCellSelected(false);
-    	tableListView.tableViewSettings(this);
+    	tableListView.setIsCellSelected(false);   	
+    	tableListView.onSelectedRowEvent(
+    			bef  -> { bef = null; },
+    			result -> { this.callbackTableSelectedRow( (InventoryListDataModel)result ); });
 
     	
     	
@@ -115,39 +106,31 @@ public class FormController extends BaseFormPage{
         // データを登録
         tableListView.setItems( data );
          
-        // 複数セル選択可能に設定
-        //tableListView.getSelectionModel().setSelectionMode( SelectionMode.MULTIPLE );
-        // tableListView.getSelectionModel().setCellSelectionEnabled( true );
- 
-        // 選択を検知するバインディングを設定
-        /*tableListView.getSelectionModel().selectedItemProperty().addListener( 
-                ( ov , old , current) ->
-                {
-                    // 標準出力にヘッダ文字出力
-                    System.out.println( "選択セル（TableView）" );
-                     
-                    // 選択したセル位置を取得
-                    for( TablePosition<TableData, ?> pos : tableListView.getSelectionModel().getSelectedCells() )
-                    {
-                        // 選択行・列の情報を取得
-                        int row = pos.getRow();
-                        TableColumn<TableData, ?> col = pos.getTableColumn();
-                         
-                        // 選択行を取得
-                        TableData item = tableListView.getItems().get( row );
- 
-                        // 選択セルを取得
-                        String selected = (String)col.getCellObservableValue(item).getValue();
-                         
-                        // 標準出力に出力
-                        System.out.println( "　" + selected );
-                         
-                    }
-                }
-                );*/
-    	
-    	//tableListView.setItems( FXCollections.observableArrayList( "1st" , "2nd" , "3rd" ) );
-    	// tableListView.getSelectionModel().selectFirst();
+
     }
+
+    /**
+     * [TableViewManager] 項目(column-Data)Bind設定(CallBack関数)
+     * @brief TableViewのColumnが当該クラス内で定義(Bind)されているため、
+     * Columnとデータクラスのプロパティの紐づけを当該メソッドで行う。<br>
+     * <p>
+     *  [FXML 画面.TableViewのColumn変数].<br>
+     *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列))
+     */
+    private void callbackBindTableColumnSource() {
+    	
+    	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName"));
+    	col_loanCnt.setCellValueFactory( new PropertyValueFactory<>("loanCount"));
+    }
+    
+    /**
+     * TableView 項目(column-Data)Bind設定
+     */
+    private void callbackTableSelectedRow(InventoryListDataModel row) {
+    	
+    	 System.out.println("継承先　選択された行のデータ: " + row.getItemName());
+    }     
+    
+    
 }
 

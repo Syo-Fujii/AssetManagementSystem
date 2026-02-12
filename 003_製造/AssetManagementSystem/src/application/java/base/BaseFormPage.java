@@ -95,21 +95,6 @@ public abstract class BaseFormPage {
 	}	
 	
 	/**
-	 * TableView設定(項目BIND設定)
-	 * @brief 画面
-	 */
-	 public void bindTableColumnSource() {};
-	
-	 /**
-	 * 
-	 */
-	 public void onTableSelectedRowsEvent(BaseTableViewModel data) {
-
-		 // 行が選択された時の処理
-		 System.out.println("選択された行のデータ: " + data);
-	 };
-	
-	/**
 	 * 遷移先画面の設定
 	 * @param cls 遷移先画面
 	 * @param params 遷移先画面に受け渡す値
@@ -131,8 +116,9 @@ public abstract class BaseFormPage {
 	}
 	
 	/**
-	 * 
-	 * @param params
+	 * 起動パラメータ読込
+	 * @param params パラメータの配列
+	 * @brief 起動の際にパラーメータとして受けった値を設定する場合に用いるメソッド
 	 */
 	public void loadParameter(Object[] params){
 	}

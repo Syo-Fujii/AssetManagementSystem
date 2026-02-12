@@ -28,11 +28,5 @@ public class Form2 extends BaseFormPage{
     	super.setPage(new FormController());
     }	
 
-    @Override
-    /**
-     * 項目Bind設定(継承)
-     */
-    public void bindTableColumnSource () {
-    	
-    }    
+  
 }

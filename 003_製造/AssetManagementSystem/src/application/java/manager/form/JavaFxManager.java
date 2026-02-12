@@ -12,16 +12,17 @@ import javafx.stage.WindowEvent;
 
 /** 画面生成マネージャ(JavaFx ※OpenJFx) 
  * @brief 継承したアプリケーション(JavaFx)クラス
- * すべてのJavaFXアプリケーションは、Applicationクラス(javafx.application.Application) のサブクラスとして実装します。
- * アプリケーションのソースコードは以下のような構造になります。
- * アプリケーションの中身は抽象メソッドのstartをオーバライドすることにより記述します。
- * mainメソッドからApplication.launchメソッドを呼び出すと、アプリケーションのインスタンスが生成され、
+ * <p>
+ * すべてのJavaFXアプリケーションは、Applicationクラス(javafx.application.Application) のサブクラスとして実装します。<br>
+ * アプリケーションのソースコードは以下のような構造になります。<br>
+ * アプリケーションの中身は抽象メソッドのstartをオーバライドすることにより記述します。<br>
+ * mainメソッドからApplication.launchメソッドを呼び出すと、アプリケーションのインスタンスが生成され、<br>
  * 続いてinitメソッドでメインのウインドウ（プライマリステージ）が生成され、さらにそのウインドウを引数として
- * startメソッドに制御が渡されます。
- * つまり、以下の流れでアプリケーションが起動されることになります。
- * [main] ⇒ [launch] ⇒ [init] ⇒ [start]
- * このうち、利用者が実装するメソッドは、mainとstartです。
- * 通常、mainメソッドはlaunchメソッドを呼び出すだけで、他にすることは特にありません。
+ * startメソッドに制御が渡されます。<br>
+ * つまり、以下の流れでアプリケーションが起動されることになります。<br>
+ * [main] ⇒ [launch] ⇒ [init] ⇒ [start]<br>
+ * このうち、利用者が実装するメソッドは、mainとstartです。<br>
+ * 通常、mainメソッドはlaunchメソッドを呼び出すだけで、他にすることは特にありません。<br>
  * なお、launchメソッドはアプリケーションのすべての処理が完了するまで待機します。
  */
 public class JavaFxManager extends Application{
@@ -46,8 +47,8 @@ public class JavaFxManager extends Application{
 	* @param　cls 遷移先画面のclass
 	* @param　fxml 遷移先画面のfxml
 	* @param　params 遷移先画面用パラメータ
-	* @brief 表示枠(Stage)にコンテンツ内容(Scene)を設定・表示する
-	* BasePage を継承した Controller は遷移先画面の class と fxml名、任意に渡すパラメータで遷移を実行する
+	* @brief 表示枠(Stage)にコンテンツ内容(Scene)を設定・表示する。<br>
+	* BasePage を継承した Controller は遷移先画面の class と fxml名、任意に渡すパラメータで遷移を実行する。
 	*/
 	public void setPage(BaseFormPage cls, Object...params) throws Exception{
 		FXMLLoader loader = new FXMLLoader();
@@ -91,13 +92,16 @@ public class JavaFxManager extends Application{
         	this.FormShown();
         });		
 		
-		
-		// 継承したJavaFxアプリの設定
-		//cls.setApp(this);
+
 		// 画面内容(パラメータ設定)の展開
 		cls.loadParameter(params);
-
-		stage.setTitle(cls.getWindowTitle());
+		
+		// Windowタイトルの定義
+		if(!cls.getWindowTitle().isEmpty())
+		{
+			stage.setTitle(cls.getWindowTitle());
+		}
+		
 		stage.setScene(scene);
 		stage.show();
 		
