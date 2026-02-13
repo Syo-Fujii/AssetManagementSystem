@@ -114,6 +114,9 @@ public class JavaFxManager extends Application{
 	private void FormShown(BaseFormPage cls){
 		// Windowタイトルの定義
 		stage.setTitle(cls.getWindowTitle());
+
+	    // ウィンドウサイズを固定（最大化ボタンも無効になります）
+	    stage.setResizable(false);	
 		
 		System.out.println("FormShown");
 	}

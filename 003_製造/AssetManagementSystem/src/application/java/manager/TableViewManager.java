@@ -25,16 +25,42 @@ import javafx.scene.control.TableView;
  */
 public class TableViewManager<T extends BaseTableViewModel> extends TableView<T> {
 
+	private String cssSelector = "table-view";
+	
 	private Boolean isRowsMultiSelected = false;
 	private Boolean isCellSelected = false;
 	private Boolean isReorderabled = false;	
+	
+	/**
+	 * CSSセレクタ名(識別名)取得
+	 * @return cssSelector CSSセレクタ名
+	 */
+	public String getCssSelector() {
+		return this.cssSelector;
+	}
 
+	/**
+	 * CSSセレクタ名(識別名)設定
+	 * @param selector CSSセレクタ名
+	 * @brief 複数設置した際に、識別セレクタ名を設定する。
+	 */
+	public void setCssSelector(String selector) {
+		
+		this.cssSelector = selector;
+		
+		if (selector.isEmpty()) {
+			this.getStyleClass().add("table-view");
+		} else {
+			this.getStyleClass().add(selector);
+		}
+	}
+	
 	/**
 	 * 複数行選択判定
 	 * @return
 	 */
 	public Boolean getIsRowsMultiSelected() {
-		return isRowsMultiSelected;
+		return this.isRowsMultiSelected;
 	}
 
 	/**
@@ -69,7 +95,6 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		this.isCellSelected = isCellSelected;
 		this.getSelectionModel().setCellSelectionEnabled( isCellSelected );
 	}
-
 	
 	/**
 	 * 全カラム移動判定
@@ -88,8 +113,8 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		// 全てのカラムの移動を設定
 		this.getColumns().forEach(col -> col.setReorderable(isReorderabled));
 	}
-
-
+	
+	
 	/**
 	 * コンストラクタ
 	 */

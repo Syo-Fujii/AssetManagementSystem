@@ -22,8 +22,10 @@ public class InventoryListDataModel extends BaseTableViewModel {
     private IntegerProperty totalCount = new SimpleIntegerProperty(0);
     
 	/**
-	 * [名称]取得
+	 * [名称]取得 
 	 * @return itemName
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
     public String getItemName() {
 		return itemName.get();
@@ -32,6 +34,8 @@ public class InventoryListDataModel extends BaseTableViewModel {
     /**
 	* [名称]項目設定
 	* @param itemName 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/
  	public void setItemName(String itemName) {
 		this.itemName.set(itemName);
@@ -40,7 +44,9 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	/**
 	 * [貸出]取得
 	 * @return loanCount
-	 */	
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
 	public Integer getLoanCount() {
 		return loanCount.get();
 		}
@@ -48,6 +54,8 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	 /**
 	 * [貸出]項目設定
 	 * @param cnt 設定する値
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
 	public void setLoanCount(Integer cnt) {
 		this.loanCount.set(cnt);
@@ -56,7 +64,9 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	/**
 	 * [返却]取得
 	 * @return returnCount
-	 */	
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
      public Integer getReturnCount() {
 		return returnCount.get();
 		}
@@ -64,6 +74,8 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	 /**
 	 * [返却]項目設定
 	 * @param cnt 設定する値
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
 	 public void setReturnCount(Integer cnt) {
 		 this.returnCount.set(cnt);
@@ -72,6 +84,8 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	 /**
 	 * [不明]取得
 	 * @return unknownCount
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
 	 public Integer getUnknownCount() {
 		 return unknownCount.get();
@@ -80,6 +94,8 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	 /**
 	 * [不明]項目設定
 	 * @param cnt 設定する値
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
 	 public void setUnknownCount(Integer cnt) {
 		 this.unknownCount.set(cnt);
@@ -88,7 +104,9 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	 /**
 	 * [合計]取得
 	 * @return totalCount
-	 */	 
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
 	 public Integer getTotalCount() {
 		 return totalCount.get();
 		 }
@@ -96,7 +114,9 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	 /**
 	 * [合計]項目設定
 	 * @param cnt 設定する値
-	 */	 
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
 	 public void setTotalCount(Integer cnt) {
 		 this.totalCount.set(cnt);
 		 }

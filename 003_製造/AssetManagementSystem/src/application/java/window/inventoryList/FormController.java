@@ -7,7 +7,6 @@ import application.java.window.testNextWindow.Form2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,7 +26,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class FormController extends BaseFormPage {
 	
-	@FXML private Button NextPage;
 	@FXML private Label lbl_title;
 
 	@FXML private TableViewManager<InventoryListDataModel> tableListView;
@@ -69,14 +67,8 @@ public class FormController extends BaseFormPage {
         // データを登録
     	tableListView.setItems( makeTastDatas() ); 
     }	
+
     
-    @FXML
-    public void onButtonClicked() {
-
-    	super.setPage(new Form2());
-    }
-
-
     /**
      * TableView設定
      */

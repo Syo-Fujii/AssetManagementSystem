@@ -3,19 +3,22 @@ EclipseのCSSエディタで -fx-background-color などのプロパティに黄
 Eclipseが標準のCSS規格（W3C）に従ってバリデーション（検証）を行っているためです。
 JavaFX独自のプロパティ（-fx- で始まるもの）は標準CSSには存在しないため、
 Eclipseが「こんなプロパティは知らないよ！」と親切に警告してくれています。
-
-解決方法：警告を無視するか設定を変える
- この警告が出ていても、プログラムの実行には全く影響ありません。
- もし目障りな場合は、以下の手順でEclipseの設定を変更して警告を消すことができます。
-
-1 設定画面を開く
- 1-1 ウィンドウ (Window) ＞ 設定 (Preferences) を開きます。
-2 CSSの検証設定を探す
- 2-1 左側のメニューから Web ＞ CSS ファイル (CSS Files) ＞ 検証 (Validation) を選択します。
-3 不明なプロパティのレベルを下げる
- 3-1 リストの中から 「不明なプロパティ (Unknown property)」 を探し、右側のドロップダウンを 警告 (Warning) から 無視 (Ignore) に変更します。
-4 適用して閉じる
- 4-1 適用して閉じる (Apply and Close) を押すと、波線が消えます。
+  解決方法：警告を無視するか設定を変える
+  この警告が出ていても、プログラムの実行には全く影響ありません。
+  もし目障りな場合は、以下の手順でEclipseの設定を変更して警告を消すことができます。
+    1 設定画面を開く
+     1-1 ウィンドウ (Window) ＞ 設定 (Preferences) を開きます。
+    2 CSSの検証設定を探す
+     2-1 左側のメニューから Web ＞ CSS ファイル (CSS Files) ＞ 検証 (Validation) を選択します。
+    3 不明なプロパティのレベルを下げる
+     3-1 リストの中から 「不明なプロパティ (Unknown property)」を探し、
+	     右側のドロップダウンを 警告 (Warning) から 無視 (Ignore) に変更します。
+    4 適用して閉じる
+     4-1 適用して閉じる (Apply and Close) を押すと、波線が消えます。
+ 
+ 特定のTableViewだけに適用したい場合は、
+ Javaコードで tableView.getStyleClass().add("my-table"); とした上で、
+ CSSのセレクタを .my-table に変更して個別に管理する。
 */
 
 
@@ -43,7 +46,7 @@ Eclipseが「こんなプロパティは知らないよ！」と親切に警告�
 /* 明細データ [TableView] */
 .table-view .table-cell {
     -fx-border-color: black;
-    -fx-border-width: 0.5px; 
+    -fx-border-width: 0.3px; 
 }
 
 .table-view {
