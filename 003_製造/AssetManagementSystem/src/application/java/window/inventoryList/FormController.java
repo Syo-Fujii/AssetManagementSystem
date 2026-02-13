@@ -88,6 +88,7 @@ public class FormController extends BaseFormPage {
     			result -> { this.callbackTableSelectedRow( (InventoryListDataModel)result ); });
 
     	// TableView[列]文字設定 
+    	col_itemName.getStyleClass().add("cell-itemname");
     	col_loanCnt.getStyleClass().add("number-aligned");
     	col_retCnt.getStyleClass().add("number-aligned");
     	col_unknownCnt.getStyleClass().add("number-aligned");

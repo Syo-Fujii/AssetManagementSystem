@@ -52,7 +52,7 @@ Eclipseが「こんなプロパティは知らないよ！」と親切に警告�
 .table-view {
 	/* 枠線の色 */
 	-fx-border-color: black;
-	/* 枠線の太さ（数値で調整） */
+	/* 枠線の太さ（数値で調整）*/
 	-fx-border-width: 2px;
 }
 
@@ -64,3 +64,12 @@ Eclipseが「こんなプロパティは知らないよ！」と親切に警告�
 .number-aligned {
     -fx-alignment: CENTER-RIGHT;
 }
+
+.cell-itemname {
+    -fx-text-fill: blue;
+	-fx-underline: true;
+}
+
+
+
+

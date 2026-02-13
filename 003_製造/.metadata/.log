@@ -7328,3 +7328,409 @@ Caused by: org.eclipse.lsp4j.jsonrpc.ResponseErrorException: Internal error.
 
 !ENTRY org.eclipse.lsp4e 4 0 2026-02-13 14:48:36.724
 !MESSAGE 14:48:32.048 [pool-3-thread-139] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/manager/form/JavaFxManager.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:27:00.317
+!MESSAGE 14:50:31.704 [pool-3-thread-140] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:27:12.219
+!MESSAGE 15:27:05.490 [pool-3-thread-142] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 0ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:27:33.714
+!MESSAGE 15:27:27.402 [pool-3-thread-142] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:29:47.799
+!MESSAGE 15:29:47.797 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:29:54.697
+!MESSAGE 15:29:53.248 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:29:55.361
+!MESSAGE 15:29:55.360 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 822
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:29:55.545
+!MESSAGE 15:29:55.544 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 823
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:29:56.095
+!MESSAGE 15:29:56.050 [pool-5-thread-57] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:29:56.994
+!MESSAGE 15:29:56.137 [pool-5-thread-57] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Parsed successfully CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:29:56.995
+!MESSAGE 15:29:56.993 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 824
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:29:57.508
+!MESSAGE 15:29:57.507 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:01.487
+!MESSAGE 15:29:57.544 [pool-5-thread-57] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Parsed successfully CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:01.494
+!MESSAGE 15:30:00.414 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:01.547
+!MESSAGE 15:30:01.546 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:01.662
+!MESSAGE 15:30:01.661 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:03.443
+!MESSAGE 15:30:02.626 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:04.280
+!MESSAGE 15:30:04.273 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:18.038
+!MESSAGE 15:30:04.599 [pool-5-thread-57] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Parsed successfully CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:18.038
+!MESSAGE 15:30:04.775 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:18.040
+!MESSAGE 15:30:04.816 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:22.066
+!MESSAGE 15:30:20.332 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:22.576
+!MESSAGE 15:30:22.575 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:22.601
+!MESSAGE 15:30:22.601 [pool-5-thread-57] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:28.017
+!MESSAGE 15:30:27.685 [pool-3-thread-144] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 0ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:28.201
+!MESSAGE 15:30:28.200 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 828
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:28.713
+!MESSAGE 15:30:28.712 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:28.736
+!MESSAGE 15:30:28.735 [pool-5-thread-57] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:29.000
+!MESSAGE 15:30:29.000 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 829
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:29.121
+!MESSAGE 15:30:29.120 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 830
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:29.631
+!MESSAGE 15:30:29.630 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:29.656
+!MESSAGE 15:30:29.655 [pool-5-thread-57] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:29.776
+!MESSAGE 15:30:29.776 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 831
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:30.280
+!MESSAGE 15:30:30.279 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:30.313
+!MESSAGE 15:30:30.301 [pool-5-thread-57] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:31.936
+!MESSAGE 15:30:31.935 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - doc save event: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:31.998
+!MESSAGE 15:30:31.997 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:30:58.978
+!MESSAGE 15:30:32.657 [pool-3-thread-144] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:33:52.314
+!MESSAGE 15:33:51.460 [pool-3-thread-146] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/base/BaseFormPage.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:34:03.565
+!MESSAGE 15:33:54.731 [pool-3-thread-146] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:34:07.097
+!MESSAGE 15:34:06.265 [pool-3-thread-146] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:34:07.361
+!MESSAGE 15:34:07.360 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:34:07.873
+!MESSAGE 15:34:07.872 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:34:07.903
+!MESSAGE 15:34:07.900 [pool-5-thread-58] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Parsed successfully CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:34:08.965
+!MESSAGE 15:34:08.903 [pool-3-thread-146] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [didSave event]: file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:34:09.126
+!MESSAGE 15:34:09.126 [pool-3-thread-146] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 15:34:36.081
+!MESSAGE 15:34:09.678 [pool-3-thread-146] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:50:55.786
+!MESSAGE 15:34:40.517 [pool-3-thread-146] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:52:35.702
+!MESSAGE 18:52:27.028 [pool-3-thread-150] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:52:36.207
+!MESSAGE 18:52:36.206 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/base/BaseTableViewModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:52:36.218
+!MESSAGE 18:52:36.216 [pool-5-thread-59] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/base/BaseTableViewModel.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:55:35.484
+!MESSAGE 18:54:12.599 [pool-3-thread-152] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:56:04.960
+!MESSAGE 18:56:04.960 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:56:05.474
+!MESSAGE 18:56:05.458 [pool-3-thread-153] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:56:13.625
+!MESSAGE 18:56:05.484 [pool-5-thread-60] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 18:56:18.060
+!MESSAGE 18:56:16.264 [pool-3-thread-153] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:00:06.631
+!MESSAGE 18:56:41.847 [pool-3-thread-153] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:02:42.378
+!MESSAGE 19:02:41.278 [pool-3-thread-156] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:20:18.334
+!MESSAGE 19:04:12.737 [pool-3-thread-159] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:29:24.156
+!MESSAGE 19:20:39.210 [pool-3-thread-160] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:31:33.561
+!MESSAGE 19:31:23.736 [pool-3-thread-162] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:31:39.196
+!MESSAGE 19:31:38.452 [pool-3-thread-162] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:31:40.885
+!MESSAGE 19:31:40.320 [pool-3-thread-162] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:31:46.430
+!MESSAGE 19:31:41.826 [pool-3-thread-162] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:31:48.759
+!MESSAGE 19:31:46.814 [pool-3-thread-162] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:32:05.519
+!MESSAGE org.eclipse.lsp4j.jsonrpc.ResponseErrorException: 内部エラーが発生しました。
+!STACK 0
+java.util.concurrent.ExecutionException: org.eclipse.lsp4j.jsonrpc.ResponseErrorException: Internal error.
+	at java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:396)
+	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2096)
+	at org.eclipse.lsp4e.operations.codeactions.LSPCodeActionMarkerResolution.checkMarkerResolution(LSPCodeActionMarkerResolution.java:159)
+	at org.eclipse.lsp4e.operations.codeactions.LSPCodeActionMarkerResolution.getResolutions(LSPCodeActionMarkerResolution.java:105)
+	at org.eclipse.ui.internal.ide.registry.MarkerHelpRegistry.getResolutions(MarkerHelpRegistry.java:393)
+	at org.eclipse.ui.internal.genericeditor.markers.MarkerInformationControl.setInput(MarkerInformationControl.java:107)
+	at org.eclipse.ui.internal.genericeditor.hover.CompositeInformationControl.setInput(CompositeInformationControl.java:76)
+	at org.eclipse.jface.text.AbstractInformationControlManager.internalShowInformationControl(AbstractInformationControlManager.java:1178)
+	at org.eclipse.jface.text.AbstractInformationControlManager.presentInformation(AbstractInformationControlManager.java:1147)
+	at org.eclipse.jface.text.AbstractHoverInformationControlManager.presentInformation(AbstractHoverInformationControlManager.java:903)
+	at org.eclipse.jface.text.TextViewerHoverManager.doPresentInformation(TextViewerHoverManager.java:242)
+	at org.eclipse.jface.text.TextViewerHoverManager.lambda$3(TextViewerHoverManager.java:232)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:132)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4137)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3753)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+Caused by: org.eclipse.lsp4j.jsonrpc.ResponseErrorException: Internal error.
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleResponse(RemoteEndpoint.java:220)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:204)
+	at org.eclipse.lsp4e.LanguageServerWrapper.lambda$3(LanguageServerWrapper.java:449)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:185)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:97)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:114)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.368
+!MESSAGE 19:32:05.513 [pool-14-thread-1] ERROR o.e.lsp4j.jsonrpc.RemoteEndpoint - Internal error: java.lang.reflect.InvocationTargetException
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.369
+!MESSAGE java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.369
+!MESSAGE 	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:67)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.369
+!MESSAGE 	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.request(GenericEndpoint.java:120)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.371
+!MESSAGE 	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleRequest(RemoteEndpoint.java:261)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.371
+!MESSAGE 	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:190)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.372
+!MESSAGE 	at org.springframework.ide.vscode.commons.languageserver.util.ParentProcessWatcher.lambda$apply$0(ParentProcessWatcher.java:129)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.372
+!MESSAGE 	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.373
+!MESSAGE 	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.373
+!MESSAGE 	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.374
+!MESSAGE 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.374
+!MESSAGE 	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.375
+!MESSAGE 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.375
+!MESSAGE 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.376
+!MESSAGE 	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.376
+!MESSAGE 原因: java.lang.reflect.InvocationTargetException: null
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.377
+!MESSAGE 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:118)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.377
+!MESSAGE 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.378
+!MESSAGE 	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:65)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.378
+!MESSAGE 	... 12 common frames omitted
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.378
+!MESSAGE Caused by: java.nio.file.InvalidPathException: Illegal char <:> at index 2: /F:/Ecripse/001_備品管理システム/003_製造/AssetManagementSystem/src/application/resources/css/InventoryListStyle.css
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.379
+!MESSAGE 	at java.base/sun.nio.fs.WindowsPathParser.normalize(WindowsPathParser.java:204)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.379
+!MESSAGE 	at java.base/sun.nio.fs.WindowsPathParser.parse(WindowsPathParser.java:175)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.379
+!MESSAGE 	at java.base/sun.nio.fs.WindowsPathParser.parse(WindowsPathParser.java:77)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.380
+!MESSAGE 	at java.base/sun.nio.fs.WindowsPath.parse(WindowsPath.java:92)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.380
+!MESSAGE 	at java.base/sun.nio.fs.WindowsFileSystem.getPath(WindowsFileSystem.java:231)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.381
+!MESSAGE 	at java.base/java.nio.file.Path.of(Path.java:148)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.381
+!MESSAGE 	at java.base/java.nio.file.Paths.get(Paths.java:69)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.382
+!MESSAGE 	at org.springframework.ide.vscode.boot.app.BootLanguageServerBootApp$3.computeLanguage(BootLanguageServerBootApp.java:379)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.382
+!MESSAGE 	at org.springframework.ide.vscode.commons.languageserver.util.SimpleTextDocumentService.codeAction(SimpleTextDocumentService.java:573)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.383
+!MESSAGE 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:24.383
+!MESSAGE 	... 14 common frames omitted
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:33.693
+!MESSAGE 19:33:33.116 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:34.278
+!MESSAGE 19:33:34.277 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 2
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:34.794
+!MESSAGE 19:33:34.792 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:34.847
+!MESSAGE 19:33:34.846 [pool-5-thread-61] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Parsed successfully CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:33:37.517
+!MESSAGE 19:33:36.580 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:02.993
+!MESSAGE 19:33:50.300 [pool-3-thread-164] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 1ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:06.172
+!MESSAGE 19:34:05.668 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change message work done in 0ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:06.191
+!MESSAGE 19:34:06.190 [pool-5-thread-61] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Parsed successfully CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:06.213
+!MESSAGE 19:34:06.212 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:06.730
+!MESSAGE 19:34:06.716 [pool-5-thread-61] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:06.737
+!MESSAGE 19:34:06.729 [Reconciler-1] INFO  o.s.i.v.b.j.r.JdtReconciler - reconciling (JDT): file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java done in 13ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:07.454
+!MESSAGE 19:34:07.123 [pool-3-thread-164] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:07.959
+!MESSAGE 19:34:07.958 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:07.972
+!MESSAGE 19:34:07.971 [pool-5-thread-61] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:11.524
+!MESSAGE 19:34:11.132 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:34:12.004
+!MESSAGE 19:34:12.003 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 8
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:35:45.516
+!MESSAGE 19:34:12.512 [pool-5-thread-61] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:35:45.517
+!MESSAGE 19:34:12.527 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: start work on AST for file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:35:45.517
+!MESSAGE 19:34:17.817 [pool-3-thread-163] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/inventoryList/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:36:00.988
+!MESSAGE 19:35:58.209 [pool-3-thread-165] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/manager/TableViewManager.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:36:14.222
+!MESSAGE 19:36:09.881 [pool-3-thread-165] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - hover computation done in 0ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-02-13 19:40:27.254
+!MESSAGE 19:36:28.875 [pool-3-thread-165] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///F:/Ecripse/001_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/manager/TableViewManager.java
