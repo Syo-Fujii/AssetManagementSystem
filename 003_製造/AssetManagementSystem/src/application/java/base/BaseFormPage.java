@@ -9,9 +9,11 @@ public abstract class BaseFormPage {
 	private Integer windowWidth = null;
 	private Integer windowHeight = null;
 	private String fxmlFilePath = "";
-	private String cssName = "";
+	private String cssFilePath = "";
+	
 	
 	private String windowTitle  = "";
+	private String pageTitle  = "";
 	
 
 	/**
@@ -34,16 +36,16 @@ public abstract class BaseFormPage {
 	 * CSSを取得する。
 	 * @return CSS
 	 */
-	public String getCssName() {
-		return cssName;
+	public String getCssFile() {
+		return this.cssFilePath;
 	}
 
 	/**
 	 * CSSを設定する。
 	 * @param cssName 設定するCSS
 	 */
-	public void setCssName(String cssName) {
-		this.cssName = cssName;
+	public void setCssFile(String css) {
+		this.cssFilePath = css;
 	}
 
 	/**
@@ -79,7 +81,7 @@ public abstract class BaseFormPage {
 	}	
 	
 	/**
-	 * 画面名称を取得する。
+	 * Window(枠)名称を取得する。
 	 * @return windowTitle
 	 */
 	public String getWindowTitle() {
@@ -87,12 +89,30 @@ public abstract class BaseFormPage {
 	}
 
 	/**
-	 * 画面名称を設定する。
+	 * Window(枠)名称を設定する。
 	 * @param windowTitle 設定する画面名称
+	 * @brief 説定した場合、Window枠の名称を変更する。
 	 */
 	public void setWindowTitle(String windowTitle) {
 		this.windowTitle = windowTitle;
 	}	
+
+	/**
+	 * 画面(page)名称を取得する。
+	 * @return pageTitle
+	 */
+	public String getPageTitle() {
+		return pageTitle;
+	}
+
+	/**
+	 * 画面(page)名称を設定する。
+	 * @param pageTitle 
+	 */
+	public void setPageTitle(String pageTitle) {
+		this.pageTitle = pageTitle;
+	}
+	
 	
 	/**
 	 * 遷移先画面の設定

@@ -10,12 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-//import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * 備品一覧画面
- * @brief 画面操作メソッド(Controller)<br>
+ * @brief [inventoryList]画面操作メソッド(Controller)<br>
  * <p>
  * TableViewを継承した[TableViewManager](カスタムControl)を用いる場合、
  * 画目デザイン(Screen Builder)では正しく操作できない。<br>
@@ -29,23 +28,26 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class FormController extends BaseFormPage {
 	
 	@FXML private Button NextPage;
-	@FXML private Label label_TEST;
+	@FXML private Label lbl_title;
 
 	@FXML private TableViewManager<InventoryListDataModel> tableListView;
-	//@FXML private TableView<InventoryListDataModel> tableListView;
 	@FXML private TableColumn<InventoryListDataModel, String> col_itemName;
 	@FXML private TableColumn<InventoryListDataModel, Integer> col_loanCnt;
+	@FXML private TableColumn<InventoryListDataModel, Integer> col_retCnt;
+	@FXML private TableColumn<InventoryListDataModel, Integer> col_unknownCnt;
+	@FXML private TableColumn<InventoryListDataModel, Integer> col_totalCnt;
 	
-	private int count = 0;
 	
 	/** 
 	 * コンストラクタ
 	 */
 	public FormController() 
 	{
-		this.setfxmlFilePath("/application/resources/fxml/InventoryList.fxml");
 		this.setWindowTitle("備品管理システム");
 
+		this.setfxmlFilePath("/application/resources/fxml/InventoryList.fxml");
+		this.setCssFile("/application/resources/css/InventoryListStyle.css");
+		this.setPageTitle("備品一覧画面");
 	}
 	
     @FXML
@@ -55,12 +57,17 @@ public class FormController extends BaseFormPage {
      * 画面の表示前、ノードが配置された段階で実行
      */
     void initialize() {
-    	count += 1;
-    	
-    	label_TEST.setText("押下回数：" + count + "回");
-    	System.out.println("initialize");
+ 
+    	System.out.println("inventoryList controller initialize");
     	
     	this.tableViewSettings();
+    
+    	lbl_title.setText(this.getPageTitle());
+    	lbl_title.getStyleClass().add("titletext");
+    	
+    	
+        // データを登録
+    	tableListView.setItems( makeTastDatas() ); 
     }	
     
     @FXML
@@ -69,9 +76,7 @@ public class FormController extends BaseFormPage {
     	super.setPage(new Form2());
     }
 
- 
-    
-    
+
     /**
      * TableView設定
      */
@@ -80,33 +85,21 @@ public class FormController extends BaseFormPage {
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
     	
-    	// 選択動作　設定
+    	// カラム項目移動可否
+    	tableListView.setIsReorderabled(false);
+    	
+    	// 選択動作 設定
     	tableListView.setIsRowsMultiSelected(false);
     	tableListView.setIsCellSelected(false);   	
     	tableListView.onSelectedRowEvent(
-    			bef  -> { bef = null; },
+    			bef    -> { bef = null; },
     			result -> { this.callbackTableSelectedRow( (InventoryListDataModel)result ); });
 
-    	
-    	
-
-    	
-    	
-    	// 初期設定
-    	// データを追加
-        ObservableList<InventoryListDataModel> data = FXCollections.observableArrayList(
-                new InventoryListDataModel( "1行１列" , 100 ),
-                new InventoryListDataModel( "2行１列" , 0 ),
-                new InventoryListDataModel( "3行１列" , 9999 ),
-                new InventoryListDataModel( "4行１列" , 1234 )
-        );
-
-        
-        //tableListView.test(new InventoryListDataModel( "１行１列" , 100 ));
-        // データを登録
-        tableListView.setItems( data );
-         
-
+    	// TableView[列]文字設定 
+    	col_loanCnt.getStyleClass().add("number-aligned");
+    	col_retCnt.getStyleClass().add("number-aligned");
+    	col_unknownCnt.getStyleClass().add("number-aligned");
+    	col_totalCnt.getStyleClass().add("number-aligned"); 
     }
 
     /**
@@ -118,9 +111,11 @@ public class FormController extends BaseFormPage {
      *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列))
      */
     private void callbackBindTableColumnSource() {
-    	
     	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName"));
     	col_loanCnt.setCellValueFactory( new PropertyValueFactory<>("loanCount"));
+    	col_retCnt.setCellValueFactory( new PropertyValueFactory<>("returnCount"));
+    	col_unknownCnt.setCellValueFactory( new PropertyValueFactory<>("unknownCount"));
+    	col_totalCnt.setCellValueFactory( new PropertyValueFactory<>("totalCount"));
     }
     
     /**
@@ -129,8 +124,42 @@ public class FormController extends BaseFormPage {
     private void callbackTableSelectedRow(InventoryListDataModel row) {
     	
     	 System.out.println("継承先　選択された行のデータ: " + row.getItemName());
+    	 super.setPage(new Form2());
     }     
     
     
-}
+    
+    private ObservableList<InventoryListDataModel> makeTastDatas(){
+    	return FXCollections.observableArrayList(
+    			new InventoryListDataModel( "1行１列" , 100 , 100 , 100 ,0),
+                new InventoryListDataModel( "2行１列" , 0 , 0 , 0 , 0),
+                new InventoryListDataModel( "3行１列" , 9999 , 9999 , 9999 , 9999 ),
+                new InventoryListDataModel( "4行１列" , 1234 , 1234, 1234 ),
 
+    			new InventoryListDataModel( "5行１列" , 100 , 100 , 100 ,0),
+                new InventoryListDataModel( "6行１列" , 0 , 0 , 0 , 0),
+                new InventoryListDataModel( "7行１列" , 9999 , 9999 , 9999 , 9999 ),
+                new InventoryListDataModel( "8行１列" , 1234 , 1234, 1234 ),
+                
+    			new InventoryListDataModel( "9行１列" , 100 , 100 , 100 ,0),
+                new InventoryListDataModel( "10行１列" , 0 , 0 , 0 , 0),
+                new InventoryListDataModel( "11行１列" , 9999 , 9999 , 9999 , 9999 ),
+                new InventoryListDataModel( "12行１列" , 1234 , 1234, 1234 ),
+
+    			new InventoryListDataModel( "13行１列" , 100 , 100 , 100 ,0),
+                new InventoryListDataModel( "14行１列" , 0 , 0 , 0 , 0),
+                new InventoryListDataModel( "15行１列" , 9999 , 9999 , 9999 , 9999 ),
+                new InventoryListDataModel( "16行１列" , 1234 , 1234, 1234 ),
+
+    			new InventoryListDataModel( "17行１列" , 100 , 100 , 100 ,0),
+                new InventoryListDataModel( "18行１列" , 0 , 0 , 0 , 0),
+                new InventoryListDataModel( "19行１列" , 9999 , 9999 , 9999 , 9999 ),
+                new InventoryListDataModel( "20行１列" , 1234 , 1234, 1234 ),
+                
+    			new InventoryListDataModel( "21行１列" , 100 , 100 , 100 ,0),
+                new InventoryListDataModel( "22行１列" , 0 , 0 , 0 , 0),
+                new InventoryListDataModel( "23行１列" , 9999 , 9999 , 9999 , 9999 ),
+                new InventoryListDataModel( "24行１列" , 1234 , 1234, 1234 )                
+    			);                
+    }
+}

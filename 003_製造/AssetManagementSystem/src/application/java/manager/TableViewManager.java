@@ -4,12 +4,9 @@ import java.util.function.Consumer;
 
 import application.java.base.BaseTableViewModel;
 import javafx.collections.ListChangeListener;
-//import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
-//import javafx.scene.control.TableColumn;
-//import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 
 /**
@@ -29,8 +26,9 @@ import javafx.scene.control.TableView;
 public class TableViewManager<T extends BaseTableViewModel> extends TableView<T> {
 
 	private Boolean isRowsMultiSelected = false;
-	private Boolean isCellSelected = false;	
-	
+	private Boolean isCellSelected = false;
+	private Boolean isReorderabled = false;	
+
 	/**
 	 * 複数行選択判定
 	 * @return
@@ -72,6 +70,25 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		this.getSelectionModel().setCellSelectionEnabled( isCellSelected );
 	}
 
+	
+	/**
+	 * 全カラム移動判定
+	 * @return isReorderabled
+	 */
+	public Boolean getIsReorderabled() {
+		return isReorderabled;
+	}
+
+	/**
+	 * 全カラム移動設定
+	 * @param isReorderabled カラム移動可否
+	 */
+	public void setIsReorderabled(Boolean isReorderabled) {
+		this.isReorderabled = isReorderabled;
+		// 全てのカラムの移動を設定
+		this.getColumns().forEach(col -> col.setReorderable(isReorderabled));
+	}
+
 
 	/**
 	 * コンストラクタ
@@ -93,7 +110,16 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		callback.run();
 	}
 	
-
+	/**
+	 * カラム移動判定
+	 * @param col
+	 * @param isReorderabled
+	 */
+	public void setColumnReorderable(TableColumn<T, ?> col, Boolean isReorderabled) 
+	{
+		// 特定のカラムの移動の可否
+		col.setReorderable(isReorderabled);
+	}
 	
 	/**
 	 * 明細選択行イベント
@@ -129,7 +155,6 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 * 選択行番号取得
 	 */
 	public Integer getSelectedRowNumber() {
-		
 		if(this.isRowsMultiSelected)
 		{
 			return -1;

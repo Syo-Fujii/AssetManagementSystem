@@ -16,33 +16,128 @@ import javafx.beans.property.StringProperty;
 public class InventoryListDataModel extends BaseTableViewModel {
 	
     private final StringProperty itemName;
-    private IntegerProperty loanCount = new SimpleIntegerProperty(0);    
+    private IntegerProperty loanCount = new SimpleIntegerProperty(0);
+    private IntegerProperty returnCount = new SimpleIntegerProperty(0);
+    private IntegerProperty unknownCount = new SimpleIntegerProperty(0);
+    private IntegerProperty totalCount = new SimpleIntegerProperty(0);
     
-    
-     public String getItemName() {
+	/**
+	 * [名称]取得
+	 * @return itemName
+	 */
+    public String getItemName() {
 		return itemName.get();
 		}
 
-	public void setItemName(String itemName) {
+    /**
+	* [名称]項目設定
+	* @param itemName 設定する値
+	*/
+ 	public void setItemName(String itemName) {
 		this.itemName.set(itemName);
 		}
 
+	/**
+	 * [貸出]取得
+	 * @return loanCount
+	 */	
 	public Integer getLoanCount() {
 		return loanCount.get();
-	}
+		}
 
+	 /**
+	 * [貸出]項目設定
+	 * @param cnt 設定する値
+	 */
 	public void setLoanCount(Integer cnt) {
 		this.loanCount.set(cnt);
 		}	 
-	 
+
+	/**
+	 * [返却]取得
+	 * @return returnCount
+	 */	
+     public Integer getReturnCount() {
+		return returnCount.get();
+		}
+
+	 /**
+	 * [返却]項目設定
+	 * @param cnt 設定する値
+	 */
+	 public void setReturnCount(Integer cnt) {
+		 this.returnCount.set(cnt);
+	 }
+		
+	 /**
+	 * [不明]取得
+	 * @return unknownCount
+	 */
+	 public Integer getUnknownCount() {
+		 return unknownCount.get();
+		 }
+
+	 /**
+	 * [不明]項目設定
+	 * @param cnt 設定する値
+	 */
+	 public void setUnknownCount(Integer cnt) {
+		 this.unknownCount.set(cnt);
+		 }
+
+	 /**
+	 * [合計]取得
+	 * @return totalCount
+	 */	 
+	 public Integer getTotalCount() {
+		 return totalCount.get();
+		 }
+
+	 /**
+	 * [合計]項目設定
+	 * @param cnt 設定する値
+	 */	 
+	 public void setTotalCount(Integer cnt) {
+		 this.totalCount.set(cnt);
+		 }
+
 	 
 	 /**
       * コンストラクタ
       * @param name
       */
-    public InventoryListDataModel( String name , Integer loan )
+    public InventoryListDataModel( String name)
+    {
+        this.itemName = new SimpleStringProperty(name);
+        }
+
+    public InventoryListDataModel( String name, Integer loan )
     {
         this.itemName = new SimpleStringProperty(name);
         this.loanCount = new SimpleIntegerProperty(loan);
+        }
+
+    public InventoryListDataModel( String name, Integer loan, Integer rtn )
+    {
+        this.itemName = new SimpleStringProperty(name);
+        this.loanCount = new SimpleIntegerProperty(loan);
+        this.returnCount = new SimpleIntegerProperty(rtn);
+        }
+
+    public InventoryListDataModel( String name, Integer loan, Integer rtn, Integer unknown )
+    {
+        this.itemName = new SimpleStringProperty(name);
+        this.loanCount = new SimpleIntegerProperty(loan);
+        this.returnCount = new SimpleIntegerProperty(rtn);
+        this.unknownCount = new SimpleIntegerProperty(unknown);
+        }
+
+    public InventoryListDataModel( String name , Integer loan, Integer rtn, Integer unknown, Integer total )
+    {
+        this.itemName = new SimpleStringProperty(name);
+        this.loanCount = new SimpleIntegerProperty(loan);
+        this.returnCount = new SimpleIntegerProperty(rtn);
+        this.unknownCount = new SimpleIntegerProperty(unknown);
+        this.totalCount = new SimpleIntegerProperty(total);
         }
 }
