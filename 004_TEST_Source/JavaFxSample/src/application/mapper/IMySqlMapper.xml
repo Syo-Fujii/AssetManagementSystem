@@ -5,7 +5,7 @@
 
     <!-- 全件取得：idはメソッド名、resultTypeは戻り値のクラス -->
     <select id="selectAll">
-        SELECT M.id FROM stock_type_master M
+        SELECT * FROM stock_type_master
     </select>
 
     <!-- 1件取得：#{id} は引数の値が入る場所 -->

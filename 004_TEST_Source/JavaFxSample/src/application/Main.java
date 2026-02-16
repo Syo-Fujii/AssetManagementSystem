@@ -1,13 +1,8 @@
 package application;
 	
-import java.io.InputStream;
 import java.util.List;
-import java.util.Objects;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import application.entity.StockTypeMaster;
 import application.mapper.IMySqlMapper;
@@ -22,26 +17,60 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-
-		
 		
 		/** MySQL アクセス検証 */
 		try {
 			// 1 ----------------------------------------------------------------------------------
-	          // 3. 【重要】MyBatisに、現在のプロジェクトのクラスローダーを使うよう強制する
-	        Resources.setDefaultClassLoader(Main.class.getClassLoader());
+	          // 【重要】MyBatisに、現在のプロジェクトのクラスローダーを使うよう強制する
+	        // Resources.setDefaultClassLoader(this.getClass().getClassLoader());
 			
-			String resource = "mybatis-config.xml";
-	        // ↓ 自分のクラスのクラスローダーを使って確実に取得する
-	        InputStream inputStream = Main.class.getClassLoader().getResourceAsStream(resource);
+			// String resource = "mybatis-config.xml";
+	        /*
+			// ↓ 自分のクラスのクラスローダーを使って確実に取得する
+	        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
 			//InputStream inputStream = Resources.getResourceAsStream(resource);
 			
 	        if (inputStream == null) {
 	            throw new RuntimeException("設定ファイルが見つかりません: " + resource);
+	        }*/
+	        
+	        /*
+	        // 1.5 厳密な指定 -------------------------------------------------------------------------
+	           // 自分のクラス（Mainなど）のクラスローダーを使って読み込む
+	        InputStream is = this.getClass().getClassLoader().getResourceAsStream(resource);
+
+	        if (is == null) {
+	            throw new RuntimeException("XMLが見つかりません。パスを確認してください。");
 	        }
 	        
-	        SqlSessionFactory sqlSessionFactory =new SqlSessionFactoryBuilder().build(inputStream);
-	        SqlSession ss = sqlSessionFactory.openSession();
+	        // XMLConfigBuilderを直接使い、検証(Validation)をfalseにする
+	        
+	        // 1. 検証(validation)を false に設定して XML をパースする
+	        // 第2引数: validation, 第3引数: variables, 第4引数: EntityResolver
+	        //XPathParser xpathParser = new XPathParser(is, false, null, null);
+	        	        	        
+	        // 第1引数: InputStream, 第2引数: Environment(nullでOK), 第3引数: Properties(nullでOK)
+	        XMLConfigBuilder parser = new XMLConfigBuilder(is, null, null);
+	        
+	        // ここがポイント：MyBatis内部の検証をスキップした状態でFactoryを作る
+	        SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(parser.parse());
+	        // SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);        
+	        
+	        Configuration config = factory.getConfiguration();
+	        // 手動でXMLを読み込ませる（クラスパスのルートからのパス）
+	        try (InputStream mapperIs = this.getClass().getClassLoader().
+	        		getResourceAsStream("application/StockTypeMasterMapper.xml")) {
+	            XMLMapperBuilder mapperBuilder = new XMLMapperBuilder(
+	            		mapperIs, 
+	            		config, 
+	            		"application/StockTypeMasterMapper.xml", 
+	            		config.getSqlFragments());
+	            mapperBuilder.parse();
+	        }
+	        
+	        //SqlSessionFactory sqlSessionFactory =new SqlSessionFactoryBuilder().build(inputStream);
+	        //SqlSession ss = sqlSessionFactory.openSession();*/
+	        
 	        
 	        // 2 -----------------------------------------------------------------------------	        
 			try (SqlSession session = MySqlManager.getSqlSessionFactory().openSession()) {
@@ -49,7 +78,7 @@ public class Main extends Application {
 			    
 			    // 全件取得の実行
 			    List<StockTypeMaster> userList = mapper.selectAll();
-			    userList.removeIf(Objects::isNull);
+			    // userList.removeIf(Objects::isNull);
 			    
 			    int count = userList.size();
 			    
@@ -73,8 +102,6 @@ public class Main extends Application {
 			 Parent root = (Parent)loader.load(getClass().getResourceAsStream(getClass().getSimpleName() + ".fxml"));
 			
 			 Object page = loader.getController();
-			 
-			 
 			 
 			// シーン生成(引数の画面サイズを設定した場合、優先される)
 			// Scene scene = new Scene(root,400,400);
