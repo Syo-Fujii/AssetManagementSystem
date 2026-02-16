@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- PUBLIC 後の URL を消して、ファイル名だけにする、または参照を簡略化する -->
+<!-- <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">  VM引数ADD: -Djavax.xml.accessExternalDTD=all-->
+<!DOCTYPE configuration SYSTEM "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <settings>
+    <!-- カラムがすべてNULLの行をリストに入れない -->
+    <setting name="returnInstanceForEmptyRow" value="false"/>
+        <!-- 念のため：NULL値が含まれる場合の挙動を安定させる -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    <!-- キャメルケース変換（必要に応じて） -->
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <!-- 1. ドライバクラス名 (MySQL 8.0系はこの名前) -->
+        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+        
+        <!-- 2. 接続URL (DB名、文字コード、タイムゾーンを指定) -->
+        <property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B9&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;useCursorFetch=true"/>
+        <!-- <property name="url" value="jdbc:mysql://localhost:3306/test?&amp;serverTimezone=Asia/Tokyo"/> -->
+
+
+        <!-- 3. ユーザー名とパスワード -->
+        <property name="username" value="app2"/>
+        <property name="password" value="app_user_1234"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <mappers>
+    <!-- 4. Mapperファイルの登録 (作成したらここに追加)/src直下からのパスを指定 -->
+    <mapper resource="application/stock_type_master_mapper.xml"/>
+    <!-- <mapper resource="com/example/mapper/UserMapper.xml"/> -->
+    <!-- <mapper resource="testmapper.xml"/> -->
+  </mappers>
+
+</configuration>

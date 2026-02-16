@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="testmapper">
+
+    <!-- 全件取得：idはメソッド名、resultTypeは戻り値のクラス -->
+    <select id="selectAll">
+        SELECT id FROM stock_type_master
+    </select>
+
+    <!-- 1件取得：#{id} は引数の値が入る場所 -->
+    <select id="selectOnes">
+        SELECT * FROM stock_type_master WHERE id = #{id}
+    </select>
+
+    <!-- 新規登録 -->
+    <insert id="insNewRecord" >
+        INSERT INTO stock_type_master (id) VALUES (#{id})
+    </insert>
+
+</mapper>

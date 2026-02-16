@@ -14,7 +14,7 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <TableViewManager fx:id="tableListView" layoutX="24.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="504.0" snapToPixel="false">
+      <TableViewManager fx:id="tableListView" layoutX="24.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="505.0" snapToPixel="false">
         <columns>
           <TableColumn id="item" fx:id="col_itemName" editable="false" maxWidth="300.0" minWidth="250.0" prefWidth="265.0" resizable="false" text="名称" />
             <TableColumn id="loan" fx:id="col_loanCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="貸出" />
