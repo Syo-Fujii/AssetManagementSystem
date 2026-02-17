@@ -9,10 +9,21 @@ module AssetManagementSystem {
 	requires javafx.fxml;
 	requires java.desktop;
 	requires javafx.base;
-	
-	opens application to javafx.graphics, javafx.fxml;
+
+    requires java.sql;
+    /** MySQL Connector/J の JAR ファイル内に module-info.classがない
+     *  又は、Automatic-Module-Name の明示的な定義がない*/
+    requires transitive mysql.connector.j; 
+    requires org.mybatis;
+    requires com.zaxxer.hikari;
+    requires org.slf4j;	
+
+    exports application;    
+    
+	opens application to javafx.graphics, javafx.fxml, org.mybatis;
+	opens application.java.base.tableViewListModel to javafx.base;
+	opens application.java.manager to javafx.base, javafx.fxml, org.mybatis;
 	opens application.java.window.inventoryList to javafx.fxml;
 	opens application.java.window.testNextWindow to javafx.fxml;
-	opens application.java.base.tableViewListModel to javafx.base;
-	opens application.java.manager to javafx.base, javafx.fxml;
+
 }

@@ -3,4 +3,5 @@
     <fullyQualifiedTypeName name="javafx.scene.control.Accordion"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TableView"/>
     <fullyQualifiedTypeName name="application.Class.TableViewListModel.InventoryListDataModel"/>
+    <fullyQualifiedTypeName name="application.java.manager.MySqlManager"/>
 </qualifiedTypeNameHistroy>

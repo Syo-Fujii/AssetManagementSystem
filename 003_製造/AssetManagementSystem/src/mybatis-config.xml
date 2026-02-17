@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- PUBLIC 後の URL を消して、ファイル名だけにする、または参照を簡略化する -->
+<!-- <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">  VM引数ADD: -Djavax.xml.accessExternalDTD=all -->
+<!DOCTYPE configuration SYSTEM "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <settings>
+    <!-- カラムがすべてNULLの行をリストに入れない -->
+    <setting name="returnInstanceForEmptyRow" value="false"/>
+        <!-- 念のため：NULL値が含まれる場合の挙動を安定させる -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    <!-- キャメルケース変換（必要に応じて） -->
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <!-- 自作するFactoryのフルパッケージ名を指定 -->
+      <dataSource type="application.HikariDataSourceFactory">
+        <!-- 1. ドライバクラス名 (MySQL 8.0系はこの名前) -->
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        
+        <!-- 2. 接続URL (DB名、文字コード、タイムゾーンを指定) -->
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B9&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;useCursorFetch=true"/>
+        <!-- <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/java_learning?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B9&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;useCursorFetch=true"/> -->
+        <!-- <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test?&amp;serverTimezone=Asia/Tokyo"/> -->
+
+        <!-- 3. ユーザー名とパスワード -->
+        <property name="username" value="app2"/>
+        <property name="password" value="app_user_1234"/>
+        <!-- <property name="username" value="user"/> -->
+        <!-- <property name="password" value="user_1234"/> -->
+
+        <!-- 並列処理用のHikariCPプロパティを直接書ける -->
+        <property name="maximumPoolSize" value="20"/>
+        <property name="connectionTimeout" value="30000"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <mappers>
+    <!-- 4. Mapperファイルの登録 (作成したらここに追加)/src直下からのパスを指定 -->
+    <!-- resourceを指定した場合、ファイルPATHが[application/~]から始まっていても、MyBatisは内部で独自のResources.getResourceAsStream()を呼ぶため、モジュールの壁に阻まれて見失います。
+         その場合、インターフェースのクラスを指定する。[resource（パス）ではなく class（完全修飾名）で指定]
+         この場合、マッパーXMLファイル[.xml]は、 interfaceファイル[.java]と同じパッケージ・同じ名前で配置されている必要がある。 -->
+
+    <mapper class="application.resources.mapper.IMySqlMapper"/>
+    <!-- <mapper resource="stock_type_master_mapper.xml"/> -->
+    <!-- <mapper resource="application/mapper/stock_type_master_mapper.xml"/> -->
+    <!-- <mapper resource="application/StockTypeMasterMapper.xml"/> -->
+    <!-- <mapper resource="com/example/mapper/UserMapper.xml"/> -->
+  </mappers>
+
+</configuration>
