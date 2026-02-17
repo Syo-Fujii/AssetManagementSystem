@@ -6,6 +6,8 @@ module JavaFxSample {
      *  又は、Automatic-Module-Name の明示的な定義がない*/
     requires transitive mysql.connector.j; 
     requires org.mybatis;
+    requires com.zaxxer.hikari;
+    requires org.slf4j;
     
     exports application; 
     
