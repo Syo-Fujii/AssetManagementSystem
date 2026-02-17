@@ -1,9 +1,16 @@
 package application.java.window.inventoryList;
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
 import application.java.base.BaseFormPage;
+import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
+import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.java.window.testNextWindow.Form2;
+import application.resources.mapper.StockTypeMasterMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -63,11 +70,12 @@ public class FormController extends BaseFormPage {
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
     	
+    	MySqlManager.getSqlSessionFactory();
+    	MySqlManager.ExcuteQuery(sqlSession -> { this.Test(sqlSession);});
     	
         // データを登録
     	tableListView.setItems( makeTastDatas() ); 
     }	
-
     
     /**
      * TableView設定
@@ -120,6 +128,22 @@ public class FormController extends BaseFormPage {
     	 super.setPage(new Form2());
     }     
     
+    /**
+     * 
+     * @param session
+     */
+    private void Test(SqlSession session)
+    {
+    	StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+	    
+	    // 全件取得の実行
+	    List<StockTypeMasterModel> userList = mapper.selectAll();
+	    // userList.removeIf(Objects::isNull);
+	    
+	    int count = userList.size();
+	    
+	    List<StockTypeMasterModel> B = userList;
+    }    
     
     /**
      * テストデータ生成

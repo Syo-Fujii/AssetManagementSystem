@@ -1,6 +1,7 @@
 package application.java.manager;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.apache.ibatis.mapping.Environment;
@@ -11,7 +12,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;   
+import com.zaxxer.hikari.HikariDataSource;
+
+import javafx.concurrent.Task;   
 
 /**
  *  
@@ -125,7 +128,7 @@ public class MySqlManager {
 	 * プライベートコンストラクタ（newを禁止）
 	 */
 	private MySqlManager() {
-		throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+		// throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
 	}
 
 	/**
@@ -166,8 +169,13 @@ public class MySqlManager {
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
 	 */
 	public static void ExcuteQueryOnParallel(Consumer<SqlSession> callback) {
+
+		if(sqlSessionFactory == null)
+		{
+			return;
+		}			
 		
-		/*Task<List<User>> task = new Task<>() {
+		Task<List<User>> task = new Task<>() {
 		    @Override
 		    protected List<User> call() throws Exception {
 		    	MySqlManager.ExcuteQuery(callback);
@@ -183,7 +191,7 @@ public class MySqlManager {
 		task.setOnFailed(e -> {
 		    // 失敗時：エラーダイアログを表示
 		    task.getException().printStackTrace();
-		});*/
+		});
 
 		// --- 3. 実行 ---
 		//Thread thread = new Thread(task);

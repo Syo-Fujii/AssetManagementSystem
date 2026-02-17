@@ -1,0 +1,13 @@
+package application.java.base.dbTablesModel;
+
+public class StockTypeMasterModel {
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.InventoryListMapper">
+
+    <!--  -->
+    <select id="getTableRecords">
+        WITH SUB_TOTAL AS
+        (
+            SELECT 
+                ST.stock_type
+              , SUM(CASE
+                       WHEN (SD.staff_no IS NOT NULL) AND (SD.return_date IS NULL)
+                         THEN 1
+                       ELSE
+                         0
+                      END) AS lending_count  -- 貸出備品の数
+              , SUM(CASE
+                       WHEN SD.staff_no IS NULL AND SD.return_date IS NULL
+                         THEN 1
+                       ELSE
+                         0
+                      END) AS stock_count    -- 在庫備品の数
+              , SUM(CASE
+                       WHEN DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 
+                         THEN 1
+                       ELSE
+                         0
+                      END) AS unknown_count  -- 不明備品の数
+            FROM
+              (SELECT
+                 stock_type
+               FROM
+                 stock_type_master
+               WHERE
+                 1 = 1
+               AND del = FALSE) ST 
+            INNER JOIN 
+              stock_master SM
+             ON ST.stock_type = SM.stock_type 
+            AND SM.del = FALSE 
+            INNER JOIN 
+               stock_data SD
+             ON SM.stock_code = SD.stock_code  
+            AND SD.del = FALSE 
+            WHERE
+             1 = 1
+            GROUP BY
+             ST.stock_type
+         )
+  
+         SELECT
+             ST.id
+           , ST.name  AS itemName
+           , S.lending_count AS loanCount
+           , S.stock_count AS returnCount
+           , S.unknown_count AS unknownCount
+           , S.lending_count + S.stock_count AS totalCount
+         FROM
+           stock_type_master ST
+         INNER JOIN
+           SUB_TOTAL S
+          ON ST.stock_type = S.stock_type
+         WHERE
+           1 = 1
+         ORDER BY 
+           ST.stock_type
+    </select>
+
+    <!--  -->
+    <select id="equip_list_view">    
+         SELECT
+             ST.id
+           , ST.name  AS itemName
+           , S.lending_count AS loanCount
+           , S.stock_count AS returnCount
+           , S.unknown_count AS unknownCount
+           , S.lending_count + S.stock_count AS totalCount
+         FROM
+           equip_list_view ST
+         WHERE
+           1 = 1
+         ORDER BY 
+           ST.stock_type
+    </select>
+
+</mapper>

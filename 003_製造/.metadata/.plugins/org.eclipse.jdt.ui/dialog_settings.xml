@@ -4,7 +4,7 @@
 	<item key="org.eclipse.jdt.ui.last.selected.jre.kind2" value="2"/>
 	<item key="org.eclipse.jdt.ui.last.selected.execution.enviroment" value="JavaSE-25"/>
 	<item key="org.eclipse.jdt.ui.last.selected.create.moduleinfo.comments" value="true"/>
-	<item key="org.eclipse.jdt.ui.lastextjar" value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\外部SDK\HikariCP"/>
+	<item key="org.eclipse.jdt.ui.lastextjar" value="F:\Ecripse\001_備品管理システム\003_製造\外部SDK\HikariCP"/>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
 		<item key="layout" value="1"/>
 		<item key="group_libraries" value="true"/>
@@ -49,10 +49,10 @@
 		<item key="create_unimplemented" value="true"/>
 	</section>
 	<section name="NewClassCreationWizard.dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="798"/>
-		<item key="DIALOG_Y_ORIGIN" value="197"/>
-		<item key="DIALOG_WIDTH" value="674"/>
-		<item key="DIALOG_HEIGHT" value="652"/>
+		<item key="DIALOG_X_ORIGIN" value="706"/>
+		<item key="DIALOG_Y_ORIGIN" value="306"/>
+		<item key="DIALOG_WIDTH" value="664"/>
+		<item key="DIALOG_HEIGHT" value="659"/>
 		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
 	</section>
 	<section name="SourceActionDialog.methods">

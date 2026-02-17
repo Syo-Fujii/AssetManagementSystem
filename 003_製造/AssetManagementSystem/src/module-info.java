@@ -21,9 +21,11 @@ module AssetManagementSystem {
     exports application;    
     
 	opens application to javafx.graphics, javafx.fxml, org.mybatis;
+	opens application.java.base.dbTablesModel to org.mybatis;
 	opens application.java.base.tableViewListModel to javafx.base;
 	opens application.java.manager to javafx.base, javafx.fxml, org.mybatis;
 	opens application.java.window.inventoryList to javafx.fxml;
 	opens application.java.window.testNextWindow to javafx.fxml;
-
+	opens application.resources.xml to org.mybatis;
+	opens application.resources.mapper to org.mybatis;
 }
