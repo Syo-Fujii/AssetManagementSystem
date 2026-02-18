@@ -50,7 +50,7 @@
          )
   
          SELECT
-            -- ST.id,
+            ST.stock_type   AS type,
             ST.name         AS itemName,
             S.lending_count AS loanCount,
             S.stock_count   AS returnCount,

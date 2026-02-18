@@ -15,11 +15,32 @@ import javafx.beans.property.StringProperty;
  */
 public class InventoryListDataModel extends BaseTableViewModel {
 	
+	private IntegerProperty type = new SimpleIntegerProperty(0);
     private StringProperty itemName;
     private IntegerProperty loanCount = new SimpleIntegerProperty(0);
     private IntegerProperty returnCount = new SimpleIntegerProperty(0);
     private IntegerProperty unknownCount = new SimpleIntegerProperty(0);
     private IntegerProperty totalCount = new SimpleIntegerProperty(0);
+ 
+	/**
+	 * [分類コード]取得
+	 * @return type
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
+	public Integer getType() {
+		return type.get();
+		}
+
+	 /**
+	 * [分類コード]項目設定
+	 * @param type 設定する値
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
+	public void setType(Integer type) {
+		this.type.set(type);
+		}	   
     
 	/**
 	 * [名称]取得 
@@ -131,11 +152,12 @@ public class InventoryListDataModel extends BaseTableViewModel {
       * コンストラクタで、全プロパティの初期化を行う。
       */
 	 public InventoryListDataModel(){
-		    this.itemName = new SimpleStringProperty("");
-		    this.loanCount = new SimpleIntegerProperty(0);
-		    this.returnCount = new SimpleIntegerProperty(0);
-		    this.unknownCount = new SimpleIntegerProperty(0);
-		    this.totalCount = new SimpleIntegerProperty(0);		 
+		 this.type = new SimpleIntegerProperty(0);
+		 this.itemName = new SimpleStringProperty("");
+		 this.loanCount = new SimpleIntegerProperty(0);
+		 this.returnCount = new SimpleIntegerProperty(0);
+		 this.unknownCount = new SimpleIntegerProperty(0);
+		 this.totalCount = new SimpleIntegerProperty(0);		 
 	 }
 	 public InventoryListDataModel( String name)
     {

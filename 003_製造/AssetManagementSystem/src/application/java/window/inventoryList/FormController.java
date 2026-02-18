@@ -138,7 +138,7 @@ public class FormController extends BaseFormPage {
      */
     private void callbackTableSelectedRow(InventoryListDataModel row) {
     	
-    	 System.out.println("継承先　選択された行のデータ: " + row.getItemName());
+    	 System.out.println("選択行 分類コード: " + row.getType());
     	 super.setPage(new Form2());
     }     
 
