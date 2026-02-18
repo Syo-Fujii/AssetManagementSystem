@@ -15,7 +15,7 @@ import javafx.beans.property.StringProperty;
  */
 public class InventoryListDataModel extends BaseTableViewModel {
 	
-    private final StringProperty itemName;
+    private StringProperty itemName;
     private IntegerProperty loanCount = new SimpleIntegerProperty(0);
     private IntegerProperty returnCount = new SimpleIntegerProperty(0);
     private IntegerProperty unknownCount = new SimpleIntegerProperty(0);

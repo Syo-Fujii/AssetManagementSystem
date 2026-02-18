@@ -1,9 +1,18 @@
 package application.java.manager;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
@@ -14,6 +23,7 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import application.java.base.BaseTableViewModel;
 import javafx.concurrent.Task;   
 
 /**
@@ -26,15 +36,21 @@ import javafx.concurrent.Task;
  * 上記のため、Mapper.xmlとインターフェースは同階層・同名でそんざいさせること
  */
 public class MySqlManager {
-    // private static final SqlSessionFactory sqlSessionFactory = null;
+	// 並列実行用の Thread(ExecutorService)
+	private static final ExecutorService executor;
+	
+	// 実行中のタスク一覧（キャンセル指定用）
+	private static final Set<Task<?>> runningTasks;	
+	
+	// private static final SqlSessionFactory sqlSessionFactory = null;
 	private static SqlSessionFactory sqlSessionFactory = null;
-
+	
     // デフォルトは[src]直下とする
     private static String mybatisConfigXmlPath  = "mybatis-config.xml";
     private static boolean isConnectionPooling = true;
     private static boolean isParallel = false;
-    
 
+    
     private static HikariConfig hConfig = null;
     
     /**
@@ -119,9 +135,27 @@ public class MySqlManager {
 	
 	/**
 	 * 「静的初期化ブロック（Static Initializer）
-	 *  final化しない為、未実装
+	 *  @brief final(singleton) 並列実行用スレッドの生成を行う<br>
+	 *  ThreadPoolは、どのような呼び出しをされたとしても単一にて制御する
 	 */
 	static {
+		try {
+			executor = Executors.newFixedThreadPool(
+	    		    Runtime.getRuntime().availableProcessors(), // CPUコア数分だけ同時に実行可能
+	    		    r -> {
+	    		        Thread t = new Thread(r);
+	    		        t.setDaemon(true); // アプリ終了時にスレッドも強制終了させる設定
+	    		        return t;
+	    		    });
+			
+			runningTasks = Collections.synchronizedSet(new HashSet<>());
+			
+		} catch(Exception e) {
+	        // ログ出力などを行い、致命的なエラーとしてスロー
+	        System.err.println("スレッドプールの初期化に失敗");
+	        
+	        throw new ExceptionInInitializerError(e);
+		}
 	}
 	
 	/**
@@ -134,7 +168,8 @@ public class MySqlManager {
 	/**
 	 * SQL Sessionの取得
 	 * @return SqlSessionFactory 保持しているSqlSession
-	 * @brief 保持しているSqlSession。ない(null)の場合はSessionを生成する。
+	 * @brief 保持しているSqlSession。ない(null)の場合はSessionを生成する。<br>
+	 * DBの切り替えを考慮し、SqlSessionFactoryを[final]ではなく、synchronizedで生成する。
 	 */
 	public static synchronized SqlSessionFactory getSqlSessionFactory() {
         
@@ -145,20 +180,48 @@ public class MySqlManager {
     }
 	
 	/**
+	 * SQL Sessionの再設定
+	 * @param configPath 新たなSqlSession用のMyBatis設定ファイル
+	 * @brief SqlSessionを終了し、設定ファイルを元に、新たなSqlSessionを生成する。<br>
+	 * DBの切り替えを考慮し、SqlSessionFactoryを[final]ではなく、synchronizedで生成する。
+	 */
+	public static synchronized void ResetSqlSessionFactory(String configPath) {
+ 
+    	if (sqlSessionFactory == null) {
+    		// returnせずに、新しいパスの設定と初期化に進む
+    		// return;
+    	}		
+		
+		cancelAllTasks();
+		
+	    try {
+	        HikariCpClose();
+	    } finally {
+	        sqlSessionFactory = null;		
+	    }
+		
+		MySqlManager.setMybatisConfigXmlPath(configPath);
+		
+		new MySqlManager().SqlSessionSettings();
+
+    }
+	
+	/**
 	 * クエリ発行処理
 	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義)
+	 * @return Boolean 処理結果(呼び出し元にて定義)
 	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
 	 */
-	public static void ExcuteQuery(Consumer<SqlSession> callback) {
+	public static Boolean ExcuteQuery(Function<SqlSession, Boolean> callback) {
 		
 		if(sqlSessionFactory == null)
 		{
-			return;
+			return false;
 		}		
 		
 		try (SqlSession session = sqlSessionFactory.openSession()) {
-        	callback.accept(session);
+        	return callback.apply(session);
 	    }		
 	}   
     
@@ -168,42 +231,168 @@ public class MySqlManager {
 	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
 	 */
-	public static void ExcuteQueryOnParallel(Consumer<SqlSession> callback) {
+	public static void ExcuteQueryOnParallel(
+			Function<SqlSession, Boolean> callback, 
+			Consumer<Boolean> successCallBack,
+			Consumer<Throwable> exceptionCallback) {
 
 		if(sqlSessionFactory == null)
 		{
 			return;
 		}			
 		
-		Task<List<User>> task = new Task<>() {
+		Task<Boolean> task = new Task<Boolean>() {
 		    @Override
-		    protected List<User> call() throws Exception {
-		    	MySqlManager.ExcuteQuery(callback);
+		    protected Boolean call() throws Exception {
+	            try {
+	                runningTasks.add(this);
+	                return MySqlManager.ExcuteQuery(callback);
+	            } finally {
+	                runningTasks.remove(this); // 終了時に必ず削除(this = Task)
+	            }
 		    }
 		};
 
 		// --- 2. UIスレッドで実行されるイベント ---
 		task.setOnSucceeded(e -> {
-		    // 成功時：結果をテーブルに表示
-		    tableView.getItems().setAll(task.getValue());
+		    // 成功時：
+			successCallBack.accept(task.getValue());
 		});
 
 		task.setOnFailed(e -> {
-		    // 失敗時：エラーダイアログを表示
-		    task.getException().printStackTrace();
+		    // 失敗時(Exceptionが発生した場合)：
+			exceptionCallback.accept(task.getException());
 		});
 
 		// --- 3. 実行 ---
-		//Thread thread = new Thread(task);
-		//thread.setDaemon(true); // アプリ終了時にこのスレッドも閉じる
-		//thread.start();	
+		executor.execute(task); 	
+	}  	
+
+	/**
+	 * 一覧データ取得処理(並列実行)
+	 * @param <T> 取得するテーブルのMODEL
+	 * @param callback クエリ発行処理メソッド(呼び出し元で定義) 戻り値:テーブルMODELのリスト
+	 * @return テーブルMODELのリスト
+	 */
+	public static <T extends BaseTableViewModel> List<T> Fill(Function <SqlSession, List<T>> callback) {
+		
+		if(sqlSessionFactory == null)
+		{
+			return null;
+		}		
+		
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+        	return callback.apply(session);
+	    }		
 	}  	
 	
-    /**
+	/**
+	 * 一覧データ取得・設定処理(並列実行)
+	 * @param <T> 取得するテーブルのMODEL
+	 * @param callback <br> 
+	 *        クエリ発行処理メソッド(呼び出し元で定義) 戻り値:テーブルMODELのリスト
+	 * @param successCallBack DB取得時の処理(呼び出し元で定義 引数:テーブルMODELのリスト)
+	 * @param exceptionCallback 例外時の処理(呼び出し元で定義 引数: Throwableクラス)
+	 */
+	public static <T extends BaseTableViewModel> void FillTableViewOnParallel( 
+			Function<SqlSession, List<T>> callback, 
+			Consumer<List<T>> successCallBack,
+			Consumer<Throwable> exceptionCallback) {
+		
+		if(sqlSessionFactory == null)
+		{
+			return;
+		}		
+		
+		Task<List<T>> task = new Task<List<T>>() {
+		    @Override
+		    protected List<T> call() throws Exception {
+	            try {
+	                runningTasks.add(this);
+	                return MySqlManager.Fill(callback);
+	            } finally {
+	                runningTasks.remove(this); // 終了時に必ず削除(this = Task)
+	            }
+		    }
+		};
+			
+		// --- 2. UIスレッドで実行されるイベント ---
+		task.setOnSucceeded(event -> {
+		    // 成功時：
+			successCallBack.accept(task.getValue());
+		});
+
+		task.setOnFailed(event -> {
+		    // 失敗時(Exceptionが発生した場合)：
+			exceptionCallback.accept(task.getException());
+		});
+
+		// --- 3. 実行 ---
+		executor.execute(task); 
+	}
+
+	/**
+	 * MySqlManager 終了処理
+	 */
+	public static synchronized void Close() {
+		
+		cancelAllTasks();
+		shutdownExecutor();
+		
+		if(sqlSessionFactory == null)
+		{
+			return;
+		}		
+
+	    try {
+	        HikariCpClose();
+	    } finally {
+	        sqlSessionFactory = null;
+	    }
+	}
+
+	/**
+	 * 実行中のすべての非同期タスクを中断する
+	 */
+	private static void cancelAllTasks() {
+	    synchronized (runningTasks) {
+	        for (Task<?> task : runningTasks) {
+	            if (task.isRunning()) {
+	                // trueを渡すと実行中のスレッドに interrupt() を送る
+	                task.cancel(true); 
+	            }
+	        }
+	        runningTasks.clear();
+	    }
+	}	
+	
+	/**
+	 * スレッドプール終了(解放処理)
+	 * @brief 並列実行用のスレッドプールを解放する
+	 */
+	private static void shutdownExecutor() {
+	    if (!executor.isShutdown()) {
+	    	executor.shutdown(); // 新しいタスクを受け付けない
+	        try {
+	            // 5秒間だけ、現在実行中のタスクが終わるのを待つ
+	            if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+	            	executor.shutdownNow(); // 終わらなければ強制終了
+	            }
+	        } catch (InterruptedException e) {
+	        	// 継続処理：例外をthrowしない
+	        	executor.shutdownNow();
+
+	        	// 割り込みステータスを復旧（お作法）
+	        	Thread.currentThread().interrupt(); 
+	        }
+	    }
+	}
+	
+	/**
      * 終了処理(HikariCP)
 	 * @brief HikariCPを用いたConnectionを確立していた場合、Closeする。
      */
-    public static void HikariCpClose() {
+    private static void HikariCpClose() {
         
     	if (!isConnectionPooling || sqlSessionFactory == null)
     	{
@@ -222,11 +411,10 @@ public class MySqlManager {
         // 3. HikariDataSourceにキャストしてClose
         if (dataSource instanceof HikariDataSource hikari) {
         	System.out.println("HikariCP DataSource Closeing");
-  
-        	hikari.close();
+          	hikari.close();
         }   
     }
-
+    
     /**
      * MySQL コネクションの確立(Sessionの生成)
      */
@@ -266,15 +454,19 @@ public class MySqlManager {
 		}
 		
 		// ↓ 自分のクラスのクラスローダーを使って確実に取得する
-        InputStream inputStream = this.getClass().
-        		getClassLoader()
-        		.getResourceAsStream(mybatisConfigXmlPath);
-		
-        if (inputStream == null) {
-            throw new RuntimeException("設定ファイルが見つかりません: " + mybatisConfigXmlPath);
+        try (InputStream inputStream = this.
+        		getClass().
+        		getClassLoader().
+        		getResourceAsStream(mybatisConfigXmlPath)) {
+        	
+        	if (inputStream == null) {
+                throw new RuntimeException("設定ファイルが見つかりません: " + mybatisConfigXmlPath);
+            }
+    		
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("設定ファイルの読み込みに失敗", e);
         }
-		
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);		
 	}
 
 	/**
@@ -304,16 +496,22 @@ public class MySqlManager {
            );
        
 		// 3. MyBatis 設定ファイルの読込
-		InputStream is = this.getClass().
-    		   getClassLoader().getResourceAsStream(mybatisConfigXmlPath);
-		if (is == null) {
-			throw new RuntimeException("XMLが見つかりません。パスを確認してください。");
-			}
-		// 4. SqlSessionの生成
-		SqlSessionFactory xmlSqlSessionFactory = new SqlSessionFactoryBuilder().build(is);
-		Configuration config = xmlSqlSessionFactory.getConfiguration();
-		config.setEnvironment(environment);
-		
-		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);	
+        try (InputStream inputStream = this.
+        		getClass().
+        		getClassLoader().
+        		getResourceAsStream(mybatisConfigXmlPath)) {
+        	
+        	if (inputStream == null) {
+                throw new RuntimeException("設定ファイルが見つかりません: " + mybatisConfigXmlPath);
+            }
+    		
+        	XMLConfigBuilder parser = new XMLConfigBuilder(inputStream);
+   
+    		Configuration config = parser.parse(); // XMLの内容をロード
+    		config.setEnvironment(environment);   // プログラムで生成したHikariCP環境をセット
+    		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);      	
+        } catch (IOException e) {
+            throw new RuntimeException("設定ファイルの読み込みに失敗", e);
+        }
 	}
 }

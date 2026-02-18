@@ -3,7 +3,7 @@
 
 <mapper namespace="application.resources.mapper.InventoryListMapper">
 
-    <!--  -->
+    <!-- 備品一覧の取得 -->
     <select id="getTableRecords">
         WITH SUB_TOTAL AS
         (
@@ -51,9 +51,9 @@
   
          SELECT
              ST.id
-           , ST.name  AS itemName
+           , ST.name         AS itemName
            , S.lending_count AS loanCount
-           , S.stock_count AS returnCount
+           , S.stock_count   AS returnCount
            , S.unknown_count AS unknownCount
            , S.lending_count + S.stock_count AS totalCount
          FROM
@@ -67,21 +67,18 @@
            ST.stock_type
     </select>
 
-    <!--  -->
-    <select id="equip_list_view">    
+    <!-- Viwew[equip_list_view]から全データの取得 -->
+    <select id="getViewAllRecords">
          SELECT
-             ST.id
-           , ST.name  AS itemName
-           , S.lending_count AS loanCount
-           , S.stock_count AS returnCount
-           , S.unknown_count AS unknownCount
-           , S.lending_count + S.stock_count AS totalCount
+           , EV.名称 AS itemName
+           , EV.貸出 AS loanCount
+           , EV.在庫 AS returnCount
+           , EV.不明 AS unknownCount
+           , EV.合計 AS totalCount
          FROM
-           equip_list_view ST
+           equip_list_view EV
          WHERE
            1 = 1
-         ORDER BY 
-           ST.stock_type
     </select>
 
 </mapper>

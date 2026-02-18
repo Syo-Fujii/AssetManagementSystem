@@ -36,11 +36,11 @@ public final class Main extends JavaFxManager {
 	}
 	
     @Override
-    public void stop() {
-        // static 管理している DbClient（または MyBatisUtil）の shutdown を呼ぶ
-        System.out.println("接続プールを閉じます...");
-        MySqlManager.HikariCpClose(); 
-    }	
-	
-	
+    /**
+     * JavaFx[stop]メソッド制御 
+     */
+    public void stop()  throws Exception {
+        MySqlManager.Close();
+        super.stop();
+    }
 }

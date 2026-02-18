@@ -16,7 +16,8 @@ module AssetManagementSystem {
     requires transitive mysql.connector.j; 
     requires org.mybatis;
     requires com.zaxxer.hikari;
-    requires org.slf4j;	
+    requires org.slf4j;
+	requires javafx.graphics;	
 
     exports application;    
     
