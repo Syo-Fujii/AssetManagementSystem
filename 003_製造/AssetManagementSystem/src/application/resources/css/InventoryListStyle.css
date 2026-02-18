@@ -56,6 +56,17 @@ Eclipseが「こんなプロパティは知らないよ！」と親切に警告�
 	-fx-border-width: 2px;
 }
 
+/* 空行の背景を透明にし、境界線を消す */
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* セル自体の境界線も消す */
+.table-row-cell:empty .table-cell {
+    -fx-border-color: transparent;
+}
+
 
 .titletext {
     -fx-font-weight: bold;

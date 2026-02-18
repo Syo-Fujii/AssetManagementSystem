@@ -16,6 +16,8 @@ public final class Main extends JavaFxManager {
 	 * @param args 起動引数
 	 */
 	public static void main(String[] args) {
+        System.out.println("備品管理システム : 起動");
+		
 		JavaFxManager.launch(args);
 	}
 
@@ -29,6 +31,7 @@ public final class Main extends JavaFxManager {
 		JavaFxManager.application = this;	      
 		
 		// Window枠の保持
+		System.out.println("備品管理システム : 画面ウィンドウ枠生成");
 		super.start(primaryStage);
 		
 		// 最初に表示する画面を設定
@@ -42,5 +45,7 @@ public final class Main extends JavaFxManager {
     public void stop()  throws Exception {
         MySqlManager.Close();
         super.stop();
+        
+        System.out.println("備品管理システム : 終了");
     }
 }

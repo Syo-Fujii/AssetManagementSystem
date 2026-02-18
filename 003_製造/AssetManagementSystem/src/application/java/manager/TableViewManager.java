@@ -1,9 +1,12 @@
 package application.java.manager;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import application.java.base.BaseTableViewModel;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
@@ -27,6 +30,8 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 
 	private String cssSelector = "table-view";
 	
+	private Boolean isColumnSettingCompleted = false;
+
 	private Boolean isRowsMultiSelected = false;
 	private Boolean isCellSelected = false;
 	private Boolean isReorderabled = false;	
@@ -54,6 +59,25 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 			this.getStyleClass().add(selector);
 		}
 	}
+
+	/**
+	 * TableView カラム(Cell)設定可否 判定
+	 * @return TableView カラム(Cell)設定可否
+	 * @brief カラムヘッダ・セル設定を完了したかの判定。初期表示などで利用
+	 */
+	public Boolean getIsColumnSettingCompleted() {
+		return isColumnSettingCompleted;
+	}
+
+	/**
+	 * TableView カラム(Cell)設定可否 設定
+	 * @param isCompleted TableView カラム(Cell)設定可否
+	 * @brief カラムヘッダ・セル設定を完了したかの判定。初期表示などで利用
+	 */
+	public void setIsColumnSettingCompleted(Boolean isCompleted) {
+		this.isColumnSettingCompleted = isCompleted;
+	}
+	
 	
 	/**
 	 * 複数行選択判定
@@ -188,6 +212,19 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		return this.getSelectionModel().getSelectedIndex();
 	}		
 
+	/**
+	 * データセット(List型)
+	 * @param data　継承元が[BaseTableViewModel]のデータクラスのリスト
+	 * @brief FXCollections.observableArrayList は、<br>
+	 * 「中身が変更されたらUI（TableViewなど）に即座に通知する」 機能を備えた、JavaFX専用のリスト
+	 */
+	public void setList(List<T> data) {
+        ObservableList<T> observableListData = 
+                FXCollections.observableArrayList(data);
+		
+		this.setItems( observableListData );
+	}
+	
 	/**
 	 * 行選択(１行)Event
 	 * @param lostCallback 選択が抜けた行に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス

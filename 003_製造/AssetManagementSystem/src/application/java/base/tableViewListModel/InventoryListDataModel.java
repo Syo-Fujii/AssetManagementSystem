@@ -124,9 +124,20 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	 
 	 /**
       * コンストラクタ
-      * @param name
+      * @brief　引数なしコンストラクタがMyBatisの一覧(List)生成で用いられる。<br>
+      * JavaFXの Property クラス（SimpleStringPropertyなど）は参照型で<br>
+      * private StringProperty itemName; と宣言しただけでは null のままで<br>
+      * MyBatisが値を入れようとしても「入れ物」が存在しないためエラーになる為<br>
+      * コンストラクタで、全プロパティの初期化を行う。
       */
-    public InventoryListDataModel( String name)
+	 public InventoryListDataModel(){
+		    this.itemName = new SimpleStringProperty("");
+		    this.loanCount = new SimpleIntegerProperty(0);
+		    this.returnCount = new SimpleIntegerProperty(0);
+		    this.unknownCount = new SimpleIntegerProperty(0);
+		    this.totalCount = new SimpleIntegerProperty(0);		 
+	 }
+	 public InventoryListDataModel( String name)
     {
         this.itemName = new SimpleStringProperty(name);
         }

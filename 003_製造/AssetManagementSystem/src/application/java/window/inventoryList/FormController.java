@@ -10,10 +10,12 @@ import application.java.base.tableViewListModel.InventoryListDataModel;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.java.window.testNextWindow.Form2;
+import application.resources.mapper.InventoryListMapper;
 import application.resources.mapper.StockTypeMasterMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -65,23 +67,32 @@ public class FormController extends BaseFormPage {
  
     	System.out.println("inventoryList controller initialize");
     	
-    	this.tableViewSettings();
-    
-    	lbl_title.setText(this.getPageTitle());
-    	lbl_title.getStyleClass().add("titletext");
+    	if(!tableListView.getIsColumnSettingCompleted()) {
+        	// 最初の画面起動として、[SQL Session]を生成・保持する。
+    		MySqlManager.getSqlSessionFactory();
+    		
+    		// 画面起動設定
+    		this.tableViewSettings();   		
+        	tableListView.setIsColumnSettingCompleted(true);
+        	
+        	lbl_title.setText(this.getPageTitle());
+        	lbl_title.getStyleClass().add("titletext");  
+    	}
     	
-    	MySqlManager.getSqlSessionFactory();
-    	MySqlManager.ExcuteQuery(sqlSession -> { this.Test(sqlSession);});
-    	
-        // データを登録
-    	tableListView.setItems( makeTastDatas() ); 
+    	this.ShowInventoryList();
+    	// this.ShowTest();
+
     }	
     
     /**
      * TableView設定
+     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
+     * 多分Webページと同じ概念。
      */
     private void tableViewSettings()
     {
+    	System.out.println("備品一覧 カラム・セル設定/定義");
+    	
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
     	
@@ -101,6 +112,9 @@ public class FormController extends BaseFormPage {
     	col_retCnt.getStyleClass().add("number-aligned");
     	col_unknownCnt.getStyleClass().add("number-aligned");
     	col_totalCnt.getStyleClass().add("number-aligned"); 
+    	
+    	// 0件の場合のCaptionを削除(「データがありません」非表示)
+    	tableListView.setPlaceholder(new Label("")); 
     }
 
     /**
@@ -127,23 +141,110 @@ public class FormController extends BaseFormPage {
     	 System.out.println("継承先　選択された行のデータ: " + row.getItemName());
     	 super.setPage(new Form2());
     }     
+
+    /**
+     * 備品一覧 リスト表示処理
+     */
+    private void ShowInventoryList()
+    {
+    	System.out.println("備品一覧 リスト表示処理");
+    	
+    	MySqlManager.<InventoryListDataModel>FillTableViewOnParallel(
+    			(SqlSession session) -> {
+					try {
+						return this.getInventoryListData(session);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				},
+    			listData -> { 
+    				tableListView.setList( listData );},
+    			exception -> {
+    				System.err.println("備品一覧データ取得失敗");
+    				System.err.println(exception.getMessage());
+    	            // JavaFXのアラートを表示
+    	            Alert alert = new Alert(Alert.AlertType.ERROR);
+    	            alert.setTitle("データベースエラー");
+    	            alert.setHeaderText("データの取得に失敗しました");
+    	            alert.setContentText(exception.getCause() != null ? 
+    	                                 exception.getCause().getMessage() : exception.getMessage());
+    	            alert.showAndWait();     				
+    			}
+    			); 
+    }
+
+    /**
+     * DBクエリ発行処理
+     * @param session
+     * @throws Exception 
+     */
+    private List<InventoryListDataModel> getInventoryListData(SqlSession session) throws Exception
+    {
+    	try {
+    		
+    		InventoryListMapper mapper = session.getMapper(InventoryListMapper.class);
+    	    
+    	    // 備品一覧データ取得
+    	    return mapper.getTableRecords();
+
+    	} catch(Exception e){
+    		throw new Exception(e); 
+    	}
+      }     
+ 
+    /**
+     * (テスト用)TableViewデータ取得・表示処理
+     */
+    private void ShowTest()
+    {
+    	MySqlManager.ExcuteQueryOnParallel(
+    			(SqlSession session) -> {
+					try {
+						return this.Test(session);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				},
+    			isSccess -> { tableListView.setItems( makeTastDatas() );},
+    			exception -> 
+    			{
+    				System.err.println("備品一覧データ取得失敗");
+    				System.err.println(exception.getMessage());
+    	            // JavaFXのアラートを表示
+    	            Alert alert = new Alert(Alert.AlertType.ERROR);
+    	            alert.setTitle("データベースエラー");
+    	            alert.setHeaderText("データの取得に失敗しました");
+    	            alert.setContentText(exception.getCause() != null ? 
+    	                                 exception.getCause().getMessage() : exception.getMessage());
+    	            alert.showAndWait();   				
+    			}
+    			); 
+    }    
     
     /**
-     * 
+     * (テスト用)TableViewデータ取得処理
      * @param session
+     * @throws Exception 
      */
-    private void Test(SqlSession session)
+    private Boolean Test(SqlSession session) throws Exception
     {
-    	StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
-	    
-	    // 全件取得の実行
-	    List<StockTypeMasterModel> userList = mapper.selectAll();
-	    // userList.removeIf(Objects::isNull);
-	    
-	    int count = userList.size();
-	    
-	    List<StockTypeMasterModel> B = userList;
-    }    
+    	try {
+        	StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+    	    
+    	    // 全件取得の実行
+    	    List<StockTypeMasterModel> userList = mapper.selectAll();
+    	    // userList.removeIf(Objects::isNull);
+    	    
+    	    int count = userList.size();
+    	    
+    	    List<StockTypeMasterModel> B = userList;
+    	    
+    	    return true; 		
+
+    	} catch(Exception e){
+    		throw new Exception(e); 
+    	}
+      }    
     
     /**
      * テストデータ生成
@@ -179,7 +280,7 @@ public class FormController extends BaseFormPage {
     			new InventoryListDataModel( "21行１列" , 100 , 100 , 100 ,0),
                 new InventoryListDataModel( "22行１列" , 0 , 0 , 0 , 0),
                 new InventoryListDataModel( "23行１列" , 9999 , 9999 , 9999 , 9999 ),
-                new InventoryListDataModel( "24行１列" , 1234 , 1234, 1234 )                
+                new InventoryListDataModel( "24行１列" , 1234 , 1234, 1234 )
     			);                
     }
 }
