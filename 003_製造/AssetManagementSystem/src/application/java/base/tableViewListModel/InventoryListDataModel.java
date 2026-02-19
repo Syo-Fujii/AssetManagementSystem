@@ -16,14 +16,16 @@ import javafx.beans.property.StringProperty;
 public class InventoryListDataModel extends BaseTableViewModel {
 	
 	private IntegerProperty type = new SimpleIntegerProperty(0);
-    private StringProperty itemName;
+    private StringProperty code;
+	private StringProperty itemName;
     private IntegerProperty loanCount = new SimpleIntegerProperty(0);
     private IntegerProperty returnCount = new SimpleIntegerProperty(0);
     private IntegerProperty unknownCount = new SimpleIntegerProperty(0);
     private IntegerProperty totalCount = new SimpleIntegerProperty(0);
- 
+	private StringProperty windowSize;
+    
 	/**
-	 * [分類コード]取得
+	 * [分類種別]取得
 	 * @return type
 	 * @brief [javafx.beans.property] 
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
@@ -33,7 +35,7 @@ public class InventoryListDataModel extends BaseTableViewModel {
 		}
 
 	 /**
-	 * [分類コード]項目設定
+	 * [分類種別]項目設定
 	 * @param type 設定する値
 	 * @brief [javafx.beans.property] 
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
@@ -41,7 +43,26 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	public void setType(Integer type) {
 		this.type.set(type);
 		}	   
-    
+	/**
+	 * [分類コード]取得
+	 * @return type
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
+	public String getCode() {
+		return code.get();
+		}
+
+	 /**
+	 * [分類コード]項目設定
+	 * @param type 設定する値
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
+	public void setCode(String code) {
+		this.code.set(code);
+		}
+	
 	/**
 	 * [名称]取得 
 	 * @return itemName
@@ -142,6 +163,26 @@ public class InventoryListDataModel extends BaseTableViewModel {
 		 this.totalCount.set(cnt);
 		 }
 
+	 /**
+	 * [遷移先画面サイズ設定]取得
+	 * @return windowSizeタイプ
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
+	 public String getWindowSize() {
+		 return windowSize.get();
+		 }
+
+	 /**
+	 * [遷移先画面サイズ設定]項目設定
+	 * @param windowSize 設定する値
+	 * @brief [javafx.beans.property] 
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 */
+	public void setWindowSize(String sizeType) {
+		this.windowSize.set(sizeType);
+		}
+	
 	 
 	 /**
       * コンストラクタ
@@ -153,11 +194,13 @@ public class InventoryListDataModel extends BaseTableViewModel {
       */
 	 public InventoryListDataModel(){
 		 this.type = new SimpleIntegerProperty(0);
+		 this.code = new SimpleStringProperty("");
 		 this.itemName = new SimpleStringProperty("");
 		 this.loanCount = new SimpleIntegerProperty(0);
 		 this.returnCount = new SimpleIntegerProperty(0);
 		 this.unknownCount = new SimpleIntegerProperty(0);
 		 this.totalCount = new SimpleIntegerProperty(0);		 
+		 this.windowSize = new SimpleStringProperty("1");
 	 }
 	 public InventoryListDataModel( String name)
     {

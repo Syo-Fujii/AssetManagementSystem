@@ -138,7 +138,9 @@ public class FormController extends BaseFormPage {
      */
     private void callbackTableSelectedRow(InventoryListDataModel row) {
     	
-    	 System.out.println("選択行 分類コード: " + row.getType());
+    	 System.out.println("選択行 分類種別: " + row.getType() + 
+    			            " 分類コード: " + row.getCode() +
+    			            " 遷移先画面サイズ : [" + row.getWindowSize() + "]");
     	 super.setPage(new Form2());
     }     
 

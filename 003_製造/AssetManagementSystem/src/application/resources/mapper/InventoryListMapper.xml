@@ -5,80 +5,119 @@
 
     <!-- 備品一覧の取得 -->
     <select id="getTableRecords">
-        WITH SUB_TOTAL AS
-        (
-            SELECT 
-                ST.stock_type
-              , SUM(CASE
-                       WHEN (SD.staff_no IS NOT NULL) AND (SD.return_date IS NULL)
-                         THEN 1
-                       ELSE
-                         0
-                      END) AS lending_count  -- 貸出備品の数
-              , SUM(CASE
-                       WHEN SD.staff_no IS NULL AND SD.return_date IS NULL
-                         THEN 1
-                       ELSE
-                         0
-                      END) AS stock_count    -- 在庫備品の数
-              , SUM(CASE
-                       WHEN DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 
-                         THEN 1
-                       ELSE
-                         0
-                      END) AS unknown_count  -- 不明備品の数
-            FROM
-              (SELECT
-                 stock_type
-               FROM
-                 stock_type_master
-               WHERE
-                 1 = 1
-               AND del = FALSE) ST 
-            INNER JOIN 
-              stock_master SM
-             ON ST.stock_type = SM.stock_type 
-            AND SM.del = FALSE 
-            INNER JOIN 
-               stock_data SD
-             ON SM.stock_code = SD.stock_code  
-            AND SD.del = FALSE 
-            WHERE
-             1 = 1
-            GROUP BY
+     <![CDATA[
+       WITH SUB_TOTAL AS
+       (
+           SELECT 
+               ST.stock_type
+             , ST.stock_code
+             , SUM(CASE
+                      WHEN SD.staff_no IS NOT NULL
+                        THEN 1
+                      ELSE
+                        0
+                     END) AS lending_count  -- 貸出備品の数
+             , SUM(CASE
+                      /* 在庫 = [staff_no]：貸出先ユーザーの社員番号 が未設定(NULL) 且つ
+                                [return_date]：返却日が未設定(NULL) 且つ
+                                [confirmed_date]：最終所在確認日 が１年以内 */
+                      WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+                        THEN 1
+                      ELSE
+                        0
+                     END) AS stock_count    -- 在庫備品の数
+             , SUM(CASE
+                       /* 不明 = [staff_no]：貸出先ユーザーの社員番号 が未設定(NULL) 且つ
+                                [return_date]：返却日が未設定(NULL) 且つ
+                                [confirmed_date]：最終所在確認日 が１年前以前 */
+                      WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 )
+                        THEN 1
+                      ELSE
+                        0
+                     END) AS unknown_count  -- 不明備品の数
+           FROM
+             (SELECT
+                  stock_type
+                , stock_code
+              FROM
+                stock_type_master
+              WHERE
+                1 = 1
+              AND del = FALSE) ST 
+           INNER JOIN 
+             stock_master SM
+            ON ST.stock_type = SM.stock_type 
+           AND ST.stock_code = SM.stock_code 
+           AND SM.del = FALSE 
+           /* 未登録データを考慮しLEFT JOINとする */
+           LEFT JOIN 
+              stock_data SD
+            ON SM.serial_no = SD.serial_no
+           /* 返却済データの除去 */
+           AND SD.return_date IS NULL
+           AND SD.del = FALSE 
+           WHERE
+            1 = 1
+           GROUP BY
              ST.stock_type
-         )
-  
-         SELECT
-            ST.stock_type   AS type,
-            ST.name         AS itemName,
-            S.lending_count AS loanCount,
-            S.stock_count   AS returnCount,
-            S.unknown_count AS unknownCount,
-            S.lending_count + S.stock_count AS totalCount
-         FROM
-           stock_type_master ST
-         INNER JOIN
-           SUB_TOTAL S
-          ON ST.stock_type = S.stock_type
-         WHERE
-           1 = 1
-         ORDER BY 
-           ST.stock_type
+           , ST.stock_code
+        )
+         
+        SELECT
+            ST.stock_type                 AS type,
+            ST.stock_code                 AS code,
+            ST.name                       AS itemName,
+            IFNULL(S.lending_count, 0)    AS loanCount,
+            IFNULL(S.stock_count, 0)      AS returnCount,
+            IFNULL(S.unknown_count, 0)    AS unknownCount,
+            IFNULL(S.lending_count + 
+                        S.stock_count, 0) AS totalCount
+            /* 追加項目：遷移先画面サイズ */
+            , IFNULL( GCM.value_1, '1')   AS windowSize
+        FROM
+          stock_type_master ST
+        LEFT JOIN
+          SUB_TOTAL S
+         ON ST.stock_type = S.stock_type
+        AND ST.stock_code = S.stock_code
+       /* 追加項目 遷移先画面サイズ */
+        LEFT JOIN
+          generic_code_master GCM
+         ON CAST(ST.stock_type AS CHAR) = GCM.type_key
+        AND ST.stock_code = GCM.code
+        WHERE
+          1 = 1
+        ORDER BY 
+            ST.stock_type
+          , St.stock_code
+     ]]>
     </select>
 
     <!-- Viwew[equip_list_view]から全データの取得 -->
     <select id="getViewAllRecords">
          SELECT
-             EV.名称 AS itemName,
-             EV.貸出 AS loanCount,
-             EV.在庫 AS returnCount,
-             EV.不明 AS unknownCount,
-             EV.合計 AS totalCount,
+             EV.stock_type AS type,
+             EV.stock_code AS code,
+             EV.名称       AS itemName,
+             EV.貸出       AS loanCount,
+             EV.在庫       AS returnCount,
+             EV.不明       AS unknownCount,
+             EV.合計       AS totalCount,
          FROM
            equip_list_view EV
          WHERE
            1 = 1
+    </select>
+
+    <select id="getWindowSize">
+         SELECT
+           IFNULL( GCM.value_1, '1') AS windowSize
+         FROM
+           generic_code_master GCM
+         WHERE
+           1 = 1
+         AND GCM.type_key = #{type}
+         AND GCM.code = #{code}   
     </select>
 
 </mapper>
