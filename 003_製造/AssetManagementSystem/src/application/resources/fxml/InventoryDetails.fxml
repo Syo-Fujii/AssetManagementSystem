@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<!--<?import application.java.manager.TableViewManager?> -->
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.java.window.inventoryDetails.FormController">
+   <children>
+      <Label id="title" fx:id="lbl_title" layoutX="24.0" layoutY="14.0" prefHeight="58.0" prefWidth="235.0" text="" textAlignment="CENTER">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableListView" layoutX="24.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="505.0" snapToPixel="false">
+        <columns>
+          <TableColumn id="sn" fx:id="col_itemName" editable="false" maxWidth="300.0" minWidth="117.3333683013916" prefWidth="129.33333778381348" resizable="false" text="１２３４５６７８９０" />
+            <TableColumn id="loan" fx:id="col_loanCnt" editable="false" maxWidth="197.99998474121094" minWidth="50.0" prefWidth="186.00001525878906" resizable="false" text="貸出" />
+          <TableColumn id="return" fx:id="col_retCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="返却" />
+            <TableColumn id="unknown" fx:id="col_unknownCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="不明" />
+            <TableColumn id="total" fx:id="col_totalCnt" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" text="合計" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

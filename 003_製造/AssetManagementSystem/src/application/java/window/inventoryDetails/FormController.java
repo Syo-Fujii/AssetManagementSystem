@@ -1,4 +1,4 @@
-package application.java.window.inventoryList;
+package application.java.window.inventoryDetails;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import application.java.base.BaseFormPage;
 import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
+import application.java.common.AppUtil;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.java.window.testNextWindow.Form2;
@@ -21,8 +22,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * 備品一覧画面
- * @brief [inventoryList]画面操作メソッド(Controller)<br>
+ * 備品詳細画面
+ * @brief [inventoryDetails]画面操作メソッド(Controller)<br>
  * <p>
  * TableViewを継承した[TableViewManager](カスタムControl)を用いる場合、
  * 画目デザイン(Screen Builder)では正しく操作できない。<br>
@@ -44,6 +45,10 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<InventoryListDataModel, Integer> col_unknownCnt;
 	@FXML private TableColumn<InventoryListDataModel, Integer> col_totalCnt;
 	
+	private int stockType = 0; 
+	private String stockCode = "";
+	private int windowSizeType = 0;
+
 	
 	/** 
 	 * コンストラクタ
@@ -52,10 +57,26 @@ public class FormController extends BaseFormPage {
 	{
 		this.setWindowTitle("備品管理システム");
 
-		this.setfxmlFilePath("/application/resources/fxml/InventoryList.fxml");
-		this.setCssFile("/application/resources/css/InventoryListStyle.css");
-		this.setPageTitle("備品一覧画面");
+		this.setfxmlFilePath("/application/resources/fxml/InventoryDetails.fxml");
+		this.setCssFile("/application/resources/css/InventoryDetailsStyle.css");
+		this.setPageTitle("備品詳細画面");
 	}
+	public FormController(String type, String code, String windowSize) 
+	{
+		this();
+
+		if(AppUtil.isNumeric(type))
+		{
+			this.stockType = Integer.parseInt(type);
+		} else {
+			
+		}
+		
+		this.stockCode = code;
+		this.windowSizeType = AppUtil.parseInt(windowSize, 1);
+	}
+	
+	
 	
     @FXML
     /**
@@ -65,7 +86,7 @@ public class FormController extends BaseFormPage {
      */
     void initialize() {
  
-    	System.out.println("inventoryList controller initialize");
+    	System.out.println("inventoryDetails controller initialize");
     	
     	if(!tableListView.getIsColumnSettingCompleted()) {
         	// 最初の画面起動として、[SQL Session]を生成・保持する。
