@@ -4,4 +4,7 @@
     <fullyQualifiedTypeName name="javafx.scene.control.TableView"/>
     <fullyQualifiedTypeName name="application.Class.TableViewListModel.InventoryListDataModel"/>
     <fullyQualifiedTypeName name="application.java.manager.MySqlManager"/>
+    <fullyQualifiedTypeName name="application.java.common.AppConst"/>
+    <fullyQualifiedTypeName name="application.java.common.AppConst.WindowSize"/>
+    <fullyQualifiedTypeName name="application.java.window.inventoryDetails.FormController"/>
 </qualifiedTypeNameHistroy>

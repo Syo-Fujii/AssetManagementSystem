@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.InventoryDetailsMapper">
+
+    <!-- 備品詳細の取得 -->
+    <select id="getTableDetailRecords">
+     <![CDATA[
+       WITH BASE_TABLE AS
+       (
+         SELECT
+           DISTINCT
+              SM.serial_no
+            , SD.id
+         FROM
+           stock_type_master STM
+         /* 参照権限を考慮する場合に用いる
+         INNER JOIN 
+           stock_type_data STD
+          ON STM.stock_type = STD.stock_type
+         AND STM.stock_code = STD.stock_code*/ 
+         INNER JOIN 
+           stock_master SM
+          ON STM.stock_type = SM.stock_type 
+         AND STM.stock_code = SM.stock_code
+         AND STM.del = FALSE 
+         AND SM.del = FALSE 
+
+         /* 未登録データを考慮しLEFT JOINとする */
+         LEFT JOIN
+           stock_data SD
+          ON SM.serial_no = SD.serial_no 
+           /* 返却済データの除去 ≒ 最新の備品データを取得 */
+         AND SD.return_date IS NULL
+         AND SD.del = FALSE
+         WHERE
+            1 = 1
+         AND STM.stock_type = #{type}
+         AND STM.stock_code = #{code}  
+       )
+
+       SELECT
+             STM.name              AS type_name 
+           , SM.serial_no          AS serialNo
+           , IFNULL(STF.name, '')  AS staffName        -- 貸出先ユーザー
+           , CASE 
+               WHEN SM.rent_flg
+                   THEN '不可'                        -- 貸出可否(TRUEの場合、貸出不可)
+               WHEN SD.staff_no IS NOT NULL 
+                   THEN '貸出中' 
+               WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+                   THEN '可' 
+               WHEN SD.staff_no IS NULL AND DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
+                   THEN '不明'                        -- [confirmed_date]：最終所在確認日 が１年前以前
+               ELSE  
+                   '不可'                             -- 備品データが未登録の場合など、異常なデータ
+             END AS rentFlg
+           , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '-') AS startDate
+           , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '-') AS limitDate
+           , IFNULL(DATE_FORMAT(SD.confirmed_date, '%Y/%m/%d'), '-') AS confirmedDate
+           , SM.name AS model
+           , SM.maker AS maker
+           , IFNULL(SD.parent_stock_code, '-') AS destinationSerialNo  -- 親シリアルナンバー
+           , GCM.value_1 AS type
+           , IFNULL(DATE_FORMAT(SM.expiry_date, '%Y/%m/%d'), '-') AS leaseDate
+           , SM.remarks AS remarks
+           , SM.stock_type
+           , SM.stock_code 
+           , SD.id AS stack_data_id
+           , SD.staff_no AS staff_no
+       FROM
+         BASE_TABLE B
+       INNER JOIN 
+         stock_master SM
+        ON B.serial_no = SM.serial_no 
+       INNER JOIN
+          stock_type_master STM
+        ON SM.stock_type = STM.stock_type   
+       AND SM.stock_code = STM.stock_code
+
+       /* 未登録データを考慮しLEFT JOINとする */
+       LEFT JOIN
+         stock_data SD
+        ON B.id = SD.id 
+
+       /* 未登録データを考慮しLEFT JOINとする */
+       LEFT JOIN
+         staff_data STF 
+        ON SD.staff_no = STF.staff_no 
+
+       /* 未登録データを考慮しLEFT JOINとする */
+       LEFT JOIN
+         generic_code_master GCM 
+        ON SM.asset_type = GCM.type_key 
+       AND GCM.generic_key = 'ASSET_TYPE'
+
+       WHERE
+         1 = 1
+       ORDER BY
+        SM.serial_no
+     ]]>
+    </select>
+
+    <!-- Viwew[equip_list_view]から全データの取得 -->
+    <select id="getViewAllRecords">
+         SELECT
+             EV.stock_type AS type,
+             EV.stock_code AS code,
+             EV.名称       AS itemName,
+             EV.貸出       AS loanCount,
+             EV.在庫       AS returnCount,
+             EV.不明       AS unknownCount,
+             EV.合計       AS totalCount,
+         FROM
+           equip_list_view EV
+         WHERE
+           1 = 1
+    </select>
+
+    <select id="getWindowSize">
+         SELECT
+           IFNULL( GCM.value_1, '1') AS windowSize
+         FROM
+           generic_code_master GCM
+         WHERE
+           1 = 1
+         AND GCM.type_key = #{type}
+         AND GCM.code = #{code}   
+    </select>
+
+</mapper>

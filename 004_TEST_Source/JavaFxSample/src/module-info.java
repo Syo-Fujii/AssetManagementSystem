@@ -12,7 +12,6 @@ module JavaFxSample {
     exports application; 
     
 	opens application to org.mybatis, javafx.graphics, javafx.fxml;
-	opens application.mapper to org.mybatis;
 	opens application.entity to org.mybatis;
 	
 }

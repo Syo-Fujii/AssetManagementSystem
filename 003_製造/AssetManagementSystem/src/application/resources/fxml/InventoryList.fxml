@@ -7,7 +7,8 @@
 <?import javafx.scene.text.Font?>
 <?import application.java.manager.TableViewManager?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.java.window.inventoryList.FormController">
+<!-- Java内でインスタンス化したクラスを設定する場合は、fxタグ:fx:controller="application.java.window.inventoryList.FormController"を指定しない -->
+<AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label id="title" fx:id="lbl_title" layoutX="24.0" layoutY="14.0" prefHeight="58.0" prefWidth="235.0" text="" textAlignment="CENTER">
          <font>
@@ -16,11 +17,11 @@
       </Label>
       <TableViewManager fx:id="tableListView" layoutX="24.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="505.0" snapToPixel="false">
         <columns>
-          <TableColumn id="item" fx:id="col_itemName" editable="false" maxWidth="300.0" minWidth="250.0" prefWidth="265.0" resizable="false" text="名称" />
-            <TableColumn id="loan" fx:id="col_loanCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="貸出" />
-          <TableColumn id="return" fx:id="col_retCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="返却" />
-            <TableColumn id="unknown" fx:id="col_unknownCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="不明" />
-            <TableColumn id="total" fx:id="col_totalCnt" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" text="合計" />
+           <TableColumn id="item" fx:id="col_itemName" editable="false" maxWidth="300.0" minWidth="250.0" prefWidth="265.0" resizable="false" text="名称" />
+           <TableColumn id="loan" fx:id="col_loanCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="貸出" />
+           <TableColumn id="return" fx:id="col_retCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="返却" />
+           <TableColumn id="unknown" fx:id="col_unknownCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="不明" />
+           <TableColumn id="total" fx:id="col_totalCnt" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" text="合計" />
         </columns>
       </TableViewManager>
    </children>

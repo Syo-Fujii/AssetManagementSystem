@@ -234,6 +234,7 @@ public class MySqlManager {
 	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
 	 */
+	@SuppressWarnings("unused")
 	public static void ExcuteQueryOnParallel(
 			Function<SqlSession, Boolean> callback, 
 			Consumer<Boolean> successCallBack,
@@ -301,6 +302,7 @@ public class MySqlManager {
 	 * @param successCallBack DB取得時の処理(呼び出し元で定義 引数:テーブルMODELのリスト)
 	 * @param exceptionCallback 例外時の処理(呼び出し元で定義 引数: Throwableクラス)
 	 */
+	@SuppressWarnings("unused")
 	public static <T extends BaseTableViewModel> void FillTableViewOnParallel( 
 			Function<SqlSession, List<T>> callback, 
 			Consumer<List<T>> successCallBack,
@@ -317,7 +319,7 @@ public class MySqlManager {
 		    protected List<T> call() throws Exception {
 	            try {
 	                runningTasks.add(this);
-	                return MySqlManager.Fill(callback);
+	                return MySqlManager.<T>Fill(callback);
 	            } finally {
 	                runningTasks.remove(this); // 終了時に必ず削除(this = Task)
 	            }
@@ -328,7 +330,7 @@ public class MySqlManager {
 		task.setOnSucceeded(event -> {
 			// 成功時：
 			System.out.println("MySQL : 非同期処終了[成功]");
-			successCallBack.accept(task.getValue());
+			successCallBack.accept((List<T>)task.getValue());
 		});
 
 		task.setOnFailed(event -> {
@@ -340,7 +342,7 @@ public class MySqlManager {
 		// --- 3. 実行 ---
 		executor.execute(task); 
 	}
-
+	
 	/**
 	 * MySqlManager 終了処理
 	 */

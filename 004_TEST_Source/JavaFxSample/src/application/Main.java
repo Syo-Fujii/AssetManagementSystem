@@ -1,14 +1,5 @@
 package application;
 	
-import java.io.InputStream;
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import application.entity.StockTypeMaster;
-import application.mapper.IMySqlMapper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -135,7 +126,7 @@ public class Main extends Application {
 		    List<StockTypeMaster> B = userList;
 		    // JavaFXのListViewなどに反映（UIスレッドで実行）
 		    }*/
-	        
+	        /*
 	        // 4 HikariCP + mybatis-config記述----------------------------------------------
 			String resource = "mybatis-config_add-hikaricp.xml";
 	        
@@ -161,7 +152,7 @@ public class Main extends Application {
 		    
 		    List<StockTypeMaster> B = userList;
 		    // JavaFXのListViewなどに反映（UIスレッドで実行）
-		    }					
+		    }*/
 			
 			
 			/* 画面ファイル(FXML)の呼び出し

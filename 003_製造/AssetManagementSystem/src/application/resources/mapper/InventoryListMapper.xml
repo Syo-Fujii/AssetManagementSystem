@@ -76,7 +76,7 @@
             , IFNULL( GCM.value_1, '1')   AS windowSize
         FROM
           stock_type_master ST
-        LEFT JOIN
+        INNER JOIN
           SUB_TOTAL S
          ON ST.stock_type = S.stock_type
         AND ST.stock_code = S.stock_code
@@ -85,6 +85,7 @@
           generic_code_master GCM
          ON CAST(ST.stock_type AS CHAR) = GCM.type_key
         AND ST.stock_code = GCM.code
+        AND GCM.generic_key = 'WINDOW_SIZE'
         WHERE
           1 = 1
         ORDER BY 

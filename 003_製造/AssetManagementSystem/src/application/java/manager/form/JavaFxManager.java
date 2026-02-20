@@ -27,11 +27,14 @@ import javafx.stage.WindowEvent;
  */
 public class JavaFxManager extends Application{
 
-	/* JavaFx操作アプリ(Main) */
+	/** JavaFx操作アプリ(Main) */
 	public static JavaFxManager application;
 	
-	/* アプリケーションWindow(起動時に1つ自動生成される window枠 基底コンテナ) */
+	/** アプリケーションWindow(起動時に1つ自動生成される window枠 基底コンテナ) */
 	public static Stage stage;
+
+	/** 中身(scene)のサイズに合わせてウィンドウ枠を変更するか */
+	public static Boolean isSizeToScene = true;
 	
 	@Override
 	/**
@@ -48,10 +51,15 @@ public class JavaFxManager extends Application{
 	* @param　fxml 遷移先画面のfxml
 	* @param　params 遷移先画面用パラメータ
 	* @brief 表示枠(Stage)にコンテンツ内容(Scene)を設定・表示する。<br>
-	* BasePage を継承した Controller は遷移先画面の class と fxml名、任意に渡すパラメータで遷移を実行する。
+	* BasePage を継承した Controller は遷移先画面の class と fxml名、任意に渡すパラメータで遷移を実行する。<br>
+	* インスタンス化したController を引数で用いる場合はfxmlファイルの
+	* [fx:controller="application.java.window.inventoryList.FormController"]を記述せず<br>
+	* メソッド内で[loader.setController(cls);]を設定する。
 	*/
 	public void setPage(BaseFormPage cls, Object...params) throws Exception{
 		FXMLLoader loader = new FXMLLoader();
+		
+		loader.setController(cls);
 		
 		Parent root = (Parent)loader.load(cls.getClass().getResourceAsStream(cls.getfxmlFilePath()));
 		
@@ -99,6 +107,12 @@ public class JavaFxManager extends Application{
 		cls.loadParameter(params);
 		
 		stage.setScene(scene);
+		
+		if (isSizeToScene)
+		{
+			// 中身(scene)のサイズに合わせてウィンドウ枠をフィットさせる
+			stage.sizeToScene();
+		}
 		
 		System.out.println("setPage:" + cls.getPageTitle());
 		stage.show();

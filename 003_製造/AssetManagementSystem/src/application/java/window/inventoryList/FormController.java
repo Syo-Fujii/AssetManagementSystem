@@ -7,9 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import application.java.base.BaseFormPage;
 import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
+import application.java.common.AppUtil;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
-import application.java.window.testNextWindow.Form2;
 import application.resources.mapper.InventoryListMapper;
 import application.resources.mapper.StockTypeMasterMapper;
 import javafx.collections.FXCollections;
@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * 備品一覧画面
@@ -34,6 +35,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * ※ [TableViewManager]を用いても、Build・動作は正常におこなわれる。
  */
 public class FormController extends BaseFormPage {
+	
+	@FXML private AnchorPane pane_form;
 	
 	@FXML private Label lbl_title;
 
@@ -52,8 +55,9 @@ public class FormController extends BaseFormPage {
 	{
 		this.setWindowTitle("備品管理システム");
 
-		this.setfxmlFilePath("/application/resources/fxml/InventoryList.fxml");
-		this.setCssFile("/application/resources/css/InventoryListStyle.css");
+		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryList"));
+		this.setCssFile(AppUtil.MakeCssFilePath("InventoryListStyle"));		
+
 		this.setPageTitle("備品一覧画面");
 	}
 	
@@ -139,7 +143,10 @@ public class FormController extends BaseFormPage {
     	 System.out.println("選択行 分類種別: " + row.getType() + 
     			            " 分類コード: " + row.getCode() +
     			            " 遷移先画面サイズ : [" + row.getWindowSize() + "]");
-    	 super.setPage(new Form2());
+    	 super.setPage(new application.
+    			 java.window.
+    			 inventoryDetails.
+    			 FormController(row.getType(), row.getCode(), row.getWindowSize()));
     }     
 
     /**

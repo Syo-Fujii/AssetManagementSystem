@@ -144,8 +144,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 */
 	public TableViewManager() {
         super();
-
-        System.out.println("TableViewManager New");
+        // System.out.println("TableViewManager New");
 	}
 	
 	/**
@@ -224,7 +223,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		
 		this.setItems( observableListData );
 	}
-	
+
 	/**
 	 * 行選択(１行)Event
 	 * @param lostCallback 選択が抜けた行に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
@@ -295,6 +294,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 				{
 					for (Object obj : change.getList()) 
 					{
+						@SuppressWarnings("unchecked")
 						TablePosition<T, ?> pos = (TablePosition<T, ?>) obj;
 						
 						// 選択行・列の情報を取得

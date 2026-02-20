@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import application.java.manager.TableViewManager?>
 
-<!--<?import application.java.manager.TableViewManager?> -->
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.java.window.inventoryDetails.FormController">
+<!-- Java内でインスタンス化したクラスを設定する場合は、fxタグ:fx:controller="application.java.window.inventoryList.FormController"を指定しない -->
+<AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label id="title" fx:id="lbl_title" layoutX="24.0" layoutY="14.0" prefHeight="58.0" prefWidth="235.0" text="" textAlignment="CENTER">
+      <Label id="title" fx:id="lbl_title" layoutX="25.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="240.0" text="タイトル" textAlignment="CENTER">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <TableView fx:id="tableListView" layoutX="24.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="505.0" snapToPixel="false">
+      <Label id="stock_name" fx:id="lbl_stock_name" layoutX="25.0" layoutY="85.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="855.0" text="備品分類名称1" textAlignment="CENTER">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <TableViewManager fx:id="tableListView" layoutX="25.0" layoutY="144.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="1500.0" snapToPixel="false" AnchorPane.leftAnchor="25.0">
         <columns>
-          <TableColumn id="sn" fx:id="col_itemName" editable="false" maxWidth="300.0" minWidth="117.3333683013916" prefWidth="129.33333778381348" resizable="false" text="１２３４５６７８９０" />
-            <TableColumn id="loan" fx:id="col_loanCnt" editable="false" maxWidth="197.99998474121094" minWidth="50.0" prefWidth="186.00001525878906" resizable="false" text="貸出" />
-          <TableColumn id="return" fx:id="col_retCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="返却" />
-            <TableColumn id="unknown" fx:id="col_unknownCnt" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="不明" />
-            <TableColumn id="total" fx:id="col_totalCnt" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" text="合計" />
+           <TableColumn id="serial" fx:id="col_serial" editable="false" maxWidth="300.0" minWidth="-Infinity" prefWidth="150.0" text="シリアルナンバー" />
+           <TableColumn id="staff_name" fx:id="col_staff_name" editable="false" maxWidth="600.0" minWidth="-Infinity" prefWidth="100.0" text="使用者" />
+           <TableColumn id="rent_flg" fx:id="col_rent_flg" editable="false" maxWidth="211.0" minWidth="0.0" prefWidth="62.0" resizable="false" text="貸出可否" />
+           <TableColumn id="start_date" fx:id="col_start_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="貸出開始日" />
+           <TableColumn id="limit_date" fx:id="col_limit_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="返却予定日" />
+           <TableColumn id="confirmed_date" fx:id="col_confirmed_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="最終所在確認日" />
+           <TableColumn id="model" fx:id="col_model" editable="false" maxWidth="1500.0" minWidth="-Infinity" prefWidth="150.0" text="製品名" />
+           <TableColumn id="maker" fx:id="col_maker" editable="false" maxWidth="1500.0" minWidth="-Infinity" prefWidth="150.0" text="メーカー" />
+           <TableColumn id="destination_serial_no" fx:id="col_destination_serial_no" editable="false" maxWidth="300.0" minWidth="-Infinity" prefWidth="150.0" text="接続先PCシリアルナンバー" />
+           <TableColumn id="type" fx:id="col_type" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="分類" />
+           <TableColumn id="lease_date" fx:id="col_lease_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="リース返却予定日" />
+           <TableColumn id="remarks" fx:id="col_remarks" editable="false" maxWidth="259.0" minWidth="-Infinity" prefWidth="245.0" text="備考" />
         </columns>
-      </TableView>
+      </TableViewManager>
+      <Button id="return" fx:id="return_button" layoutX="1247.0" layoutY="580.0" mnemonicParsing="false" onAction="#onReturnButtonClicked" prefHeight="37.0" prefWidth="128.0" text="一覧に戻る" AnchorPane.rightAnchor="25.0" />
    </children>
 </AnchorPane>

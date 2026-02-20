@@ -40,4 +40,22 @@ public class AppUtil {
             return false;
         }
     }    
+
+    /**
+     * ファイル名からFXMLファイルPATHを生成する
+     * @param filename 
+     * @return ファイルパス
+     */
+    public static String MakeFxmlFilePath(String filename) {
+    	return AppConst.FXML_PATH +  filename + ".fxml";
+    }
+
+    /**
+     * ファイル名からCSSファイルPATHを生成する
+     * @param filename 
+     * @return ファイルパス
+     */
+    public static String MakeCssFilePath(String filename) {
+    	return AppConst.CSS_PATH +  filename + ".css";
+    }
 }
