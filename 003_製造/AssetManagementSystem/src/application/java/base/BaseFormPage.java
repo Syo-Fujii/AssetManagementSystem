@@ -1,9 +1,17 @@
 package application.java.base;
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
+import javafx.scene.control.Alert;
 
 /** 画面生成基底クラス(Controller基底クラス) 
  *  画面設定(Controller)に対するクラス
+ *  DB操作については、MySqlManagerの各メソッド・機能をstaticにて定義しているので
+ *  継承[ extends]しない。
  */
 public abstract class BaseFormPage {
 	private Integer windowWidth = null;
@@ -142,4 +150,85 @@ public abstract class BaseFormPage {
 	 */
 	public void loadParameter(Object[] params){
 	}
+
+	
+    /**
+     * DB取得処理(非同期処理)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @brief controller内で用いる取得(Fill)処理<br>
+     * 画面内にTableViewなどのDB取得を要するメソッド(処理)がある場合に用いる。<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	protected final <T extends BaseTableViewModel> void fillTableAsync()
+    {
+    	MySqlManager.<T>FillOnParallel(
+    			(SqlSession session) -> {
+					try {
+						return excuteSelectQuery(session);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}},
+    			listData -> { successResult( listData ); },
+    			exception -> { exceptionResult( exception ); });
+    }
+
+    /**
+     * クエリ発行処理(Mapper)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param session SQLセッション
+     * @return List<T> 取得結果(行データ:T のList)
+     * @brief controller内で用いるクエリ発行処理<br>
+     * 画面内にTableViewなどのDB取得を要するメソッド(処理)がある場合に用いる。<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。<br>
+     * 例：<br>
+     * 		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);<br>
+     *      // 備品詳細データ取得<br>
+     *      return mapper.getTableDetailRecords(this.stockType, this.stockCode);<br>
+     */
+	protected <T extends BaseTableViewModel> List<T> excuteMapperFunction(SqlSession session) {
+		return null;
+    }
+
+    /**
+     * DB取得成功時の処理(非同期処理)
+     * @brief controller内で用いる取得成功時の処理<br>
+     * 画面内にTableViewなどのDB取得を要するメソッド(処理)がある場合に用いる。<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	protected <T extends BaseTableViewModel> void successResult(List<T> listData){
+    }
+	
+    /**
+     * DB取得失敗(例外発生)時の処理(非同期処理)
+     * @brief controller内で用いる取得例外処理<br>
+     * 画面内にTableViewなどのDB取得を要するメソッド(処理)がある場合に用いる。<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	protected void exceptionResult(Throwable exception)
+    {
+		System.err.println(exception.getMessage());
+        // JavaFXのアラートを表示
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("データベースエラー");
+        alert.setHeaderText("データの取得に失敗しました");
+        alert.setContentText(exception.getCause() != null ? 
+                             exception.getCause().getMessage() : exception.getMessage());
+        alert.showAndWait();  
+    }		
+	
+    /**
+     * DBクエリ発行処理
+     * @param session　DBセッション
+     * @throws Exception 例外処理
+     */
+    private <T extends BaseTableViewModel> List<T> excuteSelectQuery(SqlSession session) throws Exception
+    {
+    	try {
+    		// クエリ発行(Mapperにて発行)
+    		return excuteMapperFunction(session);
+
+    	} catch(Exception e){
+    		throw new Exception(e); 
+    	}
+      }
 }

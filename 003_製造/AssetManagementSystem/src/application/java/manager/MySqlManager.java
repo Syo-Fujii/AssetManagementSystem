@@ -303,7 +303,7 @@ public class MySqlManager {
 	 * @param exceptionCallback 例外時の処理(呼び出し元で定義 引数: Throwableクラス)
 	 */
 	@SuppressWarnings("unused")
-	public static <T extends BaseTableViewModel> void FillTableViewOnParallel( 
+	public static <T extends BaseTableViewModel> void FillOnParallel( 
 			Function<SqlSession, List<T>> callback, 
 			Consumer<List<T>> successCallBack,
 			Consumer<Throwable> exceptionCallback) {

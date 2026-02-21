@@ -126,12 +126,12 @@ public class JavaFxManager extends Application{
      * Window(Stage)の呼び出しは初回(primaryStage start)のみのため、１回しか呼び出されない
 	 */
 	private void FormShown(BaseFormPage cls){
+		// System.out.println("FormShown");
+		
 		// Windowタイトルの定義
 		stage.setTitle(cls.getWindowTitle());
 
 	    // ウィンドウサイズを固定（最大化ボタンも無効になります）
 	    stage.setResizable(false);	
-		
-		System.out.println("FormShown");
 	}
 }

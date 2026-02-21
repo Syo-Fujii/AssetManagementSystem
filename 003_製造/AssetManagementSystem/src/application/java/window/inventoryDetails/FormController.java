@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
+import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppUtil;
@@ -12,7 +13,6 @@ import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -53,6 +53,7 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<InventoryDetailsDataModel, String> col_lease_date;
 	@FXML private TableColumn<InventoryDetailsDataModel, String> col_remarks;
 	
+	@FXML private Button inventoryCounting_button;
 	@FXML private Button return_button;
 	
 	private Integer stockType = 0; 
@@ -100,16 +101,65 @@ public class FormController extends BaseFormPage {
 		// 画面起動設定
 		this.formInitialize();
     	
-    	this.ShowInventoryDetails();
+    	System.out.println("備品詳細 リスト表示処理");
+    	super.<InventoryDetailsDataModel>fillTableAsync();
+
     }	
- 
+
+    @FXML
+    public void onCountingButtonClicked() {
+
+
+    }
+    
     @FXML
     public void onReturnButtonClicked() {
 
     	// 遷移元画面に切替
     	super.setPage(new application.java.window.inventoryList.FormController());
-    }	   
-      
+    }
+
+    @SuppressWarnings("unchecked")
+	@Override
+	/**
+     * クエリ発行処理(Mapper)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param session SQLセッション
+     * @return List<T> 取得結果(行データ:T のList)
+     * @brief controller内で用いるクエリ発行処理<br>
+	 */
+    protected <T extends BaseTableViewModel> List<T> excuteMapperFunction(SqlSession session) {
+		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
+	    
+	    // 備品詳細データ取得
+	    return (List<T>) mapper.getTableDetailRecords(this.stockType, this.stockCode);
+    }
+
+    @SuppressWarnings("unchecked")
+	@Override
+	/**
+     * DB取得成功時の処理(非同期処理)
+     * @brief controller内で用いる取得成功時の処理<br>
+	 */
+    protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
+		tableListView.setList( (List<InventoryDetailsDataModel>)listData );
+		
+		if (listData != null && listData.size() >= 0) {
+			lbl_stock_name.setText(((InventoryDetailsDataModel)listData.getFirst()).getTypeName());
+		}
+    }
+    
+	@Override
+    /**
+     * DB取得失敗(例外発生)時の処理(非同期処理)
+     * @brief controller内で用いる取得例外処理>
+     */
+	protected void exceptionResult(Throwable exception)
+    {
+		System.err.println("備品詳細データ取得失敗");
+		super.exceptionResult(exception);
+    }
+    
     /**
      * TableView設定
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
@@ -211,9 +261,8 @@ public class FormController extends BaseFormPage {
      * TableView 行選択イベント
      */
     private void callbackTableSelectedRow(InventoryDetailsDataModel row) {
-    	
     	 System.out.println("選択行 シリアルNo: [ " + row.getSerialNo() + " ]");
-    }     
+    }
 
     /**
      * 画面初期設定
@@ -250,59 +299,4 @@ public class FormController extends BaseFormPage {
     		return;
     	}
     }  
-    
-    /**
-     * 備品詳細 リスト表示処理
-     */
-    private void ShowInventoryDetails()
-    {
-    	System.out.println("備品詳細 リスト表示処理");
-    	
-    	MySqlManager.<InventoryDetailsDataModel>FillTableViewOnParallel(
-    			(SqlSession session) -> {
-					try {
-						return this.getInventoryDetailsData(session);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-				},
-    			listData -> { 
-    				tableListView.setList( listData );
-    				
-    				if (listData != null && listData.size() >= 0) {
-        				lbl_stock_name.setText(listData.getFirst().getTypeName());
-    				}
-    			},
-    			exception -> {
-    				System.err.println("備品一覧データ取得失敗");
-    				System.err.println(exception.getMessage());
-    	            // JavaFXのアラートを表示
-    	            Alert alert = new Alert(Alert.AlertType.ERROR);
-    	            alert.setTitle("データベースエラー");
-    	            alert.setHeaderText("データの取得に失敗しました");
-    	            alert.setContentText(exception.getCause() != null ? 
-    	                                 exception.getCause().getMessage() : exception.getMessage());
-    	            alert.showAndWait();     				
-    			}
-    			); 
-    }
-
-    /**
-     * DBクエリ発行処理
-     * @param session　DBセッション
-     * @throws Exception 例外処理
-     */
-    private List<InventoryDetailsDataModel> getInventoryDetailsData(SqlSession session) throws Exception
-    {
-    	try {
-    		
-    		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
-    	    
-    	    // 備品一覧データ取得
-    	    return mapper.getTableDetailRecords(this.stockType, this.stockCode);
-
-    	} catch(Exception e){
-    		throw new Exception(e); 
-    	}
-      }     
 }
