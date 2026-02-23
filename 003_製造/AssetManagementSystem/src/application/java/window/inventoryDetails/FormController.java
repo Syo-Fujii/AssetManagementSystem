@@ -1,6 +1,7 @@
 package application.java.window.inventoryDetails;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -9,11 +10,15 @@ import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppUtil;
+import application.java.common.MessageBox;
+import application.java.common.MessageBox.ShowButtonType;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -107,12 +112,44 @@ public class FormController extends BaseFormPage {
     }	
 
     @FXML
+    /**
+     * [所在確認]ボタン 押下イベント
+     */
     public void onCountingButtonClicked() {
+    	
+    	// 選択行取得
+    	InventoryDetailsDataModel row = tableListView.
+    			getSelectionModel().
+    			getSelectedItem();
 
+    	if (row == null) {
+    	    // なにもしない
+    	    return;
+    	} 
 
+    	// 選択されている場合の処理
+    	System.out.println("選択されたシリアル番号: " + row.getSerialNo());
+    	
+    	Optional<ButtonType> result = MessageBox.Show(
+    			Alert.AlertType.CONFIRMATION,
+    			ShowButtonType.YES_NO,
+    			"確認",
+    			"削除の確認",
+    			"選択した備品を削除してもよろしいですか？");
+
+    	if (result.isPresent() && result.get() == ButtonType.OK) {
+    	    // 「OK」が押された時の処理
+    	    System.out.println("削除を実行します");
+    	} else {
+    	    // 「キャンセル」や「×」が押された時の処理
+    	    System.out.println("キャンセルされました");
+    	}    	
     }
     
     @FXML
+    /**
+     * [一覧に戻る]ボタン 押下イベント 
+     */
     public void onReturnButtonClicked() {
 
     	// 遷移元画面に切替
