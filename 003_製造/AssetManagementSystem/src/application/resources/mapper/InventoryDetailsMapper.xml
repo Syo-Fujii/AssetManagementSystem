@@ -66,7 +66,7 @@
            , SM.remarks AS remarks
            , SM.stock_type
            , SM.stock_code 
-           , SD.id AS stack_data_id
+           , SD.id AS stockDataId
            , SD.staff_no AS staff_no
        FROM
          BASE_TABLE B
@@ -101,20 +101,54 @@
      ]]>
     </select>
 
-    <!-- Viwew[equip_list_view]から全データの取得 -->
+    <!-- 備品データの最終所在確認日更新 -->
+    <update id="updConfirmedDate" parameterType="application.java.base.tableViewListModel.InventoryDetailsDataModel">
+       UPDATE stock_data
+        SET
+          confirmed_date = STR_TO_DATE( #{confirmedDate}, '%Y-%m-%d')
+       WHERE
+          id = #{stockDataId}
+    </update>
+
+    <!-- Viwew[equip_detail_view]から全データの取得 -->
     <select id="getViewAllRecords">
-         SELECT
-             EV.stock_type AS type,
-             EV.stock_code AS code,
-             EV.名称       AS itemName,
-             EV.貸出       AS loanCount,
-             EV.在庫       AS returnCount,
-             EV.不明       AS unknownCount,
-             EV.合計       AS totalCount,
-         FROM
-           equip_list_view EV
-         WHERE
-           1 = 1
+       SELECT
+          EDV.シリアルナンバー         AS serialNo,
+          EDV.使用者                   AS staffName,
+          EDV.貸出可否                 AS rentFlg,
+          EDV.貸出開始日               AS startDate,
+          EDV.返却予定日               AS limitDate,
+          EDV.最終所在確認日           AS confirmedDate,
+          EDV.製品名                   AS model,
+          EDV.メーカー                 AS maker,
+          EDV.接続先PCシリアルナンバー AS destinationSerialNo,
+          EDV.分類                     AS totalCount,
+          EDV.リース返却予定日         AS totalCount,
+          EDV.備考                     AS totalCount,
+          EDV.stock_type,
+          EDV.stock_code, 
+          EDV.id AS stockDataId,
+          EDV.社員番号                 AS staff_no
+       FROM
+           equip_detail_view EDV
+       WHERE
+         1 = 1
+       AND EDV.stock_type = #{type}
+       AND EDV.stock_code = #{code}
+       ORDER BY
+        EDM.シリアルナンバー
+           
+    </select>
+
+    <select id="getStockTypeName">
+      SELECT
+        STM.name
+       FROM
+         stock_type_master STM
+       WHERE
+         1 = 1
+       AND STM.stock_type = #{type}
+       AND STM.stock_code = #{code} 
     </select>
 
     <select id="getWindowSize">

@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import application.java.common.MessageBox;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
-import javafx.scene.control.Alert;
 
 /** 画面生成基底クラス(Controller基底クラス) 
  *  画面設定(Controller)に対するクラス
@@ -169,8 +169,29 @@ public abstract class BaseFormPage {
 						throw new RuntimeException(e);
 					}},
     			listData -> { successResult( listData ); },
-    			exception -> { exceptionResult( exception ); });
-    }
+    			exception -> { exceptionResult( exception ); });}
+
+    /**
+     * DB操作処理(同期処理)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
+     * @return DB操作結果
+     * @brief controller内で用いるDB操作(INS・UPD・DEL)処理<br>
+     * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
+     * トランザクション内に複数のクエリを発行する場合は[excuteCudMapperFunction]内で複数のMapperを呼出す<br>
+     * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	protected final <T extends BaseTableViewModel> Boolean excuteCudQuery(
+			List<T> listData) throws Exception
+    {
+    	return MySqlManager.ExecuteQuery_UseTransaction(
+    			(SqlSession session, List<T> data) -> {
+    				try {
+    					return CudQueryUseTran(session, data);
+    				} catch (Exception e) {
+     					throw new RuntimeException(e);
+     					}}, listData);}
 
     /**
      * クエリ発行処理(Mapper)
@@ -188,7 +209,7 @@ public abstract class BaseFormPage {
 	protected <T extends BaseTableViewModel> List<T> excuteMapperFunction(SqlSession session) {
 		return null;
     }
-
+	
     /**
      * DB取得成功時の処理(非同期処理)
      * @brief controller内で用いる取得成功時の処理<br>
@@ -207,18 +228,36 @@ public abstract class BaseFormPage {
 	protected void exceptionResult(Throwable exception)
     {
 		System.err.println(exception.getMessage());
-        // JavaFXのアラートを表示
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("データベースエラー");
-        alert.setHeaderText("データの取得に失敗しました");
-        alert.setContentText(exception.getCause() != null ? 
-                             exception.getCause().getMessage() : exception.getMessage());
-        alert.showAndWait();  
+        
+		// JavaFXのアラートを表示
+        MessageBox.ShowErrorDbException(exception, "データの取得に失敗しました");
     }		
+
+    /**
+     * DB操作クエリ発行処理(Mapper)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param session SQLセッション
+     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
+     * @return DB操作結果
+     * @brief controller内で用いるクエリ(INS・UPD・DEL)発行処理<br>
+     * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
+     * 当該メソッド内がトランザクションの範囲とし、複数のクエリを発行する場合は、対応した複数のMapperを呼出す。<br>
+     * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>    
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。<br>
+     * 例：<br>
+     *     // 連続更新<br>
+     *     mapper.updateA(data1);<br>
+     *     mapper.updateB(data2);<br>
+     */
+	protected <T extends BaseTableViewModel> Boolean excuteCudMapperFunction(SqlSession session, List<T> listData) {
+		return true;
+    }
 	
     /**
      * DBクエリ発行処理
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session　DBセッション
+       * @return List<T> 取得結果(行データ:T のList)
      * @throws Exception 例外処理
      */
     private <T extends BaseTableViewModel> List<T> excuteSelectQuery(SqlSession session) throws Exception
@@ -231,4 +270,23 @@ public abstract class BaseFormPage {
     		throw new Exception(e); 
     	}
       }
+    
+    /**
+     * DBクエリ(INS・UPD・DEL/トランザクション使用)発行処理
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param session DBセッション
+     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
+     * @throws Exception 例外処理
+     */
+    private <T extends BaseTableViewModel> Boolean CudQueryUseTran(SqlSession session, List<T> listData) throws Exception
+    {
+    	try {
+    		// クエリ発行(Mapperにて発行)
+    		return excuteCudMapperFunction(session, listData);
+
+    	} catch(Exception e){
+    		throw new Exception(e); 
+    	}
+      } 
+    
 }

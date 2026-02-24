@@ -58,4 +58,35 @@ public class AppUtil {
     public static String MakeCssFilePath(String filename) {
     	return AppConst.CSS_PATH +  filename + ".css";
     }
+    
+    /**
+     * 改行コード
+     * @return 改行コード
+     */
+    public static String newLine() {
+    	return System.lineSeparator();
+    }
+ 
+    /**
+     * 文字列 NULL・空文字判定
+     * @param value 対象の値(String型)
+     * @return 判定結果
+     */
+    public static boolean StringIsNullOrEmpty(String value) {
+        if (value == null || value.isEmpty()) return true;
+            return false;
+    }       
+    
+    /**
+     * 文字列 NULL・空文字・BLANK判定  
+    
+    /**
+     * 数値(Integer) NULL判定
+     * @param value 対象の値(Integer型)
+     * @return 判定結果
+     */
+    public static boolean IsNull(Integer value) {
+        if (value == null) return true;
+            return false;
+    }       
 }

@@ -1,6 +1,8 @@
 package application.java.base.tableViewListModel;
 
 import application.java.base.BaseTableViewModel;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -25,6 +27,7 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
     private StringProperty type;
 	private StringProperty leaseDate;
     private StringProperty remarks;
+    private IntegerProperty stockDataId;
 
 	/**
 	* [分類名称]取得
@@ -247,7 +250,7 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	}
 
 	/**
-	* [リース返却予定日]項目設定
+	* [リース返却予定日]項目取得
 	* @param leaseDate 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
@@ -267,7 +270,7 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	}
 
 	/**
-	* [備考]項目設定
+	* [備考]項目取得
 	* @param leaseDate 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
@@ -284,6 +287,26 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	*/
 	public void setRemarks(String remarks) {
 		this.remarks.set(remarks);
+	}
+
+	/**
+	* [備品データ ID]項目取得
+	* @param leaseDate 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/		
+	public Integer getStockDataId() {
+		return stockDataId.get();
+	}
+
+	/**
+	* [備品データ ID]項目設定
+	* @param remarks 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/
+	public void setStockDataId(Integer id ) {
+		this.stockDataId.set(id);
 	}
 
 	
@@ -309,5 +332,7 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	    this.type = new SimpleStringProperty("");
 	    this.leaseDate = new SimpleStringProperty("");
 	    this.remarks = new SimpleStringProperty("");
+	    this.stockDataId = new SimpleIntegerProperty();
+	    		
 	 }
 }

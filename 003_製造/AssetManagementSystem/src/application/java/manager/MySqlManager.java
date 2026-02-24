@@ -9,12 +9,14 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -215,7 +217,7 @@ public class MySqlManager {
 	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
 	 */
-	public static Boolean ExcuteQuery(Function<SqlSession, Boolean> callback) {
+	public static Boolean ExecuteQuery(Function<SqlSession, Boolean> callback) {
 		
 		if(sqlSessionFactory == null)
 		{
@@ -235,7 +237,7 @@ public class MySqlManager {
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
 	 */
 	@SuppressWarnings("unused")
-	public static void ExcuteQueryOnParallel(
+	public static void ExecuteQueryOnParallel(
 			Function<SqlSession, Boolean> callback, 
 			Consumer<Boolean> successCallBack,
 			Consumer<Throwable> exceptionCallback) {
@@ -251,7 +253,7 @@ public class MySqlManager {
 		    protected Boolean call() throws Exception {
 	            try {
 	                runningTasks.add(this);
-	                return MySqlManager.ExcuteQuery(callback);
+	                return MySqlManager.ExecuteQuery(callback);
 	            } finally {
 	                runningTasks.remove(this); // 終了時に必ず削除(this = Task)
 	            }
@@ -276,7 +278,149 @@ public class MySqlManager {
 	}  	
 
 	/**
-	 * 一覧データ取得処理(並列実行)
+	 * クエリ発行処理(トランザクションの開始)
+	 * @param <T> 取得テーブルのMODEL
+	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義) 戻り値：Boolean
+	 * @param dataList 条件とするデータの値(取得テーブルのMODEのリスト)
+	 * @return Boolean 処理結果
+	 * @throws Exception
+	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
+	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
+	 */
+	public static <T extends BaseTableViewModel> Boolean ExecuteQuery_UseTransaction(
+			BiFunction<SqlSession, List<T>, Boolean> callback, List<T> dataList)  throws Exception
+	{
+		
+		if(sqlSessionFactory == null)
+		{
+			return false;
+		}		
+		
+		System.out.println("MySQL : トランザクション使用 クエリ発行・操作処理");
+		// 自動コミットをOFF(openSession(false)) トランザクション処理
+		try (SqlSession session = sqlSessionFactory.openSession(false)) {
+        	try {
+        		
+        		if( callback.apply(session, dataList)) {
+            		// コミット処理
+            		session.commit(); 
+            		return true;
+            	}
+        		// ロールバック処理
+        		session.rollback(); 
+        		return false;
+        	} catch (Exception ex) {
+        		session.rollback();
+        		
+        		throw ex;
+        	}
+    	}
+	}
+	
+	/**
+	 * クエリ発行処理(トランザクションの開始) 
+	 * @param <T> 取得テーブルのMODEL
+	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義) 戻り値：Boolean
+	 * @param dataList 条件とするデータの値(取得テーブルのMODEのリスト)
+	 * @return Boolean 処理結果
+	 * @throws Exception
+	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
+	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。<br>
+	 *  トランザクション管理を行い、メソッド(callback)が成功時Commit、失敗時にRollbackを行う。<br>
+	 *  Callbackメソッド内で連続してクエリ発行処理を行う場合などのBulk処理を行う。 
+	 */
+	public static <T extends BaseTableViewModel> Boolean ExecuteBulk_UseTransaction(
+			BiFunction<SqlSession, List<T>, Boolean> callback, List<T> dataList)  throws Exception
+	{
+		
+		if(sqlSessionFactory == null)
+		{
+			return false;
+		}		
+		
+		System.out.println("MySQL : トランザクション使用 Bulk処理");
+		// 自動コミットをOFF(openSession(false)) トランザクション処理
+		try (SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
+        	try {
+        		
+        		if( callback.apply(session, dataList)) {
+            		
+        			// SQLクエリ一括送信
+        			session.flushStatements(); 
+        			
+        			// コミット処理
+            		session.commit(); 
+            		return true;
+            	}
+        		// ロールバック処理
+        		session.rollback(); 
+        		return false;
+        	} catch (Exception ex) {
+        		session.rollback();
+        		throw ex;
+        	}
+    	}
+	}
+	
+	/**
+	 * クエリ発行処理(並列実行・トランザクションの開始) 
+	 * @param <T> 取得テーブルのMODEL
+	 * @param IsBulk 連続クエリ一括発行(Bulk)処理を行うかどうか
+	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義)
+	 * @param dataList 条件とするデータの値(取得テーブルのMODEのリスト)
+	 * @param successCallBack クエリ発行成功時のメソッド(呼び出し元にて定義)
+	 * @param exceptionCallback 例外発生時のメソッド
+	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
+	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。<br>
+	 *  トランザクション管理を行い、メソッド(callback)が成功時Commit、失敗時にRollbackを行う。<br>
+	 */
+	@SuppressWarnings("unused")
+	public static <T extends BaseTableViewModel> void ExecuteQueryOnParallel_UseTran(
+			Boolean IsBulk,
+			BiFunction<SqlSession, List<T>, Boolean> callback, List<T> dataList,
+			Consumer<Boolean> successCallBack,
+			Consumer<Throwable> exceptionCallback) {
+
+		if(sqlSessionFactory == null)
+		{
+			return;
+		}			
+		
+		System.out.println("MySQL : クエリ発行処理(非同期・トランザクション処理)");
+		Task<Boolean> task = new Task<Boolean>() {
+		    @Override
+		    protected Boolean call() throws Exception {
+	            try {
+	                runningTasks.add(this);
+	                if (IsBulk) {
+	                	return MySqlManager.ExecuteBulk_UseTransaction(callback, dataList);
+	                }
+	                return MySqlManager.ExecuteQuery_UseTransaction(callback, dataList);
+	            } finally {
+	                runningTasks.remove(this); // 終了時に必ず削除(this = Task)
+	            }
+		    }
+		};
+
+		// --- 2. UIスレッドで実行されるイベント ---
+		task.setOnSucceeded(e -> {
+		    // 成功時：
+			System.out.println("MySQL : 非同期・トランザクション処終了[成功]");
+			successCallBack.accept(task.getValue());
+		});
+
+		task.setOnFailed(e -> {
+		    // 失敗時(Exceptionが発生した場合)：
+			System.out.println("MySQL : 非同期・トランザクション処終了[失敗]");
+			exceptionCallback.accept(task.getException());
+		});
+
+		// --- 3. 実行 ---
+		executor.execute(task); 	
+	}  
+
+	/**
+	 * 一覧データ取得処理
 	 * @param <T> 取得するテーブルのMODEL
 	 * @param callback クエリ発行処理メソッド(呼び出し元で定義) 戻り値:テーブルMODELのリスト
 	 * @return テーブルMODELのリスト

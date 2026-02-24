@@ -1,7 +1,8 @@
 package application.java.window.inventoryDetails;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -16,9 +17,7 @@ import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -116,35 +115,47 @@ public class FormController extends BaseFormPage {
      * [所在確認]ボタン 押下イベント
      */
     public void onCountingButtonClicked() {
-    	
-    	// 選択行取得
-    	InventoryDetailsDataModel row = tableListView.
-    			getSelectionModel().
-    			getSelectedItem();
+    	try {
+        	// 選択行取得
+        	InventoryDetailsDataModel row = tableListView.
+        			getSelectionModel().
+        			getSelectedItem();
 
-    	if (row == null) {
-    	    // なにもしない
-    	    return;
-    	} 
+        	if (row == null) {
+        	    // なにもしない
+        	    return;
+        	} 
 
-    	// 選択されている場合の処理
-    	System.out.println("選択されたシリアル番号: " + row.getSerialNo());
-    	
-    	Optional<ButtonType> result = MessageBox.Show(
-    			Alert.AlertType.CONFIRMATION,
-    			ShowButtonType.YES_NO,
-    			"確認",
-    			"削除の確認",
-    			"選択した備品を削除してもよろしいですか？");
+        	String serialNo = row.getSerialNo();
+        	Integer dataId = row.getStockDataId();
+        	
+        	if (AppUtil.IsNull(dataId)) {
+        		showMessageEmptyStockData(serialNo);
+        		return;
+        	}
+        	
+        	System.out.println(
+        			"最終所在確認日更新 シリアル番号: [" + serialNo + "] " +
+        			"備品データ ID: ["+ dataId.toString() + "]");
+       	
+        	if (showMessageUpdConfimedDate(serialNo)) {
+        	    
+        		System.out.println("備品詳細 最終所在確認日更新処理");
+        		super.<InventoryDetailsDataModel>excuteCudQuery(new ArrayList<>(List.of(row)));
 
-    	if (result.isPresent() && result.get() == ButtonType.OK) {
-    	    // 「OK」が押された時の処理
-    	    System.out.println("削除を実行します");
-    	} else {
-    	    // 「キャンセル」や「×」が押された時の処理
-    	    System.out.println("キャンセルされました");
-    	}    	
-    }
+            	System.out.println("備品詳細 リスト再表示処理");
+            	super.<InventoryDetailsDataModel>fillTableAsync();
+        		
+        	} else {
+        	    // 「キャンセル」や「×」が押された時の処理
+        	    System.out.println("更新処理：Cancel");
+        	}     		
+    		
+    	} catch (Exception ex) {
+    		System.err.println(ex);
+    		
+    	}
+   }
     
     @FXML
     /**
@@ -195,6 +206,65 @@ public class FormController extends BaseFormPage {
     {
 		System.err.println("備品詳細データ取得失敗");
 		super.exceptionResult(exception);
+    }
+
+	@Override
+    /**
+     * クエリ発行処理(Mapper)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param session SQLセッション
+     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
+     * @return DB操作結果
+     * @brief controller内で用いるクエリ(INS・UPD・DEL)発行処理<br>
+     * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
+     * 当該メソッド内がトランザクションの範囲とし、複数のクエリを発行する場合は、対応した複数のMapperを呼出す。<br>
+     * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>    
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。<br>
+     * 例：<br>
+     *     // 連続更新<br>
+     *     mapper.updateA(data1);<br>
+     *     mapper.updateB(data2);<br>
+     */
+	protected <T extends BaseTableViewModel> Boolean excuteCudMapperFunction(SqlSession session, List<T> listData) {
+		
+		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
+		
+		// 本日を設定(文字列型)
+		row.setConfirmedDate(LocalDate.now().toString());
+
+		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
+	    
+	    // 備品詳細データ取得
+	    Integer updCount =  mapper.updConfirmedDate(row);		
+
+	    return true;
+    }	
+	
+	/**
+	 *所在確認日 更新確認Message
+	 * @param serialNo
+	 * @return 確認結果
+	 */
+    private Boolean showMessageUpdConfimedDate(String serialNo) {
+    	return MessageBox.ShowConfirmation(
+    			ShowButtonType.YES_NO,
+    			"確認",
+    			null,
+    			"備品[シリアルNo: "+ serialNo + " ]の所在確認日を本日に更新します。" + AppUtil.newLine() +
+    			"よろしいですか？");
+    }
+	
+    /**
+     * 警告Message：備品データなし
+     * @param serialNo
+     */
+    private void showMessageEmptyStockData(String serialNo) {
+    	MessageBox.ShowWarnig(
+    			"警告",
+    			"データ異常：備品データが存在しません。",
+    			"備品[シリアルNo: "+ serialNo + " ]の備品データ(stock_data)が存在しません。" + AppUtil.newLine() +
+    			"");
+    	
     }
     
     /**
@@ -335,5 +405,7 @@ public class FormController extends BaseFormPage {
     		lbl_stock_name.setPrefWidth(1250);
     		return;
     	}
-    }  
-}
+    }
+    
+
+ }

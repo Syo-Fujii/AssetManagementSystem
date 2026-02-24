@@ -208,7 +208,7 @@ public class FormController extends BaseFormPage {
      */
     private void ShowTest()
     {
-    	MySqlManager.ExcuteQueryOnParallel(
+    	MySqlManager.ExecuteQueryOnParallel(
     			(SqlSession session) -> {
 					try {
 						return this.Test(session);

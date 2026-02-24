@@ -7,4 +7,5 @@
     <fullyQualifiedTypeName name="application.java.common.AppConst"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.WindowSize"/>
     <fullyQualifiedTypeName name="application.java.window.inventoryDetails.FormController"/>
+    <fullyQualifiedTypeName name="application.java.common.MessageBox"/>
 </qualifiedTypeNameHistroy>
