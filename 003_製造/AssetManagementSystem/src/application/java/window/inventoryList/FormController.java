@@ -56,7 +56,7 @@ public class FormController extends BaseFormPage {
 		this.setWindowTitle("備品管理システム");
 
 		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryList"));
-		this.setCssFile(AppUtil.MakeCssFilePath("InventoryListStyle"));		
+		this.setCssFile(AppUtil.MakeCssFilePath("InventoryListStyle"));
 
 		this.setPageTitle("備品一覧画面");
 	}
@@ -76,11 +76,11 @@ public class FormController extends BaseFormPage {
     		MySqlManager.getSqlSessionFactory();
     		
     		// 画面起動設定
-    		this.tableViewSettings();   		
+    		this.tableViewSettings();
         	tableListView.setIsColumnSettingCompleted(true);
         	
         	lbl_title.setText(this.getPageTitle());
-        	lbl_title.getStyleClass().add("titletext");  
+        	lbl_title.getStyleClass().add("titletext");
     	}
     	
     	this.ShowInventoryList();
@@ -151,10 +151,6 @@ public class FormController extends BaseFormPage {
 
     /**
      * 備品一覧 リスト表示処理
-     * 
-     * 
-     * 
-     * 
      */
     private void ShowInventoryList()
     {
@@ -179,7 +175,7 @@ public class FormController extends BaseFormPage {
     	            alert.setHeaderText("データの取得に失敗しました");
     	            alert.setContentText(exception.getCause() != null ? 
     	                                 exception.getCause().getMessage() : exception.getMessage());
-    	            alert.showAndWait();     				
+    	            alert.showAndWait();
     			}
     			); 
     }

@@ -164,7 +164,7 @@ public abstract class BaseFormPage {
     	MySqlManager.<T>FillOnParallel(
     			(SqlSession session) -> {
 					try {
-						return excuteSelectQuery(session);
+						return executeSelectQuery(session);
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}},
@@ -182,7 +182,7 @@ public abstract class BaseFormPage {
      * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>
      * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
      */
-	protected final <T extends BaseTableViewModel> Boolean excuteCudQuery(
+	protected final <T extends BaseTableViewModel> Boolean executeCudQuery(
 			List<T> listData) throws Exception
     {
     	return MySqlManager.ExecuteQuery_UseTransaction(
@@ -206,7 +206,7 @@ public abstract class BaseFormPage {
      *      // 備品詳細データ取得<br>
      *      return mapper.getTableDetailRecords(this.stockType, this.stockCode);<br>
      */
-	protected <T extends BaseTableViewModel> List<T> excuteMapperFunction(SqlSession session) {
+	protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
 		return null;
     }
 	
@@ -249,7 +249,7 @@ public abstract class BaseFormPage {
      *     mapper.updateA(data1);<br>
      *     mapper.updateB(data2);<br>
      */
-	protected <T extends BaseTableViewModel> Boolean excuteCudMapperFunction(SqlSession session, List<T> listData) {
+	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
 		return true;
     }
 	
@@ -260,11 +260,11 @@ public abstract class BaseFormPage {
        * @return List<T> 取得結果(行データ:T のList)
      * @throws Exception 例外処理
      */
-    private <T extends BaseTableViewModel> List<T> excuteSelectQuery(SqlSession session) throws Exception
+    private <T extends BaseTableViewModel> List<T> executeSelectQuery(SqlSession session) throws Exception
     {
     	try {
     		// クエリ発行(Mapperにて発行)
-    		return excuteMapperFunction(session);
+    		return executeMapperFunction(session);
 
     	} catch(Exception e){
     		throw new Exception(e); 
@@ -282,7 +282,7 @@ public abstract class BaseFormPage {
     {
     	try {
     		// クエリ発行(Mapperにて発行)
-    		return excuteCudMapperFunction(session, listData);
+    		return executeCudMapperFunction(session, listData);
 
     	} catch(Exception e){
     		throw new Exception(e); 

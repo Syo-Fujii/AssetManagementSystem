@@ -37,7 +37,8 @@
            <TableColumn id="remarks" fx:id="col_remarks" editable="false" maxWidth="259.0" minWidth="245.0" prefWidth="245.0" text="備考" />
         </columns>
       </TableViewManager>
-      <Button id="inventoryCounting" fx:id="inventoryCounting_button" layoutX="25.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCountingButtonClicked" prefHeight="37.0" prefWidth="128.0" text="所在確認" AnchorPane.leftAnchor="25.0" />
-      <Button id="return" fx:id="return_button" layoutX="1247.0" layoutY="580.0" mnemonicParsing="false" onAction="#onReturnButtonClicked" prefHeight="37.0" prefWidth="128.0" text="一覧に戻る" AnchorPane.rightAnchor="25.0" />
+      <Button id="inventoryCounting" fx:id="inventoryCounting_button" layoutX="25.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCountingButtonClicked" prefHeight="37.0" prefWidth="130.0" text="所在確認" AnchorPane.leftAnchor="25.0" />
+      <Button id="loan" fx:id="loan_button" layoutX="937.0" layoutY="580.0" mnemonicParsing="false" onAction="#onLoanButtonClicked" prefHeight="37.0" prefWidth="130.0" text="貸出" AnchorPane.rightAnchor="180.0" />
+      <Button id="back" fx:id="back_button" layoutX="1247.0" layoutY="580.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="37.0" prefWidth="130.0" text="一覧に戻る" AnchorPane.rightAnchor="25.0" />
    </children>
 </AnchorPane>

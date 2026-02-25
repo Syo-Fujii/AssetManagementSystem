@@ -58,7 +58,8 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<InventoryDetailsDataModel, String> col_remarks;
 	
 	@FXML private Button inventoryCounting_button;
-	@FXML private Button return_button;
+	@FXML private Button loan_button;
+	@FXML private Button back_button;
 	
 	private Integer stockType = 0; 
 	private String stockCode = "";
@@ -107,6 +108,8 @@ public class FormController extends BaseFormPage {
     	
     	System.out.println("備品詳細 リスト表示処理");
     	super.<InventoryDetailsDataModel>fillTableAsync();
+    	
+    	loan_button.setDisable(true);
 
     }	
 
@@ -141,7 +144,7 @@ public class FormController extends BaseFormPage {
         	if (showMessageUpdConfimedDate(serialNo)) {
         	    
         		System.out.println("備品詳細 最終所在確認日更新処理");
-        		super.<InventoryDetailsDataModel>excuteCudQuery(new ArrayList<>(List.of(row)));
+        		super.<InventoryDetailsDataModel>executeCudQuery(new ArrayList<>(List.of(row)));
 
             	System.out.println("備品詳細 リスト再表示処理");
             	super.<InventoryDetailsDataModel>fillTableAsync();
@@ -149,19 +152,28 @@ public class FormController extends BaseFormPage {
         	} else {
         	    // 「キャンセル」や「×」が押された時の処理
         	    System.out.println("更新処理：Cancel");
-        	}     		
+        	} 
     		
     	} catch (Exception ex) {
     		System.err.println(ex);
-    		
     	}
    }
+ 
+    @FXML
+    /**
+     * [貸出]ボタン 押下イベント 
+     */
+    public void onLoanButtonClicked() {
+
+    	// 遷移元画面に切替
+    	super.setPage(new application.java.window.inventoryList.FormController());
+    }    
     
     @FXML
     /**
      * [一覧に戻る]ボタン 押下イベント 
      */
-    public void onReturnButtonClicked() {
+    public void onBackButtonClicked() {
 
     	// 遷移元画面に切替
     	super.setPage(new application.java.window.inventoryList.FormController());
@@ -176,7 +188,7 @@ public class FormController extends BaseFormPage {
      * @return List<T> 取得結果(行データ:T のList)
      * @brief controller内で用いるクエリ発行処理<br>
 	 */
-    protected <T extends BaseTableViewModel> List<T> excuteMapperFunction(SqlSession session) {
+    protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
 		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
 	    
 	    // 備品詳細データ取得
@@ -190,11 +202,20 @@ public class FormController extends BaseFormPage {
      * @brief controller内で用いる取得成功時の処理<br>
 	 */
     protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
-		tableListView.setList( (List<InventoryDetailsDataModel>)listData );
 		
-		if (listData != null && listData.size() >= 0) {
-			lbl_stock_name.setText(((InventoryDetailsDataModel)listData.getFirst()).getTypeName());
+    	List<InventoryDetailsDataModel> rows = (List<InventoryDetailsDataModel>) listData;
+    	
+    	tableListView.setList( rows );
+
+    	// 備品分類の表示
+		if (listData != null && !rows.isEmpty()) {
+			lbl_stock_name.setText(rows.getFirst().getTypeName());
 		}
+		
+		// [貸出]ボタン有効化制御([可]が一つでも存在する場合有効)
+		loan_button.setDisable(!rows.stream().
+				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_AVAILABLE));
+
     }
     
 	@Override
@@ -210,7 +231,7 @@ public class FormController extends BaseFormPage {
 
 	@Override
     /**
-     * クエリ発行処理(Mapper)
+     * クエリ発行処理(Mapper:トランザクション処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session SQLセッション
      * @param List<T> DB操作の条件となるデータ(行データ:T のList)
@@ -225,7 +246,7 @@ public class FormController extends BaseFormPage {
      *     mapper.updateA(data1);<br>
      *     mapper.updateB(data2);<br>
      */
-	protected <T extends BaseTableViewModel> Boolean excuteCudMapperFunction(SqlSession session, List<T> listData) {
+	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
 		
 		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
 		
@@ -235,7 +256,7 @@ public class FormController extends BaseFormPage {
 		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
 	    
 	    // 備品詳細データ取得
-	    Integer updCount =  mapper.updConfirmedDate(row);		
+	    Integer updCount =  mapper.updConfirmedDate(row);
 
 	    return true;
     }	
@@ -406,6 +427,4 @@ public class FormController extends BaseFormPage {
     		return;
     	}
     }
-    
-
  }

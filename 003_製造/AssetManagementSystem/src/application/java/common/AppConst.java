@@ -1,7 +1,12 @@
 package application.java.common;
 
+import java.util.Arrays;
+
 public class AppConst {
 	
+	/**
+	 * Enum 画面サイズ
+	 */
 	public static enum WindowSize {
 	    NOMAL(1, "標準"),
 	    WIDE(2, "拡大"),
@@ -31,6 +36,43 @@ public class AppConst {
 	        return null;
 	    }	
 	}
+
+	/**
+	 * Enum 貸出状態
+	 */
+	public static enum LoanStatus {
+		AVAILABLE(1, "可"),
+	    CHECKED_OUT(2, "貸出中"),
+	    UNKNOWN(3, "不明"),
+	    UNAVAILABLE(4,"不可");
+
+	    private final int state;
+	    private final String label;
+
+	    /** コンストラクタ */
+	    LoanStatus(int state, String label) {
+	        this.state = state;
+	        this.label = label;
+	    }
+
+	    public int getState() { return state; }
+	    public String getlabel() { return label; }
+
+	    /**
+	     * 数値(引数)から一致するEnum要素を返す
+	     * @param state
+	     * @return 一致するEnum要素
+	     */
+	    public static LoanStatus fromState(int state) {
+	        return Arrays.stream(LoanStatus.values())
+	                 .filter(s -> s.getState() == state)
+	                 .findFirst()  // 最初に見つかったものを取得
+	                 .orElse(null); // 見つからなければ null を返す
+	    }	
+	}	
+	
+	/**	貸出状態:可 */
+	public static final Integer LOANSTATE_AVAILABLE = 1;
 	
 	public static final String FXML_PATH = "/application/resources/fxml/";
 

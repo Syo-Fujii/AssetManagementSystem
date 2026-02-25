@@ -1,6 +1,8 @@
 package application.java.base.tableViewListModel;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppConst.LoanStatus;
+import application.java.common.AppUtil;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -91,14 +93,25 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 
 	/**
 	* [貸出可否]取得
-	* @return rentFlg
+	* @return rentFlgと一致するEnum定数(LoanStatus)
+	*/    
+	public String getRentFlg() {
+		// 取得した数値を、定数の文字列(Label)に変換・表示
+		return LoanStatus.
+				fromState(this.getRentValue()).getlabel();
+	}
+
+	/**
+	* [貸出可否]取得(数値)
+	* @return rentFlgを数値として取得する
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/    
-	public String getRentFlg() {
-		return rentFlg.get();
-	}
-
+	public Integer getRentValue() {
+		// 取得した数値を、定数の文字列(Label)に変換・表示
+		return AppUtil.parseInt(rentFlg.get(), 4);
+	}	
+	
 	/**
 	* [貸出可否]項目設定
 	* @param flg 設定する値
