@@ -4,17 +4,20 @@ import java.util.List;
 
 import application.java.base.tableViewListModel.InventoryListDataModel;
 
+/**
+ * 備品一覧画面 DB操作メソッド(Mapper)
+ */
 public interface InventoryListMapper {
 
 	/**
 	 * 備品一覧データ取得(テーブルより取得)
-	 * @return 備品一覧データ
+	 * @return 備品データ(備品一覧に表示するデータ)
 	 */
     List<InventoryListDataModel> getTableRecords();
     
 	/**
 	 * 備品一覧データ取得(Viewより取得)
-	 * @return 備品一覧データ
+	 * @return 備品データ(備品一覧に表示するデータ)
 	 */
     List<InventoryListDataModel> getViewAllRecords();
 

@@ -122,12 +122,12 @@
           EDV.製品名                   AS model,
           EDV.メーカー                 AS maker,
           EDV.接続先PCシリアルナンバー AS destinationSerialNo,
-          EDV.分類                     AS totalCount,
-          EDV.リース返却予定日         AS totalCount,
-          EDV.備考                     AS totalCount,
+          EDV.分類                     AS type,
+          EDV.リース返却予定日         AS leaseDate,
+          EDV.備考                     AS remarks,
           EDV.stock_type,
           EDV.stock_code, 
-          EDV.id AS stockDataId,
+          EDV.備品データID,            AS stockDataId,
           EDV.社員番号                 AS staff_no
        FROM
            equip_detail_view EDV
@@ -136,7 +136,7 @@
        AND EDV.stock_type = #{type}
        AND EDV.stock_code = #{code}
        ORDER BY
-        EDM.シリアルナンバー
+        EDV.シリアルナンバー
            
     </select>
 

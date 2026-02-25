@@ -85,7 +85,7 @@ public class FormController extends BaseFormPage {
     	
     	this.ShowInventoryList();
     }	
-    
+
     /**
      * TableView設定
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
@@ -136,7 +136,8 @@ public class FormController extends BaseFormPage {
     }
     
     /**
-     * TableView 項目(column-Data)Bind設定
+     * TableView 明細行選択イベント
+     * @param row 選択明細行
      */
     private void callbackTableSelectedRow(InventoryListDataModel row) {
     	
@@ -147,8 +148,8 @@ public class FormController extends BaseFormPage {
     			 java.window.
     			 inventoryDetails.
     			 FormController(row.getType(), row.getCode(), row.getWindowSize()));
-    }     
-
+    }    
+    
     /**
      * 備品一覧 リスト表示処理
      */

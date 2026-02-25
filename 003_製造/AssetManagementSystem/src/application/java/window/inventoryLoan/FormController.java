@@ -1,7 +1,6 @@
-package application.java.window.inventoryDetails;
+package application.java.window.inventoryLoan;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,13 +8,14 @@ import org.apache.ibatis.session.SqlSession;
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
-import application.java.common.AppConst;
+import application.java.base.tableViewListModel.InventoryLoanDataModel;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
+import application.resources.mapper.InventoryLoanMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,8 +24,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * 備品詳細画面
- * @brief [inventoryDetails]画面操作メソッド(Controller)<br>
+ * 備品貸出画面
+ * @brief [inventoryLoan]画面操作メソッド(Controller)<br>
  * <p>
  * TableViewを継承した[TableViewManager](カスタムControl)を用いる場合、
  * 画目デザイン(Screen Builder)では正しく操作できない。<br>
@@ -43,27 +43,20 @@ public class FormController extends BaseFormPage {
 	@FXML private Label lbl_title;
 	@FXML private Label lbl_stock_name;
 	
-	@FXML private TableViewManager<InventoryDetailsDataModel> tableListView;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_serial;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_staff_name;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_rent_flg;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_start_date;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_limit_date;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_confirmed_date;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_model;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_maker;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_destination_serial_no;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_type;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_lease_date;
-	@FXML private TableColumn<InventoryDetailsDataModel, String> col_remarks;
+	@FXML private TableViewManager<InventoryLoanDataModel> tableListView;
+	@FXML private TableColumn<InventoryLoanDataModel, String> col_serial;
+	@FXML private TableColumn<InventoryLoanDataModel, String> col_staff_name;
+	@FXML private TableColumn<InventoryLoanDataModel, String> col_start_date;
+	@FXML private TableColumn<InventoryLoanDataModel, String> col_limit_date;
+	@FXML private TableColumn<InventoryLoanDataModel, String> col_remarks;
+	@FXML private TableColumn<InventoryLoanDataModel, Boolean> col_is_checkout;
 	
-	@FXML private Button inventoryCounting_button;
-	@FXML private Button loan_button;
+	@FXML private Button submit_button;
 	@FXML private Button back_button;
 	
-	private Integer stockType = 0; 
+	private Integer stockType = 0;
 	private String stockCode = "";
-	private Integer windowSizeType = 1;
+	private Integer previousPageWindowSize = 1;
 
 	
 	/** 
@@ -73,18 +66,18 @@ public class FormController extends BaseFormPage {
 	{
 		this.setWindowTitle("備品管理システム");
 
-		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryDetails"));
-		this.setCssFile(AppUtil.MakeCssFilePath("InventoryDetailsStyle"));		
+		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryLoan"));
+		this.setCssFile(AppUtil.MakeCssFilePath("InventoryDetailsStyle"));
 		
-		this.setPageTitle("備品詳細画面");
+		this.setPageTitle("備品貸出画面");
 	}
-	public FormController(Integer type, String code, String windowSize) 
+	public FormController(Integer type, String code, Integer size) 
 	{
 		this();
 
 		this.stockType = type;
 		this.stockCode = code;
-		this.windowSizeType = AppUtil.parseInt(windowSize, 1);
+		this.previousPageWindowSize = size;
 	}
 	
     @FXML
@@ -95,7 +88,7 @@ public class FormController extends BaseFormPage {
      */
     void initialize() {
  
-    	System.out.println("inventoryDetails controller initialize");
+    	System.out.println("inventoryLoan controller initialize");
     	
     	// 最初の画面起動として、[SQL Session]を生成・保持する。
 		MySqlManager.getSqlSessionFactory();
@@ -106,58 +99,12 @@ public class FormController extends BaseFormPage {
 		// 画面起動設定
 		this.formInitialize();
     	
-    	System.out.println("備品詳細 リスト表示処理");
+    	System.out.println("備品貸出 リスト表示処理");
     	super.<InventoryDetailsDataModel>fillTableAsync();
     	
-    	loan_button.setDisable(true);
+    	//loan_button.setDisable(true);
 
     }	
-
-    @FXML
-    /**
-     * [所在確認]ボタン 押下イベント
-     */
-    public void onCountingButtonClicked() {
-    	try {
-        	// 選択行取得
-        	InventoryDetailsDataModel row = tableListView.
-        			getSelectionModel().
-        			getSelectedItem();
-
-        	if (row == null) {
-        	    // なにもしない
-        	    return;
-        	} 
-
-        	String serialNo = row.getSerialNo();
-        	Integer dataId = row.getStockDataId();
-        	
-        	if (AppUtil.IsNull(dataId)) {
-        		showMessageEmptyStockData(serialNo);
-        		return;
-        	}
-        	
-        	System.out.println(
-        			"最終所在確認日更新 シリアル番号: [" + serialNo + "] " +
-        			"備品データ ID: ["+ dataId.toString() + "]");
-       	
-        	if (showMessageUpdConfimedDate(serialNo)) {
-        	    
-        		System.out.println("備品詳細 最終所在確認日更新処理");
-        		super.<InventoryDetailsDataModel>executeCudQuery(new ArrayList<>(List.of(row)));
-
-            	System.out.println("備品詳細 リスト再表示処理");
-            	super.<InventoryDetailsDataModel>fillTableAsync();
-        		
-        	} else {
-        	    // 「キャンセル」や「×」が押された時の処理
-        	    System.out.println("更新処理：Cancel");
-        	} 
-    		
-    	} catch (Exception ex) {
-    		System.err.println(ex);
-    	}
-   }
  
     @FXML
     /**
@@ -165,22 +112,22 @@ public class FormController extends BaseFormPage {
      */
     public void onLoanButtonClicked() {
 
-    	// 備品貸出画面に切替
-    	super.setPage(new application.
-    			java.
-    			window.
-    			inventoryLoan.
-    			FormController(this.stockType, this.stockCode, this.windowSizeType));
+    	// 遷移元画面に切替
+    	super.setPage(new application.java.window.inventoryList.FormController());
     }    
     
     @FXML
     /**
-     * [一覧に戻る]ボタン 押下イベント 
+     * [戻る]ボタン 押下イベント 
      */
     public void onBackButtonClicked() {
 
     	// 遷移元画面に切替
-    	super.setPage(new application.java.window.inventoryList.FormController());
+    	super.setPage(new application.
+    			java.
+    			window.
+    			inventoryDetails.
+    			FormController(this.stockType, this.stockCode, this.previousPageWindowSize.toString()));
     }
 
     @SuppressWarnings("unchecked")
@@ -193,10 +140,10 @@ public class FormController extends BaseFormPage {
      * @brief controller内で用いるクエリ発行処理<br>
 	 */
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
-		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
+		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
 	    
 	    // 備品詳細データ取得
-	    return (List<T>) mapper.getTableDetailRecords(this.stockType, this.stockCode);
+	    return (List<T>) mapper.getTableLoanableData(this.stockType, this.stockCode);
     }
 
     @SuppressWarnings("unchecked")
@@ -207,7 +154,7 @@ public class FormController extends BaseFormPage {
 	 */
     protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
 		
-    	List<InventoryDetailsDataModel> rows = (List<InventoryDetailsDataModel>) listData;
+    	List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
     	
     	tableListView.setList( rows );
 
@@ -215,11 +162,6 @@ public class FormController extends BaseFormPage {
 		if (listData != null && !rows.isEmpty()) {
 			lbl_stock_name.setText(rows.getFirst().getTypeName());
 		}
-		
-		// [貸出]ボタン有効化制御([可]が一つでも存在する場合有効)
-		loan_button.setDisable(!rows.stream().
-				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_AVAILABLE));
-
     }
     
 	@Override
@@ -307,13 +249,17 @@ public class FormController extends BaseFormPage {
     	// カラム項目移動可否
     	tableListView.setIsReorderabled(false);
     	
+    	// TableView 編集可否設定
+    	tableListView.setEditable(true);
+    	
     	// 選択動作 設定
     	tableListView.setIsRowsMultiSelected(false);
-    	tableListView.setIsCellSelected(false);   	
-    	tableListView.onSelectedRowEvent(
+    	tableListView.setIsCellSelected(true);
+    	tableListView.onSelectedCellsEvent(
     			bef    -> { bef = null; },
-    			result -> { this.callbackTableSelectedRow( (InventoryDetailsDataModel)result ); });
-
+    			result -> { /*this.callbackTableSelectedRow( (InventoryDetailsDataModel)result );*/ });
+    	
+    	/*
     	// 標準サイズの場合
     	if(this.windowSizeType == AppConst.WindowSize.NOMAL.getId()) {
         	col_model.setVisible(false);
@@ -346,7 +292,7 @@ public class FormController extends BaseFormPage {
     	//col_destination_serial_no.getStyleClass().add("number-aligned");
     	col_type.getStyleClass().add("center-aligned");
     	col_lease_date.getStyleClass().add("center-aligned");    	
-    	//col_remarks.getStyleClass().add("number-aligned");
+    	//col_remarks.getStyleClass().add("number-aligned");*/
     	
     	// 0件の場合のCaptionを削除(「データがありません」非表示)
     	tableListView.setPlaceholder(new Label("")); 
@@ -363,30 +309,17 @@ public class FormController extends BaseFormPage {
     private void callbackBindTableColumnSource() {
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
     	col_staff_name.setCellValueFactory( new PropertyValueFactory<>("staffName"));
-    	col_rent_flg.setCellValueFactory( new PropertyValueFactory<>("rentFlg"));
-    	col_start_date.setCellValueFactory( new PropertyValueFactory<>("startDate"));
+     	col_start_date.setCellValueFactory( new PropertyValueFactory<>("startDate"));
     	col_limit_date.setCellValueFactory( new PropertyValueFactory<>("limitDate"));
-    	col_confirmed_date.setCellValueFactory( new PropertyValueFactory<>("confirmedDate"));
     	col_remarks.setCellValueFactory( new PropertyValueFactory<>("remarks"));
+    	col_is_checkout.setCellValueFactory( new PropertyValueFactory<>("isCheckOut"));
     	
-    	// 標準サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.NOMAL.getId()) {
-    		return;
-    	}
+    	// 対象項目の入力を可能にする
+    	col_staff_name.setEditable(true);
+    	col_start_date.setEditable(true);
+    	col_limit_date.setEditable(true);
+    	col_is_checkout.setEditable(true);
     	
-    	col_type.setCellValueFactory( new PropertyValueFactory<>("type"));
-    	col_lease_date.setCellValueFactory( new PropertyValueFactory<>("leaseDate"));
-    	
-    	// 拡大サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.WIDE.getId()) {
-        	col_model.setCellValueFactory( new PropertyValueFactory<>("model"));
-        	col_maker.setCellValueFactory( new PropertyValueFactory<>("maker"));
-    	}
-    	
-    	// 周辺機器サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.PERIPHERAL.getId()) {
-    		col_destination_serial_no.setCellValueFactory( new PropertyValueFactory<>("destinationSerialNo"));
-    	}
     }
     
     /**
@@ -408,7 +341,7 @@ public class FormController extends BaseFormPage {
     	lbl_title.getStyleClass().add("titletext");
     	
     	// 標準サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.NOMAL.getId()) {
+    	/*if(this.windowSizeType == AppConst.WindowSize.NOMAL.getId()) {
     		tableListView.setPrefWidth(860);
     		pane_form.setPrefWidth(910);
     		lbl_stock_name.setPrefWidth(910);
@@ -429,6 +362,6 @@ public class FormController extends BaseFormPage {
     		pane_form.setPrefWidth(1250);
     		lbl_stock_name.setPrefWidth(1250);
     		return;
-    	}
+    	}*/
     }
  }

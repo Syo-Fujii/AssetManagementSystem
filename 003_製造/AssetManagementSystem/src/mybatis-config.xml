@@ -45,6 +45,7 @@
          この場合、マッパーXMLファイル[.xml]は、 interfaceファイル[.java]と同じパッケージ・同じ名前で配置されている必要がある。 -->
     <mapper class="application.resources.mapper.InventoryListMapper"/>
     <mapper class="application.resources.mapper.InventoryDetailsMapper"/>
+    <mapper class="application.resources.mapper.InventoryLoanMapper"/>
     <mapper class="application.resources.mapper.StockTypeMasterMapper"/>
     <!-- <mapper resource="stock_type_master_mapper.xml"/> -->
   </mappers>

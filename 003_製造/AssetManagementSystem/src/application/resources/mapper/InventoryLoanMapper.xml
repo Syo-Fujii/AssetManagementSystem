@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.InventoryLoanMapper">
+
+    <!-- 備品貸出データ(備品データ：在庫)の取得 -->
+    <select id="getTableLoanableData">
+     <![CDATA[
+      WITH BASE_TABLE AS
+       (
+         SELECT
+           DISTINCT
+              SM.serial_no
+            , SD.id
+         FROM
+           stock_type_master STM
+         /* 参照権限を考慮する場合に用いる
+         INNER JOIN 
+           stock_type_data STD
+          ON STM.stock_type = STD.stock_type
+         AND STM.stock_code = STD.stock_code*/ 
+         INNER JOIN 
+           stock_master SM
+          ON STM.stock_type = SM.stock_type 
+         AND STM.stock_code = SM.stock_code
+         AND STM.del = FALSE 
+         AND SM.del = FALSE 
+         AND SM.rent_flg = FALSE 
+         INNER JOIN
+           stock_data SD
+          ON SM.serial_no = SD.serial_no 
+         /* 返却済データの除去 ≒ 最新の備品データを取得 */
+         AND SD.return_date IS NULL
+         AND SD.del = FALSE
+         /* [在庫]データの取得 */
+         AND SD.staff_no IS NULL 
+         AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+         WHERE
+            1 = 1
+         AND STM.stock_type = #{type}
+         AND STM.stock_code = #{code}  
+       )
+
+       SELECT
+             STM.name              AS type_name 
+           , SM.serial_no          AS serialNo
+           , '' AS staffName
+           , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '') AS startDate
+           , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '') AS limitDate
+           , SM.remarks AS remarks
+           , SM.stock_type
+           , SM.stock_code 
+           , SD.id AS stockDataId
+           , SD.staff_no AS staff_no
+       FROM
+         BASE_TABLE B
+       INNER JOIN 
+         stock_master SM
+        ON B.serial_no = SM.serial_no 
+       INNER JOIN
+          stock_type_master STM
+        ON SM.stock_type = STM.stock_type   
+       AND SM.stock_code = STM.stock_code
+       INNER JOIN
+         stock_data SD
+        ON B.id = SD.id 
+       WHERE
+         1 = 1
+       ORDER BY
+        SM.serial_no
+     ]]>
+    </select>
+
+    <!-- Viwew[equip_detail_view]から全データの取得 -->
+    <select id="getViewLoanableData">
+    <![CDATA[
+       SELECT
+          EDV.シリアルナンバー    AS serialNo,
+          ''                      AS staffName,
+          EDV.貸出開始日          AS startDate,
+          EDV.返却予定日          AS limitDate,
+          EDV.最終所在確認日      AS confirmedDate,
+          EDV.備考                AS totalCount,
+          EDV.stock_type,
+          EDV.stock_code,
+          EDV.備品データID        AS stockDataId,
+          EDV.社員番号            AS staff_no
+       FROM
+           equip_detail_view EDV
+       WHERE
+         1 = 1
+       AND EDV.stock_type = #{type}
+       AND EDV.stock_code = #{code}
+ 
+       /* [在庫]データの取得 */
+       AND EDV.社員番号 IS NULL 
+       AND (DATEDIFF(CURRENT_DATE(), EDV.最終所在確認日 ) <= 365 )
+ 
+       ORDER BY
+        EDV.シリアルナンバー
+     ]]>
+    </select>
+
+    <select id="getStockTypeName">
+      SELECT
+        STM.name
+       FROM
+         stock_type_master STM
+       WHERE
+         1 = 1
+       AND STM.stock_type = #{type}
+       AND STM.stock_code = #{code} 
+    </select>
+
+</mapper>

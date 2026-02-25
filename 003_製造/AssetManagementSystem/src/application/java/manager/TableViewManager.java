@@ -193,9 +193,15 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 * @brief 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
 	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。
 	 */
-	public void onSelectedCellsEvent(Consumer<Object> selectedCallback) {
+	public void onSelectedCellsEvent(Consumer<T> lostCallback, Consumer<T> selectedCallback) {
 
-		this.addSelectedCellsEvent(selectedCallback);
+		// 選択
+		if (this.isRowsMultiSelected )
+		{
+			this.addSelectedCellsEvent(selectedCallback);
+		} else {
+			this.addSelectedCellEvent(lostCallback, selectedCallback);
+		}
 	}	
 
 	
@@ -234,7 +240,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	private void addSelectedRowEvent(Consumer<T> lostCallback, Consumer<T> selectedCallback) {
         
 		// 行選択EVENTの登録
-		this.getSelectionModel().selectedItemProperty().addListener((ov , old , current) -> {
+		this.getSelectionModel().selectedItemProperty().addListener((ov, old, current) -> {
 
 	    	// 選択アウトEvent
 			if ( lostCallback != null && old != null) {
@@ -274,13 +280,47 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	}
 
 	/**
-	 * CELL選択Event
+	 * CELL選択(単一Cell)Event
+	 * @param lostCallback 選択が抜けたCellに対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
+	 * @param selectedCallback 選択Cellに対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
+	 * @brief 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
+	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。<br>
+	 * 現時点では、各選択Cellに対して全て同じイベントを実行する前提。必要に応じて修正を要す。 
+	 */
+	@SuppressWarnings("unused")
+	private void addSelectedCellEvent(Consumer<T> lostCallback, Consumer<T> selectedCallback) {
+        
+		/* JavaFXの TableView.getSelectionModel().getSelectedCells() メソッドは、設計上の制約（JDK-8089446）により、
+		 * ジェネリクスが欠落した ObservableList<TablePosition> (生の型) を返します。
+		 * そのため、型安全な ObservableList<TablePosition<T, ?>> に直接代入しようとすると、
+		 * コンパイラが「型の不一致」としてエラーを出します。
+		 * よって下記ないようにて実装。未検証。
+		 * */
+		TableView<T> tb = (TableView<T>)this;
+		tb.getSelectionModel().selectedItemProperty().addListener(
+				(ov, old, current) ->
+				{
+			    	// 選択アウトEvent
+					if ( lostCallback != null && old != null) {
+						lostCallback.accept(old);
+				    }
+					
+					// 選択行Event
+					if (current != null) {
+						selectedCallback.accept(current);
+				    }
+				});
+	}		
+	
+	/**
+	 * CELL選択(複数)Event
 	 * @param selectedCallback 選択Cell(複数)に対するEvent 戻り値なし・引数:Cellの値(Object)
 	 * @brief 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
 	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。<br>
 	 * 現時点では、各選択Cellに対して全て同じイベントを実行する前提。必要に応じて修正を要す。 
 	 */
-	private void addSelectedCellsEvent(Consumer<Object> selectedCallback) {
+	@SuppressWarnings("unused")
+	private void addSelectedCellsEvent(Consumer<T> selectedCallback) {
         
 		/* JavaFXの TableView.getSelectionModel().getSelectedCells() メソッドは、設計上の制約（JDK-8089446）により、
 		 * ジェネリクスが欠落した ObservableList<TablePosition> (生の型) を返します。
@@ -305,7 +345,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 						T item = tb.getItems().get( row );
 						
 						// 選択セルを取得
-						selectedCallback.accept(col.getCellObservableValue(item).getValue());
+						selectedCallback.accept(item);
 					}
 				});
 	}	
