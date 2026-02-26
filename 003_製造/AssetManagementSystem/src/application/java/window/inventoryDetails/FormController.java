@@ -335,18 +335,15 @@ public class FormController extends BaseFormPage {
     	}    	
     	
     	// TableView[列]文字設定 
-    	//col_serial.getStyleClass().add("cell-itemname");
-    	col_staff_name.getStyleClass().add("number-aligned");
+    	col_staff_name.getStyleClass().add("center-aligned");
     	col_rent_flg.getStyleClass().add("center-aligned");
     	col_start_date.getStyleClass().add("center-aligned");
     	col_limit_date.getStyleClass().add("center-aligned"); 
     	col_confirmed_date.getStyleClass().add("center-aligned"); 
     	col_model.getStyleClass().add("center-aligned");
     	col_maker.getStyleClass().add("center-aligned");
-    	//col_destination_serial_no.getStyleClass().add("number-aligned");
     	col_type.getStyleClass().add("center-aligned");
     	col_lease_date.getStyleClass().add("center-aligned");    	
-    	//col_remarks.getStyleClass().add("number-aligned");
     	
     	// 0件の場合のCaptionを削除(「データがありません」非表示)
     	tableListView.setPlaceholder(new Label("")); 
