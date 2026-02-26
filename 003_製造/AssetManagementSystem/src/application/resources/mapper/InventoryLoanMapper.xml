@@ -34,6 +34,7 @@
          AND SD.del = FALSE
          /* [在庫]データの取得 */
          AND SD.staff_no IS NULL 
+         /* [不明]のデータは対象としない */
          AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
          WHERE
             1 = 1
@@ -94,6 +95,7 @@
  
        /* [在庫]データの取得 */
        AND EDV.社員番号 IS NULL 
+       /* [不明]のデータは対象としない */
        AND (DATEDIFF(CURRENT_DATE(), EDV.最終所在確認日 ) <= 365 )
  
        ORDER BY

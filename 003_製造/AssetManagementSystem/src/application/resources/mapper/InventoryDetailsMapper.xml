@@ -85,7 +85,7 @@
 
        /* 未登録データを考慮しLEFT JOINとする */
        LEFT JOIN
-         staff_data STF 
+         staff_master STF 
         ON SD.staff_no = STF.staff_no 
 
        /* 未登録データを考慮しLEFT JOINとする */
