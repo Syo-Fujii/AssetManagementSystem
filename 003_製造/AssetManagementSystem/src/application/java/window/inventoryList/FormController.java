@@ -98,7 +98,7 @@ public class FormController extends BaseFormPage {
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
     	
-    	// カラム項目移動可否
+    	// カラム列移動(順番)可否
     	tableListView.setIsReorderabled(false);
     	
     	// 選択動作 設定

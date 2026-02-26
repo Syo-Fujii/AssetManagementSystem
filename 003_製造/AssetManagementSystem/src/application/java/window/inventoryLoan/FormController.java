@@ -12,10 +12,13 @@ import application.java.base.tableViewListModel.InventoryLoanDataModel;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
+import application.java.manager.CustomComboBoxTableCellManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
 import application.resources.mapper.InventoryLoanMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -246,40 +249,58 @@ public class FormController extends BaseFormPage {
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
     	
-    	// カラム項目移動可否
+    	// カラム列移動(順番)可否
     	tableListView.setIsReorderabled(false);
     	
     	// TableView 編集可否設定
     	tableListView.setEditable(true);
+   
+    	// Cell 有効化制御
+    	tableListView.cellIsEnabled(col_serial, false);
+    	tableListView.cellIsEnabled(col_remarks, false);
+    	tableListView.onDisabledCellsFocusSkipEvent();
+    	
+    	
+    	
+    	tableListView.cellIsEnabled(col_staff_name, true);
+    	// 選択肢のリスト
+    	ObservableList<String> options = FXCollections.observableArrayList("Apple", "Banana", "Cherry");
+
+    	// カラムにコンボボックスのセルファクトリを設定
+    	//col_staff_name.setCellValueFactory(new PropertyValueFactory<>("staffName"));
+    	//col_staff_name.setCellFactory(ComboBoxTableCell.forTableColumn(options));
+    	
+    	//col_staff_name.setCellValueFactory(new PropertyValueFactory<>("staffName"));
+    	/*
+    	col_staff_name.setCellFactory(
+    			col -> new InputAutoCompleteComboBoxCellManager<InventoryLoanDataModel, String>(options));
+    	
+    	// 3. 編集完了時の反映処理（これを書かないとモデルに値が入りません）
+    	col_staff_name.setOnEditCommit(event -> {
+    		InventoryLoanDataModel rowData = event.getRowValue();
+    	    rowData.setStaffName(event.getNewValue());
+    	});*/
+    	
+    	col_staff_name.setCellFactory(
+    			col -> new CustomComboBoxTableCellManager<InventoryLoanDataModel, String>(options));	
+    	
+    	col_staff_name.setOnEditCommit(event -> {
+    		InventoryLoanDataModel rowData = event.getRowValue();
+    	    rowData.setStaffName(event.getNewValue());
+    	}); 
+    	
+    	
     	
     	// 選択動作 設定
     	tableListView.setIsRowsMultiSelected(false);
     	tableListView.setIsCellSelected(true);
+    	
     	tableListView.onSelectedCellsEvent(
     			bef    -> { bef = null; },
     			result -> { /*this.callbackTableSelectedRow( (InventoryDetailsDataModel)result );*/ });
     	
+        	
     	/*
-    	// 標準サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.NOMAL.getId()) {
-        	col_model.setVisible(false);
-        	col_maker.setVisible(false);
-    		col_destination_serial_no.setVisible(false);
-        	col_type.setVisible(false);
-        	col_lease_date.setVisible(false);
-    	}
-    	
-    	// 拡大サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.WIDE.getId()) {
-    		col_destination_serial_no.setVisible(false);
-    	}
-    	
-    	// 周辺機器サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.PERIPHERAL.getId()) {
-        	col_model.setVisible(false);
-        	col_maker.setVisible(false);
-    	}    	
-    	
     	// TableView[列]文字設定 
     	//col_serial.getStyleClass().add("cell-itemname");
     	col_staff_name.getStyleClass().add("number-aligned");
@@ -320,6 +341,8 @@ public class FormController extends BaseFormPage {
     	col_limit_date.setEditable(true);
     	col_is_checkout.setEditable(true);
     	
+
+    	// tableListView.setColumnReorderable(col_remarks, false);
     }
     
     /**
@@ -339,29 +362,5 @@ public class FormController extends BaseFormPage {
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
-    	
-    	// 標準サイズの場合
-    	/*if(this.windowSizeType == AppConst.WindowSize.NOMAL.getId()) {
-    		tableListView.setPrefWidth(860);
-    		pane_form.setPrefWidth(910);
-    		lbl_stock_name.setPrefWidth(910);
-    		return;
-    	}
-    	
-    	// 拡大サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.WIDE.getId()) {
-    		tableListView.setPrefWidth(1350);
-    		pane_form.setPrefWidth(1400);
-    		lbl_stock_name.setPrefWidth(1400);
-    		return;
-    	}
-    	
-    	// 周辺機器サイズの場合
-    	if(this.windowSizeType == AppConst.WindowSize.PERIPHERAL.getId()) {
-    		tableListView.setPrefWidth(1200);
-    		pane_form.setPrefWidth(1250);
-    		lbl_stock_name.setPrefWidth(1250);
-    		return;
-    	}*/
     }
  }

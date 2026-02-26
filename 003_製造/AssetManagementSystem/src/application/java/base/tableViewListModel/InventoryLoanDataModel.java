@@ -75,7 +75,7 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	public String getStaffName() {
 		return staffName.get();
 	}
-
+	
 	/**
 	* [使用者]項目設定
 	* @param staff Name 設定する値
@@ -86,6 +86,14 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 		this.staffName.set(name);
 	}
 
+	/**
+	 * [使用者]取得(画面項目入力用)
+	 * @return staff Name
+	 */
+	public StringProperty staffNameProperty() {
+	    return this.staffName;
+	}		
+	
 	/**
 	* [貸出開始日]取得
 	* @return startDate

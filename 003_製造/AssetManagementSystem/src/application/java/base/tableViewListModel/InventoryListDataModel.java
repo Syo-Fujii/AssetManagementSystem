@@ -43,6 +43,7 @@ public class InventoryListDataModel extends BaseTableViewModel {
 	public void setType(Integer type) {
 		this.type.set(type);
 		}	   
+
 	/**
 	 * [分類コード]取得
 	 * @return type

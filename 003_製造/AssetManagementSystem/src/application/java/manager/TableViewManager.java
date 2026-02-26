@@ -8,9 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  * カスタムControl(TableView)
@@ -159,7 +162,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	}
 	
 	/**
-	 * カラム移動判定
+	 * カラム列移動(順番)可否設定
 	 * @param col
 	 * @param isReorderabled
 	 */
@@ -167,6 +170,33 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	{
 		// 特定のカラムの移動の可否
 		col.setReorderable(isReorderabled);
+	}
+	
+	/**
+	 * CELL 有効化制御
+	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
+	 * @param <C> 対象カラムの型
+	 * @param column 対象カラム
+	 * @param isEnabled　有効化判定
+	 */
+	@SuppressWarnings({ "hiding", "unused" })
+	public <T, C> void cellIsEnabled(TableColumn<T, C> column, Boolean isEnabled) {
+		
+		column.setCellFactory(col -> new TableCell<T, C>() {
+    	    @Override
+    	    protected void updateItem(C item, boolean empty) {
+    	        super.updateItem(item, empty);
+    	        if (empty || item == null) {
+    	            setText(null);
+    	            setDisable(false);
+    	        } else {
+    	            setText(item.toString());
+    	            // 選択・操作を制御
+    	            setDisable(!isEnabled);
+    	            setFocusTraversable(!isEnabled);
+    	        }
+    	    }
+    	});
 	}
 	
 	/**
@@ -204,6 +234,47 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		}
 	}	
 
+	/**
+	 * 無効化CELL 選択(Focus)スキップ イベント
+	 */
+	public void onDisabledCellsFocusSkipEvent() {
+    	this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+    	    if (event.getCode() == KeyCode.RIGHT || 
+    	    	event.getCode() == KeyCode.TAB || 
+    	    	event.getCode() == KeyCode.LEFT) {
+    	        
+    	    	// 現在のフォーカス位置を取得
+    	        @SuppressWarnings("unchecked")
+				TablePosition<T, ?> pos = this.getFocusModel().getFocusedCell();
+    	        if (pos == null) return;
+    	        
+    	        // INDEXを取得
+    	        int colIdx = this.getColumns().size();
+    	        
+    	        int direction = (event.getCode() == KeyCode.LEFT) ? -1 : 1;
+    	        
+    	        // 次のCELLのINDEXを取得
+    	        int nextColIdx = pos.getColumn() + direction;
+
+    	        // 有効な列が見つかるまで探し続ける
+    	        while (nextColIdx >= 0 && nextColIdx < colIdx) {
+    	            TableColumn<T, ?> nextCol = this.getColumns().get(nextColIdx);
+    	            
+    	            // 入力有効CELLではない場合
+    	            if (!nextCol.isEditable()) {
+    	            	nextColIdx += direction;  // 無効ならさらに次へ
+    	                event.consume();          // 元の移動を止める
+    	            } else {
+    	            	// スキップが発生した場合
+    	                if (event.isConsumed()) { 
+    	                    this.getSelectionModel().select(pos.getRow(), nextCol);
+    	                    this.getFocusModel().focus(pos.getRow(), nextCol);
+    	                }
+    	                break;
+    	                }
+    	            }
+    	        }
+    	    });}	
 	
 	/**
 	 * 選択行番号取得
@@ -237,6 +308,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 * @brief 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
 	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。
 	 */
+	@SuppressWarnings("unused")
 	private void addSelectedRowEvent(Consumer<T> lostCallback, Consumer<T> selectedCallback) {
         
 		// 行選択EVENTの登録
@@ -349,5 +421,4 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 					}
 				});
 	}	
-	
 }
