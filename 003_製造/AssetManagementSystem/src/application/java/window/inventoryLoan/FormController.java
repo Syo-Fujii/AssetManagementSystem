@@ -259,42 +259,14 @@ public class FormController extends BaseFormPage {
     	tableListView.cellIsEnabled(col_serial, false);
     	tableListView.cellIsEnabled(col_remarks, false);
     	tableListView.onDisabledCellsFocusSkipEvent();
-    	
-    	
-    	tableListView.getSelectionModel().setCellSelectionEnabled(true);
-    	tableListView.cellIsEnabled(col_staff_name, true);
-    	// 選択肢のリスト
-    	ObservableList<String> options = FXCollections.observableArrayList("Apple", "Banana", "Cherry");
 
-    	// カラムにコンボボックスのセルファクトリを設定
-    	//col_staff_name.setCellValueFactory(new PropertyValueFactory<>("staffName"));
-    	//col_staff_name.setCellFactory(ComboBoxTableCell.forTableColumn(options));
-    	
-    	//col_staff_name.setCellValueFactory(new PropertyValueFactory<>("staffName"));
-    	/*
-    	col_staff_name.setCellFactory(
-    			col -> new InputAutoCompleteComboBoxCellManager<InventoryLoanDataModel, String>(options));
-    	
-    	// 3. 編集完了時の反映処理（これを書かないとモデルに値が入りません）
-    	col_staff_name.setOnEditCommit(event -> {
-    		InventoryLoanDataModel rowData = event.getRowValue();
-    	    rowData.setStaffName(event.getNewValue());
-    	});*/
+    	// 項目(セル) 型設定
+    	// 選択肢のリスト
+    	@SuppressWarnings({ "unchecked", "rawtypes" })
+		ObservableList<Pair<Integer, String>> options = 
+        			FXCollections.observableArrayList(new Pair(1,"Apple"), new Pair(2,"Banana"), new Pair(3, "Cherry"));
     	col_staff_name.setCellTypeCustomComboBox(options, true);
-    	
-    	
-    	/*
-    	col_staff_name.setCellFactory(
-    			col -> new CustomComboBoxTableCellManager<InventoryLoanDataModel, String>(options));	
-  
-    	col_staff_name.setOnEditCommit(event -> {
-    		// ModelへのBind
-    		InventoryLoanDataModel rowData = event.getRowValue();
-    	    rowData.setStaffName(event.getNewValue());
-    	}); */
-    	
-    	
-    	
+
     	// 選択動作 設定
     	tableListView.setIsRowsMultiSelected(false);
     	tableListView.setIsCellSelected(true);

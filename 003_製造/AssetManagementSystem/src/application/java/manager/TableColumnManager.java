@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import application.java.base.BaseTableViewModel;
+import application.java.manager.customTableCells.CustomComboBoxTableCellManager;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -12,15 +13,35 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * 
- * @param <S>
+ * カスタムControl(TableColumn)
+ * @param <S> 継承元が[BaseTableViewModel]のデータクラス(1行データのクラス)
  * @param <T>
  */
 public class TableColumnManager<S extends BaseTableViewModel,T> extends TableColumn<S, T>  {
 
 	private Boolean isEnterNextFocus = true;
 	
+    /** ComboBox設定用 keyValuePair */
+    public record Pair<K, V>(K code, V name) {}
 	
+	
+	/**
+	 * TableView カラム(Cell)設定可否 判定
+	 * @return TableView カラム(Cell)設定可否
+	 * @brief カラムヘッダ・セル設定を完了したかの判定。初期表示などで利用
+	 */
+	public Boolean getIsEnterNextFocus() {
+		return isEnterNextFocus;
+	}
+
+	/**
+	 * TableView カラム(Cell)設定可否 設定
+	 * @param isCompleted TableView カラム(Cell)設定可否
+	 * @brief カラムヘッダ・セル設定を完了したかの判定。初期表示などで利用
+	 */
+	public void setIsEnterNextFocus(Boolean isNextFocus) {
+		this.isEnterNextFocus = isNextFocus;
+	}
 	
 	/**
 	 * コンストラクタ
@@ -105,6 +126,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	 * @brief
 	 * リフレクション（setAccessible(true)）を使うことが禁止されているため、<br>
 	 * データのバインドにColumnのIDを用いる<br>
+	 * CostomしたContorolで制御した場合、当該TableView(Column)とEventが干渉するため、<br>
+	 * Foucs制御はTableViwe(Column)項目で行う
 	 */
 	private void setupDefaultEditCommitHandler() {
        
@@ -112,13 +135,14 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 
 		// 編集モード時、確定(EnterKey)イベント
 		this.setOnEditCommit(event -> {
-    	   // String propertyName = getPropertyName();
-    	   String propertyName = this.getId();
+   	
+			// String propertyName = getPropertyName();
+			String propertyName = this.getId();
+
+			S rowData = event.getRowValue();
+			T newValue = event.getNewValue();
     	   
-    	   S rowData = event.getRowValue();
-    	   T newValue = event.getNewValue();
-    	   
-    	   // モデルへの値反映
+			// モデルへの値反映
     	    try {
     	        // メソッド(値のSetter プロパティ)名の生成
     	        String methodName = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
@@ -133,33 +157,40 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     	    	e.printStackTrace();
     	    }
     	   
-           // 2. 次のセルへの遷移
-           javafx.application.Platform.runLater(() -> {
-               TableView<S> tv = event.getTableView();
-               int currentRow = event.getTablePosition().getRow();
-               
-               // 次の編集可能なカラムを探す
-               TableColumn<S, ?> nextCol = getNextEditableColumn(tv, this);
+    	    if(!isEnterNextFocus){ return; }
+    	    // 次のセルへの遷移
+    	    javafx.application.Platform.runLater(() -> {
+    	    	TableView<S> tv = event.getTableView();
+    	    	int currentRow = event.getTablePosition().getRow();
 
-               if (nextCol != null) {
-                   tv.getSelectionModel().select(currentRow, nextCol);
-                   tv.edit(currentRow, nextCol);
-               } else {
+    	    	// 次の編集可能なカラムを探す
+    	    	TableColumn<S, ?> nextCol = getNextEditableColumn(tv, this);
+
+    	    	if (nextCol != null) {
+    	    		tv.getSelectionModel().select(currentRow, nextCol);
+    	    		tv.edit(currentRow, nextCol);
+    	    	} else {
                    // 次の行へ
-                   int nextRow = currentRow + 1;
-                   if (nextRow < tv.getItems().size()) {
-                       TableColumn<S, ?> firstCol = tv.getColumns().get(0);
-                       tv.getSelectionModel().select(nextRow, firstCol);
-                       tv.edit(nextRow, firstCol);
-                   }
+    	    		int nextRow = currentRow + 1;
+    	    		if (nextRow < tv.getItems().size()) {
+    	    			TableColumn<S, ?> firstCol = tv.getColumns().get(0);
+    	    			tv.getSelectionModel().select(nextRow, firstCol);
+    	    			tv.edit(nextRow, firstCol);}
                }
            });
        });
    }
 
+	/**
+	 * 次の編集可能なCellを取得
+	 * @param tv
+	 * @param currentCol
+	 * @return
+	 */
    private TableColumn<S, ?> getNextEditableColumn(TableView<S> tv, TableColumn<S, ?> currentCol) {
        List<TableColumn<S, ?>> cols = tv.getColumns();
        int index = cols.indexOf(currentCol);
+       
        for (int i = index + 1; i < cols.size(); i++) {
            TableColumn<S, ?> col = cols.get(i);
            if (col.isEditable() && col.isVisible()) return col;
