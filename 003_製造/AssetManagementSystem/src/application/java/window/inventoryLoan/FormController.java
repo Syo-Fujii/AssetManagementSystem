@@ -14,6 +14,7 @@ import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
+import application.java.manager.TableColumnManager.Pair;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
 import application.resources.mapper.InventoryLoanMapper;
@@ -242,7 +243,7 @@ public class FormController extends BaseFormPage {
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      * 多分Webページと同じ概念。
      */
-    private void tableViewSettings()
+	private void tableViewSettings()
     {
     	System.out.println("備品詳細 カラム・セル設定/定義");
     	
@@ -262,12 +263,13 @@ public class FormController extends BaseFormPage {
 
     	// 項目(セル) 型設定
     	// 選択肢のリスト
+
     	@SuppressWarnings({ "unchecked", "rawtypes" })
-		/*ObservableList<Pair<Integer, String>> options = 
-        			FXCollections.observableArrayList(new Pair(1,"Apple"), new Pair(2,"Banana"), new Pair(3, "Cherry"));*/
-		ObservableList<String> options = 
-		FXCollections.observableArrayList("Apple","Banana","Cherry");
-    	col_staff_name.setCellTypeCustomComboBox(options, true);
+		ObservableList<Pair<Integer, String>> options = 
+        			FXCollections.observableArrayList(new Pair(1,"Apple"), new Pair(2,"Banana"), new Pair(3, "Cherry"));
+		/*ObservableList<String> options = 
+		FXCollections.observableArrayList("Apple","Banana","Cherry");*/
+    	col_staff_name.setCellTypeCustomComboBoxTest(options, true);
 
     	// 選択動作 設定
     	tableListView.setIsRowsMultiSelected(false);

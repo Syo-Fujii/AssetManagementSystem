@@ -3,6 +3,7 @@ package application.java.manager.CustomTableCells;
 import java.lang.reflect.Method;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
@@ -31,7 +32,10 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
     @SuppressWarnings({ "unused"})
 	public CustomComboBoxTableCellManager(String colId, ObservableList<T> items) {
 
-    	this.comboBox = new ComboBox<T>(items);
+        // items が null なら空のリストを入れる
+        this.comboBox = new ComboBox<>(items != null ? items : FXCollections.observableArrayList());
+    	
+    	//this.comboBox = new ComboBox<T>(items);
         
         // 編集可能（オートコンプリート用）なComboBoxを準備
         createCustomComboBox();
