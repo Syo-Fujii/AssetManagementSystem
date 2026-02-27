@@ -12,8 +12,8 @@ import application.java.base.tableViewListModel.InventoryLoanDataModel;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
-import application.java.manager.CustomComboBoxTableCellManager;
 import application.java.manager.MySqlManager;
+import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
 import application.resources.mapper.InventoryLoanMapper;
@@ -48,7 +48,7 @@ public class FormController extends BaseFormPage {
 	
 	@FXML private TableViewManager<InventoryLoanDataModel> tableListView;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_serial;
-	@FXML private TableColumn<InventoryLoanDataModel, String> col_staff_name;
+	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_staff_name;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_start_date;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_limit_date;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_remarks;
@@ -261,7 +261,7 @@ public class FormController extends BaseFormPage {
     	tableListView.onDisabledCellsFocusSkipEvent();
     	
     	
-    	
+    	tableListView.getSelectionModel().setCellSelectionEnabled(true);
     	tableListView.cellIsEnabled(col_staff_name, true);
     	// 選択肢のリスト
     	ObservableList<String> options = FXCollections.observableArrayList("Apple", "Banana", "Cherry");
@@ -280,14 +280,18 @@ public class FormController extends BaseFormPage {
     		InventoryLoanDataModel rowData = event.getRowValue();
     	    rowData.setStaffName(event.getNewValue());
     	});*/
+    	col_staff_name.setCellTypeCustomComboBox(options, true);
     	
+    	
+    	/*
     	col_staff_name.setCellFactory(
     			col -> new CustomComboBoxTableCellManager<InventoryLoanDataModel, String>(options));	
-    	
+  
     	col_staff_name.setOnEditCommit(event -> {
+    		// ModelへのBind
     		InventoryLoanDataModel rowData = event.getRowValue();
     	    rowData.setStaffName(event.getNewValue());
-    	}); 
+    	}); */
     	
     	
     	
