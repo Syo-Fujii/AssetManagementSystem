@@ -1,4 +1,4 @@
-package application.java.manager.customTableCells;
+package application.java.manager;
 
 import java.lang.reflect.Method;
 
@@ -9,12 +9,14 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 
 /**
- * カスタムComboBoxクラス
- * @param <S> 継承元が[BaseTableViewModel]のデータクラス(1行データのクラス)
- * @param <T> 入力する値の型
+ * カスタムComboBox　
+ * @param <S>
+ * @param <T>
  * @brief
- * コンボBox型のTableCellの設定
- *　・[isAlwaysShow] が真の場合、常にComboBoxを表示する
+ * 編集時のみ表示モード
+ * [Enter]で入力(編集)モードへ遷移 / 編集モード値確定
+ * [ESC]で入力(編集)キャンセル処理
+ *
  */
 public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
     private final ComboBox<T> comboBox;
