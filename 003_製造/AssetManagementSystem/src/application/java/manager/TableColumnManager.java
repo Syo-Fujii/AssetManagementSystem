@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import application.java.base.BaseTableViewModel;
+import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

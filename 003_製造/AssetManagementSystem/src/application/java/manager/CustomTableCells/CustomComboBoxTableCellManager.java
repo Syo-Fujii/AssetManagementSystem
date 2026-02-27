@@ -1,4 +1,4 @@
-package application.java.manager;
+package application.java.manager.CustomTableCells;
 
 import java.lang.reflect.Method;
 
