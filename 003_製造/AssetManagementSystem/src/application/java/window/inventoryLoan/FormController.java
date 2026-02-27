@@ -265,11 +265,16 @@ public class FormController extends BaseFormPage {
     	// 選択肢のリスト
 
     	@SuppressWarnings({ "unchecked", "rawtypes" })
-		ObservableList<Pair<Integer, String>> options = 
-        			FXCollections.observableArrayList(new Pair(1,"Apple"), new Pair(2,"Banana"), new Pair(3, "Cherry"));
-		/*ObservableList<String> options = 
-		FXCollections.observableArrayList("Apple","Banana","Cherry");*/
-    	col_staff_name.setCellTypeCustomComboBoxTest(options, true);
+    	ObservableList<Pair<Integer, String>> options =	FXCollections.observableArrayList(
+    			new Pair(1,"Apple"), 
+    			new Pair(2,"Banana"), 
+    			new Pair(3, "Cherry"));
+		
+    	ObservableList<String> options_OL = 
+				FXCollections.observableArrayList("Apple","Banana","Cherry");
+
+    	col_staff_name.setCellTypeCustomComboBox(options_OL, true, false);
+		//col_staff_name.setCellTypeCustomComboBoxTest(options, true);
 
     	// 選択動作 設定
     	tableListView.setIsRowsMultiSelected(false);

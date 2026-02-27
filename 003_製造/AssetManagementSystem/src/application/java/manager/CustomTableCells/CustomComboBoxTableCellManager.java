@@ -22,17 +22,18 @@ import javafx.scene.control.TextField;
 public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
     private final ComboBox<T> comboBox;
 
-    private Boolean isAlwaysShow = false;
-    private Boolean isAdjusting = false;    
+    private final Boolean isAlwaysShow;
+    private Boolean isAdjusting = false;
     
     /**
      * コンストラクタ
      * @param items 設定する選択リスト
      */
     @SuppressWarnings({ "unused"})
-	public CustomComboBoxTableCellManager(String colId, ObservableList<T> items) {
+	public CustomComboBoxTableCellManager(String colId, ObservableList<T> items, Boolean isAlwaysShow) {
+    	this.isAlwaysShow = isAlwaysShow;
 
-        // items が null なら空のリストを入れる
+    	// items が null なら空のリストを入れる
         this.comboBox = new ComboBox<>(items != null ? items : FXCollections.observableArrayList());
     	
     	//this.comboBox = new ComboBox<T>(items);
@@ -83,10 +84,10 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
         	    	    	e.printStackTrace();
         	    	    }
         			}});}
-     public CustomComboBoxTableCellManager(String colId, ObservableList<T> items, Boolean isAlwaysShow) {
+    /*public CustomComboBoxTableCellManager(String colId, ObservableList<T> items, Boolean isAlwaysShow) {
     	this.isAlwaysShow = isAlwaysShow;
     	this(colId, items);
-        }
+        }*/
  
     /**
      * セルが入力(編集)モードに移行する際に内部で呼び出されるメソッド

@@ -66,21 +66,32 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     	            setDisable(false);
     	        } else {
     	            setText(item.toString());
+    	            
     	            // 選択・操作を制御
     	            setDisable(!isEnabled);
     	            setFocusTraversable(!isEnabled);
+
+	                // 見た目の調整（非活性時にグレーアウトさせる等）
+	                if (!isEnabled) {
+	                    setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
+	                } else {
+	                    setStyle(""); 
+	                }
     	        }
-    	    }});}	
+    	    }});}
 	
 	/**
 	 * ComboBox型セルの設定
+	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
 	 * @param items 選択リストに表示するデータ
 	 * @param isEnabled CELL 有効化制御
+	 * @param isAlwaysShow 常にComboBoxを表示するか
 	 */
-	public void setCellTypeCustomComboBox(ObservableList<T> items, Boolean isEnabled){
+	@SuppressWarnings("unused")
+	public void setCellTypeCustomComboBox(ObservableList<T> items, Boolean isEnabled, Boolean isAlwaysShow){
 		
     	this.setCellFactory(
-    			col -> new CustomComboBoxTableCellManager<S,T>(this.getId(), items){
+    			col -> new CustomComboBoxTableCellManager<S,T>(this.getId(), items, isAlwaysShow){
 
     			      @Override
     			        public void updateItem(T item, boolean empty) {
@@ -111,7 +122,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	public void setCellTypeCustomComboBoxTest(ObservableList<Pair<Integer, String>> items, Boolean isEnabled){
 		
     	this.setCellFactory(
-    			col -> new CustomComboBoxTableCellManager<S,T>(this.getId(), null){
+    			col -> new CustomComboBoxTableCellManager<S,T>(this.getId(), null, true){
 
     		        // 内部で使う ComboBox を Pair 型で上書き・保持する
     		        private final ComboBox<Pair<Integer, String>> internalCb = new ComboBox<>(items);
@@ -213,8 +224,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     	   T newValue = event.getNewValue();
     	   
     	   /*  TEST */
-    	   Pair<Integer, String> A = (Pair<Integer, String>)newValue;
-    	   System.out.println("選択値 [" + A.code.toString() + "]"   );
+    	   /*Pair<Integer, String> A = (Pair<Integer, String>)newValue;
+    	   System.out.println("選択値 [" + A.code.toString() + "]"   );*/
     	   
     	   
     	   // モデルへの値反映
@@ -222,7 +233,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     	        // メソッド(値のSetter プロパティ)名の生成
     	        String methodName = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
     	        
-                // モデルからメソッドを探して実行
+                // モデルからメソッド(Setter)を探して実行
                 Method setter = rowData.getClass().getMethod(methodName, newValue.getClass());
                 setter.invoke(rowData, newValue);
     	    } catch (Exception e) {
