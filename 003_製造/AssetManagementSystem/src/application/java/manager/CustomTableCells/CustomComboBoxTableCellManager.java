@@ -27,7 +27,8 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
     
     /**
      * コンストラクタ
-     * @param items 設定する選択リスト
+     * @param items ComboBoxの選択リスト
+     * @param isAlwaysShow ComboBoxを常時表示するか
      */
     @SuppressWarnings({ "unused"})
 	public CustomComboBoxTableCellManager(String colId, ObservableList<T> items, Boolean isAlwaysShow) {
@@ -35,11 +36,9 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
 
     	// items が null なら空のリストを入れる
         this.comboBox = new ComboBox<>(items != null ? items : FXCollections.observableArrayList());
-    	
-    	//this.comboBox = new ComboBox<T>(items);
         
         // 編集可能（オートコンプリート用）なComboBoxを準備
-        createCustomComboBox();
+        createCustomComboBox(colId);
 
         if (!this.isAlwaysShow)
         {
@@ -48,46 +47,15 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
 
         /* 常時表示モード */
         // ComboBoxがフォーカスを得た＝ユーザーが操作しようとしている
-        this.comboBox.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                // 親の TableView(TableCell)に対して、編集状態への移行(Enterが押下された)を通知
-                getTableView().edit(getIndex(), getTableColumn());
-            }
-        });      
-        
-        // 入力監視リスナー
-		// (obs = 値変更を監視しているプロパティ:ObservableValue = comboBox.getSelectionModel().selectedItemProperty())
-        this.comboBox.getSelectionModel().selectedItemProperty().addListener(
+        this.comboBox.focusedProperty().addListener(
         		(obs, oldVal, newVal) -> {
-        			if (isEditing()) {
-        				// 編集モード(値の確定)
-        				commitEdit(newVal);
-        			} else {
-        				// 非編集モード(値の確定)
-        			   
-        				S rowData = getTableView().getItems().get(getIndex());
-        			   
-        			   // ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
-        			   
-         	    	   // モデルへの値反映
-        	    	    try {
-        	    	        // メソッド(値のSetter プロパティ)名の生成
-        	    	        String methodName = "set" + colId.substring(0, 1).toUpperCase() + colId.substring(1);
-        	    	        
-        	                // モデルからメソッドを探して実行
-        	                Method setter = rowData.getClass().getMethod(methodName, newVal.getClass());
-        	                setter.invoke(rowData, newVal);
-        	    	    } catch (Exception e) {
-        	    	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-        	                System.err.println("モデルへの値反映に失敗しました: " + colId);
-        	    	    	
-        	    	    	e.printStackTrace();
-        	    	    }
-        			}});}
-    /*public CustomComboBoxTableCellManager(String colId, ObservableList<T> items, Boolean isAlwaysShow) {
-    	this.isAlwaysShow = isAlwaysShow;
-    	this(colId, items);
-        }*/
+        			if (newVal) {
+        				System.out.println("CustomCell focusedProperty().addListener");
+        				
+        				// 親の TableView(TableCell)に対して、編集状態への移行(Enterが押下された)を通知
+        				getTableView().edit(getIndex(), getTableColumn());
+        			}});
+    }
  
     /**
      * セルが入力(編集)モードに移行する際に内部で呼び出されるメソッド
@@ -102,14 +70,17 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
     public void startEdit() {
     	super.startEdit();
     	
-    	// System.out.println("CustomCell startEdit");
+    	System.out.println("CustomCell startEdit");
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
         	setGraphic(comboBox);
         	setText(null);
         } else if (!isEditing()) {
-            return;
+        	System.out.println("CustomCell NotEditMode");
+        	return;
         }
+
+    	System.out.println("CustomCell EditMode");
 
     	comboBox.requestFocus();
     	comboBox.getEditor().requestFocus();
@@ -129,7 +100,7 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
     public void cancelEdit() {
     	super.cancelEdit();
     	
-        // System.out.println("CustomCell cancelEdit");
+        System.out.println("CustomCell cancelEdit");
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
@@ -156,7 +127,7 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
         
     	super.updateItem(item, empty);
 
-    	// System.out.println("CustomCell updateItem");
+    	System.out.println("CustomCell updateItem");
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         if (empty) {
             setGraphic(null);
@@ -183,17 +154,22 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
                     setGraphic(null);
                     setText(item != null ? item.toString() : null);
                 }
-            }      	
+            }
         }
     }
  
     /**
      * カスタムコンボボックス生成
+     * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      */
-    private void createCustomComboBox() {
-        // オートコンプリート機能付与
+    private void createCustomComboBox(String colId) {
+        
+    	// オートコンプリート機能付与
         setupAutoComplete();
-        }    
+
+        // 選択リスト確定機能追加
+        setupComboBoxSelectedItem(colId);        
+    }
     
 	/**
 	 * 機能追加：入力Mode + AutoComplete機能
@@ -238,12 +214,51 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCell<S, T> {
         // ⇒ 全ての文字列が入力されてからCommitする
         this.comboBox.setOnAction(
         		e -> {
+    				System.out.println("CustomCell setOnAction");
+        			
         			if (!isAdjusting && isEditing()) { 
-        				System.out.println("CustomCell setOnAction");
-   
         				// 値確定処理
         				commitEdit(comboBox.getValue());
         				}
-        			});}
+        			});
+    }
 
+    /**
+     * 機能追加：コンボボックス選択確定動作
+     * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
+	 * @brief 選択したItemをカラムのBINDソース<S>に反映<br>
+	 * カラムの[id]と[fx:id]は同一の前提
+     */
+    @SuppressWarnings({ "unused" })
+	private void setupComboBoxSelectedItem(String colId) {
+        // 入力監視リスナー
+		// (obs = 値変更を監視しているプロパティ:ObservableValue = comboBox.getSelectionModel().selectedItemProperty())
+        this.comboBox.getSelectionModel().selectedItemProperty().addListener(
+        		(obs, oldVal, newVal) -> {
+        			// System.out.println("CustomCell selectedItemProperty().addListener");
+        			if (isEditing()) {
+        				// 編集モード(値の確定)
+        				this.commitEdit(newVal);
+
+        			} else {
+        				// 非編集モード(値の確定)
+        				S rowData = getTableView().getItems().get(getIndex());
+        			   
+        			   // ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
+         	    	   // モデルへの値反映
+        	    	    try {
+        	    	        // メソッド(値のSetter プロパティ)名の生成
+        	    	        String methodName = "set" + colId.substring(0, 1).toUpperCase() + colId.substring(1);
+        	    	        
+        	                // モデルからメソッドを探して実行
+        	                Method setter = rowData.getClass().getMethod(methodName, newVal.getClass());
+        	                setter.invoke(rowData, newVal);
+        	    	    } catch (Exception e) {
+        	    	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
+        	                System.err.println("モデルへの値反映に失敗しました: " + colId);
+        	    	    	
+        	    	    	e.printStackTrace();
+        	    	    }
+        			}});
+    }
 }

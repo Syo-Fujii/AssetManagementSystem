@@ -14,7 +14,7 @@ import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
-import application.java.manager.TableColumnManager.Pair;
+import application.java.manager.TableColumnManager.keyValuePairItem;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
 import application.resources.mapper.InventoryLoanMapper;
@@ -54,6 +54,9 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_limit_date;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_remarks;
 	@FXML private TableColumn<InventoryLoanDataModel, Boolean> col_is_checkout;
+
+	
+	@FXML private Button inventoryCounting_button;
 	
 	@FXML private Button submit_button;
 	@FXML private Button back_button;
@@ -265,16 +268,16 @@ public class FormController extends BaseFormPage {
     	// 選択肢のリスト
 
     	@SuppressWarnings({ "unchecked", "rawtypes" })
-    	ObservableList<Pair<Integer, String>> options =	FXCollections.observableArrayList(
-    			new Pair(1,"Apple"), 
-    			new Pair(2,"Banana"), 
-    			new Pair(3, "Cherry"));
+    	ObservableList<keyValuePairItem<Integer, String>> options =	FXCollections.observableArrayList(
+    			new keyValuePairItem(1,"Apple"), 
+    			new keyValuePairItem(2,"Banana"), 
+    			new keyValuePairItem(3, "Cherry"));
 		
     	ObservableList<String> options_OL = 
 				FXCollections.observableArrayList("Apple","Banana","Cherry");
 
-    	col_staff_name.setCellTypeCustomComboBox(options_OL, true, false);
-		//col_staff_name.setCellTypeCustomComboBoxTest(options, true);
+    	//col_staff_name.setCellTypeCustomComboBox(options_OL, true, true);
+		col_staff_name.setCellTypeCustomComboBoxKeyValues(options, "staffNo", true, true);
 
     	// 選択動作 設定
     	tableListView.setIsRowsMultiSelected(false);
@@ -348,4 +351,37 @@ public class FormController extends BaseFormPage {
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
     }
+    
+    
+    
+    @FXML
+    /**
+     * [所在確認]ボタン 押下イベント
+     */
+    public void onCountingButtonClicked() {
+    	try {
+
+    		// 選択行取得
+        	InventoryLoanDataModel row = tableListView.
+        			getSelectionModel().
+        			getSelectedItem();
+
+        	if (row == null) {
+        	    // なにもしない
+        	    return;
+        	} 
+
+        	String serialNo = row.getStaffName();
+        	Integer dataId = row.getStaffNo();
+ 
+        	System.out.println(
+        			"貸出者名: [" + serialNo + "] " +
+        			"貸出者ID: ["+ dataId.toString() + "]"); 
+    		
+    		
+    	} catch (Exception ex) {
+    		System.err.println(ex);
+    	}
+   }    
+    
  }

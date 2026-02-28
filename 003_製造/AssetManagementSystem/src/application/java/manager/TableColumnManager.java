@@ -5,14 +5,13 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import application.java.base.BaseTableViewModel;
+import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.StringConverter;
 
 /**
  * 
@@ -23,7 +22,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 
 	private Boolean isEnterNextFocus = true;
 	
-	public record Pair<K, V>(Integer code, String name) {};
+	/* 内部クラス */
+	public record keyValuePairItem<K, V>(Integer key, String value) {};
 	
 	/**
 	 * コンストラクタ
@@ -95,7 +95,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 
     			      @Override
     			        public void updateItem(T item, boolean empty) {
-    			            super.updateItem(item, empty);
+    			          // CustomComboBoxTableCellManager.updateItem
+    			    	  super.updateItem(item, empty);
     			            
     			            if (empty || item == null) {
     			                setDisable(false);
@@ -115,95 +116,46 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     				} });}
 
 	/**
-	 * ComboBox型セルの設定
+	 * ComboBox型セル(選択リスト KeyValuePair)の設定
 	 * @param items 選択リストに表示するデータ
+     * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
 	 * @param isEnabled CELL 有効化制御
+	 * @param isAlwaysShow 常にComboBoxを表示するか
 	 */
-	public void setCellTypeCustomComboBoxTest(ObservableList<Pair<Integer, String>> items, Boolean isEnabled){
+	@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
+	public void setCellTypeCustomComboBoxKeyValues(
+			ObservableList<keyValuePairItem<Integer, String>> kvpItems,
+			String keyModelName,			
+			Boolean isEnabled, 
+			Boolean isAlwaysShow){
 		
-    	this.setCellFactory(
-    			col -> new CustomComboBoxTableCellManager<S,T>(this.getId(), null, true){
+		try {
+			this.setCellFactory(
+					col -> new CustomComboBoxKvpSourceManager(this.getId(), keyModelName, kvpItems, isAlwaysShow){
 
-    		        // 内部で使う ComboBox を Pair 型で上書き・保持する
-    		        private final ComboBox<Pair<Integer, String>> internalCb = new ComboBox<>(items);
-
-    		        {
-    		            // 表示設定 (IDではなく名称を出す)
-    		            setupPairConverter(internalCb);
-
-    		            // 選択時のイベント：Pair から String (name) を取り出して確定
-    		            internalCb.getSelectionModel().selectedItemProperty().addListener((obs, old, newVal) -> {
-    		                if (newVal != null && isEditing()) {
-    		                    // String 型として commit する (T は String)
-    		                    commitEdit((T) newVal.name()); 
-    		                }
-    		            });
-    		        }   
-     			    
-    		        @Override
-    			        public void updateItem(T item, boolean empty) {
-    			            super.updateItem(item, empty);
-    			            
-    			            if (empty || item == null) {
-    			            	setGraphic(null);
-    			            	setDisable(false);
-    			            } else {
-    			                // モデルの String 値と一致する Pair を探してセット
-    			                Pair<Integer, String> selected = items.stream()
-    			                    .filter(p -> p.name().equals(item))
-    			                    .findFirst().orElse(null);
-    			                
-    			                internalCb.setValue(selected);
-    			                setGraphic(internalCb); 			                
-      			            	
-    			            	// ここで有効・無効を制御
-    			                /*setDisable(!isEnabled);
-    			                // 非活性時はクリックできないようにする
-    			                setFocusTraversable(isEnabled);
-    			                
-    			                // 見た目の調整（非活性時にグレーアウトさせる等）
-    			                if (!isEnabled) {
-    			                    setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
-    			                } else {
-    			                    setStyle(""); 
-    			                }*/
-    			            }
-    				} });}	
-	
-	/**
-	 * ComboBoxにPair型の表示方法（StringConverter）を設定する
-	 */
-	private void setupPairConverter(ComboBox<TableColumnManager.Pair<Integer, String>> cb) {
-	    cb.setConverter(new StringConverter<TableColumnManager.Pair<Integer, String>>() {
-	        @Override
-	        public String toString(TableColumnManager.Pair<Integer, String> object) {
-	            // Pairオブジェクトから名称(name)を取り出して画面に表示する
-	            return (object == null) ? "" : object.name();
-	        }
-
-	        @Override
-	        public TableColumnManager.Pair<Integer, String> fromString(String string) {
-	            ObservableList<Pair<Integer, String>> items = cb.getItems();
-	            
-	            // items が null または空の場合は処理を中断する
-	            if (items == null || string == null || string.isEmpty()) {
-	                return null;
-	            }
-	        	
-	        	
-	        	
-	        	// 編集時に文字列から元のPairオブジェクトを探す処理
-	            return cb.getItems().stream()
-	                .filter(item -> item.name().equals(string))
-	                .findFirst()
-	                .orElse(null);
-	        }
-	    });
-	}
-	
-	
-	
-	
+						public void updateItem(String item, boolean empty) {
+							// CustomComboBoxTableCellManager.updateItem
+							super.updateItem(item, empty);
+	    			        
+							if (empty || item == null) {
+								setDisable(false);
+							} else {
+								// ここで有効・無効を制御
+								setDisable(!isEnabled);
+								// 非活性時はクリックできないようにする
+								setFocusTraversable(isEnabled);
+	    			            
+								// 見た目の調整（非活性時にグレーアウトさせる等）
+								if (!isEnabled) {
+									setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
+								} else {
+									setStyle("");
+									}
+								}}});
+	    	} catch (Exception ex) {
+	    		System.err.println(ex);
+	    		}
+		}
 	
 	/**
 	 * 編集モード確定(EnterKey押下)時に次のセルFocus移動
@@ -223,11 +175,6 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     	   S rowData = event.getRowValue();
     	   T newValue = event.getNewValue();
     	   
-    	   /*  TEST */
-    	   /*Pair<Integer, String> A = (Pair<Integer, String>)newValue;
-    	   System.out.println("選択値 [" + A.code.toString() + "]"   );*/
-    	   
-    	   
     	   // モデルへの値反映
     	    try {
     	        // メソッド(値のSetter プロパティ)名の生成
@@ -236,6 +183,9 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
                 // モデルからメソッド(Setter)を探して実行
                 Method setter = rowData.getClass().getMethod(methodName, newValue.getClass());
                 setter.invoke(rowData, newValue);
+                
+                System.out.print("TableColumnManager.setupDefaultEditCommitHandler");
+                
     	    } catch (Exception e) {
     	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
                 System.err.println("モデルへの値反映に失敗しました: " + propertyName);
@@ -243,7 +193,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     	    	e.printStackTrace();
     	    }
     	   
-           // 2. 次のセルへの遷移
+           // 次のセルへの遷移
            javafx.application.Platform.runLater(() -> {
                TableView<S> tv = event.getTableView();
                int currentRow = event.getTablePosition().getRow();
@@ -267,7 +217,13 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
        });
    }
 
-   private TableColumn<S, ?> getNextEditableColumn(TableView<S> tv, TableColumn<S, ?> currentCol) {
+   /**
+    * 
+    * @param tv
+    * @param currentCol
+    * @return
+    */
+	private TableColumn<S, ?> getNextEditableColumn(TableView<S> tv, TableColumn<S, ?> currentCol) {
        List<TableColumn<S, ?>> cols = tv.getColumns();
        int index = cols.indexOf(currentCol);
        for (int i = index + 1; i < cols.size(); i++) {
@@ -283,13 +239,14 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     * 最新のJava（モジュールシステム）では、JavaFXの内部変数に対して
     * リフレクション（setAccessible(true)）を使うことが禁止されているため<br>
     */
+   @SuppressWarnings("unused")
    private String getPropertyName() {
-       // 1. カラムに設定されている CellValueFactory を取得
+       // カラムに設定されている CellValueFactory を取得
        var factory = this.getCellValueFactory();
 
        if (factory instanceof PropertyValueFactory) {
            try {
-               // 2. PropertyValueFactory クラスの内部フィールド "property" にアクセス
+               // PropertyValueFactory クラスの内部フィールド "property" にアクセス
                Field field = PropertyValueFactory.class.getDeclaredField("property");
                field.setAccessible(true); // プライベートフィールドへのアクセスを許可
                
