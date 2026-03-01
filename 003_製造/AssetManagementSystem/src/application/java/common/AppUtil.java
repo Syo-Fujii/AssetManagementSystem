@@ -1,5 +1,8 @@
 package application.java.common;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  * 共通関数クラス
  */
@@ -41,6 +44,23 @@ public class AppUtil {
         }
     }    
 
+    /**
+     * 文字列を日付(LocalDate型)に変換可能か判定
+     * @param str 対象文字列
+     * @return 変換可能判定
+     */
+    public static boolean isDate(String str) {
+        if (str == null) return false;
+        try {
+        	LocalDate.parse(
+        			str.toString(),
+            		DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        	return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }        
+    
     /**
      * ファイル名からFXMLファイルPATHを生成する
      * @param filename 

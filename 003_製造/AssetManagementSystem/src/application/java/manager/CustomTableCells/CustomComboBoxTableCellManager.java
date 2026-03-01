@@ -10,7 +10,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 
 /**
- * カスタムComboBox　
+ * カスタムComboBox
  * @param <S>
  * @param <T>
  * @brief

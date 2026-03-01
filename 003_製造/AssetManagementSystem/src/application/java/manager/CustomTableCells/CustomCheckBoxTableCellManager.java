@@ -5,6 +5,15 @@ import java.lang.reflect.Method;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 
+/**
+ * カスタムCheckBox
+ * @param <S>
+ * @param <T>
+ * @brief
+ * 編集時のみ表示モード
+ * [Enter]で入力(編集)モードへ遷移 / 編集モード値確定
+ * [ESC]で入力(編集)キャンセル処理
+ */
 public class CustomCheckBoxTableCellManager<S, T> extends TableCell<S, T> {
 	private final CheckBox checkBox;
 	private final Boolean isAlwaysShow;
@@ -14,6 +23,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCell<S, T> {
 	/**
      * コンストラクタ
      * @param colId カラムのID(自身(カスタムチェックボックス)のカラムのID)
+     * @param isAlwaysShow CheckBoxを常時表示するか
 	 */
 	@SuppressWarnings("unused")
 	public CustomCheckBoxTableCellManager(String colId, Boolean isAlwaysShow) {
