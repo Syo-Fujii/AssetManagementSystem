@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import application.java.base.BaseTableViewModel;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -16,7 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 /**
- * カスタムControl(TableView)
+ * カスタムControl(継承：TableView)
  * @param [T] 継承元が[BaseTableViewModel]のデータクラス(1行データのクラス)
  * @brief TableViewを継承したカスタムControl。<br>
  * データSOURCEは、継承元が[BaseTableViewModel]のデータクラスとする。<br>
@@ -35,7 +36,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	
 	private Boolean isColumnSettingCompleted = false;
 
-	private Boolean isRowsMultiSelected = false;
+	private Boolean isMultiSelected = false;
 	private Boolean isCellSelected = false;
 	private Boolean isReorderabled = false;	
 	
@@ -86,8 +87,8 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 * 複数行選択判定
 	 * @return
 	 */
-	public Boolean getIsRowsMultiSelected() {
-		return this.isRowsMultiSelected;
+	public Boolean getIsMultiSelected() {
+		return this.isMultiSelected;
 	}
 
 	/**
@@ -95,8 +96,8 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 * @param isMultiSelected 複数行選択判定
 	 * @brief [真]の場合、複数行(Cell)選択可。[偽]の場合、単一行(Cell)選択。
 	 */
-	public void setIsRowsMultiSelected(Boolean isMultiSelected) {
-		this.isRowsMultiSelected = isMultiSelected;
+	public void setIsMultiSelected(Boolean isMultiSelected) {
+		this.isMultiSelected = isMultiSelected;
 		
 		if (isMultiSelected) {
 			this.getSelectionModel().setSelectionMode( SelectionMode.MULTIPLE );
@@ -209,7 +210,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	public void onSelectedRowEvent(Consumer<T> lostCallback, Consumer<T> selectedCallback) {
 
 		// 選択
-		if (this.isRowsMultiSelected )
+		if (this.isMultiSelected )
 		{
 			this.addSelectedMultiRowsEvent(lostCallback, selectedCallback);
 		} else {
@@ -226,7 +227,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	public void onSelectedCellsEvent(Consumer<T> lostCallback, Consumer<T> selectedCallback) {
 
 		// 選択
-		if (this.isRowsMultiSelected )
+		if (this.isMultiSelected )
 		{
 			this.addSelectedCellsEvent(selectedCallback);
 		} else {
@@ -278,9 +279,10 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	
 	/**
 	 * 選択行番号取得
+	 * @brief 複数選択Modeの場合、[-1]を返す。
 	 */
 	public Integer getSelectedRowNumber() {
-		if(this.isRowsMultiSelected)
+		if(this.isMultiSelected)
 		{
 			return -1;
 		}
@@ -301,6 +303,25 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		this.setItems( observableListData );
 	}
 
+	/**
+ 	 * 初期Focus設定(先頭行, 指定カラム)
+	 * @param <S>
+	 * @param <V>
+	 * @param targetColumn 指定するカラム
+	 * @brief 「ウィンドウが表示された直後」にフォーカスを要求する。<br>
+	 * Stage の setOnShown イベントを使う
+	 */
+	public <S extends TableColumn<T, V>, V> void setFocusFirstCell(S targetColumn) {
+		
+		Platform.runLater(() -> {
+		    // 明細行が1行以上あるかチェック
+		    if (!this.getItems().isEmpty()) {
+		        this.requestFocus();
+		        this.getSelectionModel().select(0, targetColumn);
+		        this.edit(0, targetColumn);
+		    }
+	    });}
+	
 	/**
 	 * 行選択(１行)Event
 	 * @param lostCallback 選択が抜けた行に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス

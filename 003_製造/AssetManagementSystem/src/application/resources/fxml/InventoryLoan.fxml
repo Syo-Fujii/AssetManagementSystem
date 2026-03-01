@@ -29,7 +29,7 @@
            <TableColumn id="start_date" fx:id="col_start_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="貸出開始日" />
            <TableColumn id="limit_date" fx:id="col_limit_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="返却予定日" />
            <TableColumn id="remarks" fx:id="col_remarks" editable="false" maxWidth="259.0" minWidth="245.0" prefWidth="245.0" text="備考" />
-           <TableColumn id="is_check_out" fx:id="col_is_checkout" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="貸出" />
+           <TableColumnManager id="isCheckOut" fx:id="col_is_checkout" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="貸出" />
         </columns>
       </TableViewManager>
       <Button id="inventoryCounting" fx:id="inventoryCounting_button" layoutX="25.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCountingButtonClicked" prefHeight="37.0" prefWidth="130.0" text="所在確認" AnchorPane.leftAnchor="25.0" />

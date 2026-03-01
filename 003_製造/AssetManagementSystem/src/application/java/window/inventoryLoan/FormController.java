@@ -53,7 +53,7 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_start_date;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_limit_date;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_remarks;
-	@FXML private TableColumn<InventoryLoanDataModel, Boolean> col_is_checkout;
+	@FXML private TableColumnManager<InventoryLoanDataModel, Boolean> col_is_checkout;
 
 	
 	@FXML private Button inventoryCounting_button;
@@ -74,7 +74,7 @@ public class FormController extends BaseFormPage {
 		this.setWindowTitle("備品管理システム");
 
 		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryLoan"));
-		this.setCssFile(AppUtil.MakeCssFilePath("InventoryDetailsStyle"));
+		this.setCssFile(AppUtil.MakeCssFilePath("InventoryLoanStyle"));
 		
 		this.setPageTitle("備品貸出画面");
 	}
@@ -108,9 +108,6 @@ public class FormController extends BaseFormPage {
     	
     	System.out.println("備品貸出 リスト表示処理");
     	super.<InventoryDetailsDataModel>fillTableAsync();
-    	
-    	//loan_button.setDisable(true);
-
     }	
  
     @FXML
@@ -137,6 +134,17 @@ public class FormController extends BaseFormPage {
     			FormController(this.stockType, this.stockCode, this.previousPageWindowSize.toString()));
     }
 
+    @Override
+	/**
+	 * (stage)画面表示Event 
+	 */
+	public void FormShown(){
+    	//System.out.println("FormShown");
+    	
+    	// TableView Focus指定
+    	tableListView.setFocusFirstCell(col_staff_name);
+	}  
+    
     @SuppressWarnings("unchecked")
 	@Override
 	/**
@@ -165,10 +173,15 @@ public class FormController extends BaseFormPage {
     	
     	tableListView.setList( rows );
 
-    	// 備品分類の表示
-		if (listData != null && !rows.isEmpty()) {
+    	Boolean isEmptyRecords = (listData == null || rows.isEmpty());
+    	
+		if (!isEmptyRecords) {
+	    	// 備品分類の表示(再描画の際、0件でも表示させる)
 			lbl_stock_name.setText(rows.getFirst().getTypeName());
 		}
+		
+		inventoryCounting_button.setDisable(isEmptyRecords);
+		submit_button.setDisable(isEmptyRecords);
     }
     
 	@Override
@@ -262,6 +275,8 @@ public class FormController extends BaseFormPage {
     	// Cell 有効化制御
     	tableListView.cellIsEnabled(col_serial, false);
     	tableListView.cellIsEnabled(col_remarks, false);
+    	
+    	// 無効Cell Focus SKIP設定 
     	tableListView.onDisabledCellsFocusSkipEvent();
 
     	// 項目(セル) 型設定
@@ -276,33 +291,26 @@ public class FormController extends BaseFormPage {
     	ObservableList<String> options_OL = 
 				FXCollections.observableArrayList("Apple","Banana","Cherry");
 
-    	//col_staff_name.setCellTypeCustomComboBox(options_OL, true, true);
+    	//col_staff_name.setCellTypeCustomComboBox(options_OL, true, false);
 		col_staff_name.setCellTypeCustomComboBoxKeyValues(options, "staffNo", true, true);
-
+    	col_is_checkout.setCellTypeCustomCheckBox(true, true);
+    	
     	// 選択動作 設定
-    	tableListView.setIsRowsMultiSelected(false);
+    	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(true);
     	
-    	tableListView.onSelectedCellsEvent(
+    	/*tableListView.onSelectedCellsEvent(
     			bef    -> { bef = null; },
-    			result -> { /*this.callbackTableSelectedRow( (InventoryDetailsDataModel)result );*/ });
+    			result -> { this.callbackTableSelectedRow( (InventoryDetailsDataModel)result ); });*/
     	
-        	
-    	/*
     	// TableView[列]文字設定 
-    	//col_serial.getStyleClass().add("cell-itemname");
-    	col_staff_name.getStyleClass().add("number-aligned");
-    	col_rent_flg.getStyleClass().add("center-aligned");
+    	col_serial.getStyleClass().add("text-aligned");
+    	col_staff_name.getStyleClass().add("center-aligned");
     	col_start_date.getStyleClass().add("center-aligned");
     	col_limit_date.getStyleClass().add("center-aligned"); 
-    	col_confirmed_date.getStyleClass().add("center-aligned"); 
-    	col_model.getStyleClass().add("center-aligned");
-    	col_maker.getStyleClass().add("center-aligned");
-    	//col_destination_serial_no.getStyleClass().add("number-aligned");
-    	col_type.getStyleClass().add("center-aligned");
-    	col_lease_date.getStyleClass().add("center-aligned");    	
-    	//col_remarks.getStyleClass().add("number-aligned");*/
-    	
+    	col_remarks.getStyleClass().add("text-aligned");
+    	col_is_checkout.getStyleClass().add("center-aligned");
+
     	// 0件の場合のCaptionを削除(「データがありません」非表示)
     	tableListView.setPlaceholder(new Label("")); 
     }
@@ -351,6 +359,8 @@ public class FormController extends BaseFormPage {
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
     }
+
+    
     
     
     
@@ -373,10 +383,12 @@ public class FormController extends BaseFormPage {
 
         	String serialNo = row.getStaffName();
         	Integer dataId = row.getStaffNo();
+        	Boolean isLoan = row.getIsCheckOut();
  
         	System.out.println(
         			"貸出者名: [" + serialNo + "] " +
-        			"貸出者ID: ["+ dataId.toString() + "]"); 
+        			"貸出者ID: ["+ dataId.toString() + "]" +
+        			"貸出: ["+ isLoan.toString() + "]"); 
     		
     		
     	} catch (Exception ex) {

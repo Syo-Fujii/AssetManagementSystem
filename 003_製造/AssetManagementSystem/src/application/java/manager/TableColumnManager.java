@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import application.java.base.BaseTableViewModel;
+import application.java.manager.CustomTableCells.CustomCheckBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
 import javafx.collections.ObservableList;
@@ -14,9 +15,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * 
- * @param <S>
- * @param <T>
+ * カスタムControl(継承：TableColumn)
+ * @param <S> 継承元が[BaseTableViewModel]のデータクラス
+ * @param <T> カラムのデータ型
+ * @brief TableColumnを継承したカスタムControlのManagerクラス。<br>
+ * 各カスタムTableColumnの呼び出しを当該メソッドで行う。<br>
  */
 public class TableColumnManager<S extends BaseTableViewModel,T> extends TableColumn<S, T>  {
 
@@ -156,6 +159,41 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	    		System.err.println(ex);
 	    		}
 		}
+
+	/**
+	 * CheckBox型セルの設定
+	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
+	 * @param items 選択リストに表示するデータ
+	 * @param isEnabled CELL 有効化制御
+	 * @param isAlwaysShow 常にComboBoxを表示するか
+	 */
+	@SuppressWarnings("unused")
+	public void setCellTypeCustomCheckBox(Boolean isEnabled, Boolean isAlwaysShow){
+		
+    	this.setCellFactory(
+    			col -> new CustomCheckBoxTableCellManager<S,T>(this.getId(), isAlwaysShow){
+
+    			      @Override
+    			        public void updateItem(T item, boolean empty) {
+    			          // CustomComboBoxTableCellManager.updateItem
+    			    	  super.updateItem(item, empty);
+    			            
+    			            if (empty || item == null) {
+    			                setDisable(false);
+    			            } else {
+    			                // ここで有効・無効を制御
+    			                setDisable(!isEnabled);
+    			                // 非活性時はクリックできないようにする
+    			                setFocusTraversable(isEnabled);
+    			                
+    			                // 見た目の調整（非活性時にグレーアウトさせる等）
+    			                if (!isEnabled) {
+    			                    setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
+    			                } else {
+    			                    setStyle(""); 
+    			                }
+    			            }
+    				} });}	
 	
 	/**
 	 * 編集モード確定(EnterKey押下)時に次のセルFocus移動

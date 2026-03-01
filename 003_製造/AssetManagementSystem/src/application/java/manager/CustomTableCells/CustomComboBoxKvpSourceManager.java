@@ -114,18 +114,18 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCell<S, V> {
     
     /**
      * セルを描画・更新する際に内部で呼び出されるメソッド
-	 * @brief 主に以下のタイミングで実行
-	 *  ・セルの初期表示 : テーブルが画面に表示され、各セルにデータが流し込まれる時
-	 *  ・スクロール時   : セルが画面外に消え、新しいデータを表示するために再利用（リサイクル）される時
-	 *  ・データの変更   : ObservableList の中身が入れ替わったり、特定のプロパティが更新されて通知が飛んだ時
-	 *  ・表示の強制更新 : tableView.refresh() を明示的に実行した時
+	 * @brief 主に以下のタイミングで実行<br>
+	 *  ・セルの初期表示 : テーブルが画面に表示され、各セルにデータが流し込まれる時<br>
+	 *  ・スクロール時   : セルが画面外に消え、新しいデータを表示するために再利用（リサイクル）される時<br>
+	 *  ・データの変更   : ObservableList の中身が入れ替わったり、特定のプロパティが更新されて通知が飛んだ時<br>
+	 *  ・表示の強制更新 : tableView.refresh() を明示的に実行した時<br>
      */
     @Override
     protected void updateItem(V value, boolean empty) {
         
     	super.updateItem(value, empty);
 
-    	System.out.println("CustomCell updateItem");
+    	System.out.println("CustomComboBoxKeyValuePair updateItem");
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         if (empty) {
             setGraphic(null);

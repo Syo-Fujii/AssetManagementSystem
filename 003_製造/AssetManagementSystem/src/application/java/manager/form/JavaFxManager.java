@@ -98,15 +98,18 @@ public class JavaFxManager extends Application{
             }
 		});
 		
-		// Event 付与(Form Shown相当)
-        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> {
-        	this.FormShown(cls);
-        });		
-		
 		// 画面内容(パラメータ設定)の展開
 		cls.loadParameter(params);
 		
+		// Event 付与(Form Shown相当)
+        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> {
+        	this.WindowShown(cls);
+        });		
+		
 		stage.setScene(scene);
+		
+		// Page(scene) ShownEvent呼出
+		cls.FormShown();
 		
 		if (isSizeToScene)
 		{
@@ -119,14 +122,14 @@ public class JavaFxManager extends Application{
 	}
 	
 	/**
-	 * (stage)画面表示Event 
+	 * (stage)画面[Window]表示Event 
      * @brief .NET Shown相当 
      * Shownイベントは 、フォームが初めて表示されたときにのみ発生します。
      * その後、最小化、最大化、復元、非表示、表示、無効化、再描画は、このイベントを発生させません。
      * Window(Stage)の呼び出しは初回(primaryStage start)のみのため、１回しか呼び出されない
 	 */
-	private void FormShown(BaseFormPage cls){
-		// System.out.println("FormShown");
+	private void WindowShown(BaseFormPage cls){
+		//System.out.println("FXManager WindowShown");
 		
 		// Windowタイトルの定義
 		stage.setTitle(cls.getWindowTitle());

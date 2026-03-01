@@ -91,7 +91,8 @@ public class FormController extends BaseFormPage {
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      * 多分Webページと同じ概念。
      */
-    private void tableViewSettings()
+    @SuppressWarnings("unused")
+	private void tableViewSettings()
     {
     	System.out.println("備品一覧 カラム・セル設定/定義");
     	
@@ -102,8 +103,8 @@ public class FormController extends BaseFormPage {
     	tableListView.setIsReorderabled(false);
     	
     	// 選択動作 設定
-    	tableListView.setIsRowsMultiSelected(false);
-    	tableListView.setIsCellSelected(false);   	
+    	tableListView.setIsMultiSelected(false);
+    	tableListView.setIsCellSelected(false);
     	tableListView.onSelectedRowEvent(
     			bef    -> { bef = null; },
     			result -> { this.callbackTableSelectedRow( (InventoryListDataModel)result ); });
@@ -116,7 +117,7 @@ public class FormController extends BaseFormPage {
     	col_totalCnt.getStyleClass().add("number-aligned"); 
     	
     	// 0件の場合のCaptionを削除(「データがありません」非表示)
-    	tableListView.setPlaceholder(new Label("")); 
+    	tableListView.setPlaceholder(new Label(""));
     }
 
     /**
@@ -148,7 +149,7 @@ public class FormController extends BaseFormPage {
     			 java.window.
     			 inventoryDetails.
     			 FormController(row.getType(), row.getCode(), row.getWindowSize()));
-    }    
+    }
     
     /**
      * 備品一覧 リスト表示処理

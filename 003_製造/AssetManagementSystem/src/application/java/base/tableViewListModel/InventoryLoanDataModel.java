@@ -170,7 +170,7 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/
-	public void setRemarks(Boolean checked) {
+	public void setIsCheckOut(Boolean checked) {
 		this.isCheckOut.set(checked);
 	}	
 	

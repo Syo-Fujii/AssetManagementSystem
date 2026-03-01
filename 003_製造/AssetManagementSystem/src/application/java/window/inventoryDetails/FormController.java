@@ -297,7 +297,8 @@ public class FormController extends BaseFormPage {
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      * 多分Webページと同じ概念。
      */
-    private void tableViewSettings()
+    @SuppressWarnings("unused")
+	private void tableViewSettings()
     {
     	System.out.println("備品詳細 カラム・セル設定/定義");
     	
@@ -308,7 +309,7 @@ public class FormController extends BaseFormPage {
     	tableListView.setIsReorderabled(false);
     	
     	// 選択動作 設定
-    	tableListView.setIsRowsMultiSelected(false);
+    	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(false);   	
     	tableListView.onSelectedRowEvent(
     			bef    -> { bef = null; },
