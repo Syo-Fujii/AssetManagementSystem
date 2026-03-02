@@ -10,24 +10,24 @@
 <?import application.java.manager.TableColumnManager?>
 
 <!-- Java内でインスタンス化したクラスを設定する場合は、fxタグ:fx:controller="application.java.window.inventoryList.FormController"を指定しない -->
-<AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label id="title" fx:id="lbl_title" layoutX="25.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="240.0" text="タイトル" textAlignment="CENTER">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <Label id="stock_name" fx:id="lbl_stock_name" layoutX="25.0" layoutY="85.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="850.0" text="備品分類名称1" textAlignment="CENTER">
+      <Label id="stock_name" fx:id="lbl_stock_name" layoutX="25.0" layoutY="85.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="900.0" text="備品分類名称1" textAlignment="CENTER">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <TableViewManager fx:id="tableListView" layoutX="25.0" layoutY="144.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="800.0" snapToPixel="false" AnchorPane.leftAnchor="25.0">
+      <TableViewManager fx:id="tableListView" layoutX="25.0" layoutY="144.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="850.0" snapToPixel="false" AnchorPane.leftAnchor="25.0">
         <columns>
            <TableColumn id="serial" fx:id="col_serial" editable="false" maxWidth="300.0" minWidth="150.0" prefWidth="150.0" text="シリアルナンバー" />
            <TableColumnManager id="staffName" fx:id="col_staff_name" editable="false" maxWidth="600.0" minWidth="100.0" prefWidth="100.0" text="使用者" />
-           <TableColumn id="start_date" fx:id="col_start_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="貸出開始日" />
-           <TableColumn id="limit_date" fx:id="col_limit_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="返却予定日" />
+           <TableColumnManager id="startDate" fx:id="col_start_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120.0" resizable="false" text="貸出開始日" />
+           <TableColumn id="limitDate" fx:id="col_limit_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120" resizable="false" text="返却予定日" />
            <TableColumn id="remarks" fx:id="col_remarks" editable="false" maxWidth="259.0" minWidth="245.0" prefWidth="245.0" text="備考" />
            <TableColumnManager id="isCheckOut" fx:id="col_is_checkout" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="貸出" />
         </columns>

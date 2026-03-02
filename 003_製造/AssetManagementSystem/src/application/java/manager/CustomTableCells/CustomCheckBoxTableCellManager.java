@@ -31,6 +31,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCell<S, T> {
 
 		this.checkBox = new CheckBox();
 
+		// カスタムControlの生成
 		createCustomCheckBox(colId); 
 	        
         if (!this.isAlwaysShow)

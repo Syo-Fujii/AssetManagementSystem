@@ -50,7 +50,7 @@ public class FormController extends BaseFormPage {
 	@FXML private TableViewManager<InventoryLoanDataModel> tableListView;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_serial;
 	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_staff_name;
-	@FXML private TableColumn<InventoryLoanDataModel, String> col_start_date;
+	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_start_date;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_limit_date;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_remarks;
 	@FXML private TableColumnManager<InventoryLoanDataModel, Boolean> col_is_checkout;
@@ -293,7 +293,8 @@ public class FormController extends BaseFormPage {
 
     	//col_staff_name.setCellTypeCustomComboBox(options_OL, true, false);
 		col_staff_name.setCellTypeCustomComboBoxKeyValues(options, "staffNo", true, true);
-    	col_is_checkout.setCellTypeCustomCheckBox(true, true);
+		col_start_date.setCellTypeCustomDatePicker(true, true);
+		col_is_checkout.setCellTypeCustomCheckBox(true, true);
     	
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);

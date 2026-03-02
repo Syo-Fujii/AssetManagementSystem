@@ -8,7 +8,10 @@ import application.java.base.BaseTableViewModel;
 import application.java.manager.CustomTableCells.CustomCheckBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
+import application.java.manager.CustomTableCells.CustomDatePickerTableCellManager;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -194,6 +197,59 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     			                }
     			            }
     				} });}	
+
+	/**
+	 * DatePicker型セルの設定
+	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
+	 * @param isEnabled CELL 有効化制御
+	 * @param isAlwaysShow 常にComboBoxを表示するか
+	 */
+	@SuppressWarnings("unused")
+	public void setCellTypeCustomDatePicker(Boolean isEnabled, Boolean isAlwaysShow){
+		
+    	this.setCellFactory(
+    			col -> new CustomDatePickerTableCellManager<S,T>(this.getId(), isAlwaysShow){
+
+    			      @Override
+    			        public void updateItem(T item, boolean empty) {
+    			          // CustomDatePickerTableCellManager.updateItem
+    			    	  super.updateItem(item, empty);
+    			            
+    			            if (empty || item == null) {
+    			                setDisable(false);
+    			                
+    			                setGraphic(null);
+    			            } else {
+    			                // ここで有効・無効を制御
+    			                setDisable(!isEnabled);
+    			                // 非活性時はクリックできないようにする
+    			                setFocusTraversable(isEnabled);
+
+    			                
+    			                
+    			                // 【重要】現在表示されている graphic が datePicker でない場合のみセットする
+    			                // これにより、クリック時の再描画による「消え」を防ぐ
+    			                Node currentGraphic = getGraphic();
+    			                if (currentGraphic == null || !(currentGraphic instanceof DatePicker)) {
+    			                    setGraphic(this.getDatePicker()); // 必要な時だけセット
+    			                }  			                
+    			                
+    			                /*
+    			                // 【重要】内部のDatePickerにも状態を伝播させる
+    			                Node graphic = getGraphic();
+    			                if (graphic instanceof DatePicker dp) {
+    			                    dp.setDisable(!isEnabled);
+    			                }*/
+    			                
+    			                // 見た目の調整（非活性時にグレーアウトさせる等）
+    			                if (!isEnabled) {
+    			                    setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
+    			                } else {
+    			                    setStyle(""); 
+    			                }
+    			            }
+    				} });}		
+	
 	
 	/**
 	 * 編集モード確定(EnterKey押下)時に次のセルFocus移動
@@ -256,10 +312,11 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
    }
 
    /**
-    * 
-    * @param tv
-    * @param currentCol
-    * @return
+    * 次の編集可能なカラムを探す
+    * @param tv 対象TableView
+    * @param currentCol 対象TableColumn
+    * @return 編集可能なTableColumn
+	* @brief 対象TableColumn より次の編集可能なTableColumnを返す。<br>
     */
 	private TableColumn<S, ?> getNextEditableColumn(TableView<S> tv, TableColumn<S, ?> currentCol) {
        List<TableColumn<S, ?>> cols = tv.getColumns();
