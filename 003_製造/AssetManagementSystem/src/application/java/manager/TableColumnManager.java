@@ -263,10 +263,11 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             					
             					// 範囲外なら強制的に null (または oldValue) に戻す
             					if (isBeforeLower || isAfterUpper) {
-            					    getDatePicker().setValue(null); // 値だけを消す
-            					    //commitEdit(null); // モデルも空にする
+            					    getDatePicker().setValue(null);
+            					    commitEdit(null); // モデルも空にする
             			            getDatePicker().getEditor().clear();
-            			            System.out.println("選択範囲外の日付です: " + date); } 
+            			            setText("");
+            			            System.out.println("TableColumn : 選択範囲外の日付です: " + date); } 
     						}
         					
     						if (isAlwaysShow) {

@@ -44,8 +44,8 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	 */
 	@SuppressWarnings("unused")
 	public CustomDatePickerTableCellManager(
-			String colId, 
-			LocalDate calShowFirstDate, 
+			String colId,
+			LocalDate calShowFirstDate,
 			LocalDate minDate,
 			LocalDate maxDate,
 			Boolean isAlwaysShow) {
@@ -139,7 +139,6 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
     		} else {
     			setText(null);
     		}
-
     		return;
         }
     	
@@ -177,9 +176,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	        			
 	        			// 現在のDatePickerの値とモデルの値が違う場合のみセットする
 	        		    if (!date.equals(this.datePicker.getValue())) {
-	        		        isAdjusting = true;
 	        		        this.datePicker.setValue(date);
-	        		        isAdjusting = false;
 	        		    }
 	        		} else { this.datePicker.setValue(null); }
         	    } finally {
@@ -197,7 +194,9 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
                 } else {
                     setGraphic(null);
                 }
-        		if (!isEditing()) { setText(item.toString()); }
+        		if (!isEditing()) {
+        			setText(item.toString());
+        		}
             }
         }}
 	    
@@ -223,8 +222,8 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
     	// カレンダー表示設定
     	onCalenderShown();
     	onCalenderLimitDateRange();
-    }	
-		
+    }
+
     /**
      * 機能追加：DatePicker選択確定動作(Leave Event)
      * @param colId カラムのID(自身(カスタムControl)のカラムのID)
@@ -264,13 +263,12 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
     	            String value = newVal.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         			
         			if (isEditing()) {
-        				
         				// 編集モード(値の確定)
         				this.commitEdit((T)value);
         			} else {
         				//System.out.println("値反映処理実行: " + value);
         				getTableView().edit(getIndex(), getTableColumn());
-        				commitEdit((T)value); 
+        				this.commitEdit((T)value); 
         				
         				// 非編集モード(値の確定)
         				// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
@@ -294,11 +292,11 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         		                this.datePicker.requestFocus();
         		                }
         					
+        					System.out.println("CustomDatePicker LostFocus");
         					// 下限(lower)より前、または上限(upper)より後の日付を無効化
             	            LocalDate date = datePicker.getValue();
             				
             	            if (date == null) { return; }
-            	            
             	            boolean isBeforeLower = (lowerDate != null && date.isBefore(lowerDate));
             	            boolean isAfterUpper = (upeerDate != null && date.isAfter(upeerDate));
         					
@@ -306,7 +304,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         					if (isBeforeLower || isAfterUpper) {
         			            datePicker.setValue(null); 
         			            datePicker.getEditor().clear();
-        			            System.out.println("選択範囲外の日付です: " + date); }
+        			            System.out.println(" Focuus : 選択範囲外の日付です: " + date); }
         				});}
         		});}
 	
