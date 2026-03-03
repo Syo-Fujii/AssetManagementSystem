@@ -274,6 +274,7 @@ public class FormController extends BaseFormPage {
     	// Cell 有効化制御
     	tableListView.cellIsEnabled(col_serial, false);
     	tableListView.cellIsEnabled(col_remarks, false);
+    	tableListView.cellIsEnabled(col_is_checkout, false);
     	
     	// 無効Cell Focus SKIP設定 
     	tableListView.onDisabledCellsFocusSkipEvent();
@@ -289,23 +290,18 @@ public class FormController extends BaseFormPage {
 		
     	ObservableList<String> options_OL = 
 				FXCollections.observableArrayList("Apple","Banana","Cherry");
+    	
+    	LocalDate dateNow = LocalDate.now();
 
-    	//col_staff_name.setCellTypeCustomComboBox(options_OL, true, false);
-		col_staff_name.setCellTypeCustomComboBoxKeyValues(options, "staffNo", true, false);
-		col_start_date.setCellTypeCustomDatePicker(true, true, 
-				null,
-				LocalDate.of(2026, 1, 1),
-				LocalDate.of(2026, 4, 1));
-		col_is_checkout.setCellTypeCustomCheckBox(true, false);
-		col_limit_date.setCellTypeCustomComboBox(options_OL, true, false);
+		col_staff_name.setCellTypeCustomComboBoxKeyValuesWithCheck(options, "staffNo","isCheckOut", true, true);
+		col_start_date.setCellTypeCustomDatePicker(true, true, null, null, dateNow);
+		col_limit_date.setCellTypeCustomDatePicker(true, true, dateNow, dateNow, LocalDate.of(2099, 12, 31));
+		col_is_checkout.setCellTypeCustomCheckBox(false, true);
 		
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(true);
     	
-    	/*tableListView.onSelectedCellsEvent(
-    			bef    -> { bef = null; },
-    			result -> { this.callbackTableSelectedRow( (InventoryDetailsDataModel)result ); });*/
     	
     	// TableView[列]文字設定 
     	col_serial.getStyleClass().add("text-aligned");
@@ -329,11 +325,13 @@ public class FormController extends BaseFormPage {
      */
     private void callbackBindTableColumnSource() {
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
-    	col_staff_name.setCellValueFactory( new PropertyValueFactory<>("staffName"));
-     	col_start_date.setCellValueFactory( new PropertyValueFactory<>("startDate"));
-    	col_limit_date.setCellValueFactory( new PropertyValueFactory<>("limitDate"));
+    	col_staff_name.setCellValueFactory( data -> data.getValue().staffNameProperty());
+     	col_start_date.setCellValueFactory( data -> data.getValue().startDateProperty());
+    	col_limit_date.setCellValueFactory( data -> data.getValue().limitDateProperty());
     	col_remarks.setCellValueFactory( new PropertyValueFactory<>("remarks"));
-    	col_is_checkout.setCellValueFactory( new PropertyValueFactory<>("isCheckOut"));
+
+    	// CheckBoxのカラム設定(TableView)
+    	col_is_checkout.setCellValueFactory( data -> data.getValue().isCheckOutProperty());
     	
     	// 対象項目の入力を可能にする
     	col_staff_name.setEditable(true);

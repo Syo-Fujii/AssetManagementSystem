@@ -5,14 +5,17 @@ import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 import application.java.base.BaseTableViewModel;
 import application.java.common.AppUtil;
 import application.java.manager.CustomTableCells.CustomCheckBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
+import application.java.manager.CustomTableCells.CustomComboBoxWithChecBoxkManager;
 import application.java.manager.CustomTableCells.CustomDatePickerTableCellManager;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
@@ -29,6 +32,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class TableColumnManager<S extends BaseTableViewModel,T> extends TableColumn<S, T>  {
 
+	private static final PseudoClass DISABLED_PC = PseudoClass.getPseudoClass("disabled-cell");
+	
 	private Boolean isEnterNextFocus = true;
 	
 	/* 内部クラス */
@@ -115,12 +120,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     			                // 非活性時はクリックできないようにする
     			                setFocusTraversable(isEnabled);
     			                
-    			                // 見た目の調整（非活性時にグレーアウトさせる等）
-    			                if (!isEnabled) {
-    			                    setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
-    			                } else {
-    			                    setStyle(""); 
-    			                }
+        						// 見た目の調整
+        						pseudoClassStateChanged(DISABLED_PC, !isEnabled);
     			            }
     				} });}
 
@@ -154,18 +155,66 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 								// 非活性時はクリックできないようにする
 								setFocusTraversable(isEnabled);
 	    			            
-								// 見た目の調整（非活性時にグレーアウトさせる等）
-								if (!isEnabled) {
-									setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
-								} else {
-									setStyle("");
-									}
+	    						// 見た目の調整
+	    						pseudoClassStateChanged(DISABLED_PC, !isEnabled);
+
 								}}});
 	    	} catch (Exception ex) {
 	    		System.err.println(ex);
 	    		}
 		}
 
+	/**
+	 * ComboBox型セル(選択リスト KeyValuePair)の設定
+	 * @param items 選択リストに表示するデータ
+     * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
+     * @param CheckBoxModelName 値更新に連動させるModelのプロパティ名
+	 * @param isEnabled CELL 有効化制御
+	 * @param isAlwaysShow 常にComboBoxを表示するか
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
+	public void setCellTypeCustomComboBoxKeyValuesWithCheck(
+			ObservableList<keyValuePairItem<Integer, String>> kvpItems,
+			String keyModelName,
+			String CheckBoxModelName,
+			Boolean isEnabled, 
+			Boolean isAlwaysShow){
+		
+		try {
+			this.setCellFactory(
+					col -> new CustomComboBoxWithChecBoxkManager(
+							this.getId(), 
+							keyModelName, 
+							CheckBoxModelName,
+							kvpItems, 
+							isAlwaysShow){
+
+						public void updateItem(String item, boolean empty) {
+							// CustomComboBoxTableCellManager.updateItem
+							super.updateItem(item, empty); 
+	    			        
+							if (empty || item == null) {
+								setDisable(false);
+							} else {
+								// ここで有効・無効を制御
+								setDisable(!isEnabled);
+								// 非活性時はクリックできないようにする
+								setFocusTraversable(isEnabled);
+	    			            
+	    						// 見た目の調整
+	    						pseudoClassStateChanged(DISABLED_PC, !isEnabled);
+
+								}}}
+					
+					
+					
+					);
+	    	} catch (Exception ex) {
+	    		System.err.println(ex);
+	    		}
+		}	
+	
+	
 	/**
 	 * CheckBox型セルの設定
 	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
@@ -178,7 +227,6 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		
     	this.setCellFactory(
     			col -> new CustomCheckBoxTableCellManager<S,T>(this.getId(), isAlwaysShow){
-
     				@Override
     				public void updateItem(T item, boolean empty) {
     					// CustomComboBoxTableCellManager.updateItem
@@ -193,11 +241,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     						// 非活性時はクリックできないようにする
     						setFocusTraversable(isEnabled);
     			                
-    						// 見た目の調整（非活性時にグレーアウトさせる等）
-    						if (!isEnabled) {
-    							setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
-    						} else {
-    							setStyle("");}
+    						// 見た目の調整
+    						//pseudoClassStateChanged(DISABLED_PC, !isEnabled);
     						
     						if (!isAlwaysShow) {
         				        if (empty || item == null) {
@@ -206,7 +251,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
         				            setText((boolean) item ? "CHECKED" : "");
         				        }
     						}}
-    				} });}
+    				} }
+    			);}
 
 	/**
 	 * DatePicker型セルの設定
@@ -245,19 +291,16 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     						// 非活性時はクリックできないようにする
     						setFocusTraversable(isEnabled);
     			            
-    						// 見た目の調整（非活性時にグレーアウトさせる等）
-    						if (!isEnabled) {
-    							setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
-    						} else {
-    							setStyle(""); }
+    						// 見た目の調整
+    						pseudoClassStateChanged(DISABLED_PC, !isEnabled);
 
+    						LocalDate date = null;
+    						
     						if (!AppUtil.StringIsNullOrEmpty(item.toString()))
     						{
-            					// 下限(lower)より前、または上限(upper)より後の日付を無効化
-    							LocalDate date = LocalDate.parse(
-        		                		item.toString(), 
-        		                		DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-                	            
+    							date = LocalDate.parse(item.toString(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    							
+    							// 下限(lower)より前、または上限(upper)より後の日付を無効化
                 	            boolean isBeforeLower = (minDate != null && date.isBefore(minDate));
                 	            boolean isAfterUpper = (maxDate != null && date.isAfter(maxDate));
             					
@@ -275,13 +318,19 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     							// ※ これにより、クリック時の再描画による「消え」を防ぐ
     							Node currentGraphic = getGraphic();
     							if (currentGraphic == null || !(currentGraphic instanceof DatePicker)) {
+    			                    // 現在セットされているインスタンスが DatePicker で、かつ
+    			                    // 表示中の値が同じなら、一切のプロパティ変更を行わない
+    			        			if (currentGraphic == getDatePicker() && 
+    			        				Objects.equals(date, getDatePicker().getValue())) {
+    			                        return;
+    			                    }
     								// 必要な時だけセット
-    								setGraphic(this.getDatePicker()); }
+    								if (getGraphic() != getDatePicker()) { setGraphic(this.getDatePicker()); }
+    							}
 
     							// 内部のDatePickerにも状態を伝播させる
     							Node graphic = getGraphic();
-    							if (graphic instanceof DatePicker dp) {
-    								dp.setDisable(!isEnabled); }
+    							if (graphic instanceof DatePicker dp) { dp.setDisable(!isEnabled); }
     						}}
     				} });}
 	

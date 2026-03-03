@@ -67,6 +67,11 @@ Eclipseが「こんなプロパティは知らないよ！」と親切に警告�
     -fx-border-color: transparent;
 }
 
+/* 非活性時にグレーアウトさせる */
+.table-cell:disabled-cell {
+    -fx-opacity: 0.5;
+    -fx-background-color: #f4f4f4;
+}
 
 .titletext {
     -fx-font-weight: bold;
@@ -79,3 +84,85 @@ Eclipseが「こんなプロパティは知らないよ！」と親切に警告�
 .center-aligned {
     -fx-alignment: CENTER;
 }
+
+/* カレンダーの背景色 */
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: #3f51b5;
+}
+
+/* 日付部分の背景色 */
+.date-picker-popup > .calendar-grid {
+    -fx-background-color: #ffffff;
+}
+
+.date-picker-popup .label {
+    -fx-text-fill: white;
+}
+
+/* 月・年の切り替えボタン（矢印）の色 */
+.date-picker-popup .left-arrow,
+.date-picker-popup .right-arrow {
+    -fx-background-color: white;
+}
+
+/* 通常の日付 */
+.date-picker-popup .day-cell {
+    -fx-text-fill: #333333;
+}
+
+/* マウスホバー時 */
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #e3f2fd;
+}
+
+/* 「今日」の日付 */
+.date-picker-popup .today {
+    -fx-background-color: #99FF99;
+    -fx-text-fill: #FF66CC;
+    -fx-font-weight: bold;
+}
+
+/* 選択された日付 */
+.date-picker-popup .selected {
+    -fx-background-color: #3f51b5;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .day-cell:disabled {
+    -fx-opacity: 0.3;
+    -fx-background-color: #f4f4f4;
+    -fx-text-fill: #bbbbbb;
+}
+
+.date-picker-popup .day-name-cell {
+    -fx-text-fill: #757575;
+    -fx-font-size: 0.9em;
+}
+
+/* --- 曜日ヘッダー（月火水...）の色変更 --- */
+/* 土曜日 (index 5) */
+.date-picker-popup> .day-name-cell:nth-child(6) {
+    -fx-text-fill: blue !important;
+}
+/* 日曜日 (index 6) */
+.date-picker-popup .day-name-cell:nth-child(7) {
+    -fx-text-fill: red !important;
+}
+
+/* --- 日付数字（1, 2, 3...）の色変更 --- */
+/* 土曜日列 */
+.date-picker-popup .day-cell:nth-child(7n+6) {
+    -fx-text-fill: blue;
+}
+/* 日曜日列 */
+.date-picker-popup .day-cell:nth-child(7n) {
+    -fx-text-fill: red;
+}
+
+/* 選択中や今日の日付と重なった時の色を維持したい場合 */
+.date-picker-popup .day-cell:nth-child(7n).today,
+.date-picker-popup .day-cell:nth-child(7n).selected {
+    -fx-text-fill: red;
+}
+
+

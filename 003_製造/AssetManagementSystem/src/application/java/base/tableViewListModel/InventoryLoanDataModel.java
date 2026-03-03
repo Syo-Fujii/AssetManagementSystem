@@ -88,9 +88,12 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	}
 
 	/**
-	 * [使用者]取得(画面項目入力用)
-	 * @return staff Name
-	 */
+	* [使用者]Property取得 (TableViewとの連動に必須)
+	* @return staff Name(Property)
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
+	*/
 	public StringProperty staffNameProperty() {
 	    return this.staffName;
 	}		
@@ -116,6 +119,17 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	}
 
 	/**
+	* [貸出開始日]Property取得 (TableViewとの連動に必須)
+	* @return startDate(Property)
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
+	*/
+	public StringProperty startDateProperty() {
+	    return this.startDate;
+	}
+	
+	/**
 	* [返却予定日]取得
 	* @return limitDate
 	* @brief [javafx.beans.property] 
@@ -135,6 +149,17 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 		this.limitDate.set(limitDate);;
 	}
 
+	/**
+	* [返却予定日]Property取得 (TableViewとの連動に必須)
+	* @return limitDate(Property)
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
+	*/
+	public StringProperty limitDateProperty() {
+	    return this.limitDate;
+	}	
+	
 	/**
 	* [備考]項目取得
 	* @param remarks 設定する値
@@ -173,6 +198,17 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	*/
 	public void setIsCheckOut(Boolean checked) {
 		this.isCheckOut.set(checked);
+	}	
+
+	/**
+	* [貸出] Property取得 (TableViewとの連動に必須)
+	* @param isCheckOut (Property)
+	* @brief [javafx.beans.property]
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
+	*/
+	public BooleanProperty isCheckOutProperty() {
+	    return isCheckOut;
 	}	
 	
 	/**

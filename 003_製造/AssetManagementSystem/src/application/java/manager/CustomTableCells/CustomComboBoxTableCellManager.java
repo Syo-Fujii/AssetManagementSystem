@@ -241,6 +241,20 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
         				// 非編集モード(値の確定)
         				// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
         				super.setRowClassProperty(colId, String.class, newVal);
+        			
+        				// 連動項目のBIND設定
+    	                syncModelPropertyBindingEvent(oldVal, newVal);
         			}});
+    }
+
+    /**
+     * 値の更新(確定)に連動する外部イベント設定
+     * @param befValue selectedItemProperty().addListener oldVal
+     * @param newValue selectedItemProperty().addListener newVal
+	 * @brief 行データ(Model)の他の項目(Property)を連動して変更する場合などの用いる。<br>
+	 * 当該クラスを継承した、子クラスにて内容を定義する.
+     */
+    protected void syncModelPropertyBindingEvent(T befValue, T newValue) {
+    	return;
     }
 }

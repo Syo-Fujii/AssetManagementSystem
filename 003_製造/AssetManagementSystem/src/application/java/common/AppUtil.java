@@ -98,7 +98,13 @@ public class AppUtil {
     }       
     
     /**
-     * 文字列 NULL・空文字・BLANK判定  
+     * 文字列 NULL・空文字・BLANK判定
+     * @param value 対象の値(String型)
+     * @return 判定結果
+     */
+    public static boolean StringIsNullOrWhiteSpace(String str) {
+        return (str == null || str.isBlank());
+    }
     
     /**
      * 数値(Integer) NULL判定

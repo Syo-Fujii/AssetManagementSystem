@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.input.InputMethodRequests;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -65,14 +66,22 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         
         // カスタムControlの生成
 		createCustomDatePickerBox(colId);
-        
+		
 		if (!this.isAlwaysShow)
         {
         	return;
         }
 
         /* 常時表示モード */
-        // マウスが放された瞬間
+
+		this.datePicker.addEventFilter(KeyEvent.ANY, e -> {
+		    // カレンダー表示中のキー操作による意図しないフォーカス移動を防止
+		    if (this.getDatePicker().isShowing()) {
+		        e.consume(); 
+		    }
+		});		
+		
+		// マウスが放された瞬間
         this.datePicker.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> {
             if (!datePicker.isShowing()) {
             	// 非表示の場合、強制表示
@@ -160,12 +169,13 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
     	
     	System.out.println("CustomDatePicker updateItem");
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
-        if (empty || item == null || item.toString().isEmpty()) {
+        if (empty || AppUtil.StringIsNullOrEmpty(item.toString())) {
             setGraphic(null);
         } else {
         	// データが存在する場合の表示処理
         	if (isAlwaysShow) {
                 /* 常時表示モード */
+        		
         		try {
         	        isAdjusting = true; // 開始
 	        		if (AppUtil.isDate(item.toString())){
@@ -175,9 +185,10 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 		                		DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 	        			
 	        			// 現在のDatePickerの値とモデルの値が違う場合のみセットする
-	        		    if (!date.equals(this.datePicker.getValue())) {
+	        		    if (getGraphic() != this.datePicker && !date.equals(this.datePicker.getValue())) {
 	        		        this.datePicker.setValue(date);
 	        		    }
+
 	        		} else { this.datePicker.setValue(null); }
         	    } finally {
         	    	// 例外が起きても必ず最後に false にする
@@ -208,6 +219,11 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
     	// 表示位置 中央
     	this.setAlignment(Pos.CENTER);
 
+    	this.getDatePicker().setFocusTraversable(false);
+    	this.getDatePicker().getEditor().setFocusTraversable(false);
+    	// マウスでテキスト部分をクリックしてもフォーカスを奪わせない
+    	this.getDatePicker().getEditor().setMouseTransparent(true);
+    	
         // DatePicker における IME（入力メソッド）関連の挙動を無効化、あるいは制御する
         datePicker.setInputMethodRequests(new InputMethodRequests() {
             @Override public Point2D getTextLocation(int offset) { return new Point2D(0, 0); }
@@ -273,6 +289,9 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         				// 非編集モード(値の確定)
         				// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
         				super.setRowClassProperty(colId, String.class, value);
+        				
+    	                // 連動項目のBIND設定
+    	                syncModelPropertyBindingEvent(null, newVal);
         			}});}
 	
 	/**
@@ -282,15 +301,22 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	private void onFocusDatePicker() {
         this.datePicker.focusedProperty().addListener(
         		(obs, wasFocused, isFocused) -> {
-        			if (isFocused) {
+        			if (isFocused && !isAdjusting) {
         				/* 後処理リスナー */
         				Platform.runLater(() -> {
-        					if (getIndex() >= 0 && getTableView() != null) {
-        		                // TableViewに現在のセルを編集状態にするよう依頼
-        		                getTableView().edit(getIndex(), getTableColumn());
-        		                // DatePickerに明示的に再度フォーカスを戻す（Windows11 IME対策）
-        		                this.datePicker.requestFocus();
-        		                }
+        		            try {
+            		            isAdjusting = true;
+            		            if (getIndex() >= 0 && getTableView() != null) {
+            		            	/*※当該メソッドを有効化すると隣の項目とFocusを取り合う無限LOOPが発生
+            		            	// TableViewに現在のセルを編集状態にするよう依頼
+            		            	getTableView().edit(getIndex(), getTableColumn());*/
+
+            		            	// DatePickerに明示的に再度フォーカスを戻す（Windows11 IME対策）
+            		                this.datePicker.requestFocus();
+            		                }
+        		            } finally {
+        		                isAdjusting = false;
+        		            }
         					
         					System.out.println("CustomDatePicker LostFocus");
         					// 下限(lower)より前、または上限(upper)より後の日付を無効化
@@ -315,12 +341,15 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	private void onCalenderShown() {
 	    // カレンダーが開かれようとした時の処理を登録
 	    datePicker.setOnShowing(e -> {
-	        // 現在の値が空（null）の場合だけ、カレンダーの初期選択を今日にする
-	        if (datePicker.getValue() == null) {
-	            Platform.runLater(() -> {
-	                datePicker.setValue(defaultDate);
+	    	Platform.runLater(() -> {
+	    	    	this.requestFocus(); 
+	    	    	
+	    	    	// 現在の値が空（null）の場合だけ、カレンダーの初期選択を今日にする
+	    	        if (datePicker.getValue() == null) {
+		            	datePicker.setValue(defaultDate);
+	    	        }
 	            });
-	        }});
+	        });
 	}
 	
 	/**
@@ -349,4 +378,16 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	            }
 	        }
 	    });}
+
+    /**
+     * 値の更新(確定)に連動する外部イベント設定
+     * @param befValue selectedItemProperty().addListener oldVal
+     * @param newValue selectedItemProperty().addListener newVal
+	 * @brief 行データ(Model)の他の項目(Property)を連動して変更する場合などの用いる。<br>
+	 * 当該クラスを継承した、子クラスにて内容を定義する.
+     */
+    protected void syncModelPropertyBindingEvent(LocalDate befValue, LocalDate newValue) {
+    	
+    	return;
+    }
 }

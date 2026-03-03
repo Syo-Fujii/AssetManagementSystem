@@ -135,6 +135,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
                 /* 編集時のみ表示モード */
         		if (isEditing()) {
                     setGraphic(this.checkBox);
+                    setText(null); // エディタ表示中は文字を消す
                 } else {
                     setGraphic(null);
                 }
@@ -177,6 +178,20 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
         				
         				// 非編集モード(値の確定)
         				super.setRowClassProperty(colId, Boolean.class, newVal);
+        				
+    	                // 連動項目のBIND設定
+    	                syncModelPropertyBindingEvent(null, newVal);
         			}});
         }
+	
+    /**
+     * 値の更新(確定)に連動する外部イベント設定
+     * @param befValue selectedItemProperty().addListener oldVal
+     * @param newValue selectedItemProperty().addListener newVal
+	 * @brief 行データ(Model)の他の項目(Property)を連動して変更する場合などの用いる。<br>
+	 * 当該クラスを継承した、子クラスにて内容を定義する.
+     */
+    protected void syncModelPropertyBindingEvent(Boolean befValue, Boolean newValue) {
+    	return;
+    }	
 }

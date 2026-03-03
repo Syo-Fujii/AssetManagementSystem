@@ -4,7 +4,6 @@
     <fullyQualifiedTypeName name="javafx.scene.control.TableView"/>
     <fullyQualifiedTypeName name="application.Class.TableViewListModel.InventoryListDataModel"/>
     <fullyQualifiedTypeName name="application.java.manager.MySqlManager"/>
-    <fullyQualifiedTypeName name="application.java.common.AppConst"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.WindowSize"/>
     <fullyQualifiedTypeName name="application.java.window.inventoryDetails.FormController"/>
     <fullyQualifiedTypeName name="application.java.common.MessageBox"/>
@@ -12,5 +11,6 @@
     <fullyQualifiedTypeName name="application.java.manager.CustomTableCells.CustomComboBoxTableCellManager"/>
     <fullyQualifiedTypeName name="application.java.manager.TableColumnManager"/>
     <fullyQualifiedTypeName name="application.java.manager.TableColumnManager.keyValuePairItem"/>
+    <fullyQualifiedTypeName name="application.java.common.AppConst"/>
     <fullyQualifiedTypeName name="application.java.common.AppUtil"/>
 </qualifiedTypeNameHistroy>

@@ -1,8 +1,7 @@
    package application.java.manager.CustomTableCells;
 
-import java.lang.reflect.Method;
-
 import application.java.common.AppConst;
+import application.java.common.AppUtil;
 import application.java.manager.TableColumnManager.keyValuePairItem;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -21,7 +20,6 @@ import javafx.scene.control.TextField;
  *
  */
 public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S, V> {
-	private static final int NOT_SELECTED_ITEM_VALUE = -1;
 	private final ComboBox<keyValuePairItem<Integer, String>> comboBox;
 
     private final Boolean isAlwaysShow;
@@ -220,7 +218,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 									        } else {
 									            // もし入力文字の方が長い場合は、とりあえず末尾にカーソルを置く
 									            editor.positionCaret(matchLen);
-									        }										  
+									        }
 
 									        if (!this.comboBox.isShowing()) {
 									        	this.comboBox.show(); // リストを表示
@@ -253,7 +251,6 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
   		            		     filter(kvp -> kvp.value().equals(cellValue)).
   		            		     findFirst().
   		            		     orElse(null);
-  		            // startEdit();
 
   		            if (selectedKvp != null) {
   	    				// 値確定処理
@@ -267,24 +264,17 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
        	    	   // モデルへの値反映
       	    	    try {
       	    	        // メソッド(値のSetter プロパティ)名の生成
-      	                if(keyModelName != null && !keyModelName.isEmpty()) {
-      	                	S rowData = this.getTableView().getItems().get(getIndex());
-      	                	
-      	                	// メソッド(値のSetter プロパティ)名の生成
-          	    	        String methodKey = "set" + keyModelName.substring(0, 1).toUpperCase() + keyModelName.substring(1);
-          	    	        
-          	                // モデルからメソッドを探して実行
-          	                Method keySetter = rowData.getClass().getMethod(methodKey, Integer.class);
-          	                
-          	                // 一致するものがあればそのKey、なければ定数(-1)をセット
+      	                if(!AppUtil.StringIsNullOrWhiteSpace(keyModelName)) {
+      	                	// 一致するものがあればそのKey、なければ定数(-1)をセット
           	                Integer keyToSet = (selectedKvp != null) ? selectedKvp.key() : AppConst.UNSET_NUMBER_VALUE;
-          	                keySetter.invoke(rowData, keyToSet);
+          	                super.setRowClassProperty(keyModelName, Integer.class, keyToSet);
 
           	                System.out.println("call methodKey");
-
-          	                // 画面表示を強制更新（TableViewのリフレッシュ）
-          	                //getTableView().refresh();
       	                }
+
+    	                // 連動項目のBIND設定
+    	                syncModelPropertyBindingEvent(null, selectedKvp);
+      	    	    
       	    	    } catch (Exception ex) {
       	    	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
       	                System.err.println("モデルへの値反映に失敗しました: " + keyModelName);
@@ -311,15 +301,32 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         				// 編集モード(値の確定)
         				this.commitEdit((V) newVal.value());
         			} else {
-        				// 非編集モード(値の確定)
+        				// 非編集モード(値の確定 VALUEのBIND)
         				// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
         				super.setRowClassProperty(colId, String.class, newVal.value());
 
+        				// KeyのBIND
     	                if(keyModelName != null && !keyModelName.isEmpty()) {
     	                	super.setRowClassProperty(keyModelName, Integer.class, newVal.key());
     	                	System.out.println("call methodKey");
-        	                // 画面表示を強制更新（TableViewのリフレッシュ）
-        	                //getTableView().refresh();
-    	                }}});
+    	                }
+    	                
+    	                // 連動項目のBIND設定
+    	                syncModelPropertyBindingEvent(oldVal, newVal);
+        			}
+        		});}
+
+    /**
+     * 値の更新(確定)に連動する外部イベント設定
+     * @param befValue selectedItemProperty().addListener oldVal
+     * @param newValue selectedItemProperty().addListener newVal
+	 * @brief 行データ(Model)の他の項目(Property)を連動して変更する場合などの用いる。<br>
+	 * 当該クラスを継承した、子クラスにて内容を定義する.
+     */
+    protected void syncModelPropertyBindingEvent(
+    		keyValuePairItem<Integer, String> befValue, 
+    		keyValuePairItem<Integer, String> newValue) {
+    	
+    	return;
     }
 }
