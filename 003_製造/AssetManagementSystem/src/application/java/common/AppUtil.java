@@ -108,5 +108,5 @@ public class AppUtil {
     public static boolean IsNull(Integer value) {
         if (value == null) return true;
             return false;
-    }       
+    }
 }

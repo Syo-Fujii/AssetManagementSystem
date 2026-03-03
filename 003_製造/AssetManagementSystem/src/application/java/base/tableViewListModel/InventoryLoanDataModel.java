@@ -1,6 +1,7 @@
 package application.java.base.tableViewListModel;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppConst;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -231,6 +232,6 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	    this.remarks = new SimpleStringProperty("");
 	    this.isCheckOut = new SimpleBooleanProperty(false);
 	    this.stockDataId = new SimpleIntegerProperty();
-	    this.staffNo = new SimpleIntegerProperty();
+	    this.staffNo = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
 	 }
 }

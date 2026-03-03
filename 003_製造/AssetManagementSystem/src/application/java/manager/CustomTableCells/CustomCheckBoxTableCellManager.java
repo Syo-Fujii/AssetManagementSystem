@@ -1,20 +1,17 @@
 package application.java.manager.CustomTableCells;
 
-import java.lang.reflect.Method;
-
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableCell;
 
 /**
- * カスタムCheckBox
- * @param <S>
- * @param <T>
+ * カスタムControl：TableCell + CheckBox
+ * @param <S> (Table Source / Subject): 行データのクラス名。
+ * @param <T> (Column Type): セルに表示する項目の型。
  * @brief
  * 編集時のみ表示モード
  * [Enter]で入力(編集)モードへ遷移 / 編集モード値確定
  * [ESC]で入力(編集)キャンセル処理
  */
-public class CustomCheckBoxTableCellManager<S, T> extends TableCell<S, T> {
+public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T> {
 	private final CheckBox checkBox;
 	private final Boolean isAlwaysShow;
 
@@ -51,7 +48,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCell<S, T> {
         			}});}
 
     /**
-     * セルが入力(編集)モードに移行する際に内部で呼び出されるメソッド
+     * セルが入力(編集)モードに移行する際に内部で呼び出されるメソッド(Enter/GotFocus Event)
 	 * @brief 主に以下のタイミングで実行<br>
 	 *  ・ユーザーがダブルクリックや [F2]・[Enter]入力など（プラットフォームに依存）を行った瞬間<br>
 	 *  ※ 下記の条件の場合のみ<br>
@@ -92,13 +89,12 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCell<S, T> {
     public void cancelEdit() {
     	super.cancelEdit();
     	
-        System.out.println("CustomCell cancelEdit");
+        System.out.println("CustomCheckBox cancelEdit");
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
             setGraphic(null);
-            setText(getItem() != null ? getItem().toString() : null);
-            
+            setText(getItem() != null ? ((boolean) getItem() ? "CHECKED" : "") : null);
             return;
         }
     	
@@ -107,7 +103,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCell<S, T> {
     } 	
 	
     /**
-     * セルを描画・更新する際に内部で呼び出されるメソッド
+     * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
 	 * @brief 主に以下のタイミングで実行<br>
 	 *  ・セルの初期表示 : テーブルが画面に表示され、各セルにデータが流し込まれる時<br>
 	 *  ・スクロール時   : セルが画面外に消え、新しいデータを表示するために再利用（リサイクル）される時<br>
@@ -150,54 +146,37 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCell<S, T> {
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      */
     private void createCustomCheckBox(String colId) {
-
         // チェック確定機能追加
-        setupCheckBoxSelectedItem(colId);        
+    	onCheckedCheckBox(colId);        
     }	
 	
     /**
-     * 機能追加：チェックボックス選択確定動作
-     * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
-	 * @brief 選択したItemをカラムのBINDソース<S>に反映<br>
+	 * 機能追加：CheckBox選択確定動作(Leave Event)
+	 * @param colId カラムのID(自身(カスタムControl)のカラムのID)
+     * @brief 選択したItemをカラムのBINDソース[S]に反映<br>
 	 * カラムの[id]と[fx:id]は同一の前提
      */	
 	@SuppressWarnings({ "unchecked", "unused" })
-	private void setupCheckBoxSelectedItem(String colId) {
-        // 入力監視リスナー
-		// (obs = 値変更を監視しているプロパティ:ObservableValue = comboBox.getSelectionModel().selectedItemProperty())
-        this.checkBox.selectedProperty().addListener(
-        		(obs, oldVal, newVal) -> {
-        			if (newVal == null || isAdjusting) { return; }
+	private void onCheckedCheckBox(String colId) {
+
+        // 入力監視リスナー(Leave相当)
+		this.checkBox.setOnAction(
+        		(e) -> {
+        			if (isAdjusting) { return; }
         			
-        			// System.out.println("CustomCell selectedItemProperty().addListener");
+        			System.out.println("CustomCheckBox setOnAction");
+        			Boolean newVal = checkBox.isSelected();
+        			
         			if (isEditing()) {
-        				
         				// 編集モード(値の確定)
         				this.commitEdit((T)newVal);
         			} else {
+        				//System.out.println("値反映処理実行: " + value);
+        				getTableView().edit(getIndex(), getTableColumn());
+        				commitEdit((T)newVal); 
+        				
         				// 非編集モード(値の確定)
-        				S rowData = getTableView().getItems().get(getIndex());
-        			   
-        			   // ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
-         	    	   // モデルへの値反映
-        	    	    try {
-        	    	        // メソッド(値のSetter プロパティ)名の生成
-        	    	        String methodChecked = "set" + colId.substring(0, 1).toUpperCase() + colId.substring(1);
-        	    	      
-        	    	        Method setter;
-        	    	        try {
-        	    	            // 2. まずは基本型 boolean.class (小文字) でメソッドを探す
-        	    	            setter = rowData.getClass().getMethod(methodChecked, boolean.class);
-        	    	        } catch (NoSuchMethodException e) {
-        	    	            // 3. 見つからなければ Boolean.class (大文字) で探す
-        	    	            setter = rowData.getClass().getMethod(methodChecked, Boolean.class);
-        	    	        }
-        	                setter.invoke(rowData, newVal);
-        	    	    } catch (Exception e) {
-        	    	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-        	                System.err.println("モデルへの値反映に失敗しました: " + colId);
-        	    	    	
-        	    	    	e.printStackTrace();
-        	    	    }
-        			}});}
+        				super.setRowClassProperty(colId, Boolean.class, newVal);
+        			}});
+        }
 }

@@ -74,6 +74,9 @@ public class AppConst {
 	/**	貸出状態:可 */
 	public static final Integer LOANSTATE_AVAILABLE = 1;
 	
+	/** 数値未設定 初期値 */
+	public static final int UNSET_NUMBER_VALUE = -1;
+	
 	public static final String FXML_PATH = "/application/resources/fxml/";
 
 	public static final String CSS_PATH = "/application/resources/css/";

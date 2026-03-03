@@ -27,7 +27,7 @@
            <TableColumn id="serial" fx:id="col_serial" editable="false" maxWidth="300.0" minWidth="150.0" prefWidth="150.0" text="シリアルナンバー" />
            <TableColumnManager id="staffName" fx:id="col_staff_name" editable="false" maxWidth="600.0" minWidth="100.0" prefWidth="100.0" text="使用者" />
            <TableColumnManager id="startDate" fx:id="col_start_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120.0" resizable="false" text="貸出開始日" />
-           <TableColumn id="limitDate" fx:id="col_limit_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120" resizable="false" text="返却予定日" />
+           <TableColumnManager id="limitDate" fx:id="col_limit_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120" resizable="false" text="返却予定日" />
            <TableColumn id="remarks" fx:id="col_remarks" editable="false" maxWidth="259.0" minWidth="245.0" prefWidth="245.0" text="備考" />
            <TableColumnManager id="isCheckOut" fx:id="col_is_checkout" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="貸出" />
         </columns>

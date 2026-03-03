@@ -51,7 +51,7 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_serial;
 	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_staff_name;
 	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_start_date;
-	@FXML private TableColumn<InventoryLoanDataModel, String> col_limit_date;
+	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_limit_date;
 	@FXML private TableColumn<InventoryLoanDataModel, String> col_remarks;
 	@FXML private TableColumnManager<InventoryLoanDataModel, Boolean> col_is_checkout;
 
@@ -251,7 +251,6 @@ public class FormController extends BaseFormPage {
     			"データ異常：備品データが存在しません。",
     			"備品[シリアルNo: "+ serialNo + " ]の備品データ(stock_data)が存在しません。" + AppUtil.newLine() +
     			"");
-    	
     }
     
     /**
@@ -292,10 +291,14 @@ public class FormController extends BaseFormPage {
 				FXCollections.observableArrayList("Apple","Banana","Cherry");
 
     	//col_staff_name.setCellTypeCustomComboBox(options_OL, true, false);
-		col_staff_name.setCellTypeCustomComboBoxKeyValues(options, "staffNo", true, true);
-		col_start_date.setCellTypeCustomDatePicker(true, true);
-		col_is_checkout.setCellTypeCustomCheckBox(true, true);
-    	
+		col_staff_name.setCellTypeCustomComboBoxKeyValues(options, "staffNo", true, false);
+		col_start_date.setCellTypeCustomDatePicker(true, true, 
+				null,
+				LocalDate.of(2026, 1, 1),
+				LocalDate.of(2026, 4, 1));
+		col_is_checkout.setCellTypeCustomCheckBox(true, false);
+		col_limit_date.setCellTypeCustomComboBox(options_OL, true, false);
+		
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(true);
@@ -384,11 +387,15 @@ public class FormController extends BaseFormPage {
 
         	String serialNo = row.getStaffName();
         	Integer dataId = row.getStaffNo();
+        	
+        	String stDate = row.getStartDate();
+        	
         	Boolean isLoan = row.getIsCheckOut();
  
         	System.out.println(
         			"貸出者名: [" + serialNo + "] " +
         			"貸出者ID: ["+ dataId.toString() + "]" +
+        			"貸出開始日: ["+ stDate + "]" +
         			"貸出: ["+ isLoan.toString() + "]"); 
     		
     		

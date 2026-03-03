@@ -2,9 +2,12 @@ package application.java.manager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppUtil;
 import application.java.manager.CustomTableCells.CustomCheckBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
@@ -176,27 +179,34 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     	this.setCellFactory(
     			col -> new CustomCheckBoxTableCellManager<S,T>(this.getId(), isAlwaysShow){
 
-    			      @Override
-    			        public void updateItem(T item, boolean empty) {
-    			          // CustomComboBoxTableCellManager.updateItem
-    			    	  super.updateItem(item, empty);
+    				@Override
+    				public void updateItem(T item, boolean empty) {
+    					// CustomComboBoxTableCellManager.updateItem
+    					super.updateItem(item, empty);
+    			        
+    					if (empty || item == null) {
+    						setDisable(false);
+    					} else {
+    						// ここで有効・無効を制御
+    						setDisable(!isEnabled);
     			            
-    			            if (empty || item == null) {
-    			                setDisable(false);
-    			            } else {
-    			                // ここで有効・無効を制御
-    			                setDisable(!isEnabled);
-    			                // 非活性時はクリックできないようにする
-    			                setFocusTraversable(isEnabled);
+    						// 非活性時はクリックできないようにする
+    						setFocusTraversable(isEnabled);
     			                
-    			                // 見た目の調整（非活性時にグレーアウトさせる等）
-    			                if (!isEnabled) {
-    			                    setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
-    			                } else {
-    			                    setStyle(""); 
-    			                }
-    			            }
-    				} });}	
+    						// 見た目の調整（非活性時にグレーアウトさせる等）
+    						if (!isEnabled) {
+    							setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
+    						} else {
+    							setStyle("");}
+    						
+    						if (!isAlwaysShow) {
+        				        if (empty || item == null) {
+        				            setText(null);
+        				        } else {
+        				            setText((boolean) item ? "CHECKED" : "");
+        				        }
+    						}}
+    				} });}
 
 	/**
 	 * DatePicker型セルの設定
@@ -205,51 +215,74 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	 * @param isAlwaysShow 常にComboBoxを表示するか
 	 */
 	@SuppressWarnings("unused")
-	public void setCellTypeCustomDatePicker(Boolean isEnabled, Boolean isAlwaysShow){
+	public void setCellTypeCustomDatePicker(
+			Boolean isEnabled, 
+			Boolean isAlwaysShow,
+			LocalDate defaultDate,
+			LocalDate minDate,
+			LocalDate maxDate){
 		
     	this.setCellFactory(
-    			col -> new CustomDatePickerTableCellManager<S,T>(this.getId(), isAlwaysShow){
+    			col -> new CustomDatePickerTableCellManager<S,T>(
+    					this.getId(),
+    					defaultDate,
+    					minDate,
+    					maxDate,
+    					isAlwaysShow){
 
-    			      @Override
-    			        public void updateItem(T item, boolean empty) {
-    			          // CustomDatePickerTableCellManager.updateItem
-    			    	  super.updateItem(item, empty);
+    				@Override
+    				public void updateItem(T item, boolean empty) {
+    					// CustomDatePickerTableCellManager.updateItem
+    					super.updateItem(item, empty);
+    					
+    					if (empty || item == null) {
+    						setDisable(false);
+    						setGraphic(null);
+    					} else {
+    						// ここで有効・無効を制御
+    						setDisable(!isEnabled);
     			            
-    			            if (empty || item == null) {
-    			                setDisable(false);
-    			                
-    			                setGraphic(null);
-    			            } else {
-    			                // ここで有効・無効を制御
-    			                setDisable(!isEnabled);
-    			                // 非活性時はクリックできないようにする
-    			                setFocusTraversable(isEnabled);
+    						// 非活性時はクリックできないようにする
+    						setFocusTraversable(isEnabled);
+    			            
+    						// 見た目の調整（非活性時にグレーアウトさせる等）
+    						if (!isEnabled) {
+    							setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
+    						} else {
+    							setStyle(""); }
 
-    			                
-    			                
-    			                // 【重要】現在表示されている graphic が datePicker でない場合のみセットする
-    			                // これにより、クリック時の再描画による「消え」を防ぐ
-    			                Node currentGraphic = getGraphic();
-    			                if (currentGraphic == null || !(currentGraphic instanceof DatePicker)) {
-    			                    setGraphic(this.getDatePicker()); // 必要な時だけセット
-    			                }  			                
-    			                
-    			                /*
-    			                // 【重要】内部のDatePickerにも状態を伝播させる
-    			                Node graphic = getGraphic();
-    			                if (graphic instanceof DatePicker dp) {
-    			                    dp.setDisable(!isEnabled);
-    			                }*/
-    			                
-    			                // 見た目の調整（非活性時にグレーアウトさせる等）
-    			                if (!isEnabled) {
-    			                    setStyle("-fx-opacity: 0.5; -fx-background-color: #f4f4f4;");
-    			                } else {
-    			                    setStyle(""); 
-    			                }
-    			            }
-    				} });}		
-	
+    						if (!AppUtil.StringIsNullOrEmpty(item.toString()))
+    						{
+            					// 下限(lower)より前、または上限(upper)より後の日付を無効化
+    							LocalDate date = LocalDate.parse(
+        		                		item.toString(), 
+        		                		DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+                	            
+                	            boolean isBeforeLower = (minDate != null && date.isBefore(minDate));
+                	            boolean isAfterUpper = (maxDate != null && date.isAfter(maxDate));
+            					
+            					// 範囲外なら強制的に null (または oldValue) に戻す
+            					if (isBeforeLower || isAfterUpper) {
+            					    getDatePicker().setValue(null); // 値だけを消す
+            					    //commitEdit(null); // モデルも空にする
+            			            getDatePicker().getEditor().clear();
+            			            System.out.println("選択範囲外の日付です: " + date); } 
+    						}
+        					
+    						if (isAlwaysShow) {
+    							// 現在表示されている graphic が datePicker でない場合のみセット
+    							// ※ これにより、クリック時の再描画による「消え」を防ぐ
+    							Node currentGraphic = getGraphic();
+    							if (currentGraphic == null || !(currentGraphic instanceof DatePicker)) {
+    								// 必要な時だけセット
+    								setGraphic(this.getDatePicker()); }
+
+    							// 内部のDatePickerにも状態を伝播させる
+    							Node graphic = getGraphic();
+    							if (graphic instanceof DatePicker dp) {
+    								dp.setDisable(!isEnabled); }
+    						}}
+    				} });}
 	
 	/**
 	 * 編集モード確定(EnterKey押下)時に次のセルFocus移動

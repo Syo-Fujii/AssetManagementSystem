@@ -152,13 +152,15 @@ content_assist_favorite_static_members=org.hamcrest.CoreMatchers.*;org.junit.Ass
 content_assist_insert_completion=false
 content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="application.java.base.BaseFormPage"><rhs name\="application.java.window.inventoryDetails.FormController"/></lhs></history>
 content_assist_noUIThread_computation=true
-content_assist_number_of_computers=18
+content_assist_number_of_computers=17
 content_assist_parameters_background=52,57,61
 content_assist_parameters_background,defaultValueBeforeOverriddenFromCSS=255,255,255
 content_assist_parameters_foreground=238,238,238
 content_assist_parameters_foreground,defaultValueBeforeOverriddenFromCSS=0,0,0
 content_assist_proposals_background=255,255,255
+content_assist_proposals_background,defaultValueBeforeOverriddenFromCSS=255,255,255
 content_assist_proposals_foreground=0,0,0
+content_assist_proposals_foreground,defaultValueBeforeOverriddenFromCSS=0,0,0
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
 fontPropagated=true
