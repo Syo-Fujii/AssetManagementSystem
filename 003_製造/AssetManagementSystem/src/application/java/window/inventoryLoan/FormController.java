@@ -274,7 +274,6 @@ public class FormController extends BaseFormPage {
     	// Cell 有効化制御
     	tableListView.cellIsEnabled(col_serial, false);
     	tableListView.cellIsEnabled(col_remarks, false);
-    	tableListView.cellIsEnabled(col_is_checkout, false);
     	
     	// 無効Cell Focus SKIP設定 
     	tableListView.onDisabledCellsFocusSkipEvent();
@@ -324,23 +323,14 @@ public class FormController extends BaseFormPage {
      *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列))
      */
     private void callbackBindTableColumnSource() {
+
+    	// CheckBoxのカラム設定(TableView)    	
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
     	col_staff_name.setCellValueFactory( data -> data.getValue().staffNameProperty());
      	col_start_date.setCellValueFactory( data -> data.getValue().startDateProperty());
     	col_limit_date.setCellValueFactory( data -> data.getValue().limitDateProperty());
     	col_remarks.setCellValueFactory( new PropertyValueFactory<>("remarks"));
-
-    	// CheckBoxのカラム設定(TableView)
     	col_is_checkout.setCellValueFactory( data -> data.getValue().isCheckOutProperty());
-    	
-    	// 対象項目の入力を可能にする
-    	col_staff_name.setEditable(true);
-    	col_start_date.setEditable(true);
-    	col_limit_date.setEditable(true);
-    	col_is_checkout.setEditable(true);
-    	
-
-    	// tableListView.setColumnReorderable(col_remarks, false);
     }
     
     /**

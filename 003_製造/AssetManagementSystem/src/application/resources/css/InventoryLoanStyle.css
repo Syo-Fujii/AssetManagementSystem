@@ -85,6 +85,20 @@ Eclipseが「こんなプロパティは知らないよ！」と親切に警告�
     -fx-alignment: CENTER;
 }
 
+.combo-box-editable > .text-field {
+    -fx-alignment: CENTER-LEFT;
+}
+
+/* すべての DatePicker の入力テキストを中央寄せにする */
+.date-picker > .text-field {
+    -fx-alignment: CENTER;
+}
+
+/* 特定の ID (例: #myDatePicker) を持つものだけに適用する場合 */
+#myDatePicker > .text-field {
+    -fx-alignment: CENTER;
+}
+
 /* カレンダーの背景色 */
 .date-picker-popup > .month-year-pane {
     -fx-background-color: #3f51b5;

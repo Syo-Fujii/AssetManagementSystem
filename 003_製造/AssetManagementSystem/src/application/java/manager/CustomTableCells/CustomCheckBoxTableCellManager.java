@@ -1,6 +1,8 @@
 package application.java.manager.CustomTableCells;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Control;
 
 /**
  * カスタムControl：TableCell + CheckBox
@@ -147,7 +149,19 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      */
     private void createCustomCheckBox(String colId) {
-        // チェック確定機能追加
+        
+    	// CheckBoxの配置(Cellの中央)
+    	this.setAlignment(Pos.CENTER);
+
+    	// CheckBoxのサイズ(Cellに合わせる)    	
+    	// checkBox.prefWidthProperty().bind(this.widthProperty().subtract(5.0));
+        // CheckBoxの幅を「自動（内容に合わせる）」にする
+        // ※ bind してしまうと、CheckBoxの領域がセルいっぱいに広がり、
+        //    中のアイコンは「CheckBox領域内の左」に固定されてしまいます。
+    	checkBox.setMinWidth(Control.USE_PREF_SIZE); 
+    	checkBox.setMaxWidth(Control.USE_PREF_SIZE);       	
+
+    	// チェック確定機能追加
     	onCheckedCheckBox(colId);        
     }	
 	
@@ -167,21 +181,31 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
         			
         			System.out.println("CustomCheckBox setOnAction");
         			Boolean newVal = checkBox.isSelected();
+ 
         			
-        			if (isEditing()) {
-        				// 編集モード(値の確定)
-        				this.commitEdit((T)newVal);
-        			} else {
-        				//System.out.println("値反映処理実行: " + value);
+        			if (!isEditing()) {
         				getTableView().edit(getIndex(), getTableColumn());
-        				commitEdit((T)newVal); 
-        				
-        				// 非編集モード(値の確定)
+        			}               			
+        			
+        			//System.out.println("値反映処理実行: " + value);
+    				// 値の確定(TableView側へ通知)
+    				this.commitEdit((T)newVal);
+        			
+        			// モデルへの値反映
+            	    try {
+         				// 非編集モード(値の確定)
         				super.setRowClassProperty(colId, Boolean.class, newVal);
         				
     	                // 連動項目のBIND設定
-    	                syncModelPropertyBindingEvent(null, newVal);
-        			}});
+    	                syncModelPropertyBindingEvent(null, newVal);          	    	
+            	    } catch (Exception ex) {
+            	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
+                        System.err.println("モデルへの値反映に失敗しました: ");
+            	    	
+            	    	ex.printStackTrace();
+            	    	throw ex;
+            	    }
+        		});
         }
 	
     /**

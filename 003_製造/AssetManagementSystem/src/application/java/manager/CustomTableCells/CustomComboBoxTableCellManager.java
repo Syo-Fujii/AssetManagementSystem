@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 
 /**
@@ -158,9 +159,16 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      */
     private void createCustomComboBox(String colId) {
-        
+  
+    	// ComboBoxの配置(Cellの中央)
+    	this.setAlignment(Pos.CENTER);
+
+    	// ComboBoxのサイズ(Cellに合わせる)
+    	comboBox.prefWidthProperty().bind(this.widthProperty().subtract(5.0));
+    	comboBox.setMaxWidth(Control.USE_PREF_SIZE);    	
+    	
     	// オートコンプリート機能付与
-        setupAutoComplete();
+        setupAutoComplete(colId);
 
         // 選択リスト確定機能追加
         onSelectedItemComboBox(colId);        
@@ -168,9 +176,10 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
     
 	/**
 	 * 機能追加：入力Mode + AutoComplete機能
+     * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
 	 */
-    @SuppressWarnings("unused")
-    private void setupAutoComplete() {
+    @SuppressWarnings({ "unused", "unchecked" })
+    private void setupAutoComplete(String colId) {
     	  
         // オートコンプリートを有効にするため「編集可能」にする
         this.comboBox.setEditable(true);
@@ -210,12 +219,18 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
         this.comboBox.setOnAction(
         		e -> {
     				System.out.println("CustomCell setOnAction");
-        			
-        			if (!isAdjusting && isEditing()) { 
-        				// 値確定処理
-        				commitEdit(comboBox.getValue());
-        				}
-        			});
+        
+        			if (isAdjusting) { return; }
+
+        			// エディタに入力されている文字列を取得
+  		            String editValue = this.comboBox.getEditor().getText();
+
+    				// 値の確定
+    				this.commitEdit((T) editValue);
+    				
+    				// モデルへの値反映
+    				bindingModelProperty(colId, null, editValue); 
+    				});
     }
 
     /**
@@ -230,23 +245,47 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
 		// (obs = 値変更を監視しているプロパティ:ObservableValue = comboBox.getSelectionModel().selectedItemProperty())
         this.comboBox.getSelectionModel().selectedItemProperty().addListener(
         		(obs, oldVal, newVal) -> {
-        			if (newVal == null || isAdjusting) { return; }
-        			
-        			// System.out.println("CustomComboBox selectedItemProperty().addListener");
-        			if (isEditing()) {
-        				// 編集モード(値の確定)
-        				this.commitEdit(newVal);
+        			if (isAdjusting) { return; }
 
-        			} else {
-        				// 非編集モード(値の確定)
-        				// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
-        				super.setRowClassProperty(colId, String.class, newVal);
-        			
-        				// 連動項目のBIND設定
-    	                syncModelPropertyBindingEvent(oldVal, newVal);
-        			}});
+    				// 値の確定
+    				this.commitEdit(newVal);
+    				
+    				// モデルへの値反映
+    				bindingModelProperty(colId, oldVal.toString(), newVal.toString());
+        		});
     }
 
+    /**
+     * モデルへの値反映
+     * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
+     * @param oldVal 変更前の入力値
+     * @param newVal 入力値
+     */
+    @SuppressWarnings("unchecked")
+	private void bindingModelProperty(String colId,String oldVal,String newVal) {
+        // 二重実行防止
+        if (isAdjusting) return;
+        
+        isAdjusting = true;
+        try {
+        	// 値の確定 VALUEのBIND
+			// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
+			super.setRowClassProperty(colId, String.class, newVal);
+        
+            // 連動項目のBIND設定
+            syncModelPropertyBindingEvent((T)oldVal, (T)newVal);
+
+        } catch (Exception ex) {
+        	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
+        	System.err.println("モデルへの値反映に失敗しました: " + colId);
+            ex.printStackTrace();
+	    	
+            throw ex;
+        } finally {
+            isAdjusting = false;
+        }
+    }     
+    
     /**
      * 値の更新(確定)に連動する外部イベント設定
      * @param befValue selectedItemProperty().addListener oldVal

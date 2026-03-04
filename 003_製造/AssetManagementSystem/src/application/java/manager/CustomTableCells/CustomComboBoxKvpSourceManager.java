@@ -6,7 +6,9 @@ import application.java.manager.TableColumnManager.keyValuePairItem;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 
 /**
@@ -162,11 +164,19 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
      */
     private void createCustomComboBox(String colId, String keyModelName) {
 
+    	// ComboBoxの配置(Cellの中央)
+    	this.setAlignment(Pos.CENTER);
+
+    	// ComboBoxのサイズ(Cellに合わせる)
+    	comboBox.prefWidthProperty().bind(this.widthProperty().subtract(5.0));
+    	comboBox.setMaxWidth(Control.USE_PREF_SIZE);      	
+    	
+    	
     	// ComboBox 表示設定[fromString(kvpを貰う) / toString(valueを返す)]メソッドをOverRide
         super.setupPairConverter(this.comboBox);
     	
     	// オートコンプリート機能付与
-        setupAutoComplete(keyModelName);
+        setupAutoComplete(colId, keyModelName);
         
         // 選択リスト確定機能追加
         onSelectedItemComboBox(colId, keyModelName);
@@ -174,17 +184,18 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
     
 	/**
 	 * 機能追加：入力Mode + AutoComplete機能
+     * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
 	 */
     @SuppressWarnings({ "unused", "unchecked" })
-    private void setupAutoComplete(String keyModelName) {
+    private void setupAutoComplete(String colId, String keyModelName) {
     	  
         // オートコンプリートを有効にするため「編集可能」にする
         this.comboBox.setEditable(true);
         
      	TextField editor = this.comboBox.getEditor();
 
-     	// 入力監視リスナー
+     	// 入力監視リスナー(オートコンプリート機能の付与)
      	// (obs = 値変更を監視しているプロパティ:ObservableValue = editor.textProperty())
      	editor.textProperty().addListener(
      			(obs, oldValue, newValue) -> {
@@ -229,65 +240,42 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 								  });}
 					  });
      	
-        // オートコンプリートに伴う、値確定時の処理
+        // 入力監視リスナー(Leave相当)値確定時の処理
         // ⇒ 全ての文字列が入力されてからCommitする
         this.comboBox.setOnAction(
         		e -> {
     				System.out.println("CustomCell setOnAction");
 
-        			//if(isAdjusting || !isEditing()) { return; }
     				if(isAdjusting) { return; }
 
-    				//System.out.println("CustomCell setOnAction2");
     				// エディタに入力されている文字列を取得
-  		            String cellValue = this.comboBox.getEditor().getText();
+  		            String editValue = this.comboBox.getEditor().getText();
+  		       
+  		            // 値確定処理
+  		            commitEdit((V) editValue);
   		            
-  		            //if (cellValue == null || cellValue.trim().isEmpty()) { e.consume(); return; }
-  		            // リストから一致するものを探す、なければ入力文字列そのものを確定
+  		            // リストから一致するものを探す
   		            keyValuePairItem<Integer, String> selectedKvp = 
   		            		this.comboBox.
   		            		     getItems().
   		            		     stream().
-  		            		     filter(kvp -> kvp.value().equals(cellValue)).
+  		            		     filter(kvp -> kvp.value().equals(editValue)).
   		            		     findFirst().
   		            		     orElse(null);
 
-  		            if (selectedKvp != null) {
-  	    				// 値確定処理
-        				commitEdit((V)selectedKvp.value());
-  		            } else {
-  		                // リストにない文字が直接打たれた場合
-  		                String rawText = this.comboBox.getEditor().getText();
-  		                commitEdit((V) rawText);
-  		            }
-
-       	    	   // モデルへの値反映
-      	    	    try {
-      	    	        // メソッド(値のSetter プロパティ)名の生成
-      	                if(!AppUtil.StringIsNullOrWhiteSpace(keyModelName)) {
-      	                	// 一致するものがあればそのKey、なければ定数(-1)をセット
-          	                Integer keyToSet = (selectedKvp != null) ? selectedKvp.key() : AppConst.UNSET_NUMBER_VALUE;
-          	                super.setRowClassProperty(keyModelName, Integer.class, keyToSet);
-
-          	                System.out.println("call methodKey");
-      	                }
-
-    	                // 連動項目のBIND設定
-    	                syncModelPropertyBindingEvent(null, selectedKvp);
-      	    	    
-      	    	    } catch (Exception ex) {
-      	    	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-      	                System.err.println("モデルへの値反映に失敗しました: " + keyModelName);
-      	    	    	ex.printStackTrace();
-      	    	    }
-        		});}
+  		            // モデルへの値反映
+  		            bindingModelProperty(colId, keyModelName, selectedKvp, editValue);
+        		});
+    }
     
     /**
      * 機能追加：コンボボックス選択確定動作(SelectedValue Event)
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
 	 * @brief 選択したItemをカラムのBINDソース<S>に反映<br>
-	 * カラムの[id]と[fx:id]は同一の前提
+	 * カラムの[id]と[fx:id]は同一の前提<br>
+	 * コンボボックスのリストを選択した瞬間に発報されるイベント<br>
+	 * setOnActionと二重実行される。isAdjustingにて監視・制御すること。
      */
     @SuppressWarnings({ "unused", "unchecked" })
 	private void onSelectedItemComboBox(String colId, String keyModelName) {
@@ -296,25 +284,68 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         this.comboBox.getSelectionModel().selectedItemProperty().addListener(
         		(obs, oldVal, newVal) -> {
     			    if (newVal == null || isAdjusting) { return; }
-        			
-        			if (isEditing()) {
-        				// 編集モード(値の確定)
-        				this.commitEdit((V) newVal.value());
-        			} else {
-        				// 非編集モード(値の確定 VALUEのBIND)
-        				// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
-        				super.setRowClassProperty(colId, String.class, newVal.value());
 
-        				// KeyのBIND
-    	                if(keyModelName != null && !keyModelName.isEmpty()) {
-    	                	super.setRowClassProperty(keyModelName, Integer.class, newVal.key());
-    	                	System.out.println("call methodKey");
-    	                }
-    	                
-    	                // 連動項目のBIND設定
-    	                syncModelPropertyBindingEvent(oldVal, newVal);
-        			}
-        		});}
+        			System.out.println("CustomComboBoxKVP SelectedItem");
+           			
+        			if (!isEditing()) {
+        				getTableView().edit(getIndex(), getTableColumn());
+        			}               			
+        			
+        			//System.out.println("値反映処理実行: " + value);
+    				// 値の確定(TableView側へ通知)
+        			this.commitEdit((V) newVal.value());
+        			
+        			// モデルへの値反映
+        			bindingModelProperty(colId, keyModelName, newVal, newVal.value());
+        		});
+    }
+
+    /**
+     * モデルへの値反映
+     * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
+     * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
+     * @param selectedKvp 選択(入力)したコンボボックス一覧の対象データ
+     * @param editValue 画面に入力されている値
+     */
+    private void bindingModelProperty(String colId, 
+    		                          String keyModelName,
+    		                          keyValuePairItem<Integer, String> selectedKvp,
+    		                          String editValue) {
+        // 二重実行防止
+        if (isAdjusting) return;
+        
+        isAdjusting = true;
+        try {
+				
+        	// 値の確定 VALUEのBIND
+			// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
+			super.setRowClassProperty(colId, String.class, editValue);
+
+			// KeyのBIND    	    	    	
+			if(!AppUtil.StringIsNullOrWhiteSpace(keyModelName)) {
+				// 一致するものがあればそのKey、なければ定数(-1)をセット
+				Integer keyToSet = (selectedKvp != null) ? 
+						selectedKvp.key() : 
+							AppConst.UNSET_NUMBER_VALUE;
+	                
+				super.setRowClassProperty(keyModelName, Integer.class, keyToSet);
+
+				System.out.println("call methodKey");
+              }
+         
+            // 連動項目のBIND設定
+            syncModelPropertyBindingEvent(null, selectedKvp);
+
+        } catch (Exception ex) {
+        	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
+        	System.err.println("モデルへの値反映に失敗しました: " + colId);
+            ex.printStackTrace();
+	    	
+            throw ex;
+        } finally {
+            isAdjusting = false;
+        }
+    } 
 
     /**
      * 値の更新(確定)に連動する外部イベント設定
