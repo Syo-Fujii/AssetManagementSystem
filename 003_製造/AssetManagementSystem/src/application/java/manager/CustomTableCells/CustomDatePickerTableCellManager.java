@@ -2,9 +2,11 @@ package application.java.manager.CustomTableCells;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import application.java.common.AppUtil;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Control;
@@ -180,92 +182,47 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
     	System.out.println("text : [" + getText() + "]");
     	System.out.println("value : [" + this.datePicker.getValue() + "]");
     	
-    	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         if (empty) {
+        	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         	setGraphic(null);
             setText(null);
-        } else {
-        	LocalDate date = null;
+            return;
+        } 
         	
-        	// 入力制御      	
-        	if (item == null || AppUtil.StringIsNullOrEmpty(item.toString()))
-        	{
-        		System.out.println("CustomDatePicker ①");
-        		
-        		// 値が未設定の場合
-        		this.datePicker.setValue(null); // カレンダー初期化
-        		this.datePicker.getEditor().clear();     		
-        	} else {
-        		System.out.println("CustomDatePicker ②");
+        LocalDate itemDate = null;
+        	
+		if( AppUtil.isDate(item.toString()))
+    	{
+    		itemDate = LocalDate.
+    				parse(item.toString(),
+    						DateTimeFormatter.
+    						ofPattern("yyyy/MM/dd"));
+    	}
+		
+		// データが存在する場合の表示処理
+		if (isAlwaysShow) {
 
-        		if( AppUtil.isDate(item.toString()))
-            	{
-            		System.out.println("CustomDatePicker ③");
-                	date = LocalDate.parse(
-            				item.toString(), 
-            				DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-            	} else {
-            		System.out.println("DatePicker : 日付ではありません: " + item.toString()); 
-            	}
+			/* 常時表示モード */
+			LocalDate calenderDate = this.datePicker.getValue();
+			
+			// 現在セットされているインスタンスが DatePicker で、かつ
+			// 表示中の値がVALUEと同じなら、一切のプロパティ変更を行わない（フォーカス喪失を防ぐ）
+			if (getGraphic() != this.datePicker ||
+        				!Objects.equals(itemDate, calenderDate)) {
+				setGraphic(this.datePicker);
+			}
 
-    			// 範囲外なら強制的に nullに戻す
-    			if (dateIsOutOfRange(date)) {
-    	            System.out.println("TableColumn : 選択範囲外の日付です: " + date); 
-    	            date = null;
+			setText(null);
 
-    	            this.datePicker.getEditor().clear(); 
-    	            this.setText("");
-    	   			
-    	            // モデルへの値反映
-    	 			bindingModelProperty(testId, "");
-    			}
-        	}
-
-        	// データが存在する場合の表示処理
-        	if (isAlwaysShow) {
-                /* 常時表示モード */
-        		try {
-        	        isAdjusting = true; // 開始
-
-        			LocalDate calenderDate = this.datePicker.getValue();
-        	        
-            		System.out.println("CustomDatePicker ⑤");
-                	System.out.println("item : [" + (item != null ?item.toString() : "NULL" ) + "]");
-                	System.out.println("text : [" + getText() + "]");
-                	System.out.println("value : [" + this.datePicker.getValue() + "]");
-
-            		// 現在のDatePickerの値とモデルの値が違う場合のみセットする
-        		    if (calenderDate == null || date == null || !date.equals(calenderDate)) {
-                		
-        		    	System.out.println("CustomDatePicker ⑥");
-        		    	System.out.println("item : [" + (item != null ?item.toString() : "NULL" ) + "]");
-        		    	System.out.println("text : [" + getText() + "]");
-        		    	System.out.println("value : [" + this.datePicker.getValue() + "]");
-        		    	
-        		    	this.datePicker.setValue(date);
-        		    }
-        	    } finally {
-        	    	// 例外が起きても必ず最後に false にする
-        	    	isAdjusting = false;
-        	    }
-
-                // 既にセットされている場合は再セットしない（フォーカス喪失を防ぐ）
-                if (getGraphic() != this.datePicker) {
-                    setGraphic(this.datePicker);
-                }
-                
-                setText(null);
-        	} else {
-                /* 編集時のみ表示モード */
-        		if (isEditing()) {
-                    setGraphic(this.datePicker);
-                    setText(null);
-                } else {
-                    setGraphic(null);
-                    setText(item.toString());
-                }
-            }
-        }
+		} else {
+			/* 編集時のみ表示モード */
+			if (isEditing()) {
+				setGraphic(this.datePicker);
+				setText(null);
+			} else {
+				setGraphic(null);
+				setText(item.toString()); 
+		}}
     }
 	    
     /**
@@ -302,8 +259,8 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
     	// チェック確定機能追加
     	onLeaveDatePickerValue(colId);
 
-    	// カレンダー確定機能追加
-    	onCalenderSelected(colId);
+    	// 日付(カレンダー)確定機能追加
+    	onCalenderDateSelected(colId);
 
     	// カレンダー表示設定
     	onCalenderShown();
@@ -328,23 +285,69 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
      */	
 	@SuppressWarnings({ "unused", "unchecked" })
 	private void onLeaveDatePickerValue(String colId) {
-        // 入力監視リスナー(Leave相当)
+		// Converterの設定
+		/*datePicker.setConverter(new StringConverter<LocalDate>() {
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+		    @Override
+		    public String toString(LocalDate date) {
+		        return (date != null) ? formatter.format(date) : "";
+		    }
+
+		    @Override
+		    public LocalDate fromString(String string) {
+		        // ここで null を返せるようにするのが肝
+		        if (string == null || string.trim().isEmpty()) {
+		            return null; 
+		        }
+		        return LocalDate.parse(string, formatter);
+		    }
+		});*/
+		
+		
+		// テキストが空になったら即座に value を null にする
+		datePicker.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+		    if (AppUtil.StringIsNullOrWhiteSpace(newValue)) {
+		        datePicker.setValue(null);
+		        datePicker.fireEvent(new ActionEvent()); 
+		    }
+		});
+		
+		// 入力監視リスナー(Leave相当)
 		// カレンダーの選択に対応するため[setOnAction]を捉える
 		this.datePicker.setOnAction(
         		(e) -> {
         			if (isAdjusting) { return; }
          			
-        			LocalDate date = datePicker.getValue();
-        			
+        			LocalDate date = datePicker.getValue();	
         			String value = ( date != null ) ? 
          			       date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "" ;
-	
-      				getTableView().edit(getIndex(), getTableColumn());
-      				this.commitEdit((T) value);
+        			
+        			// 入力制御      	
+        			// 範囲外なら強制的に nullに戻す
+        			if (dateIsOutOfRange(date)) {
+        	            System.out.println("TableColumn : 選択範囲外の日付です: " + date); 
+        	            date = null;
+        	            value = "";
+        			}
+        			
+        			// 強制的に編集モードにする
+        			getTableView().edit(getIndex(), getTableColumn());
 
+        			try {
+        				isAdjusting = true; // 開始
+            	    	datePicker.setValue(date);
+        			} finally {
+                		// 例外が起きても必ず最後に false にする
+                		isAdjusting = false;
+        			}
+
+        			setText(value);
+        	    	this.commitEdit((T) value);
+        			
     				// モデルへの値反映
         			bindingModelProperty(colId, value);
-        		});
+         		});
 	}
 
     /**
@@ -357,15 +360,12 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	 * setValueに対するListener<br>
      */	
 	@SuppressWarnings({ "unused" })
-	private void onCalenderSelected(String colId) {
+	private void onCalenderDateSelected(String colId) {
         
 		// 入力監視リスナー
 		// (obs = 値変更を監視しているプロパティ:ObservableValue = datePicker.valueProperty())
 		this.datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
-		    
 			if ( isAdjusting ) { return; }
-
-			System.out.println("CustomDatPicker SelectedCalender");
 
          	String value = ( newDate != null ) ? 
          			newDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "" ;
@@ -374,24 +374,25 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 				getTableView().edit(getIndex(), getTableColumn());
 			} 
 
-   			System.out.println("CustomDatePicker ⑦");
-   			System.out.println("getValue: ["+ value + "]");
-   			
-   			//this.commitEdit((T)value);
-   			
-   			// モデルへの値反映
- 			bindingModelProperty(colId, value);
+   			datePicker.getEditor().setText(value);
+
 		});
 	}
 	
 	/**
 	 * 機能追加：DatePickerFocus遷移の動作(GetFocus / LostFocus Event)
+	 * @brief 選択した日付をカラムのBINDソースに反映<br>
+	 * カラムの[id]と[fx:id]は同一の前提<br>
+	 * カレンダーの日付を選択した/ 入力を確定した瞬間に発報されるイベント<br>
+	 * setOnActionと二重実行される。isAdjustingにて監視・制御すること。
+	 * setValueに対するListener<br>
 	 */
 	@SuppressWarnings("unused")
 	private void onFocusDatePicker() {
         this.datePicker.focusedProperty().addListener(
         		(obs, wasFocused, isFocused) -> {
         			if (isFocused && !isAdjusting) {
+        				
         				/* 後処理リスナー */
         				Platform.runLater(() -> {
         		            try {
@@ -403,26 +404,14 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
             		            	
             		            	// DatePickerに明示的に再度フォーカスを戻す（Windows11 IME対策）
             		                this.datePicker.requestFocus();
-            		                }
+            		            }
         		            } finally {
         		                isAdjusting = false;
         		            }
-        					
-        					/*System.out.println("CustomDatePicker LostFocus");
-        					// 下限(lower)より前、または上限(upper)より後の日付を無効化
-            	            LocalDate date = datePicker.getValue();
-            				
-            	            if (date == null) { return; }
-            	            boolean isBeforeLower = (lowerDate != null && date.isBefore(lowerDate));
-            	            boolean isAfterUpper = (upeerDate != null && date.isAfter(upeerDate));
-        					
-        					// 範囲外なら強制的に null (または oldValue) に戻す
-        					if (isBeforeLower || isAfterUpper) {
-        			            datePicker.setValue(null); 
-        			            datePicker.getEditor().clear();
-        			            System.out.println(" Focuus : 選択範囲外の日付です: " + date); }*/
-        				});}
-        		});}
+        				});
+        			}
+        });
+	}
 	
 	/**
 	 * 機能追加：カレンダー表示 初期日付設定
@@ -431,19 +420,18 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	private void onCalenderShown() {
 	    // カレンダーが開かれようとした時の処理を登録
 	    datePicker.setOnShowing(e -> {
+	    	
 	    	Platform.runLater(() -> {
-	    	    	this.requestFocus(); 
-	    	    	
-	       			System.out.println("CustomDatePicker ⑨");
-	       			System.out.println("getValue: ["+ datePicker.getValue() + "]");
-	    	    	
-	    	    	
-	    	    	// 現在の値が空（null）の場合だけ、カレンダーの初期選択を今日にする
-	    	        if (datePicker.getValue() == null) {
-		            	datePicker.setValue(defaultDate);
-	    	        }
-	            });
-	        });
+	    		this.requestFocus(); 
+
+	    		// 現在の値が空（null）の場合だけ、カレンダーの初期選択を今日にする
+	    		if (datePicker.getValue() == null) {
+	    			
+	    			System.out.println("CustomDatePicker CalenderShown 初期値設定");
+	    			datePicker.setValue(defaultDate);
+	    		}
+	    	});
+	    });
 	}
 	
 	/**
@@ -462,26 +450,32 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	            if (date == null) { return; }
 
 	            // 下限(lower)より前、または上限(upper)より後の日付を無効化
-	            boolean isBeforeLower = (lowerDate != null && date.isBefore(lowerDate));
-	            boolean isAfterUpper = (upeerDate != null && date.isAfter(upeerDate));
-
-	            if (isBeforeLower || isAfterUpper) {
+	            if (dateIsOutOfRange(date)) {
 	                setDisable(true);
 	                // 無効な日付をグレーアウトする
 	                setStyle("-fx-background-color: #f4f4f4; -fx-text-fill: #b0b0b0;");
 	            }
-	        }
-	    });}
+	    	}
+	    });
+	}
 
+	/**
+	 * 
+	 * @param date
+	 * @return
+	 */
 	private boolean dateIsOutOfRange(LocalDate date) {
- 		boolean isBeforeLower = true;
+ 		
+		if(date == null) { return true; }
+		
+		boolean isBeforeLower = true;
         boolean isAfterUpper = true;
 		
 		// 下限(lower)より前、または上限(upper)より後の日付を無効化
         isBeforeLower = (lowerDate != null && date.isBefore(lowerDate));
         isAfterUpper = (upeerDate != null && date.isAfter(upeerDate));		
 		
-		return (date == null || isBeforeLower || isAfterUpper);
+		return (isBeforeLower || isAfterUpper);
 	}
 	
     /**

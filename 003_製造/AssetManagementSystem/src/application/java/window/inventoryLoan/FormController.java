@@ -294,13 +294,12 @@ public class FormController extends BaseFormPage {
 
 		col_staff_name.setCellTypeCustomComboBoxKeyValuesWithCheck(options, "staffNo","isCheckOut", true, true);
 		col_start_date.setCellTypeCustomDatePicker(true, true, null, null, dateNow);
-		col_limit_date.setCellTypeCustomDatePicker(true, true, dateNow, dateNow, LocalDate.of(2099, 12, 31));
+		col_limit_date.setCellTypeCustomDatePicker(true, false, dateNow, dateNow, LocalDate.of(2099, 12, 31));
 		col_is_checkout.setCellTypeCustomCheckBox(false, true);
 		
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(true);
-    	
     	
     	// TableView[列]文字設定 
     	col_serial.getStyleClass().add("text-aligned");

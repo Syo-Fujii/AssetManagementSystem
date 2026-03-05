@@ -386,8 +386,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 			            } else {
 			                setText(item.toString());
 			            }
-					}                
-                }  
+					}
+                }
             }
         });	
 	}
@@ -430,7 +430,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             }
 
             /**
-             * 
+             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
              * @param item
              * @param empty
              * @brief
@@ -440,6 +440,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
              */
             @Override
             public void updateItem(T item, boolean empty) {
+
+            	// CustomDatePickerTableCellManager.updateItem
             	super.updateItem(item, empty);
 
          		if (empty || item == null) {
@@ -457,58 +459,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
  
                 	setDisable( !isEnabled );
                 	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
-                	setFocusTraversable(isEnabled);                      
-
-                	
-                	// LocalDate date = null;
-					/*
-					if (!AppUtil.StringIsNullOrEmpty(item.toString()))
-					{
-				        try {
-				        	date = LocalDate.parse(item.toString(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-				        } catch (Exception e) {
-				            throw e;
-				        }
-						
-						// 下限(lower)より前、または上限(upper)より後の日付を無効化
-        	            boolean isBeforeLower = (minDate != null && date.isBefore(minDate));
-        	            boolean isAfterUpper = (maxDate != null && date.isAfter(maxDate));
-    					
-    					// 範囲外なら強制的に nullに戻す
-    					if (isBeforeLower || isAfterUpper) {
-    						getDatePicker().setValue(null);
-    						getDatePicker().getEditor().clear();
-    						commitEdit(null); // モデルも空にする
-    			            
-    			            setText("");
-    			            System.out.println("TableColumn : 選択範囲外の日付です: " + date); 
-    			        } else {
-    			        	setText(date != null ? 
-    			        			date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : 
-    			        			"");
-    			        }
-					}*/
-					
-					/*if (isAlwaysShow) {
-						// 現在表示されている graphic が datePicker でない場合のみセット
-						// ※ これにより、クリック時の再描画による「消え」を防ぐ
-						Node currentGraphic = getGraphic();
-						if (currentGraphic == null || !(currentGraphic instanceof DatePicker)) {
-		                    // 現在セットされているインスタンスが DatePicker で、かつ
-		                    // 表示中の値が同じなら、一切のプロパティ変更を行わない
-		        			if (currentGraphic == getDatePicker() && 
-		        				Objects.equals(date, getDatePicker().getValue())) {
-		                        return;
-		                    }
-							// 必要な時だけセット
-							if (getGraphic() != getDatePicker()) { setGraphic(this.getDatePicker()); }
-						}
-
-						// 内部のDatePickerにも状態を伝播させる
-						Node graphic = getGraphic();
-						if (graphic instanceof DatePicker dp) { dp.setDisable(!isEnabled); }
-					} */
-                }  
+                	setFocusTraversable(isEnabled);
+                }
             }
         });
 	}
