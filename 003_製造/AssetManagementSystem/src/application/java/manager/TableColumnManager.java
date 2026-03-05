@@ -2,12 +2,9 @@ package application.java.manager;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 
 import application.java.base.BaseTableViewModel;
-import application.java.common.AppUtil;
 import application.java.manager.CustomTableCells.CustomCheckBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
@@ -15,8 +12,6 @@ import application.java.manager.CustomTableCells.CustomComboBoxWithChecBoxkManag
 import application.java.manager.CustomTableCells.CustomDatePickerTableCellManager;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
-import javafx.scene.Node;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -212,23 +207,25 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             }
 
             /**
-             * 
+             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
              * @param item
              * @param empty
              * @brief
              * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
              * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
-             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。
+             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
+             * カスタムControlの[updateItem]を呼出す(super)こと
              */
             @Override
             public void updateItem(T item, boolean empty) {
             	super.updateItem(item, empty);
 
          		if (empty || item == null) {
-                    setGraphic(null);
+                    // 再利用の際、空行などの場合
+         			setGraphic(null);
                     setText(null);
 
-                    // 【重要】isValueChengedがfalseであっても、
+                    // isValueChengedがfalseであっても、
                     // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
                 	setDisable(false);
                 	pseudoClassStateChanged(DISABLED_PC, false);
@@ -285,23 +282,25 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             }
 
             /**
-             * 
+             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
              * @param item
              * @param empty
              * @brief
              * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
              * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
-             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。
+             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
+             * カスタムControlの[updateItem]を呼出す(super)こと
              */
             @Override
             public void updateItem(T item, boolean empty) {
             	super.updateItem(item, empty);
 
          		if (empty || item == null) {
-                    setGraphic(null);
+         			// 再利用の際、空行などの場合
+         			setGraphic(null);
                     setText(null);
 
-                    // 【重要】isValueChengedがfalseであっても、
+                    // isValueChengedがfalseであっても、
                     // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
                 	setDisable(false);
                 	pseudoClassStateChanged(DISABLED_PC, false);
@@ -347,20 +346,22 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             }
 
             /**
-             * 
+             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
              * @param item
              * @param empty
              * @brief
              * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
              * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
-             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。
+             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
+             * カスタムControlの[updateItem]を呼出す(super)こと
              */
             @Override
             public void updateItem(T item, boolean empty) {
             	super.updateItem(item, empty);
 
          		if (empty || item == null) {
-                    setGraphic(null);
+         		// 再利用の際、空行などの場合
+         			setGraphic(null);
                     setText(null);
 
                     // 【重要】isValueChengedがfalseであっても、
@@ -376,6 +377,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
                 	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
                 	setFocusTraversable(isEnabled);                      
 
+                	// 編集時のみ表示MODEでのTEXT設定
 					if (isAlwaysShow) {
 						setText(null);
 					} else {
@@ -458,8 +460,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
                 	setFocusTraversable(isEnabled);                      
 
                 	
-                	LocalDate date = null;
-					
+                	// LocalDate date = null;
+					/*
 					if (!AppUtil.StringIsNullOrEmpty(item.toString()))
 					{
 				        try {
@@ -485,9 +487,9 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     			        			date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : 
     			        			"");
     			        }
-					}
+					}*/
 					
-					if (isAlwaysShow) {
+					/*if (isAlwaysShow) {
 						// 現在表示されている graphic が datePicker でない場合のみセット
 						// ※ これにより、クリック時の再描画による「消え」を防ぐ
 						Node currentGraphic = getGraphic();
@@ -505,7 +507,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 						// 内部のDatePickerにも状態を伝播させる
 						Node graphic = getGraphic();
 						if (graphic instanceof DatePicker dp) { dp.setDisable(!isEnabled); }
-					}               	
+					} */
                 }  
             }
         });
@@ -522,37 +524,12 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		if(!isEnterNextFocus){ return; }
 
 		// 編集モード時、確定(EnterKey)イベント
+		// 入力監視リスナー
+		// (event = 変更を監視しているプロパティ:event = TableVolumn.CellEditEvent)
 		this.setOnEditCommit(event -> {
-    	   // String propertyName = getPropertyName();
-    	   String propertyName = this.getId();
-    	   
-    	   S rowData = event.getRowValue();
-    	   T newValue = event.getNewValue();
-    	   
-    	   // モデルへの値反映
-    	    /*try {
-    	        // メソッド(値のSetter プロパティ)名の生成
-    	        String methodName = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
-    	        
-                // モデルからメソッド(Setter)を探して実行
-                Method setter = rowData.getClass().getMethod(methodName, newValue.getClass());
-                setter.invoke(rowData, newValue);
-                
-                System.out.print("TableColumnManager.setupDefaultEditCommitHandler");
-                
-    	    } catch (Exception e) {
-    	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-                System.err.println("モデルへの値反映に失敗しました: " + propertyName);
-    	    	
-    	    	e.printStackTrace();
-    	    }*/
-   
-    	    
-    	    
-    	    
-    	    
-           // 次のセルへの遷移
-           javafx.application.Platform.runLater(() -> {
+           
+			// 次のセルへの遷移
+			javafx.application.Platform.runLater(() -> {
                TableView<S> tv = event.getTableView();
                int currentRow = event.getTablePosition().getRow();
                

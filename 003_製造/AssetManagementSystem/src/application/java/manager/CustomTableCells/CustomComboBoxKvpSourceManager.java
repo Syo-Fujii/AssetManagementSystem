@@ -79,7 +79,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
     public void startEdit() {
     	super.startEdit();
     	
-    	System.out.println("CustomCell startEdit");
+    	System.out.println("CustomComboBoxKVP startEdit");
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
         	setGraphic(comboBox);
@@ -87,7 +87,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         } else if (!isEditing()) {
         	return;
         }
-    	System.out.println("CustomCell EditMode");
+    	System.out.println("CustomComboBoxKVP EditMode");
     	
     	comboBox.requestFocus();
     	comboBox.getEditor().requestFocus();
@@ -107,7 +107,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
     public void cancelEdit() {
     	super.cancelEdit();
     	
-        System.out.println("CustomCell cancelEdit");
+        System.out.println("CustomComboBoxKVP cancelEdit");
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
@@ -133,7 +133,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         
     	super.updateItem(value, empty);
 
-    	System.out.println("CustomComboBoxKeyValuePair updateItem");
+    	System.out.println("CustomComboBoxKVP updateItem");
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         if (empty) {
             setGraphic(null);
@@ -183,7 +183,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
     }
     
 	/**
-	 * 機能追加：入力Mode + AutoComplete機能
+	 * 機能追加：入力Mode + AutoComplete機能 + 確定動作(Leave Event)
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
 	 */
@@ -244,7 +244,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         // ⇒ 全ての文字列が入力されてからCommitする
         this.comboBox.setOnAction(
         		e -> {
-    				System.out.println("CustomCell setOnAction");
+    				System.out.println("CustomComboBoxKVP setOnAction");
 
     				if(isAdjusting) { return; }
 
@@ -291,7 +291,6 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         				getTableView().edit(getIndex(), getTableColumn());
         			}               			
         			
-        			//System.out.println("値反映処理実行: " + value);
     				// 値の確定(TableView側へ通知)
         			this.commitEdit((V) newVal.value());
         			
