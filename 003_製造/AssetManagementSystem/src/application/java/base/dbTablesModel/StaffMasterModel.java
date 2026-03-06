@@ -8,10 +8,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * 社員マスタークラス
+ * @brief 社員マスタのデータ<br>
+ * ※ １行分のデータ<br>
+ * 画面Controllerにて呼び出される前提<br>
+ */
 public class StaffMasterModel extends BaseTableViewModel  {
 
     private IntegerProperty staffNo;
-	private StringProperty name;
+	private StringProperty staffName;
     private IntegerProperty authNo;	
     private BooleanProperty del;		
 	
@@ -41,8 +47,8 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * @brief [javafx.beans.property] 
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
-	public String getName() {
-		return name.get();
+	public String getStaffName() {
+		return staffName.get();
 		}
 
 	 /**
@@ -51,8 +57,8 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * @brief [javafx.beans.property] 
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
-	public void setName(String name) {
-		this.name.set(name);
+	public void setStaffName(String name) {
+		this.staffName.set(name);
 		}
 	
 	/**
@@ -81,7 +87,7 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * @brief [javafx.beans.property] 
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
-	public Boolean getLoanCount() {
+	public Boolean getDelFlg() {
 		return del.get();
 		}
 
@@ -91,7 +97,7 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * @brief [javafx.beans.property] 
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	 */
-	public void setLoanCount(Boolean isdeleted) {
+	public void setDelFlg(Boolean isdeleted) {
 		this.del.set(isdeleted);
 		}	 
 
@@ -105,7 +111,7 @@ public class StaffMasterModel extends BaseTableViewModel  {
      */
 	 public StaffMasterModel(){
 		 this.staffNo = new SimpleIntegerProperty();
-		 this.name = new SimpleStringProperty("");
+		 this.staffName = new SimpleStringProperty("");
 		 this.authNo = new SimpleIntegerProperty();
 		 this.del = new SimpleBooleanProperty(false);
 	 }   

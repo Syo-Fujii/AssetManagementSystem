@@ -23,6 +23,31 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
     private final Boolean isAlwaysShow;
 
     private Boolean isAdjusting = false;
+
+ 	/**
+	 * プレースホルダー（入力例・ヒント）を設定する。
+	 * @param promptText 設定する文字
+	 */
+	public void setPlaceHolder(String promptText) {
+		this.comboBox.setPromptText(promptText);
+	}	
+  
+	/**
+	 * 選択肢（リスト）を設定する。
+	 * @param items 設定する選択肢（リスト）: ObservableList[T]
+	 */
+	public void setDataSource(ObservableList<T> items) {
+		this.comboBox.setItems(items);
+	}		
+	
+	/**
+	 * 選択肢（リスト）を追加する。
+	 * @param item 追加するデータ：T
+	 */
+	public void setData(T item) {
+		this.comboBox.getItems().add(item);
+	}	    
+    
     
     /**
      * コンストラクタ

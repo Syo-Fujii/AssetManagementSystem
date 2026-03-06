@@ -103,6 +103,19 @@
      ]]>
     </select>
 
+    <!-- 社員マスターの取得 -->
+    <select id="getStaffMasterData">
+      SELECT
+        SM.staff_no AS staffNo,
+        SM.name AS staffName
+       FROM
+         staff_master SM
+       WHERE
+         1 = 1
+       AND SM.del = FALSE
+       ORDER BY SM.staff_no
+    </select>
+
     <select id="getStockTypeName">
       SELECT
         STM.name

@@ -56,6 +56,7 @@ public class JavaFxManager extends Application{
 	* [fx:controller="application.java.window.inventoryList.FormController"]を記述せず<br>
 	* メソッド内で[loader.setController(cls);]を設定する。
 	*/
+	@SuppressWarnings("unused")
 	public void setPage(BaseFormPage cls, Object...params) throws Exception{
 		FXMLLoader loader = new FXMLLoader();
 		
@@ -102,14 +103,12 @@ public class JavaFxManager extends Application{
 		cls.loadParameter(params);
 		
 		// Event 付与(Form Shown相当)
+		// [Window]の描画が完全に完了した時点で呼出されるイベント
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> {
         	this.WindowShown(cls);
         });		
 		
 		stage.setScene(scene);
-		
-		// Page(scene) ShownEvent呼出
-		cls.FormShown();
 		
 		if (isSizeToScene)
 		{
@@ -129,12 +128,14 @@ public class JavaFxManager extends Application{
      * Window(Stage)の呼び出しは初回(primaryStage start)のみのため、１回しか呼び出されない
 	 */
 	private void WindowShown(BaseFormPage cls){
-		//System.out.println("FXManager WindowShown");
 		
 		// Windowタイトルの定義
 		stage.setTitle(cls.getWindowTitle());
 
 	    // ウィンドウサイズを固定（最大化ボタンも無効になります）
 	    stage.setResizable(false);	
+
+		// Page(scene) で設定したWindowShownEvent呼出
+		cls.windowShown();
 	}
 }

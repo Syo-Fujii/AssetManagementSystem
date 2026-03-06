@@ -137,10 +137,17 @@ public abstract class BaseFormPage {
 	}
 
 	/**
-	 * (stage)画面表示Event 
+	 * (stage= Window)画面表示完了Event 
 	 * 初回表示の際に設定する場合、使用する。
+     * @brief [scene]の描画が完全に完了した時点で呼出されるイベント<br>
+     * JavaFxでは、生成された[Window](Stage)のPanel(scene)を切り替えることで、画面の遷移を行っているので
+     * [Window](Stage)の生成は初回の１回きりとなる<br>
+     * [.NET]でのForm_Shownイベント相当であるが、Windowを切り替えないので同じようには使えない。<br>
+     * 継承先では[sceneShown]メソッドを書き換えることで、WindowEvent.WINDOW_SHOWN イベントでの内容を定義する。<br>
+     * OSレベルでウィンドウが表示され、全コンポーネントのレイアウト計算や描画が完全に終わった状態での表示処理	 
 	 */
-	public void FormShown(){
+	public void windowShown(){
+		stageShown();
 	}
 	
 	/**
@@ -252,6 +259,16 @@ public abstract class BaseFormPage {
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
 		return true;
     }
+	
+	/**
+	 * (stage)画面表示Shown(継承) 
+	 * 初回表示の際に設定する場合、使用する。
+     * @brief [stage]の描画が完全に完了した時点で呼出されるイベントの内容を定義する<br>
+     * Window(Stage)の生成は、初回の1回しか行われない為、初回Windowを呼出す際に設定することがある場合用いる。<br>
+     * 継承先画面にて、WindowShown([Stage]の描画が完全に完了した時点)を呼出す場合に用いる。<br>
+     * OSレベルでウィンドウが表示され、全コンポーネントのレイアウト計算や描画が完全に終わった状態での表示処理	 
+	 */
+	protected void stageShown(){}
 	
     /**
      * DBクエリ発行処理

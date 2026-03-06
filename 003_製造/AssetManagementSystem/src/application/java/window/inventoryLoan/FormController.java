@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
+import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 import application.java.base.tableViewListModel.InventoryLoanDataModel;
 import application.java.common.AppUtil;
@@ -87,43 +88,55 @@ public class FormController extends BaseFormPage {
 		this.previousPageWindowSize = size;
 	}
 	
-    @FXML
     /**
      * 画面(scene)初期化イベント
-     * .NET Load相当 
+     * .NET FormLoad & Shown相当 
      * 画面の表示前、ノードが配置された段階で実行
+     * @brief 画面(scene)の遷移には、FXMLLoaderでFXMLを読み込み、新しいControllerを生成しているので<br>
+     * 当該が各画面(scene)の呼び出しイベント(FormLoad/FormShown)相当となる。
      */
-    void initialize() {
+    @FXML
+	public void initialize() {
  
     	System.out.println("inventoryLoan controller initialize");
     	
     	// 最初の画面起動として、[SQL Session]を生成・保持する。
 		MySqlManager.getSqlSessionFactory();
+
+    	// 選択肢のリスト(空データ)
+     	ObservableList<keyValuePairItem<Integer, String>> comboBoxSource = 
+     			FXCollections.observableArrayList();		
 		
 		// TableView起動設定
-		this.tableViewSettings();
+		this.tableViewSettings(comboBoxSource);
 		
 		// 画面起動設定
 		this.formInitialize();
-    	
-    	System.out.println("備品貸出 リスト表示処理");
-    	super.<InventoryDetailsDataModel>fillTableAsync();
-    }	
  
-    @FXML
+		System.out.println("備品貸出 使用者一覧(ComboBox 選択リスト)取得処理");
+		this.fetchStaffMembers(comboBoxSource);
+
+    	System.out.println("備品貸出 リスト表示処理");  	
+    	super.<InventoryLoanDataModel>fillTableAsync();
+    	
+    	// TableView Focus指定
+    	tableListView.setFocusFirstCell(col_staff_name);
+    }	
+
     /**
      * [貸出]ボタン 押下イベント 
      */
+    @FXML
     public void onLoanButtonClicked() {
 
     	// 遷移元画面に切替
     	super.setPage(new application.java.window.inventoryList.FormController());
     }    
     
-    @FXML
     /**
      * [戻る]ボタン 押下イベント 
      */
+    @FXML
     public void onBackButtonClicked() {
 
     	// 遷移元画面に切替
@@ -133,20 +146,8 @@ public class FormController extends BaseFormPage {
     			inventoryDetails.
     			FormController(this.stockType, this.stockCode, this.previousPageWindowSize.toString()));
     }
-
-    @Override
-	/**
-	 * (stage)画面表示Event 
-	 */
-	public void FormShown(){
-    	//System.out.println("FormShown");
-    	
-    	// TableView Focus指定
-    	tableListView.setFocusFirstCell(col_staff_name);
-	}  
+ 
     
-    @SuppressWarnings("unchecked")
-	@Override
 	/**
      * クエリ発行処理(Mapper)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
@@ -154,6 +155,8 @@ public class FormController extends BaseFormPage {
      * @return List<T> 取得結果(行データ:T のList)
      * @brief controller内で用いるクエリ発行処理<br>
 	 */
+	@Override
+    @SuppressWarnings("unchecked")
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
 		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
 	    
@@ -161,13 +164,13 @@ public class FormController extends BaseFormPage {
 	    return (List<T>) mapper.getTableLoanableData(this.stockType, this.stockCode);
     }
 
-    @SuppressWarnings("unchecked")
-	@Override
 	/**
      * DB取得成功時の処理(非同期処理)
      * @brief controller内で用いる取得成功時の処理<br>
 	 */
-    protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
+	@Override
+	@SuppressWarnings("unchecked")
+	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
 		
     	List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
     	
@@ -195,7 +198,6 @@ public class FormController extends BaseFormPage {
 		super.exceptionResult(exception);
     }
 
-	@Override
     /**
      * クエリ発行処理(Mapper:トランザクション処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
@@ -212,6 +214,8 @@ public class FormController extends BaseFormPage {
      *     mapper.updateA(data1);<br>
      *     mapper.updateB(data2);<br>
      */
+	@SuppressWarnings({ "unused" })
+	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
 		
 		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
@@ -226,7 +230,53 @@ public class FormController extends BaseFormPage {
 
 	    return true;
     }	
-	
+
+    /**
+     * 使用者ComboBox 選択リスト取得処理
+     * @param comboBoxSource コンボボックスの選択リスト(kvpのObservableList)
+     * @brief コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
+     */
+    private void fetchStaffMembers(
+    		ObservableList<keyValuePairItem<Integer, String>> comboBoxSource)
+    {
+    	System.out.println("使用者ComboBox 選択リスト取得処理");
+    	
+    	MySqlManager.<StaffMasterModel>FillOnParallel(
+    			(SqlSession session) -> {
+					try {
+						return this.getStaffMasterData(session);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				},
+    			listData -> { 
+    				modelsConvertToKeyValuePairList( listData, comboBoxSource ); },
+    			exception -> {
+    				System.err.println("使用者ComboBox 選択リスト取得失敗");
+    				super.exceptionResult(exception);
+    			}
+    	); 
+    }	
+
+    /**
+     * 社員一覧の取得
+     * @param session
+     * @throws Exception
+     * @return List<StaffMasterModel> 取得結果(行データ:StaffMasterModel のList)
+     */
+    private List<StaffMasterModel> getStaffMasterData(SqlSession session) throws Exception
+    {
+    	try {
+    		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
+    	    
+    	    // 社員マスター取得
+    	    return mapper.getStaffMasterData();
+
+    	} catch(Exception e){
+    		throw new Exception(e);
+    	}
+    }
+    
 	/**
 	 *所在確認日 更新確認Message
 	 * @param serialNo
@@ -255,12 +305,13 @@ public class FormController extends BaseFormPage {
     
     /**
      * TableView設定
+     * @param kvpItems コンボボックスの選択リスト(kvpのObservableList)
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      * 多分Webページと同じ概念。
      */
-	private void tableViewSettings()
+	private void tableViewSettings(ObservableList<keyValuePairItem<Integer, String>> kvpItems)
     {
-    	System.out.println("備品詳細 カラム・セル設定/定義");
+    	System.out.println("備品貸出 カラム・セル設定/定義");
     	
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
@@ -278,25 +329,21 @@ public class FormController extends BaseFormPage {
     	// 無効Cell Focus SKIP設定 
     	tableListView.onDisabledCellsFocusSkipEvent();
 
-    	// 項目(セル) 型設定
-    	// 選択肢のリスト
-
-    	@SuppressWarnings({ "unchecked", "rawtypes" })
-    	ObservableList<keyValuePairItem<Integer, String>> options =	FXCollections.observableArrayList(
-    			new keyValuePairItem(1,"Apple"), 
-    			new keyValuePairItem(2,"Banana"), 
-    			new keyValuePairItem(3, "Cherry"));
-		
-    	ObservableList<String> options_OL = 
-				FXCollections.observableArrayList("Apple","Banana","Cherry");
-    	
-    	LocalDate dateNow = LocalDate.now();
-
-		col_staff_name.setCellTypeCustomComboBoxKeyValuesWithCheck(options, "staffNo","isCheckOut", true, true);
+    	// 項目(カスタムセル)型設定
+    	/* カレンダー(DatePicker)の初期値 = 本日 */
+     	LocalDate dateNow = LocalDate.now();
+   
+		col_staff_name.setCellTypeCustomComboBoxKeyValuesWithCheck(
+				kvpItems, 
+				"staffNo",
+				"isCheckOut",
+				"選択してください",
+				true, 
+				true);
 		col_start_date.setCellTypeCustomDatePicker(true, true, null, null, dateNow);
 		col_limit_date.setCellTypeCustomDatePicker(true, false, dateNow, dateNow, LocalDate.of(2099, 12, 31));
-		col_is_checkout.setCellTypeCustomCheckBox(false, true);
-		
+		col_is_checkout.setCellTypeCustomCheckBox(false, true);    	
+
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(true);
@@ -345,15 +392,32 @@ public class FormController extends BaseFormPage {
      */
     private void formInitialize()
     {
-    	System.out.println("備品詳細 画面初期化処理");
+    	System.out.println("備品貸出 画面初期化処理");
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
     }
 
-    
-    
-    
+    /**
+     * データモデル(StaffMasterModel) kvpリスト変換処理
+     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
+     * メソッド参照: FXCollections::observableArrayList<br>
+     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
+     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
+     */   
+    private void modelsConvertToKeyValuePairList(
+    		List<StaffMasterModel> datas,
+    		ObservableList<keyValuePairItem<Integer, String>> kvpItems) {
+     	
+    	kvpItems.clear();
+    	
+        if (datas == null || datas.isEmpty()) { return; }
+
+        datas.stream().
+              map(row -> new keyValuePairItem<Integer, String>(row.getStaffNo(), row.getStaffName())).
+              forEach(kvpItems::add);
+    }
+   
     
     @FXML
     /**

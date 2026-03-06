@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppUtil;
 import application.java.manager.CustomTableCells.CustomCheckBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
@@ -79,7 +80,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             }
 
             /**
-             * 
+             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
              * @param item
              * @param empty
              * @brief
@@ -141,7 +142,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             }
 
             /**
-             * 
+             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
              * @param item
              * @param empty
              * @brief
@@ -247,6 +248,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	 * @param items 選択リストに表示するデータ
      * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
      * @param CheckBoxModelName 値更新に連動させるModelのプロパティ名
+     * @param placeHolderText 未選択時(空欄)時に表示させる文字(未設定の場合は、表示しない)
 	 * @param isEnabled CELL 有効化制御
 	 * @param isAlwaysShow 常にComboBoxを表示するか
 	 * @brief 値による動的変更はない[false]とする。
@@ -256,14 +258,15 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 			ObservableList<keyValuePairItem<Integer, String>> kvpItems,
 			String keyModelName,
 			String CheckBoxModelName,
+			String placeHolderText,
 			Boolean isEnabled, 
 			Boolean isAlwaysShow){
 		Boolean isValueChenged = false;
 		
 		this.setEditable(isEnabled);
 		 
-		this.setCellFactory(
-				col -> new CustomComboBoxWithChecBoxkManager<S, Integer, T>(
+		this.setCellFactory(col -> {
+		   CustomComboBoxWithChecBoxkManager<S, Integer, T> cb = new CustomComboBoxWithChecBoxkManager<S, Integer, T>(
 						this.getId(), 
 						keyModelName, 
 						CheckBoxModelName,
@@ -314,7 +317,15 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
                 	setFocusTraversable(isEnabled);                      
                 }  
             }
-        });		
+		  };
+		
+		  if (!AppUtil.StringIsNullOrWhiteSpace(placeHolderText)) {
+			  // プレースホルダー（プロンプトテキスト）を設定
+			  cb.setPlaceHolder(placeHolderText);			  
+		  }
+		  
+		  return cb;
+		});
 	}
 	
 	/**

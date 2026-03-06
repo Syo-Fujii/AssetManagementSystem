@@ -26,7 +26,33 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 
     private final Boolean isAlwaysShow;
     private Boolean isAdjusting = false;
+  
     
+	/**
+	 * プレースホルダー（入力例・ヒント）を設定する。
+	 * @param promptText 設定する文字
+	 */
+	public void setPlaceHolder(String promptText) {
+		this.comboBox.setPromptText(promptText);
+	}	
+  
+	/**
+	 * 選択肢（リスト）を設定する。
+	 * @param kvpItems 設定する選択肢（リスト）: ObservableList[keyValuePairItem[Integer, String]]
+	 */
+	public void setDataSource(ObservableList<keyValuePairItem<Integer, String>> kvpItems) {
+		this.comboBox.setItems(kvpItems);
+	}		
+	
+	/**
+	 * 選択肢（リスト）を追加する。
+	 * @param kvpItem 追加するデータ：keyValuePairItem[Integer, String]
+	 */
+	public void setData(keyValuePairItem<Integer, String> kvpItem) {
+		this.comboBox.getItems().add(kvpItem);
+	}	
+	
+	
     /**
      * コンストラクタ
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)

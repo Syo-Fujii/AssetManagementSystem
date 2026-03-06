@@ -11,9 +11,9 @@ import javafx.beans.property.StringProperty;
 
 /**
  * 備品貸出データクラス
- * @brief 備品貸出画面で表示する明細リストのデータ
- * ※ １行分のデータ
- * 画面Controllerにて呼び出される前提
+ * @brief 備品貸出画面で表示する明細リストのデータ<br>
+ * ※ １行分のデータ<br>
+ * 画面Controllerにて呼び出される前提<br>
  */
 public class InventoryLoanDataModel extends BaseTableViewModel {
 

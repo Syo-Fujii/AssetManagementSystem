@@ -87,13 +87,15 @@ public class FormController extends BaseFormPage {
 		this.windowSizeType = AppUtil.parseInt(windowSize, 1);
 	}
 	
-    @FXML
     /**
      * 画面(scene)初期化イベント
-     * .NET Load相当 
+     * .NET FormLoad & Shown相当 
      * 画面の表示前、ノードが配置された段階で実行
+     * @brief 画面(scene)の遷移には、FXMLLoaderでFXMLを読み込み、新しいControllerを生成しているので<br>
+     * 当該が各画面(scene)の呼び出しイベント(FormLoad/FormShown)相当となる。
      */
-    void initialize() {
+    @FXML
+	public void initialize() {
  
     	System.out.println("inventoryDetails controller initialize");
     	
@@ -105,18 +107,15 @@ public class FormController extends BaseFormPage {
 		
 		// 画面起動設定
 		this.formInitialize();
-    	
-    	System.out.println("備品詳細 リスト表示処理");
-    	super.<InventoryDetailsDataModel>fillTableAsync();
-    	
-    	loan_button.setDisable(true);
 
-    }	
-
-    @FXML
-    /**
+       	System.out.println("備品詳細 リスト表示処理");
+    	super.<InventoryDetailsDataModel>fillTableAsync();		
+    }
+     
+     /**
      * [所在確認]ボタン 押下イベント
      */
+    @FXML
     public void onCountingButtonClicked() {
     	try {
         	// 選択行取得
@@ -159,10 +158,10 @@ public class FormController extends BaseFormPage {
     	}
    }
  
-    @FXML
     /**
      * [貸出]ボタン 押下イベント 
      */
+    @FXML
     public void onLoanButtonClicked() {
 
     	// 備品貸出画面に切替
@@ -173,10 +172,10 @@ public class FormController extends BaseFormPage {
     			FormController(this.stockType, this.stockCode, this.windowSizeType));
     }    
     
-    @FXML
     /**
      * [一覧に戻る]ボタン 押下イベント 
      */
+    @FXML
     public void onBackButtonClicked() {
 
     	// 遷移元画面に切替
@@ -404,6 +403,9 @@ public class FormController extends BaseFormPage {
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
+    	
+    	// 貸出ボタン初期化(無効)
+    	loan_button.setDisable(true);
     	
     	// 標準サイズの場合
     	if(this.windowSizeType == AppConst.WindowSize.NOMAL.getId()) {
