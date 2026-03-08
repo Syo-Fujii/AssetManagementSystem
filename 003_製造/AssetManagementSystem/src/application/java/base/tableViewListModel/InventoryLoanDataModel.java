@@ -26,7 +26,8 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
     private BooleanProperty isCheckOut;
     private IntegerProperty stockDataId;
 	private IntegerProperty staffNo;
-    
+	
+	
 	/**
 	* [分類名称]取得
 	* @return typeName

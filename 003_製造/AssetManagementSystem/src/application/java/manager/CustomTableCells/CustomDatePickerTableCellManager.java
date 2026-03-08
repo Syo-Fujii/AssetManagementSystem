@@ -34,9 +34,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
     private final LocalDate upeerDate;
     
 	private Boolean isAdjusting = false;
-
-	
-	private String testId = "";	
+	private String testId = "";
 	
     // datePickerを外部から取得するためのメソッドを追加
     public DatePicker getDatePicker() {
@@ -285,25 +283,6 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
      */	
 	@SuppressWarnings({ "unused", "unchecked" })
 	private void onLeaveDatePickerValue(String colId) {
-		// Converterの設定
-		/*datePicker.setConverter(new StringConverter<LocalDate>() {
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-
-		    @Override
-		    public String toString(LocalDate date) {
-		        return (date != null) ? formatter.format(date) : "";
-		    }
-
-		    @Override
-		    public LocalDate fromString(String string) {
-		        // ここで null を返せるようにするのが肝
-		        if (string == null || string.trim().isEmpty()) {
-		            return null; 
-		        }
-		        return LocalDate.parse(string, formatter);
-		    }
-		});*/
-		
 		
 		// テキストが空になったら即座に value を null にする
 		datePicker.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
@@ -346,7 +325,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         	    	this.commitEdit((T) value);
         			
     				// モデルへの値反映
-        			bindingModelProperty(colId, value);
+        			bindingModelProperty(colId, value, date);
          		});
 	}
 
@@ -409,8 +388,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         		                isAdjusting = false;
         		            }
         				});
-        			}
-        });
+        }});
 	}
 	
 	/**
@@ -460,9 +438,9 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	}
 
 	/**
-	 * 
-	 * @param date
-	 * @return
+	 *設定した日付が範囲内かどうか
+	 * @param date 日付
+	 * @return　判定結果
 	 */
 	private boolean dateIsOutOfRange(LocalDate date) {
  		
@@ -483,7 +461,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      * @param date
      */
-    private void bindingModelProperty(String colId, String value) {
+    private void bindingModelProperty(String colId, String value, LocalDate date) {
         // 二重実行防止
         if (isAdjusting) return;
         
@@ -494,7 +472,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 			super.setRowClassProperty(colId, String.class, value);
          
             // 連動項目のBIND設定
-            syncModelPropertyBindingEvent(null, value);
+            syncModelPropertyBindingEvent(null, date);
 
         } catch (Exception ex) {
         	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
@@ -514,7 +492,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 	 * @brief 行データ(Model)の他の項目(Property)を連動して変更する場合などの用いる。<br>
 	 * 当該クラスを継承した、子クラスにて内容を定義する.
      */
-    protected void syncModelPropertyBindingEvent(String befValue, String newValue) {
+    protected void syncModelPropertyBindingEvent(LocalDate befValue, LocalDate newValue) {
     	return;
     }
 }

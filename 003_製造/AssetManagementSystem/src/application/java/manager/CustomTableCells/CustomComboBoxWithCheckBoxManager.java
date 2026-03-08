@@ -5,7 +5,7 @@ import application.java.common.AppUtil;
 import application.java.manager.TableColumnManager.keyValuePairItem;
 import javafx.collections.ObservableList;
 
-public class CustomComboBoxWithChecBoxkManager<S, K, V> extends CustomComboBoxKvpSourceManager<S, K, V> {
+public class CustomComboBoxWithCheckBoxManager<S, K, V> extends CustomComboBoxKvpSourceManager<S, K, V> {
 	private final String checkModelName; // 連動先Modelのプロパティ名
 
     /**
@@ -16,7 +16,7 @@ public class CustomComboBoxWithChecBoxkManager<S, K, V> extends CustomComboBoxKv
      * @param kvpItems ComboBoxの選択リスト(KeyValuePairのリスト)
      * @param isAlwaysShow ComboBoxを常時表示するか
      */
-	public CustomComboBoxWithChecBoxkManager(
+	public CustomComboBoxWithCheckBoxManager(
     		String colId, 
     		String keyModelName, 
     		String checkModelName,

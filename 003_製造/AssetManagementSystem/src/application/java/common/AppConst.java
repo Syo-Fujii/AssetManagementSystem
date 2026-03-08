@@ -2,6 +2,8 @@ package application.java.common;
 
 import java.util.Arrays;
 
+import application.java.base.BaseTableViewModel;
+
 public class AppConst {
 	
 	/**
@@ -81,6 +83,10 @@ public class AppConst {
 
 	public static final String CSS_PATH = "/application/resources/css/";
 
-
+	/**
+	 * 
+	 * @param <T>
+	 */
+	public record addRowNumData<T extends BaseTableViewModel>(int rowNum, T model) {};
 
 }

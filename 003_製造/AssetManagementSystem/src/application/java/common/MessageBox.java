@@ -64,6 +64,7 @@ public class MessageBox {
 	 * @param message メッセージ内容
      * @brief 注意や警告を促す
 	 */
+	@SuppressWarnings("unused")
 	public static void ShowWarnig(
 			String title,
 			String headerText,
@@ -84,6 +85,7 @@ public class MessageBox {
 	 * @param message メッセージ内容
      * @brief 注意や警告を促す
 	 */
+	@SuppressWarnings("unused")
 	public static void ShowErrorDbException(
 			Throwable exception,
 			String headerText){
@@ -96,11 +98,6 @@ public class MessageBox {
 		
     	Optional<ButtonType> result =  alert.showAndWait();
 	}	
-	
-	
-	
-	
-	
 	
 	/**
 	 * 表示ボタン設定(選択(CONFIRMATION)MessageBox)

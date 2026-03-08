@@ -9,7 +9,7 @@ import application.java.common.AppUtil;
 import application.java.manager.CustomTableCells.CustomCheckBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
-import application.java.manager.CustomTableCells.CustomComboBoxWithChecBoxkManager;
+import application.java.manager.CustomTableCells.CustomComboBoxWithCheckBoxManager;
 import application.java.manager.CustomTableCells.CustomDatePickerTableCellManager;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -107,9 +107,9 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
                 	if( isValueChenged ) {
                     	setDisable( !isEnabled );
                     	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
-                    	setFocusTraversable(isEnabled);      
-                	} 
-                }  
+                    	setFocusTraversable(isEnabled);
+                	}
+                }
             }
         });
 	}
@@ -244,7 +244,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	}
 
 	/**
-	 * ComboBox型セル(選択リスト KeyValuePair)の設定
+	 * ComboBox型セル(選択リスト KeyValuePair + 連動プロパティ)の設定
 	 * @param items 選択リストに表示するデータ
      * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
      * @param CheckBoxModelName 値更新に連動させるModelのプロパティ名
@@ -266,7 +266,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		this.setEditable(isEnabled);
 		 
 		this.setCellFactory(col -> {
-		   CustomComboBoxWithChecBoxkManager<S, Integer, T> cb = new CustomComboBoxWithChecBoxkManager<S, Integer, T>(
+		   CustomComboBoxWithCheckBoxManager<S, Integer, T> cb = new CustomComboBoxWithCheckBoxManager<S, Integer, T>(
 						this.getId(), 
 						keyModelName, 
 						CheckBoxModelName,

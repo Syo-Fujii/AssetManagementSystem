@@ -1,7 +1,9 @@
 package application.java.window.inventoryLoan;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -10,6 +12,7 @@ import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 import application.java.base.tableViewListModel.InventoryLoanDataModel;
+import application.java.common.AppConst;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
@@ -65,6 +68,7 @@ public class FormController extends BaseFormPage {
 	private Integer stockType = 0;
 	private String stockCode = "";
 	private Integer previousPageWindowSize = 1;
+	private LocalDate dateNow = null;
 
 	
 	/** 
@@ -78,6 +82,9 @@ public class FormController extends BaseFormPage {
 		this.setCssFile(AppUtil.MakeCssFilePath("InventoryLoanStyle"));
 		
 		this.setPageTitle("備品貸出画面");
+	
+    	/* カレンダー(DatePicker)の初期値 = 本日 */
+     	dateNow = LocalDate.now();	
 	}
 	public FormController(Integer type, String code, Integer size) 
 	{
@@ -105,7 +112,7 @@ public class FormController extends BaseFormPage {
 
     	// 選択肢のリスト(空データ)
      	ObservableList<keyValuePairItem<Integer, String>> comboBoxSource = 
-     			FXCollections.observableArrayList();		
+     			FXCollections.observableArrayList();
 		
 		// TableView起動設定
 		this.tableViewSettings(comboBoxSource);
@@ -116,12 +123,12 @@ public class FormController extends BaseFormPage {
 		System.out.println("備品貸出 使用者一覧(ComboBox 選択リスト)取得処理");
 		this.fetchStaffMembers(comboBoxSource);
 
-    	System.out.println("備品貸出 リスト表示処理");  	
+    	System.out.println("備品貸出 リスト表示処理");
     	super.<InventoryLoanDataModel>fillTableAsync();
     	
     	// TableView Focus指定
     	tableListView.setFocusFirstCell(col_staff_name);
-    }	
+    }
 
     /**
      * [貸出]ボタン 押下イベント 
@@ -129,8 +136,21 @@ public class FormController extends BaseFormPage {
     @FXML
     public void onLoanButtonClicked() {
 
-    	// 遷移元画面に切替
-    	super.setPage(new application.java.window.inventoryList.FormController());
+    	// [貸出]が選択されている一覧を生成
+    	List<InventoryLoanDataModel> availableRows = 
+    			tableListView.
+    			getItems().
+    			stream().
+    			filter(r -> r.getIsCheckOut()).
+    			collect(Collectors.toList());
+    	
+    	if (availableRows.isEmpty()) { return; }
+
+    	
+    	
+    	
+    	
+
     }    
     
     /**
@@ -167,6 +187,7 @@ public class FormController extends BaseFormPage {
 	/**
      * DB取得成功時の処理(非同期処理)
      * @brief controller内で用いる取得成功時の処理<br>
+     * 
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -185,6 +206,9 @@ public class FormController extends BaseFormPage {
 		
 		inventoryCounting_button.setDisable(isEmptyRecords);
 		submit_button.setDisable(isEmptyRecords);
+		
+		// 備品データ重複検査(不整合CHECK)
+		CheckStockDataIntegrity(rows);
     }
     
 	@Override
@@ -276,6 +300,95 @@ public class FormController extends BaseFormPage {
     		throw new Exception(e);
     	}
     }
+
+    /**
+     * 追加機能：整合性検査
+     * @param rows 
+     * @brief 取得した備品データにてシリアル番号が重複している場合、警告MSGを発報する。<br>
+     * 起動時に検査することを想定し、以降の処理を継続とする。<br>
+     * 起動時に検査することを想定し、データの並び順(TableViewのカラム ソート)は考慮しない。<br>
+     * ボタン押下時などカラム ソートの考慮が必要な場合は、[SortedList]の使用を要す。
+     */
+    private void CheckStockDataIntegrity(List<InventoryLoanDataModel> rows) {
+    	
+    	// シリアルNoの重複データを取得
+    	List<AppConst.addRowNumData<InventoryLoanDataModel>> duplicateRows = 
+    			super.detectInconsistenciesData(rows, "serialNo");
+    	
+    	if (duplicateRows == null || duplicateRows.isEmpty()) { return; }
+    	
+    	// Errorメッセージ "重複シリアルNo [ ] 行番号：[ ], [ ] \r\n"
+    	String details = duplicateRows.
+    			stream().
+    			collect(Collectors.
+    					groupingBy(d -> d.model().getSerialNo(),
+    					                 Collectors.mapping(d -> "[ " + String.valueOf(d.rowNum()) + " ]",
+    					                		                  Collectors.joining(", ")))).
+    			entrySet().
+    			stream().
+    			map(e -> "重複シリアルNo [" + e.getKey() + "] 行番号：" + e.getValue()).
+    			collect(Collectors.joining(AppUtil.newLine()));
+    	
+    	// 警告MSG
+    	showMessageDuplicateStockData( details );
+    }
+    
+
+    private Boolean isLoanableCheck(List<InventoryLoanDataModel> rows) {
+    	Boolean result = false;
+    	String message = "";
+    	
+    	this.dateNow = LocalDate.now();
+    	
+    	for (InventoryLoanDataModel row : rows)
+    	{
+    		message = "備品[シリアルNo: "+ row.getSerialNo() + " ]";
+    		
+    		// 社員マスターに登録されている社員以外を入力した場合
+    		if (row.getStaffNo().equals(AppConst.UNSET_NUMBER_VALUE)) {
+    			message += "の使用者が社員として登録されていません。";
+    			break;
+    		}
+    		
+    		LocalDate stDate =  null;
+    		if( AppUtil.isDate(row.getStartDate()))
+        	{
+    			stDate = LocalDate.parse(row.getStartDate(),DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        	}
+    				
+    		if(stDate == null) {
+    			message += "の貸出開始日が未入力です。";
+    			break;
+    		}
+    		
+    		if( stDate.isAfter(this.dateNow) ) {
+    			message += "の貸出開始日が未入力です。";
+    			break;
+    		}
+    		
+    		if( stDate.isBefore(this.dateNow) ) {
+    			// MSGBOX(確認)
+    		}
+    		
+    		LocalDate ltDate =  null;
+    		if( AppUtil.isDate(row.getLimitDate()))
+        	{
+    			ltDate = LocalDate.parse(row.getLimitDate(),DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        	}
+    				
+    		if(ltDate == null) {
+    			message += "の返却予定日が未入力です。";
+    			break;
+    		}
+    		
+    		if( ltDate.isBefore(this.dateNow) ) {
+    			message += "の返却予定日が過去日です。";
+    			break;
+    		}
+    	}
+    	
+    	return result;
+    }
     
 	/**
 	 *所在確認日 更新確認Message
@@ -290,12 +403,24 @@ public class FormController extends BaseFormPage {
     			"備品[シリアルNo: "+ serialNo + " ]の所在確認日を本日に更新します。" + AppUtil.newLine() +
     			"よろしいですか？");
     }
-	
+
+    /**
+     * 警告Message：備品データ不整合(重複データ)
+     * @param rowMessage
+     */
+    private void showMessageDuplicateStockData(String rowMessage) {
+    	MessageBox.ShowWarnig(
+    			"警告",
+    			"データ異常：データ不整合 システム管理者に連絡してください。",
+    			"備品(在庫)データに不整合(重複データ)が存在します。システム管理者に連絡してください。" + AppUtil.newLine() +
+    			rowMessage);
+    }
+    
     /**
      * 警告Message：備品データなし
      * @param serialNo
      */
-    private void showMessageEmptyStockData(String serialNo) {
+    private void showMessageUnknownStaff(String serialNo) {
     	MessageBox.ShowWarnig(
     			"警告",
     			"データ異常：備品データが存在しません。",
@@ -330,9 +455,6 @@ public class FormController extends BaseFormPage {
     	tableListView.onDisabledCellsFocusSkipEvent();
 
     	// 項目(カスタムセル)型設定
-    	/* カレンダー(DatePicker)の初期値 = 本日 */
-     	LocalDate dateNow = LocalDate.now();
-   
 		col_staff_name.setCellTypeCustomComboBoxKeyValuesWithCheck(
 				kvpItems, 
 				"staffNo",
@@ -380,13 +502,6 @@ public class FormController extends BaseFormPage {
     }
     
     /**
-     * TableView 行選択イベント
-     */
-    private void callbackTableSelectedRow(InventoryDetailsDataModel row) {
-    	 System.out.println("選択行 シリアルNo: [ " + row.getSerialNo() + " ]");
-    }
-
-    /**
      * 画面初期設定
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      */
@@ -417,7 +532,18 @@ public class FormController extends BaseFormPage {
               map(row -> new keyValuePairItem<Integer, String>(row.getStaffNo(), row.getStaffName())).
               forEach(kvpItems::add);
     }
-   
+    
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     @FXML
     /**
@@ -435,19 +561,13 @@ public class FormController extends BaseFormPage {
         	    // なにもしない
         	    return;
         	} 
-
-        	String serialNo = row.getStaffName();
-        	Integer dataId = row.getStaffNo();
-        	
-        	String stDate = row.getStartDate();
-        	
-        	Boolean isLoan = row.getIsCheckOut();
  
-        	System.out.println(
-        			"貸出者名: [" + serialNo + "] " +
-        			"貸出者ID: ["+ dataId.toString() + "]" +
-        			"貸出開始日: ["+ stDate + "]" +
-        			"貸出: ["+ isLoan.toString() + "]"); 
+        	System.out.println("選択行モデルデータ");
+        	System.out.println("貸出者名: [" + row.getStaffName() + "] ");
+        	System.out.println("貸出者ID: ["+ row.getStaffNo() + "]");
+        	System.out.println("貸出開始日: ["+ row.getStartDate() + "]");
+        	System.out.println("貸出開始日: ["+ row.getLimitDate() + "]");
+        	System.out.println("貸出: ["+ row.getIsCheckOut() + "]"); 
     		
     		
     	} catch (Exception ex) {
