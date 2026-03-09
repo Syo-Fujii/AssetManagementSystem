@@ -356,7 +356,7 @@ public class MySqlManager {
         		session.rollback(); 
         		return false;
         	} catch (Exception ex) {
-        		session.rollback();
+        		try { session.rollback(); } catch (Exception ignore) {}
         		throw ex;
         	}
     	}

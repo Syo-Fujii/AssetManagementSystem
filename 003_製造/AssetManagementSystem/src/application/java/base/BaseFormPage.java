@@ -178,7 +178,7 @@ public abstract class BaseFormPage {
     			exception -> { exceptionResult( exception ); });}
 
     /**
-     * DB操作処理(同期処理)
+     * DB操作(登録・更新・削除)処理(同期処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param List<T> DB操作の条件となるデータ(行データ:T のList)
      * @return DB操作結果
@@ -199,6 +199,28 @@ public abstract class BaseFormPage {
      					throw new RuntimeException(e);
      					}}, listData);}
 
+    /**
+     * DB操作(登録・更新・削除)処理(同期処理)：Bulk処理
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
+     * @return DB操作結果
+     * @brief controller内で用いるDB操作(INS・UPD・DEL)処理<br>
+     * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
+     * トランザクション内に複数のクエリを発行する場合は[excuteCudMapperFunction]内で複数のMapperを呼出す<br>
+     * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	protected final <T extends BaseTableViewModel> Boolean executeBulkQuery(
+			List<T> listData) throws Exception
+    {
+    	return MySqlManager.ExecuteBulk_UseTransaction(
+    			(SqlSession session, List<T> data) -> {
+    				try {
+    					return CudQueryUseTran(session, data);
+    				} catch (Exception e) {
+     					throw new RuntimeException(e);
+     					}}, listData);}	
+	
     /**
      * クエリ発行処理(Mapper)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)

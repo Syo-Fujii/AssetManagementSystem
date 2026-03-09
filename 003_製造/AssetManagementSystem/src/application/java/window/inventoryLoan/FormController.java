@@ -10,7 +10,6 @@ import org.apache.ibatis.session.SqlSession;
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.StaffMasterModel;
-import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 import application.java.base.tableViewListModel.InventoryLoanDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppUtil;
@@ -20,7 +19,6 @@ import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableColumnManager.keyValuePairItem;
 import application.java.manager.TableViewManager;
-import application.resources.mapper.InventoryDetailsMapper;
 import application.resources.mapper.InventoryLoanMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -248,17 +246,13 @@ public class FormController extends BaseFormPage {
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
 		
-		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
-		
-		// 本日を設定(文字列型)
-		row.setConfirmedDate(LocalDate.now().toString());
-
-		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
-	    
-	    // 備品詳細データ取得
-	    Integer updCount =  mapper.updConfirmedDate(row);
-
-	    return true;
+		/*Boolean result = ExecuteBulk_UseTransaction((session, list) -> {
+		    InventoryMapper mapper = session.getMapper(InventoryMapper.class);
+		    for (T item : list) {
+		        mapper.updateLoanStatus(item); // BATCHモードなのでここでは溜まるだけ
+		    }
+		    return true;
+		}, availableRows);*/
     }	
 
     /**
