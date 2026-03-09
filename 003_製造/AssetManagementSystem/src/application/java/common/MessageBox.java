@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Region;
 
 public class MessageBox {
 
@@ -44,6 +45,8 @@ public class MessageBox {
     	alert.setHeaderText(headerText);
     	alert.setContentText(message);
 		
+    	alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+    	
     	Optional<ButtonType> result =  alert.showAndWait();
 		
     	// [OK]に値するボタンの取得 
@@ -76,6 +79,8 @@ public class MessageBox {
     	alert.setHeaderText(headerText);
     	alert.setContentText(message);
 		
+    	alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+    	
     	Optional<ButtonType> result =  alert.showAndWait();
 	}	
 
@@ -83,7 +88,29 @@ public class MessageBox {
 	 *DB例外(ERROR)MessageBox
 	 * @param headerText　概要(タイトル)　※ 不要な場合はNULLを指定
 	 * @param message メッセージ内容
-     * @brief 注意や警告を促す
+     * @brief 例外(ERROR)メッセージを表示する。
+	 */
+	@SuppressWarnings("unused")
+	public static void ShowErrorMessage(
+			String title,
+			String headerText,
+			String message){
+		
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+    	alert.setHeaderText(headerText);
+        alert.setContentText(message);
+		
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        
+    	Optional<ButtonType> result =  alert.showAndWait();
+	}		
+	
+	/**
+	 *DB例外(ERROR)MessageBox
+	 * @param headerText　概要(タイトル)　※ 不要な場合はNULLを指定
+	 * @param message メッセージ内容
+     * @brief 例外(ERROR)メッセージを表示する。
 	 */
 	@SuppressWarnings("unused")
 	public static void ShowErrorDbException(
@@ -96,6 +123,8 @@ public class MessageBox {
         alert.setContentText(exception.getCause() != null ? 
                              exception.getCause().getMessage() : exception.getMessage());
 		
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        
     	Optional<ButtonType> result =  alert.showAndWait();
 	}	
 	

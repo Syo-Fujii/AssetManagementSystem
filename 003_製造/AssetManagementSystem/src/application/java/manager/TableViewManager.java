@@ -1,13 +1,19 @@
 package application.java.manager;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppConst;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -150,6 +156,69 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
         super();
         // System.out.println("TableViewManager New");
 	}
+
+	/**
+	 * 行番号付きの明細行を返す
+	 * @param <T>
+	 * @return 行番号付きの明細行(rowNum:明細行番号,　model：行データ)のリスト(行番号付きデータ)
+	 * @brief 行番号付きの明細行を[AppConst.addRowNumData]型で返す。<br>
+	 * 明細行がない場合、NULLを返す。<br>
+	 */
+	public List<AppConst.addRowNumData<T>> getRowsAddNumber() {
+
+		List<T> rows = (List<T>) this.getItems();
+
+		if(rows == null || rows.isEmpty()){ return null; }
+		
+    	// 行番号を付与
+		return IntStream.
+				range(0, rows.size()).
+    			mapToObj(i -> new AppConst.addRowNumData<>(i + 1, rows.get(i))).
+    			collect(Collectors.toList());
+    }	
+	
+	/**
+	 * 重複している明細行を返す
+	 * @param <T>
+	 * @param propertyName 重複を確認するプロパティ名
+	 * @return 重複している行(:model：行データ)のリスト(行番号付きデータ)
+	 * @brief 重複している行のリストをaddRowNumData型(int:行番号, model:行データ)で返す
+	 * 明細行がない場合、NULLを返す。<br>
+	 */
+	public List<AppConst.addRowNumData<T>> getDuplicateRows( String propertyName) {
+		
+    	// 行番号を付与
+		List<AppConst.addRowNumData<T>> numRows = this.getRowsAddNumber();
+
+		if(numRows == null || numRows.isEmpty()){ return null; }		
+		
+    	// メソッド(値のGetter プロパティ)名の生成
+        String methodName = "get" +
+    	                    propertyName.substring(0, 1).toUpperCase() +
+    	                    propertyName.substring(1);
+        	
+        return numRows.stream().
+        		// [propertyName]でグループ化する (Map<String, List<addRowNumData<T>>>)
+    			collect(Collectors.groupingBy((AppConst.addRowNumData<T> item) -> {
+    				try {
+    					T model = item.model();
+    					Object value = model.getClass().getMethod(methodName).invoke(model);
+				                
+    					// nullや空文字の場合、重複グループに入れないようユニークな値を返す
+    					return (value == null || value.toString().isEmpty()) ? UUID.randomUUID() : value;
+    				} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+    					e.printStackTrace();
+    					throw new RuntimeException("リフレクションエラー: " + methodName, e);
+    				}
+				})).
+    			values().
+    			stream().
+    			// リストのサイズが 1 より大きい（重複している）グループだけ残す
+    			filter(list -> list.size() > 1).
+    			// 全ての重複データを一つのリストにまとめる(平坦化:Groupの展開)
+    			flatMap(List::stream).
+    			collect(Collectors.toList());
+    }	
 	
 	/**
 	 * 項目(column-Data)Bind設定
@@ -304,6 +373,25 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	}
 
 	/**
+	 * データセット(SortedList型)
+	 * @param data　継承元が[BaseTableViewModel]のデータクラスのリスト
+	 * @brief SortedListはTableViewの[カラム]でのSORT機能を考慮したLIST<br>
+	 * TableViewのSORTに応じて、内部LISTの行順番も変更される。<br>
+	 * FXCollections.observableArrayList は、<br>
+	 * 「中身が変更されたらUI（TableViewなど）に即座に通知する」 機能を備えた、JavaFX専用のリスト<br>
+	 */
+	public void setSortedList(List<T> data) {
+		// SortedListでラップ
+		SortedList<T> sortedrows = 
+    			new SortedList<>(FXCollections.observableArrayList(data));
+    
+    	// TableViewのソート状態と同期
+    	sortedrows.comparatorProperty().bind(this.comparatorProperty());  
+
+		this.setItems( sortedrows );
+	}	
+	
+	/**
  	 * 初期Focus設定(先頭行, 指定カラム)
 	 * @param <S>
 	 * @param <V>
@@ -321,6 +409,35 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		        this.edit(0, targetColumn);
 		    }
 	    });}
+
+	/**
+	 * Focus設定(指定行, 指定カラム)
+	 * @param rowIndex 対象行番号
+	 * @param colIndex 対象カラム番号
+	 */
+	public void setCellFocus(int rowIndex, int colIndex) {
+	    Platform.runLater(() -> {
+	        // 2回目：UIの再描画が終わった後に実行させる
+			Platform.runLater(() -> {
+		        if (rowIndex < 0 || colIndex < 0) return;
+		        
+		        TableColumn<T, ?> targetColumn = this.getColumns().get(colIndex);
+		        
+			    // テーブル自体をフォーカス
+		        this.requestFocus();
+		        this.getSelectionModel().clearSelection();
+		     
+		        // 選択の指定(Cell)
+		        this.getSelectionModel().select(rowIndex, targetColumn);
+		   
+		        // Focusの指定(Cell)
+		        this.getFocusModel().focus(rowIndex, targetColumn);
+		 
+		        // 指定したCellの明細行までスクロール
+		        this.scrollTo(rowIndex);
+		    });
+	    });
+	}	
 	
 	/**
 	 * 行選択(１行)Event

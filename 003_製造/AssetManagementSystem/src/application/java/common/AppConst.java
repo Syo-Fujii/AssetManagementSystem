@@ -84,9 +84,21 @@ public class AppConst {
 	public static final String CSS_PATH = "/application/resources/css/";
 
 	/**
-	 * 
+	 * 明細行付き行データ(クラス:record)
 	 * @param <T>
+     * @brief T：[model](1行データのクラス)にrowNum：明細行をセットでRecord型に保持する。<br>
 	 */
 	public record addRowNumData<T extends BaseTableViewModel>(int rowNum, T model) {};
-
+	
+	/**
+	 * 明細検査結果用データ(クラス:record)
+     * @brief 明細行などを検査した場合の結果。<br>
+     * 結果:[Boolean],<br>
+     * メッセージ(ERROR)を表示するか:[Boolean],<br>
+     * 行番号:[int],<br>
+     * 列番号:[int],<br>
+     * メッセージ:[String]<br>
+     * を保持する。<br>
+	 */
+	public record rowCheckResultData(Boolean result, Boolean isShowMsgBox, int rowNum, int colNo, String message) {};
 }

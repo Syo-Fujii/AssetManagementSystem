@@ -11,7 +11,8 @@
     <fullyQualifiedTypeName name="application.java.manager.CustomTableCells.CustomComboBoxTableCellManager"/>
     <fullyQualifiedTypeName name="application.java.manager.TableColumnManager"/>
     <fullyQualifiedTypeName name="application.java.manager.TableColumnManager.keyValuePairItem"/>
-    <fullyQualifiedTypeName name="application.java.common.AppUtil"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.addRowNumData"/>
+    <fullyQualifiedTypeName name="application.java.common.AppConst.rowCheckResultData"/>
+    <fullyQualifiedTypeName name="application.java.common.AppUtil"/>
 </qualifiedTypeNameHistroy>

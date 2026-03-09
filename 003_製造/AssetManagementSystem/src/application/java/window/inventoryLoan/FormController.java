@@ -125,9 +125,7 @@ public class FormController extends BaseFormPage {
 
     	System.out.println("備品貸出 リスト表示処理");
     	super.<InventoryLoanDataModel>fillTableAsync();
-    	
-    	// TableView Focus指定
-    	tableListView.setFocusFirstCell(col_staff_name);
+
     }
 
     /**
@@ -146,11 +144,17 @@ public class FormController extends BaseFormPage {
     	
     	if (availableRows.isEmpty()) { return; }
 
+    	AppConst.rowCheckResultData checkResult = isLoanableRowsCheck();
     	
-    	
-    	
-    	
-
+    	if (!checkResult.result()) {
+    		if( checkResult.isShowMsgBox()) {
+    			this.showMessageInputError(checkResult.message());
+    		}
+    		
+    		System.out.println("選択行: [" + checkResult.rowNum() + "] カラム番号 [" + checkResult.colNo() + "]");
+    		tableListView.setCellFocus(checkResult.rowNum() -1, checkResult.colNo());
+    		return;
+    	}
     }    
     
     /**
@@ -187,7 +191,6 @@ public class FormController extends BaseFormPage {
 	/**
      * DB取得成功時の処理(非同期処理)
      * @brief controller内で用いる取得成功時の処理<br>
-     * 
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -195,7 +198,7 @@ public class FormController extends BaseFormPage {
 		
     	List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
     	
-    	tableListView.setList( rows );
+    	tableListView.setSortedList( rows );    	
 
     	Boolean isEmptyRecords = (listData == null || rows.isEmpty());
     	
@@ -209,6 +212,9 @@ public class FormController extends BaseFormPage {
 		
 		// 備品データ重複検査(不整合CHECK)
 		CheckStockDataIntegrity(rows);
+		
+    	// TableView Focus指定
+    	tableListView.setFocusFirstCell(col_staff_name);
     }
     
 	@Override
@@ -313,7 +319,7 @@ public class FormController extends BaseFormPage {
     	
     	// シリアルNoの重複データを取得
     	List<AppConst.addRowNumData<InventoryLoanDataModel>> duplicateRows = 
-    			super.detectInconsistenciesData(rows, "serialNo");
+    			tableListView.getDuplicateRows("serialNo");
     	
     	if (duplicateRows == null || duplicateRows.isEmpty()) { return; }
     	
@@ -333,75 +339,178 @@ public class FormController extends BaseFormPage {
     	showMessageDuplicateStockData( details );
     }
     
-
-    private Boolean isLoanableCheck(List<InventoryLoanDataModel> rows) {
-    	Boolean result = false;
-    	String message = "";
+    /**
+     * 貸出データ 更新前チェック
+     * @return チェック結果
+     */
+    private AppConst.rowCheckResultData isLoanableRowsCheck() {
     	
     	this.dateNow = LocalDate.now();
     	
-    	for (InventoryLoanDataModel row : rows)
+    	List<AppConst.addRowNumData<InventoryLoanDataModel>> rows = 
+    			tableListView.getRowsAddNumber();
+    	
+    	if( rows == null || rows.isEmpty()) { 
+   			return new AppConst.
+					rowCheckResultData(
+							false, 
+							false, 
+							AppConst.UNSET_NUMBER_VALUE,
+							AppConst.UNSET_NUMBER_VALUE,
+							"");
+    	}
+    	
+    	for (AppConst.addRowNumData<InventoryLoanDataModel> row : rows)
     	{
-    		message = "備品[シリアルNo: "+ row.getSerialNo() + " ]";
-    		
+    		int rowNum = row.rowNum();
+    		InventoryLoanDataModel model = row.model();
+
+    		StringBuilder sb = 
+    				new StringBuilder("備品[シリアルNo: ").append(model.getSerialNo()).append(" ]");
+	
     		// 社員マスターに登録されている社員以外を入力した場合
-    		if (row.getStaffNo().equals(AppConst.UNSET_NUMBER_VALUE)) {
-    			message += "の使用者が社員として登録されていません。";
-    			break;
+    		if (model.getStaffNo().equals(AppConst.UNSET_NUMBER_VALUE)) {
+    			sb.append("の使用者が社員として登録されていません。");
+    			int colNum = tableListView.getColumns().indexOf(col_staff_name);
+    			return new AppConst.rowCheckResultData(false, true, rowNum, colNum, sb.toString());
     		}
     		
+    		// 日付チェック(貸出開始日)
     		LocalDate stDate =  null;
-    		if( AppUtil.isDate(row.getStartDate()))
+    		if( AppUtil.isDate(model.getStartDate()))
         	{
-    			stDate = LocalDate.parse(row.getStartDate(),DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    			stDate = LocalDate.parse(model.getStartDate(),DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         	}
-    				
-    		if(stDate == null) {
-    			message += "の貸出開始日が未入力です。";
-    			break;
+    		if(!isValidateDateInput(stDate, "貸出開始日", sb, true, true, false, false)) {
+    			int colNum = tableListView.getColumns().indexOf(col_start_date);
+    			return new AppConst.
+    					rowCheckResultData(
+    							false, 
+    							!(AppUtil.StringIsNullOrEmpty(sb.toString())), 
+    							rowNum, 
+    							colNum, 
+    							sb.toString());
     		}
     		
-    		if( stDate.isAfter(this.dateNow) ) {
-    			message += "の貸出開始日が未入力です。";
-    			break;
-    		}
-    		
-    		if( stDate.isBefore(this.dateNow) ) {
-    			// MSGBOX(確認)
-    		}
-    		
+    		// 日付チェック(返却予定日)
     		LocalDate ltDate =  null;
-    		if( AppUtil.isDate(row.getLimitDate()))
+    		if( AppUtil.isDate(model.getLimitDate()))
         	{
-    			ltDate = LocalDate.parse(row.getLimitDate(),DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    			ltDate = LocalDate.parse(model.getLimitDate(),DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         	}
-    				
-    		if(ltDate == null) {
-    			message += "の返却予定日が未入力です。";
-    			break;
-    		}
+    		if(!isValidateDateInput(ltDate, "返却予定日", sb, false, false, true, true)) {
+    			int colNum = tableListView.getColumns().indexOf(col_limit_date);
+    			return new AppConst.
+    					rowCheckResultData(
+    							false, 
+    							!(AppUtil.StringIsNullOrEmpty(sb.toString())), 
+    							rowNum, 
+    							colNum, 
+    							sb.toString());
+    		}   		
     		
-    		if( ltDate.isBefore(this.dateNow) ) {
-    			message += "の返却予定日が過去日です。";
-    			break;
+    		// 日付整合性チェック
+    		if(stDate.isAfter(ltDate))
+    		{
+      			sb.append("の貸出開始日が返却予定日以降になっています。");
+    			int colNum = tableListView.getColumns().indexOf(col_start_date);
+    			return new AppConst.rowCheckResultData(false, true, rowNum, colNum, sb.toString());
     		}
     	}
     	
-    	return result;
+    	return new AppConst.rowCheckResultData(
+    			true, 
+    			false, 
+    			AppConst.UNSET_NUMBER_VALUE,
+    			AppConst.UNSET_NUMBER_VALUE,
+    			"") ;
+    }
+    
+    /**
+     * 日付チェック
+     * @param date LocalDate 対象日付
+     * @param title String 項目名称
+     * @param message String メッセージ
+     * @param isAllowPastDate Boolean 過去日を許可するか("真"の場合、許可)
+     * @param isBeforeConfCheck Boolean 過去日の場合、確認MSGを呼出すか
+     * @param isAllowFutureDate Boolean 未来日を許可するか("真"の場合、許可)
+     * @param isOneYearAfterCheck Boolean 未来日の場合、確認MSGを呼出すか
+     * @return 明細検査結果用データ(クラス:record)
+     * @brief 当該メソッドにて確認MessageBoxを表示し[いいえ](cancel)を選択した場合は、messageをnullにする。
+     */
+    private Boolean isValidateDateInput(
+    		LocalDate date, 
+    		String title, 
+    		StringBuilder sb,
+    		Boolean isAllowPastDate,
+    		Boolean isBeforeConfCheck,
+    		Boolean isAllowFutureDate,
+    		Boolean isOneYearAfterCheck) {
+		   	
+    	String message = sb.toString();
+    	StringBuilder checkSb = new StringBuilder();
+    	
+		// 必須チェック
+		if(date == null) {
+			checkSb.append("の").append(title).append("が未入力です。");
+			sb.append(checkSb.toString());
+			return false;
+		} 	
+		
+		// 過去日チェック
+		Boolean isBefore = date.isBefore(this.dateNow);
+		checkSb.append("の").append(title).append("が").append(AppUtil.newLine());
+		checkSb.append("過去日になっています");
+		if (isBeforeConfCheck && isBefore) {
+			checkSb.append("が");
+			
+			// 確認メッセージ呼び出し
+			if (! this.showMessageConfimed( message + checkSb.toString() )) {
+				sb.setLength(0);
+				return false;
+			}
+
+		} else if (!isAllowPastDate && isBefore) {
+			// エラーとする
+			sb.append(checkSb.append("。").toString());
+			return false;
+		}
+		
+		checkSb = new StringBuilder();
+		
+		// 未来日チェック
+		Boolean isAfter = date.isAfter(this.dateNow);
+		Boolean isOneYearAfter = date.isAfter(this.dateNow.plusYears(1));
+		if (isOneYearAfterCheck && isOneYearAfter) {
+			checkSb.append("の").append(title).append("が").append(AppUtil.newLine());
+			checkSb.append("1年以上先になっています。").append(AppUtil.newLine());
+			checkSb.append("1年おきに棚卸確認が必要になりますが、").append(AppUtil.newLine());
+			
+			// 確認メッセージ呼び出し
+			if (! this.showMessageConfimed( message + checkSb.toString())) {
+				sb.setLength(0);
+				return false;
+			}
+		} else if (!isAllowFutureDate && isAfter) {
+			checkSb.append("の").append(title).append("が未来日になっています");
+			sb.append(checkSb.toString());
+			return false;		
+		}
+		
+		return true;
     }
     
 	/**
-	 *所在確認日 更新確認Message
-	 * @param serialNo
+	 *確認Message
+	 * @param message String 表示する内容
 	 * @return 確認結果
 	 */
-    private Boolean showMessageUpdConfimedDate(String serialNo) {
+    private Boolean showMessageConfimed(String message) {
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
     			"確認",
     			null,
-    			"備品[シリアルNo: "+ serialNo + " ]の所在確認日を本日に更新します。" + AppUtil.newLine() +
-    			"よろしいですか？");
+    			message + "よろしいですか？");
     }
 
     /**
@@ -417,15 +526,13 @@ public class FormController extends BaseFormPage {
     }
     
     /**
-     * 警告Message：備品データなし
-     * @param serialNo
+     * 例外Message：入力エラー
      */
-    private void showMessageUnknownStaff(String serialNo) {
-    	MessageBox.ShowWarnig(
-    			"警告",
-    			"データ異常：備品データが存在しません。",
-    			"備品[シリアルNo: "+ serialNo + " ]の備品データ(stock_data)が存在しません。" + AppUtil.newLine() +
-    			"");
+    private void showMessageInputError(String message) {
+    	MessageBox.ShowErrorMessage(
+    			"入力エラー",
+    			"",
+    			message);
     }
     
     /**
@@ -454,6 +561,8 @@ public class FormController extends BaseFormPage {
     	// 無効Cell Focus SKIP設定 
     	tableListView.onDisabledCellsFocusSkipEvent();
 
+    	tableListView.getSelectionModel().setCellSelectionEnabled(true);
+    	
     	// 項目(カスタムセル)型設定
 		col_staff_name.setCellTypeCustomComboBoxKeyValuesWithCheck(
 				kvpItems, 
