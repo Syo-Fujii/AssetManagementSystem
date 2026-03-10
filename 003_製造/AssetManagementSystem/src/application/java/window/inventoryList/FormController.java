@@ -126,7 +126,10 @@ public class FormController extends BaseFormPage {
      * Columnとデータクラスのプロパティの紐づけを当該メソッドで行う。<br>
      * <p>
      *  [FXML 画面.TableViewのColumn変数].<br>
-     *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列))
+     *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列))<br>
+     *  入力項目の場合：プロパティをそのまま渡すゲッター<br>
+     *  (StringProperty staffNameProperty() { return this.staffName; })がMODELに必要<br>
+     *            setCellValueFactory( data -> data.getValue().staffNameProperty());
      */
     private void callbackBindTableColumnSource() {
     	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName"));

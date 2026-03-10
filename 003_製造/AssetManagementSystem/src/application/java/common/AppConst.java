@@ -114,6 +114,10 @@ public class AppConst {
 
 	/**	貸出状態:可 */
 	public static final Integer LOANSTATE_AVAILABLE = 1;
+
+	/**	貸出状態:貸出中 */
+	public static final Integer LOANSTATE_CHECKED_OUT = 2;	
+	
 	
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;

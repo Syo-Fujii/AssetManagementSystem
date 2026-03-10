@@ -25,15 +25,15 @@
       <TableViewManager fx:id="tableListView" layoutX="25.0" layoutY="144.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="930.0" snapToPixel="false" AnchorPane.leftAnchor="25.0">
         <columns>
            <TableColumn id="serial" fx:id="col_serial" editable="false" maxWidth="300.0" minWidth="150.0" prefWidth="150.0" text="シリアルナンバー" />
-           <TableColumnManager id="staffName" fx:id="col_staff_name" editable="false" maxWidth="600.0" minWidth="100.0" prefWidth="180.0" text="使用者" />
-           <TableColumnManager id="startDate" fx:id="col_start_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120.0" resizable="false" text="貸出開始日" />
-           <TableColumnManager id="limitDate" fx:id="col_limit_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120" resizable="false" text="返却予定日" />
+           <TableColumn id="staffName" fx:id="col_staff_name" editable="false" maxWidth="600.0" minWidth="100.0" prefWidth="180.0" text="使用者" />
+           <TableColumn id="startDate" fx:id="col_start_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120.0" resizable="false" text="貸出開始日" />
+           <TableColumn id="limitDate" fx:id="col_limit_date" editable="false" maxWidth="120.0" minWidth="-Infinity" prefWidth="120" resizable="false" text="返却予定日" />
            <TableColumn id="remarks" fx:id="col_remarks" editable="false" maxWidth="259.0" minWidth="245.0" prefWidth="245.0" text="備考" />
-           <TableColumnManager id="isCheckOut" fx:id="col_is_checkout" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="貸出" />
+           <TableColumnManager id="isCheckIn" fx:id="col_is_checkin" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" text="返却" />
         </columns>
       </TableViewManager>
       <Button id="inventoryCounting" fx:id="inventoryCounting_button" layoutX="25.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCountingButtonClicked" prefHeight="37.0" prefWidth="130.0" text="TEST選択行確認" AnchorPane.leftAnchor="25.0" />
-      <Button id="loan" fx:id="submit_button" layoutX="545.0" layoutY="580.0" mnemonicParsing="false" onAction="#onLoanButtonClicked" prefHeight="37.0" prefWidth="130.0" text="貸出" AnchorPane.rightAnchor="180.0" />
+      <Button id="loan" fx:id="submit_button" layoutX="545.0" layoutY="580.0" mnemonicParsing="false" onAction="#onLoanButtonClicked" prefHeight="37.0" prefWidth="130.0" text="返却" AnchorPane.rightAnchor="180.0" />
       <Button id="back" fx:id="back_button" layoutX="695.0" layoutY="580.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="37.0" prefWidth="130.0" text="戻る" AnchorPane.rightAnchor="25.0" />
    </children>
 </AnchorPane>

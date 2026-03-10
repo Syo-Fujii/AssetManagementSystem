@@ -1,7 +1,6 @@
 package application.java.base.tableViewListModel;
 
 import application.java.base.BaseTableViewModel;
-import application.java.common.AppConst;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -10,12 +9,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * 備品貸出データクラス
- * @brief 備品貸出画面で表示する明細リストのデータ<br>
+ * 備品返却データクラス
+ * @brief 備品返却画面で表示する明細リストのデータ<br>
  * ※ １行分のデータ<br>
  * 画面Controllerにて呼び出される前提<br>
  */
-public class InventoryLoanDataModel extends BaseTableViewModel {
+public class InventoryReturnDataModel extends BaseTableViewModel {
 
 	private StringProperty typeName;
 	private StringProperty serialNo;
@@ -23,9 +22,8 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	private StringProperty startDate;
 	private StringProperty limitDate;
     private StringProperty remarks;
-    private BooleanProperty isCheckOut;
+    private BooleanProperty isCheckIn;
     private IntegerProperty stockDataId;
-	private IntegerProperty staffNo;
 	
 	
 	/**
@@ -118,17 +116,6 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	public void setStartDate(String startDate) {
 		this.startDate.set(startDate);
 	}
-
-	/**
-	* [貸出開始日]Property取得 (TableViewとの連動に必須)
-	* @return startDate(Property)
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
-	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
-	*/
-	public StringProperty startDateProperty() {
-	    return this.startDate;
-	}
 	
 	/**
 	* [返却予定日]取得
@@ -149,17 +136,6 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	public void setLimitDate(String limitDate) {
 		this.limitDate.set(limitDate);;
 	}
-
-	/**
-	* [返却予定日]Property取得 (TableViewとの連動に必須)
-	* @return limitDate(Property)
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
-	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
-	*/
-	public StringProperty limitDateProperty() {
-	    return this.limitDate;
-	}	
 	
 	/**
 	* [備考]項目取得
@@ -182,34 +158,34 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	}
 
 	/**
-	* [貸出]項目取得
+	* [返却]項目取得
 	* @param isCheckOut 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/		
-	public Boolean getIsCheckOut() {
-		return isCheckOut.get();
+	public Boolean getIsCheckIn() {
+		return isCheckIn.get();
 	}
 
 	/**
-	* [貸出]項目設定
+	* [返却]項目設定
 	* @param isCheckOut 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/
-	public void setIsCheckOut(Boolean checked) {
-		this.isCheckOut.set(checked);
+	public void setIsCheckIn(Boolean checked) {
+		this.isCheckIn.set(checked);
 	}	
 
 	/**
-	* [貸出] Property取得 (TableViewとの連動に必須)
+	* [返却] Property取得 (TableViewとの連動に必須)
 	* @param isCheckOut (Property)
 	* @brief [javafx.beans.property]
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
 	*/
-	public BooleanProperty isCheckOutProperty() {
-	    return isCheckOut;
+	public BooleanProperty isCheckInProperty() {
+	    return isCheckIn;
 	}	
 	
 	/**
@@ -231,26 +207,6 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	public void setStockDataId(Integer id ) {
 		this.stockDataId.set(id);
 	}
-
-	/**
-	* [社員番号]項目取得
-	* @param staffNo 設定する値
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/		
-	public Integer getStaffNo() {
-		return staffNo.get();
-	}
-
-	/**
-	* [社員番号]項目設定
-	* @param staffNo 設定する値
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public void setStaffNo(Integer id ) {
-		this.staffNo.set(id);
-	}
 	
 	/**
     * コンストラクタ
@@ -260,15 +216,14 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
     * MyBatisが値を入れようとしても「入れ物」が存在しないためエラーになる為<br>
     * コンストラクタで、全プロパティの初期化を行う。
     */
-	public InventoryLoanDataModel(){
+	public InventoryReturnDataModel(){
 		this.typeName = new SimpleStringProperty("");
 		this.serialNo = new SimpleStringProperty("");
 	    this.staffName = new SimpleStringProperty("");
 	    this.startDate = new SimpleStringProperty("");
 	    this.limitDate = new SimpleStringProperty("");
 	    this.remarks = new SimpleStringProperty("");
-	    this.isCheckOut = new SimpleBooleanProperty(false);
+	    this.isCheckIn = new SimpleBooleanProperty(false);
 	    this.stockDataId = new SimpleIntegerProperty();
-	    this.staffNo = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
 	}
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="application.resources.mapper.InventoryLoanMapper">
+<mapper namespace="application.resources.mapper.InventoryReturnMapper">
 
-    <!-- 備品返却データ(備品データ：貸出中)の取得 -->
-    <select id="getTableReturnableData">
+    <!-- 備品貸出データ(備品データ：貸出中)の取得 -->
+    <select id="getTableLoanableData">
      <![CDATA[
       WITH BASE_TABLE AS
        (
@@ -32,8 +32,8 @@
          /* 返却済データの除去 ≒ 最新の備品データを取得 */
          AND SD.return_date IS NULL
          AND SD.del = FALSE
-         /* [貸出中]データの取得(社員番号が設定されているデータ) */
-         AND SD.staff_no IS NOT NULL 
+         /* [在庫]データの取得 */
+         AND SD.staff_no IS NULL 
          /* [不明]のデータは対象としない */
          AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
          WHERE
@@ -45,13 +45,14 @@
        SELECT
              STM.name              AS type_name 
            , SM.serial_no          AS serialNo
-           , '' AS staffName
+           , SFM.name AS staffName
            , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '') AS startDate
            , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '') AS limitDate
            , SM.remarks AS remarks
            , SM.stock_type
            , SM.stock_code 
            , SD.id AS stockDataId
+           , SD.staff_no AS staff_no
        FROM
          BASE_TABLE B
        INNER JOIN 
@@ -64,6 +65,9 @@
        INNER JOIN
          stock_data SD
         ON B.id = SD.id 
+       LEFT JOIN
+         staff_master SFM
+        ON SD.staff_no = SFM.staff_no
        WHERE
          1 = 1
        ORDER BY
@@ -93,7 +97,7 @@
        AND EDV.stock_code = #{code}
  
        /* [在庫]データの取得 */
-       AND EDV.社員番号 IS NULL 
+       AND EDV.社員番号 IS NOT NULL 
        /* [不明]のデータは対象としない */
        AND (DATEDIFF(CURRENT_DATE(), EDV.最終所在確認日 ) <= 365 )
  

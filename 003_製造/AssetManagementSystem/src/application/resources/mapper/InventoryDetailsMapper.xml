@@ -46,12 +46,12 @@
            , CASE 
                WHEN SM.rent_flg
                    THEN '4'                           -- 不可 / 貸出可否(TRUEの場合、貸出不可)
-               WHEN SD.staff_no IS NOT NULL 
+               WHEN DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
+                   THEN '3'                           -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする)
+               WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
                    THEN '2'                           -- 貸出中
                WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
                    THEN '1'                           -- 可
-               WHEN SD.staff_no IS NULL AND DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
-                   THEN '3'                           -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前
                ELSE  
                    '4'                                -- 不可 / 備品データが未登録の場合など、異常なデータ
              END AS rentFlg

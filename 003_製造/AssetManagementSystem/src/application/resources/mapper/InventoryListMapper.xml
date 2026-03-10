@@ -12,7 +12,7 @@
                ST.stock_type
              , ST.stock_code
              , SUM(CASE
-                      WHEN SD.staff_no IS NOT NULL
+                      WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
                         THEN 1
                       ELSE
                         0
@@ -27,10 +27,11 @@
                         0
                      END) AS stock_count    -- 在庫備品の数
              , SUM(CASE
-                       /* 不明 = [staff_no]：貸出先ユーザーの社員番号 が未設定(NULL) 且つ
-                                [return_date]：返却日が未設定(NULL) 且つ
-                                [confirmed_date]：最終所在確認日 が１年前以前 */
-                      WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 )
+                       /* 不明 = [return_date]：返却日が未設定(NULL) 且つ
+                                 [confirmed_date]：最終所在確認日 が１年前以前 
+                          ※ 貸出中・在庫を問わず１年前以前のデータを不明とする
+                      */
+                      WHEN (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 )
                         THEN 1
                       ELSE
                         0

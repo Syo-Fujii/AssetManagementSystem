@@ -59,6 +59,7 @@ public class FormController extends BaseFormPage {
 	
 	@FXML private Button inventoryCounting_button;
 	@FXML private Button loan_button;
+	@FXML private Button return_button;
 	@FXML private Button back_button;
 	
 	private Integer stockType = 0; 
@@ -74,7 +75,7 @@ public class FormController extends BaseFormPage {
 		this.setWindowTitle("備品管理システム");
 
 		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryDetails"));
-		this.setCssFile(AppUtil.MakeCssFilePath("InventoryDetailsStyle"));		
+		this.setCssFile(AppUtil.MakeCssFilePath("InventoryDetailsStyle"));
 		
 		this.setPageTitle("備品詳細画面");
 	}
@@ -109,7 +110,7 @@ public class FormController extends BaseFormPage {
 		this.formInitialize();
 
        	System.out.println("備品詳細 リスト表示処理");
-    	super.<InventoryDetailsDataModel>fillTableAsync();		
+    	super.<InventoryDetailsDataModel>fillTableAsync();
     }
      
      /**
@@ -171,6 +172,20 @@ public class FormController extends BaseFormPage {
     			inventoryLoan.
     			FormController(this.stockType, this.stockCode, this.windowSizeType));
     }    
+  
+    /**
+     * [返却]ボタン 押下イベント 
+     */
+    @FXML
+    public void onReturnButtonClicked() {
+
+    	// 備品返却画面に切替
+    	super.setPage(new application.
+    			java.
+    			window.
+    			inventoryReturn.
+    			FormController(this.stockType, this.stockCode, this.windowSizeType));
+    }        
     
     /**
      * [一覧に戻る]ボタン 押下イベント 
@@ -219,6 +234,9 @@ public class FormController extends BaseFormPage {
 		loan_button.setDisable(!rows.stream().
 				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_AVAILABLE));
 
+		// [返却]ボタン有効化制御([貸出中]が一つでも存在する場合有効)
+		return_button.setDisable(!rows.stream().
+				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_CHECKED_OUT));
     }
     
     /**
@@ -309,7 +327,7 @@ public class FormController extends BaseFormPage {
     	
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
-    	tableListView.setIsCellSelected(false);   	
+    	tableListView.setIsCellSelected(false);
     	tableListView.onSelectedRowEvent(
     			bef    -> { bef = null; },
     			result -> { this.callbackTableSelectedRow( (InventoryDetailsDataModel)result ); });
@@ -343,7 +361,7 @@ public class FormController extends BaseFormPage {
     	col_model.getStyleClass().add("center-aligned");
     	col_maker.getStyleClass().add("center-aligned");
     	col_type.getStyleClass().add("center-aligned");
-    	col_lease_date.getStyleClass().add("center-aligned");    	
+    	col_lease_date.getStyleClass().add("center-aligned");
     	
     	// 0件の場合のCaptionを削除(「データがありません」非表示)
     	tableListView.setPlaceholder(new Label("")); 
@@ -355,7 +373,10 @@ public class FormController extends BaseFormPage {
      * Columnとデータクラスのプロパティの紐づけを当該メソッドで行う。<br>
      * <p>
      *  [FXML 画面.TableViewのColumn変数].<br>
-     *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列))
+     *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列))<br>
+     *  入力項目の場合：プロパティをそのまま渡すゲッター<br>
+     *  (StringProperty staffNameProperty() { return this.staffName; })がMODELに必要<br>
+     *            setCellValueFactory( data -> data.getValue().staffNameProperty());
      */
     private void callbackBindTableColumnSource() {
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
