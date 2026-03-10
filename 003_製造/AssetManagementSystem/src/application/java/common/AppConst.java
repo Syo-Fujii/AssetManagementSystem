@@ -72,7 +72,46 @@ public class AppConst {
 	                 .orElse(null); // 見つからなければ null を返す
 	    }	
 	}	
-	
+
+	/**
+	 * Enum SQL実行結果
+	 */
+	public static enum ExcuteQueryResultStatus {
+	    SUCCESS(1, "成功"),
+	    UNSESSION(2, "SQLセッション未生成"),
+	    NO_ROWS_AFFECTED(3, "影響件数0件(対象が存在しない)"),
+		EXCEPTION(4, "例外発生"),
+		NONE(5, "なにもしない");
+
+	    private final int id;
+	    private final String label;
+
+	    /** コンストラクタ */
+	    ExcuteQueryResultStatus(int id, String label) {
+	        this.id = id;
+	        this.label = label;
+	    }
+
+	    public int getId() { return id; }
+	    public String getlabel() { return label; }
+
+	    /**
+	     * 数値(引数)から一致するEnum要素を返す
+	     * @param state
+	     * @return 一致するEnum要素
+	     */
+	    public static ExcuteQueryResultStatus fromId(int id) {
+	        for (ExcuteQueryResultStatus size : ExcuteQueryResultStatus.values()) {
+	            if (size.getId() == id) {
+	                return size;
+	            }
+	        }
+	        // 見つからない場合は例外を投げるか、nullを返す
+	        //throw new IllegalArgumentException("不正なIDです: " + id);
+	        return null;
+	    }	
+	}	
+
 	/**	貸出状態:可 */
 	public static final Integer LOANSTATE_AVAILABLE = 1;
 	

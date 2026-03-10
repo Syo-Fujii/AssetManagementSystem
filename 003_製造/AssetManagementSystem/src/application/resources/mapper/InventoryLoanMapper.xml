@@ -127,4 +127,17 @@
        AND STM.stock_code = #{code} 
     </select>
 
+    <!-- 備品データの更新(貸出処理) -->
+    <update id="updStockDataLoanOut">
+      UPDATE
+         stock_data SD
+      SET 
+        SD.staff_no = #{staffNo},
+        SD.start_date = STR_TO_DATE(#{startDate}, '%Y/%m/%d'),
+        SD.limit_date = STR_TO_DATE(#{limitDate}, '%Y/%m/%d')
+      WHERE
+        1 = 1
+      AND SD.id = #{stockDataId}
+    </update>
+
 </mapper>

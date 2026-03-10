@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.apache.ibatis.builder.xml.XMLConfigBuilder;
+import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ExecutorType;
@@ -26,6 +27,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppConst.ExcuteQueryResultStatus;
 import javafx.concurrent.Task;   
 
 /**
@@ -260,7 +262,7 @@ public class MySqlManager {
 		    }
 		};
 
-		// --- 2. UIスレッドで実行されるイベント ---
+		// --- UIスレッドで実行されるイベント ---
 		task.setOnSucceeded(e -> {
 		    // 成功時：
 			System.out.println("MySQL : 非同期処終了[成功]");
@@ -273,7 +275,7 @@ public class MySqlManager {
 			exceptionCallback.accept(task.getException());
 		});
 
-		// --- 3. 実行 ---
+		// --- 実行 ---
 		executor.execute(task); 	
 	}  	
 
@@ -281,6 +283,7 @@ public class MySqlManager {
 	 * クエリ発行処理(トランザクションの開始)
 	 * @param <T> 取得テーブルのMODEL
 	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義) 戻り値：Boolean
+	 * @param resultCallBack クエリ取得結果に関するメソッド(呼び出し元にて定義)
 	 * @param dataList 条件とするデータの値(取得テーブルのMODEのリスト)
 	 * @return Boolean 処理結果
 	 * @throws Exception
@@ -288,11 +291,15 @@ public class MySqlManager {
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
 	 */
 	public static <T extends BaseTableViewModel> Boolean ExecuteQuery_UseTransaction(
-			BiFunction<SqlSession, List<T>, Boolean> callback, List<T> dataList)  throws Exception
+			BiFunction<SqlSession, List<T>, Boolean> callback,
+			Consumer<ExcuteQueryResultStatus> resultCallBack,
+			List<T> dataList)  throws Exception
 	{
+		ExcuteQueryResultStatus status = ExcuteQueryResultStatus.NONE; 
 		
 		if(sqlSessionFactory == null)
 		{
+			status = ExcuteQueryResultStatus.UNSESSION;
 			return false;
 		}		
 		
@@ -302,17 +309,25 @@ public class MySqlManager {
         	try {
         		
         		if( callback.apply(session, dataList)) {
-            		// コミット処理
-            		session.commit(); 
+            		
+        			// コミット処理
+            		session.commit();
+            		status = ExcuteQueryResultStatus.SUCCESS;
             		return true;
             	}
+        		
         		// ロールバック処理
         		session.rollback(); 
+        		status = ExcuteQueryResultStatus.NO_ROWS_AFFECTED;
         		return false;
+        	
         	} catch (Exception ex) {
-        		session.rollback();
-        		
+        		status = ExcuteQueryResultStatus.EXCEPTION;
+        		try { session.rollback(); } catch (Exception ignore) {}
         		throw ex;
+        	
+        	} finally {
+        		resultCallBack.accept( status );
         	}
     	}
 	}
@@ -321,6 +336,7 @@ public class MySqlManager {
 	 * クエリ発行処理(トランザクションの開始) 
 	 * @param <T> 取得テーブルのMODEL
 	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義) 戻り値：Boolean
+	 * @param resultCallBack クエリ取得結果に関するメソッド(呼び出し元にて定義)
 	 * @param dataList 条件とするデータの値(取得テーブルのMODEのリスト)
 	 * @return Boolean 処理結果
 	 * @throws Exception
@@ -330,11 +346,15 @@ public class MySqlManager {
 	 *  Callbackメソッド内で連続してクエリ発行処理を行う場合などのBulk処理を行う。 
 	 */
 	public static <T extends BaseTableViewModel> Boolean ExecuteBulk_UseTransaction(
-			BiFunction<SqlSession, List<T>, Boolean> callback, List<T> dataList)  throws Exception
+			BiFunction<SqlSession, List<T>, Boolean> callback,
+			Consumer<ExcuteQueryResultStatus> resultCallBack,
+			List<T> dataList)  throws Exception
 	{
-		
+		ExcuteQueryResultStatus status = ExcuteQueryResultStatus.NONE; 
+
 		if(sqlSessionFactory == null)
 		{
+			status = ExcuteQueryResultStatus.UNSESSION;
 			return false;
 		}		
 		
@@ -346,18 +366,39 @@ public class MySqlManager {
         		if( callback.apply(session, dataList)) {
             		
         			// SQLクエリ一括送信
-        			session.flushStatements(); 
+        			List<BatchResult> results = session.flushStatements(); 
+        	
+        			for (BatchResult result : results) {
+        				// 影響を受けた行数を取得
+        				int[] updateCounts = result.getUpdateCounts();
+        			    
+        				for (int count : updateCounts) {
+        			        if (count == 0) {
+        			        	// 更新対象がなかった場合
+        			        	session.rollback();
+        			        	status = ExcuteQueryResultStatus.NO_ROWS_AFFECTED;
+        			        	return false;
+        			        }
+        			    }
+        			}        			
         			
         			// コミット処理
             		session.commit(); 
+            		status = ExcuteQueryResultStatus.SUCCESS;
             		return true;
             	}
-        		// ロールバック処理
+
+        		// (callbackの結果がfalseの場合)ロールバック処理
         		session.rollback(); 
         		return false;
+        	
         	} catch (Exception ex) {
+        		status = ExcuteQueryResultStatus.EXCEPTION;
         		try { session.rollback(); } catch (Exception ignore) {}
         		throw ex;
+        	
+        	} finally {
+        		resultCallBack.accept( status );
         	}
     	}
 	}
@@ -368,8 +409,9 @@ public class MySqlManager {
 	 * @param IsBulk 連続クエリ一括発行(Bulk)処理を行うかどうか
 	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義)
 	 * @param dataList 条件とするデータの値(取得テーブルのMODEのリスト)
+	 * @param resultCallBack クエリ取得結果に関するメソッド(呼び出し元にて定義)
 	 * @param successCallBack クエリ発行成功時のメソッド(呼び出し元にて定義)
-	 * @param exceptionCallback 例外発生時のメソッド
+	 * @param exceptionCallback 例外発生時のメソッド(呼び出し元にて定義)
 	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。<br>
 	 *  トランザクション管理を行い、メソッド(callback)が成功時Commit、失敗時にRollbackを行う。<br>
@@ -377,7 +419,9 @@ public class MySqlManager {
 	@SuppressWarnings("unused")
 	public static <T extends BaseTableViewModel> void ExecuteQueryOnParallel_UseTran(
 			Boolean IsBulk,
-			BiFunction<SqlSession, List<T>, Boolean> callback, List<T> dataList,
+			BiFunction<SqlSession, List<T>, Boolean> callback, 
+			List<T> dataList,
+			Consumer<ExcuteQueryResultStatus> resultCallBack,
 			Consumer<Boolean> successCallBack,
 			Consumer<Throwable> exceptionCallback) {
 
@@ -393,16 +437,16 @@ public class MySqlManager {
 	            try {
 	                runningTasks.add(this);
 	                if (IsBulk) {
-	                	return MySqlManager.ExecuteBulk_UseTransaction(callback, dataList);
+	                	return MySqlManager.ExecuteBulk_UseTransaction(callback, resultCallBack, dataList);
 	                }
-	                return MySqlManager.ExecuteQuery_UseTransaction(callback, dataList);
+	                return MySqlManager.ExecuteQuery_UseTransaction(callback, resultCallBack, dataList);
 	            } finally {
 	                runningTasks.remove(this); // 終了時に必ず削除(this = Task)
 	            }
 		    }
 		};
 
-		// --- 2. UIスレッドで実行されるイベント ---
+		// --- UIスレッドで実行されるイベント ---
 		task.setOnSucceeded(e -> {
 		    // 成功時：
 			System.out.println("MySQL : 非同期・トランザクション処終了[成功]");
@@ -415,7 +459,7 @@ public class MySqlManager {
 			exceptionCallback.accept(task.getException());
 		});
 
-		// --- 3. 実行 ---
+		// --- 実行 ---
 		executor.execute(task); 	
 	}  
 
@@ -470,7 +514,7 @@ public class MySqlManager {
 		    }
 		};
 			
-		// --- 2. UIスレッドで実行されるイベント ---
+		// --- UIスレッドで実行されるイベント ---
 		task.setOnSucceeded(event -> {
 			// 成功時：
 			System.out.println("MySQL : 非同期処終了[成功]");
@@ -483,7 +527,7 @@ public class MySqlManager {
 			exceptionCallback.accept(task.getException());
 		});
 
-		// --- 3. 実行 ---
+		// --- 実行 ---
 		executor.execute(task); 
 	}
 	

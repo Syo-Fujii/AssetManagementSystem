@@ -12,6 +12,7 @@ import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.InventoryLoanDataModel;
 import application.java.common.AppConst;
+import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
@@ -131,27 +132,44 @@ public class FormController extends BaseFormPage {
      */
     @FXML
     public void onLoanButtonClicked() {
+    	try {
+        	
+    		// [貸出]が選択されている一覧を生成
+        	List<InventoryLoanDataModel> availableRows = 
+        			tableListView.
+        			getItems().
+        			stream().
+        			filter(r -> r.getIsCheckOut()).
+        			collect(Collectors.toList());
+        	
+        	if (availableRows.isEmpty()) { return; }
 
-    	// [貸出]が選択されている一覧を生成
-    	List<InventoryLoanDataModel> availableRows = 
-    			tableListView.
-    			getItems().
-    			stream().
-    			filter(r -> r.getIsCheckOut()).
-    			collect(Collectors.toList());
-    	
-    	if (availableRows.isEmpty()) { return; }
-
-    	AppConst.rowCheckResultData checkResult = isLoanableRowsCheck();
-    	
-    	if (!checkResult.result()) {
-    		if( checkResult.isShowMsgBox()) {
-    			this.showMessageInputError(checkResult.message());
-    		}
+        	AppConst.rowCheckResultData checkResult = isLoanableRowsCheck();
+        	
+        	System.out.println("備品貸出 貸出チェック処理");
+        	if (!checkResult.result()) {
+        		if( checkResult.isShowMsgBox()) {
+        			this.showMessageInputError(checkResult.message());
+        		}
+        		
+        		System.out.println("選択行: [" + checkResult.rowNum() + "] " +
+        		                   "カラム番号 [" + checkResult.colNo() + "]");
+        		tableListView.setCellFocus(checkResult.rowNum() -1, checkResult.colNo());
+        		return;
+        	}
+        	
+        	// 貸出処理(備品データ更新処理):データ操作のため垂直処理にて行う
+        	System.out.println("備品貸出 貸出(更新)処理");
+        	super.executeBulkQuery(availableRows);  		
     		
-    		System.out.println("選択行: [" + checkResult.rowNum() + "] カラム番号 [" + checkResult.colNo() + "]");
-    		tableListView.setCellFocus(checkResult.rowNum() -1, checkResult.colNo());
-    		return;
+        	System.out.println("備品貸出 リスト再表示処理");
+        	super.<InventoryLoanDataModel>fillTableAsync();
+
+    	} catch (Exception ex) {
+    		System.err.println(ex);
+    		
+    		// 貸出ボタン無効化
+    		submit_button.setDisable(true);
     	}
     }    
     
@@ -162,15 +180,12 @@ public class FormController extends BaseFormPage {
     public void onBackButtonClicked() {
 
     	// 遷移元画面に切替
-    	super.setPage(new application.
-    			java.
-    			window.
-    			inventoryDetails.
-    			FormController(this.stockType, this.stockCode, this.previousPageWindowSize.toString()));
+    	this.showOwnerPage();
     }
  
     
 	/**
+	 * 備品データ取得クエリ発行(在庫データ取得)
      * クエリ発行処理(Mapper)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session SQLセッション
@@ -186,6 +201,61 @@ public class FormController extends BaseFormPage {
 	    return (List<T>) mapper.getTableLoanableData(this.stockType, this.stockCode);
     }
 
+    /**
+     * 備品データ更新クエリ発行(貸出処理)
+     * クエリ発行処理(Mapper:トランザクション処理)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param session SQLセッション
+     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
+     * @return DB操作結果
+     * @brief controller内で用いるクエリ(INS・UPD・DEL)発行処理<br>
+     * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
+     * 当該メソッド内がトランザクションの範囲とし、複数のクエリを発行する場合は、対応した複数のMapperを呼出す。<br>
+     * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>    
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。<br>
+     * 例：<br>
+     *     // 連続更新<br>
+     *     mapper.updateA(data1);<br>
+     *     mapper.updateB(data2);<br>
+     */
+	@Override
+	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
+		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
+
+	    for (T row : listData) {
+	    	mapper.updStockDataLoanOut( (InventoryLoanDataModel) row );
+	    }	
+		
+		return true;
+    }	
+
+    /**
+     * DBクエリ(CUD)発行結果に応じた処理
+     * @param status ExcuteQueryResultStatus 実行結果のステータス
+     * @brief DBクエリを発行した際の結果処理<br>
+     * クエリの発行結果に対するメソッド(処理)がある場合に用いる。<br>
+     * Exceptionが発生している場合は、当該メソッドの後で、Exceptionがthrowされる。<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	@Override
+	protected void excuteQueryResult(ExcuteQueryResultStatus status){
+		
+		// 更新件数が0件のクエリが存在していた場合、例外MSGを表示
+		if (status ==  ExcuteQueryResultStatus.NO_ROWS_AFFECTED) {
+			String title = "DB クエリ発行結果エラー";
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("更新(貸出)処理にて、結果件数が0件のクエリが発行されました。").append(AppUtil.newLine());
+			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
+			sb.append("システム管理者に連絡してください。" );
+			
+			showMessageException(title, sb.toString());
+			
+    		// 貸出ボタン無効化
+    		submit_button.setDisable(true);
+		}
+	}	
+	
 	/**
      * DB取得成功時の処理(非同期処理)
      * @brief controller内で用いる取得成功時の処理<br>
@@ -225,35 +295,6 @@ public class FormController extends BaseFormPage {
 		System.err.println("備品詳細データ取得失敗");
 		super.exceptionResult(exception);
     }
-
-    /**
-     * クエリ発行処理(Mapper:トランザクション処理)
-     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
-     * @param session SQLセッション
-     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
-     * @return DB操作結果
-     * @brief controller内で用いるクエリ(INS・UPD・DEL)発行処理<br>
-     * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
-     * 当該メソッド内がトランザクションの範囲とし、複数のクエリを発行する場合は、対応した複数のMapperを呼出す。<br>
-     * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>    
-     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。<br>
-     * 例：<br>
-     *     // 連続更新<br>
-     *     mapper.updateA(data1);<br>
-     *     mapper.updateB(data2);<br>
-     */
-	@SuppressWarnings({ "unused" })
-	@Override
-	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
-		
-		/*Boolean result = ExecuteBulk_UseTransaction((session, list) -> {
-		    InventoryMapper mapper = session.getMapper(InventoryMapper.class);
-		    for (T item : list) {
-		        mapper.updateLoanStatus(item); // BATCHモードなのでここでは溜まるだけ
-		    }
-		    return true;
-		}, availableRows);*/
-    }	
 
     /**
      * 使用者ComboBox 選択リスト取得処理
@@ -509,7 +550,7 @@ public class FormController extends BaseFormPage {
 
     /**
      * 警告Message：備品データ不整合(重複データ)
-     * @param rowMessage
+     * @param rowMessage String 表示する内容
      */
     private void showMessageDuplicateStockData(String rowMessage) {
     	MessageBox.ShowWarnig(
@@ -528,6 +569,19 @@ public class FormController extends BaseFormPage {
     			"",
     			message);
     }
+   
+    /**
+     * 例外Message：例外エラー
+     * @param title String タイトル
+     * @param message String 表示する内容
+     */
+    private void showMessageException(String title, String message) {
+    	MessageBox.ShowErrorMessage(
+    			"例外発生",
+    			title,
+    			message);
+    }    
+    
     
     /**
      * TableView設定
@@ -636,6 +690,19 @@ public class FormController extends BaseFormPage {
               forEach(kvpItems::add);
     }
     
+    /**
+     * 遷移元画面呼び出し
+     * @brief 遷移元画面(備品明細：inventoryDetails)を呼出す。<br>
+     */
+    private void showOwnerPage() {
+    	// 遷移元画面に切替
+    	super.setPage(new application.
+    			java.
+    			window.
+    			inventoryDetails.
+    			FormController(this.stockType, this.stockCode, this.previousPageWindowSize.toString()));   	
+    }
+    
   
     
     
@@ -666,10 +733,11 @@ public class FormController extends BaseFormPage {
         	} 
  
         	System.out.println("選択行モデルデータ");
+        	System.out.println("シリアルNo: [" + row.getSerialNo() + "] ");
         	System.out.println("貸出者名: [" + row.getStaffName() + "] ");
         	System.out.println("貸出者ID: ["+ row.getStaffNo() + "]");
         	System.out.println("貸出開始日: ["+ row.getStartDate() + "]");
-        	System.out.println("貸出開始日: ["+ row.getLimitDate() + "]");
+        	System.out.println("返却予定日: ["+ row.getLimitDate() + "]");
         	System.out.println("貸出: ["+ row.getIsCheckOut() + "]"); 
     		
     		

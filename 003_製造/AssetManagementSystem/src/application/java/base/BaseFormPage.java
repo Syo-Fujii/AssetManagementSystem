@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.MessageBox;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
@@ -175,7 +176,8 @@ public abstract class BaseFormPage {
 						throw new RuntimeException(e);
 					}},
     			listData -> { successResult( listData ); },
-    			exception -> { exceptionResult( exception ); });}
+    			exception -> { exceptionResult( exception ); });
+    }
 
     /**
      * DB操作(登録・更新・削除)処理(同期処理)
@@ -197,12 +199,17 @@ public abstract class BaseFormPage {
     					return CudQueryUseTran(session, data);
     				} catch (Exception e) {
      					throw new RuntimeException(e);
-     					}}, listData);}
+     			}}, 
+    			(status) -> {
+    				excuteQueryResult(status);
+    			},
+    			listData);
+    }
 
     /**
      * DB操作(登録・更新・削除)処理(同期処理)：Bulk処理
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
-     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
+     * @param listData List[T] DB操作の条件となるデータ(行データ:T のList)
      * @return DB操作結果
      * @brief controller内で用いるDB操作(INS・UPD・DEL)処理<br>
      * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
@@ -219,7 +226,12 @@ public abstract class BaseFormPage {
     					return CudQueryUseTran(session, data);
     				} catch (Exception e) {
      					throw new RuntimeException(e);
-     					}}, listData);}	
+     			}},
+    			(status) -> {
+    				excuteQueryResult(status);
+    			},
+    			listData);
+    }	
 	
     /**
      * クエリ発行処理(Mapper)
@@ -239,7 +251,20 @@ public abstract class BaseFormPage {
     }
 	
     /**
+     * DBクエリ(CUD)発行結果に応じた処理
+     * @param status ExcuteQueryResultStatus 実行結果のステータス
+     * @brief DBクエリを発行した際の結果処理<br>
+     * クエリの発行結果に対するメソッド(処理)がある場合に用いる。<br>
+     * Exceptionが発生している場合は、当該メソッドの後で、Exceptionがthrowされる。<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	protected void excuteQueryResult(ExcuteQueryResultStatus status){
+    }
+	
+	/**
      * DB取得成功時の処理(非同期処理)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param List 取得結果(行データ:T のList)
      * @brief controller内で用いる取得成功時の処理<br>
      * 画面内にTableViewなどのDB取得を要するメソッド(処理)がある場合に用いる。<br>
      * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
@@ -323,8 +348,6 @@ public abstract class BaseFormPage {
     		return executeCudMapperFunction(session, listData);
 
     	} catch(Exception e){
-    		throw new Exception(e); 
-    	}
-      } 
-    
+    		throw new Exception(e);}
+    } 
 }

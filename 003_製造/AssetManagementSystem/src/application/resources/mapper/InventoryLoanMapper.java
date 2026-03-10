@@ -6,7 +6,7 @@ import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.InventoryLoanDataModel;
 
 /**
- * 備品貸出画面 DB操作メソッド(Mapper)
+ * 備品貸出画面 DB操作メソッド(Mapper / interface)
  */
 public interface InventoryLoanMapper {
 
@@ -15,12 +15,6 @@ public interface InventoryLoanMapper {
 	 * @return 備品データ(備品貸出に表示するデータ 在庫データ)
 	 */
     List<InventoryLoanDataModel> getTableLoanableData(Integer type, String code );
-    
-	/**
-	 * 備品データの最終所在確認日更新
-	 * @return 更新件数
-	 */
-    // Integer updConfirmedDate(InventoryDetailsDataModel row);
     
 	/**
 	 * 備品貸出データ取得(Viewより取得)
@@ -34,4 +28,11 @@ public interface InventoryLoanMapper {
 	 * @brief 論理削除しているユーザーは取得しない
 	 */
     List<StaffMasterModel> getStaffMasterData();
+    
+    /**
+     * 備品データの更新(貸出処理)
+     * @param row InventoryLoanDataModel 対象データ行
+     * @return 更新件数
+     */
+     int updStockDataLoanOut(InventoryLoanDataModel row);
 }
