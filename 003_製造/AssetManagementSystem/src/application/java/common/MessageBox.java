@@ -1,5 +1,7 @@
 package application.java.common;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -7,6 +9,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
 public class MessageBox {
@@ -85,8 +91,8 @@ public class MessageBox {
 	}	
 
 	/**
-	 *DB例外(ERROR)MessageBox
-	 * @param headerText　概要(タイトル)　※ 不要な場合はNULLを指定
+	 * 例外(ERROR)MessageBox
+	 * @param headerText 概要(タイトル)　※ 不要な場合はNULLを指定
 	 * @param message メッセージ内容
      * @brief 例外(ERROR)メッセージを表示する。
 	 */
@@ -104,11 +110,62 @@ public class MessageBox {
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         
     	Optional<ButtonType> result =  alert.showAndWait();
-	}		
+	}
+
+	/**
+	 * 例外(ERROR)MessageBox
+	 * @param title String ウィンドウタイトル
+	 * @param headerText String 概要(タイトル)　※ 不要な場合はNULLを指定
+	 * @param t Throwable 例外情報(Exceptionを含む)
+	 * @brief Exceptionを受け取り、スタックトレースを[詳細]にて表示する。<br>
+	 * 内容は、Exception Messageを表示する。
+	 */
+	public static void ShowErrorMessage(String title, String headerText, Throwable t) {
+	    
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+	    alert.setTitle(title);
+	    alert.setHeaderText(headerText);
+
+	    // メッセージが空なら例外クラス名を表示する
+	    String message = 
+	    		(t != null && t.getMessage() != null) ? t.getMessage() : "予期せぬエラーが発生しました。";
+	    alert.setContentText(message);	    
+	    
+	    // スタックトレースを表示
+	    if (t != null) {
+	        StringWriter sw = new StringWriter();
+	        PrintWriter pw = new PrintWriter(sw);
+
+	        // 例外のスタックトレースを文字列に変換	        
+	        t.printStackTrace(pw);
+	        String exceptionText = sw.toString();
+
+	        // テキストエリアの生成
+	        TextArea textArea = new TextArea(exceptionText);
+	        textArea.setEditable(false);
+	        textArea.setWrapText(true);
+
+	        textArea.setMaxWidth(Double.MAX_VALUE);
+	        textArea.setMaxHeight(Double.MAX_VALUE);
+	        GridPane.setVgrow(textArea, Priority.ALWAYS);
+	        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+	        GridPane expContent = new GridPane();
+	        expContent.setMaxWidth(Double.MAX_VALUE);
+	        expContent.add(new Label("詳細なエラー情報:"), 0, 0);
+	        expContent.add(textArea, 0, 1);
+
+	        // 詳細エリア」としてセット
+	        alert.getDialogPane().setExpandableContent(expContent);
+	    }
+
+	    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+	    alert.showAndWait();
+	}
 	
 	/**
 	 *DB例外(ERROR)MessageBox
-	 * @param headerText　概要(タイトル)　※ 不要な場合はNULLを指定
+	 * @param headerText String 概要(タイトル) ※ 不要な場合はNULLを指定
 	 * @param message メッセージ内容
      * @brief 例外(ERROR)メッセージを表示する。
 	 */

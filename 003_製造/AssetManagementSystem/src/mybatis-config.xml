@@ -5,6 +5,8 @@
 
 <configuration>
   <settings>
+    <!-- MyBatisのLog出力モジュール指定 -->
+    <setting name="logImpl" value="SLF4J"/>
     <!-- カラムがすべてNULLの行をリストに入れない -->
     <setting name="returnInstanceForEmptyRow" value="false"/>
         <!-- 念のため：NULL値が含まれる場合の挙動を安定させる -->

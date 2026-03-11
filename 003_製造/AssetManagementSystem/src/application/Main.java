@@ -1,5 +1,6 @@
 package application;
 
+import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
 import application.java.window.inventoryLoans.inventoryList.FormController;
@@ -16,36 +17,50 @@ public final class Main extends JavaFxManager {
 	 * @param args 起動引数
 	 */
 	public static void main(String[] args) {
-        System.out.println("備品管理システム : 起動");
-		
+        LogManager.writeInfo("備品管理システム : 起動"); 
+        
 		JavaFxManager.launch(args);
 	}
 
+	/**
+	 * JavaFx [start] メソッド(継承)
+	 */
 	@SuppressWarnings("exports")
 	@Override
-	/**
-	 * JavaFx[start]メソッド制御 
-	 */
 	public void start(Stage primaryStage) throws Exception{
-		// JavaFxの各メソッドを呼び出すため、継承したMainを保持する
-		JavaFxManager.application = this;	      
-		
-		// Window枠の保持
-		System.out.println("備品管理システム : 画面ウィンドウ枠生成");
-		super.start(primaryStage);
-		
-		// 最初に表示する画面を設定
-		this.setPage(new FormController());
+	    try {
+	    	// JavaFxの各メソッドを呼び出すため、継承したMainを保持する
+	    	JavaFxManager.application = this;
+	        
+	    	LogManager.writeInfo("開始処理 : 画面ウィンドウ枠生成");
+
+	    	// Window枠の保持
+	    	super.start(primaryStage);
+			
+	    	// 最初に表示する画面を設定
+	    	this.setPage(new FormController());
+
+	    } catch (Exception e) {
+	        LogManager.showAndWriteError(e);
+	        // システム(JavaFx)にExceptionを通知する
+	        throw e;
+	    }
 	}
 	
-    @Override
     /**
-     * JavaFx[stop]メソッド制御 
+     * JavaFx [stop] メソッド(継承)
      */
-    public void stop()  throws Exception {
-        MySqlManager.Close();
-        super.stop();
-        
-        System.out.println("備品管理システム : 終了");
+    @Override
+	public void stop()  throws Exception {
+	    try {
+	    	MySqlManager.Close();
+	        super.stop();
+	        
+	        LogManager.writeInfo("終了処理 : 終了");
+	    } catch (Exception e) {
+	        LogManager.writeError("終了処理でエラーが発生しました", e);
+	        // システム(JavaFx)にExceptionを通知する
+	        throw e;
+	    }
     }
 }

@@ -6,7 +6,6 @@
     <fullyQualifiedTypeName name="application.java.manager.MySqlManager"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.WindowSize"/>
     <fullyQualifiedTypeName name="application.java.window.inventoryDetails.FormController"/>
-    <fullyQualifiedTypeName name="application.java.common.MessageBox"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.LoanStatus"/>
     <fullyQualifiedTypeName name="application.java.manager.CustomTableCells.CustomComboBoxTableCellManager"/>
     <fullyQualifiedTypeName name="application.java.manager.TableColumnManager"/>
@@ -15,4 +14,5 @@
     <fullyQualifiedTypeName name="application.java.common.AppConst.addRowNumData"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.rowCheckResultData"/>
     <fullyQualifiedTypeName name="application.java.common.AppUtil"/>
+    <fullyQualifiedTypeName name="application.java.common.MessageBox"/>
 </qualifiedTypeNameHistroy>

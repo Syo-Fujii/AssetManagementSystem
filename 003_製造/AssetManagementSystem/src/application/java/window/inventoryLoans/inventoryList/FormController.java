@@ -8,6 +8,7 @@ import application.java.base.BaseFormPage;
 import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
 import application.java.common.AppUtil;
+import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryListMapper;
@@ -35,6 +36,8 @@ import javafx.scene.layout.AnchorPane;
  * ※ [TableViewManager]を用いても、Build・動作は正常におこなわれる。
  */
 public class FormController extends BaseFormPage {
+
+	private final String FORM_NAME = "備品一覧画面";
 	
 	@FXML private AnchorPane pane_form;
 	
@@ -51,25 +54,25 @@ public class FormController extends BaseFormPage {
 	/** 
 	 * コンストラクタ
 	 */
-	public FormController() 
-	{
+	public FormController() {
+		LogManager.writeInfo("[" + FORM_NAME + "] ： 初期化処理"); 
+		
 		this.setWindowTitle("備品管理システム");
 
 		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryList"));
 		this.setCssFile(AppUtil.MakeCssFilePath("InventoryListStyle"));
 
-		this.setPageTitle("備品一覧画面");
+		this.setPageTitle(FORM_NAME);
 	}
 	
-    @FXML
     /**
      * 画面(scene)初期化イベント
      * .NET Load相当 
      * 画面の表示前、ノードが配置された段階で実行
      */
-    void initialize() {
- 
-    	System.out.println("inventoryList controller initialize");
+    @FXML
+	void initialize() {
+     	LogManager.writeDebug("[" + FORM_NAME + "] ： controller initialize"); 
     	
     	if(!tableListView.getIsColumnSettingCompleted()) {
         	// 最初の画面起動として、[SQL Session]を生成・保持する。
@@ -92,9 +95,8 @@ public class FormController extends BaseFormPage {
      * 多分Webページと同じ概念。
      */
     @SuppressWarnings("unused")
-	private void tableViewSettings()
-    {
-    	System.out.println("備品一覧 カラム・セル設定/定義");
+	private void tableViewSettings() {
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： カラム・セル設定/定義");
     	
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
@@ -144,15 +146,17 @@ public class FormController extends BaseFormPage {
      * @param row 選択明細行
      */
     private void callbackTableSelectedRow(InventoryListDataModel row) {
-    	
-    	 System.out.println("選択行 分類種別: " + row.getType() + 
-    			            " 分類コード: " + row.getCode() +
-    			            " 遷移先画面サイズ : [" + row.getWindowSize() + "]");
-    	 super.setPage(new application.
-    			 java.window.
-    			 inventoryLoans.
-    			 inventoryDetails.
-    			 FormController(row.getType(), row.getCode(), row.getWindowSize()));
+    	String content = "選択行 分類種別: " + row.getType() +
+    			         " 分類コード: " + row.getCode() + 
+    			         " 遷移先画面サイズ : [" + row.getWindowSize() + "]";
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： " + content);
+    	 
+    	super.setPage(
+    			new application.
+    			java.window.
+    			inventoryLoans.
+    			inventoryDetails.
+    			FormController(row.getType(), row.getCode(), row.getWindowSize()));
     }
     
     /**

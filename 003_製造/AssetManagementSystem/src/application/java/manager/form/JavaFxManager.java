@@ -3,6 +3,7 @@ package application.java.manager.form;
 import java.util.Objects;
 
 import application.java.base.BaseFormPage;
+import application.java.manager.LogManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,22 +36,23 @@ public class JavaFxManager extends Application{
 
 	/** 中身(scene)のサイズに合わせてウィンドウ枠を変更するか */
 	public static Boolean isSizeToScene = true;
+
 	
-	@Override
 	/**
 	 * JavaFx[start]メソッド制御
 	 * @param primaryStage アプリケーションWindow
 	 */
+	@Override
 	public void start(Stage primaryStage) throws Exception{
 	      stage = primaryStage;
 	}
 	
 	/**
 	* 画面設定・表示処理
-	* @param　cls 遷移先画面のclass
-	* @param　fxml 遷移先画面のfxml
-	* @param　params 遷移先画面用パラメータ
+	* @param cls BaseFormPage 遷移先画面のclass
+	* @param params Object 遷移先画面用パラメータ
 	* @brief 表示枠(Stage)にコンテンツ内容(Scene)を設定・表示する。<br>
+	* ExceptionはApplication.startに投げられる。<br>
 	* BasePage を継承した Controller は遷移先画面の class と fxml名、任意に渡すパラメータで遷移を実行する。<br>
 	* インスタンス化したController を引数で用いる場合はfxmlファイルの
 	* [fx:controller="application.java.window.inventoryList.FormController"]を記述せず<br>
@@ -116,7 +118,7 @@ public class JavaFxManager extends Application{
 			stage.sizeToScene();
 		}
 		
-		System.out.println("setPage:" + cls.getPageTitle());
+		LogManager.writeInfo("画面展開 [setPage] : " + cls.getPageTitle()); 
 		stage.show();
 	}
 	

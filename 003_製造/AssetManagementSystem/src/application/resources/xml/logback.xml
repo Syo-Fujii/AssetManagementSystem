@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- ログファイルの保存先ディレクトリとファイル名 -->
+    <property name="LOG_DIR" value="logs" />
+    <property name="LOG_FILE" value="app_inventory" />
+
+    <!-- コンソール出力 (ConsoleAppender) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ファイル出力 (RollingFileAppender) -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <file>${LOG_DIR}/${LOG_FILE}.log</file>
+
+        <!-- 日付ごとにファイルを分け、古いログを自動削除する設定 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 毎日0時に新しいファイルを作成 (例: app_inventory.2023-10-27.log) -->
+            <fileNamePattern>${LOG_DIR}/${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 最大30日間保存して、それより古いものは削除 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Logger(ロギング)設定 -->
+    <logger name="com.yourproject.mapper" level="DEBUG" />
+    <logger name="org.apache.ibatis" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="com.zaxxer.hikari" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <!-- 全体の基本設定 (コンソールとファイルの両方を有効化) -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

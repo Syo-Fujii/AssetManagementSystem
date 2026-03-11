@@ -5,10 +5,12 @@
  * ・リフレクションの許可 (opens): リフレクション機能でのアクセスを許可。
  */
 module AssetManagementSystem {
+	requires java.desktop;
+	
 	requires javafx.controls;
 	requires javafx.fxml;
-	requires java.desktop;
 	requires javafx.base;
+	requires javafx.graphics;	
 
     requires java.sql;
     /** MySQL Connector/J の JAR ファイル内に module-info.classがない
@@ -16,15 +18,19 @@ module AssetManagementSystem {
     requires transitive mysql.connector.j; 
     requires org.mybatis;
     requires com.zaxxer.hikari;
-    requires org.slf4j;
-	requires javafx.graphics;	
 
-    exports application;    
+    requires org.slf4j;
+    requires ch.qos.logback.classic;
+    requires ch.qos.logback.core;
+
     
-	opens application to javafx.graphics, javafx.fxml, org.mybatis;
+    exports application;
+    
+    
+	opens application to javafx.graphics, javafx.fxml, org.mybatis, ch.qos.logback.core;
 	opens application.java.base.dbTablesModel to javafx.base, org.mybatis;
 	opens application.java.base.tableViewListModel to javafx.base, org.mybatis;
-	opens application.java.manager to javafx.base, javafx.fxml, org.mybatis;
+	opens application.java.manager to javafx.base, javafx.fxml, org.mybatis.logback.core;
 	opens application.java.window.inventoryLoans.inventoryList to javafx.fxml;
 	opens application.java.window.inventoryLoans.inventoryDetails to javafx.fxml;
 	opens application.java.window.inventoryLoans.inventoryLoan to javafx.fxml;
