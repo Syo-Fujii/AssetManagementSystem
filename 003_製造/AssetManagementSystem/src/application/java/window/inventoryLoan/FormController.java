@@ -45,6 +45,8 @@ import javafx.scene.layout.AnchorPane;
  */
 public class FormController extends BaseFormPage {
 	
+	private final String FORM_NAME = "備品貸出画面";
+	
 	@FXML private AnchorPane pane_form;
 	
 	@FXML private Label lbl_title;
@@ -80,7 +82,7 @@ public class FormController extends BaseFormPage {
 		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryLoan"));
 		this.setCssFile(AppUtil.MakeCssFilePath("InventoryLoanStyle"));
 		
-		this.setPageTitle("備品貸出画面");
+		this.setPageTitle(FORM_NAME);
 	
     	/* カレンダー(DatePicker)の初期値 = 本日 */
      	dateNow = LocalDate.now();
@@ -119,10 +121,10 @@ public class FormController extends BaseFormPage {
 		// 画面起動設定
 		this.formInitialize();
  
-		System.out.println("備品貸出 使用者一覧(ComboBox 選択リスト)取得処理");
+		System.out.println(FORM_NAME + " 使用者一覧(ComboBox 選択リスト)取得処理");
 		this.fetchStaffMembers(comboBoxSource);
 
-    	System.out.println("備品貸出 リスト表示処理");
+    	System.out.println(FORM_NAME + " リスト表示処理");
     	super.<InventoryLoanDataModel>fillTableAsync();
 
     }
@@ -146,7 +148,7 @@ public class FormController extends BaseFormPage {
 
         	AppConst.rowCheckResultData checkResult = isLoanableRowsCheck();
         	
-        	System.out.println("備品貸出 貸出チェック処理");
+        	System.out.println(FORM_NAME + " 貸出チェック処理");
         	if (!checkResult.result()) {
         		if( checkResult.isShowMsgBox()) {
         			this.showMessageInputError(checkResult.message());
@@ -159,10 +161,10 @@ public class FormController extends BaseFormPage {
         	}
         	
         	// 貸出処理(備品データ更新処理):データ操作のため垂直処理にて行う
-        	System.out.println("備品貸出 貸出(更新)処理");
+        	System.out.println(FORM_NAME + " 貸出(更新)処理");
         	super.executeBulkQuery(availableRows);  		
     		
-        	System.out.println("備品貸出 リスト再表示処理");
+        	System.out.println(FORM_NAME + " リスト再表示処理");
         	super.<InventoryLoanDataModel>fillTableAsync();
 
     	} catch (Exception ex) {
@@ -198,7 +200,7 @@ public class FormController extends BaseFormPage {
 		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
 	    
 	    // 備品詳細データ取得
-	    return (List<T>) mapper.getTableLoanableData(this.stockType, this.stockCode);
+	    return (List<T>) mapper.getTableReturnableStockData(this.stockType, this.stockCode);
     }
 
     /**
@@ -608,8 +610,6 @@ public class FormController extends BaseFormPage {
     	
     	// 無効Cell Focus SKIP設定 
     	tableListView.onDisabledCellsFocusSkipEvent();
-
-    	tableListView.getSelectionModel().setCellSelectionEnabled(true);
     	
     	// 項目(カスタムセル)型設定
 		col_staff_name.setCellTypeCustomComboBoxKeyValuesWithCheck(

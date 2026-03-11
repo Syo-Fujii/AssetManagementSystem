@@ -14,13 +14,13 @@ public interface InventoryLoanMapper {
 	 * 備品貸出データ取得(テーブルより取得)
 	 * @return 備品データ(備品貸出に表示するデータ 在庫データ)
 	 */
-    List<InventoryLoanDataModel> getTableLoanableData(Integer type, String code );
+    List<InventoryLoanDataModel> getTableReturnableStockData(Integer type, String code );
     
 	/**
 	 * 備品貸出データ取得(Viewより取得)
 	 * @return 備品データ(備品貸出に表示するデータ 在庫データ)
 	 */
-    List<InventoryLoanDataModel> getViewLoanableData(Integer type, String code );
+    List<InventoryLoanDataModel> getViewReturnableData(Integer type, String code );
 
 	/**
 	 * 社員マスターの取得

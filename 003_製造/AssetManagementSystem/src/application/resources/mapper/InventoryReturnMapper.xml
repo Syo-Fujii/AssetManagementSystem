@@ -3,8 +3,8 @@
 
 <mapper namespace="application.resources.mapper.InventoryReturnMapper">
 
-    <!-- 備品貸出データ(備品データ：貸出中)の取得 -->
-    <select id="getTableLoanableData">
+    <!-- 備品返却データ(備品データ：貸出中)の取得 -->
+    <select id="getTableLoanableStockData">
      <![CDATA[
       WITH BASE_TABLE AS
        (
@@ -32,8 +32,8 @@
          /* 返却済データの除去 ≒ 最新の備品データを取得 */
          AND SD.return_date IS NULL
          AND SD.del = FALSE
-         /* [在庫]データの取得 */
-         AND SD.staff_no IS NULL 
+         /* [貸出中]データの取得 */
+         AND SD.staff_no IS NOT NULL 
          /* [不明]のデータは対象としない */
          AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
          WHERE
@@ -80,7 +80,7 @@
     <![CDATA[
        SELECT
           EDV.シリアルナンバー    AS serialNo,
-          ''                      AS staffName,
+          EDV.使用者              AS staffName,
           EDV.貸出開始日          AS startDate,
           EDV.返却予定日          AS limitDate,
           EDV.最終所在確認日      AS confirmedDate,

@@ -56,11 +56,10 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	
 	/**
 	 * CELL 有効化制御
-	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
-	 * @param <C> 対象カラムの型
-	 * @param column 対象カラム
-	 * @param isEnabled　有効化判定
-	 * @param isValueChenged 値によって動的に変更するか
+	 * @param <S> 継承元が[BaseTableViewModel]のデータクラス
+	 * @param <T> 対象カラムの型
+	 * @param isEnabled Boolean 有効化判定
+	 * @param isValueChenged Boolean 値によって動的に変更するか
 	 * @brief setCellValueFactory( new PropertyValueFactory<>())と競合しない
 	 */
 	@SuppressWarnings("unused")
@@ -486,33 +485,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
        
 		if(!isEnterNextFocus){ return; }
 
-		// 編集モード時、確定(EnterKey)イベント
-		// 入力監視リスナー
-		// (event = 変更を監視しているプロパティ:event = TableVolumn.CellEditEvent)
-		this.setOnEditCommit(event -> {
-           
-			// 次のセルへの遷移
-			javafx.application.Platform.runLater(() -> {
-               TableView<S> tv = event.getTableView();
-               int currentRow = event.getTablePosition().getRow();
-               
-               // 次の編集可能なカラムを探す
-               TableColumn<S, ?> nextCol = getNextEditableColumn(tv, this);
-
-               if (nextCol != null) {
-                   tv.getSelectionModel().select(currentRow, nextCol);
-                   tv.edit(currentRow, nextCol);
-               } else {
-                   // 次の行へ
-                   int nextRow = currentRow + 1;
-                   if (nextRow < tv.getItems().size()) {
-                       TableColumn<S, ?> firstCol = tv.getColumns().get(0);
-                       tv.getSelectionModel().select(nextRow, firstCol);
-                       tv.edit(nextRow, firstCol);
-                   }
-               }
-           });
-       });
+		onDisabledCellsFocusSkipEvent();
    }
 
    /**
@@ -521,24 +494,68 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
     * @param currentCol 対象TableColumn
     * @return 編集可能なTableColumn
 	* @brief 対象TableColumn より次の編集可能なTableColumnを返す。<br>
+	* 有効なカラム
     */
-	private TableColumn<S, ?> getNextEditableColumn(TableView<S> tv, TableColumn<S, ?> currentCol) {
-       
-		List<TableColumn<S, ?>> cols = tv.getColumns();
-       
-		int index = cols.indexOf(currentCol);
-       
-		for (int i = index + 1; i < cols.size(); i++) {
-           
-			TableColumn<S, ?> col = cols.get(i);
-           
-			if (col.isEditable() && col.isVisible()) return col;
-			
-			System.out.println("getNextEditableColumn : OK");
-       
-		}
-        System.out.println("getNextEditableColumn : Return NULL");
-		return null;
+	private void onDisabledCellsFocusSkipEvent() {
+		
+		// 編集モード時、確定(EnterKey)イベント
+		// 入力監視リスナー
+		// (event = 変更を監視しているプロパティ:event = TableVolumn.CellEditEvent)		
+		this.setOnEditCommit(event -> {
+			// 処理確定後の動作
+			javafx.application.Platform.runLater(() -> {
+				TableView<S> tableview = event.getTableView();
+				List<TableColumn<S, ?>> columns = tableview.getColumns();
+
+				// カラム数を取得
+		        int columnsCount = columns.size();
+		        // 明細行数を取得
+		        int rowsCount = tableview.getItems().size();
+		        
+		        if (columnsCount < 1 || rowsCount < 1) { return; }
+		        
+		        // 係数
+		        int direction = 1;
+		        
+		        // 次のCELLのINDEXを取得
+		        int nextColIdx = columns.indexOf(this) + direction;
+		        // 現在の明細行を取得
+		        int rowIdx = event.getTablePosition().getRow();
+
+		    	
+		        // 有効なセルが見つかるまで、行・列をまたいで探索
+		        while (rowIdx >= 0 && rowIdx < rowsCount)
+		        {
+		        	// 列の範囲外チェック（行をまたぐ処理）
+		            if (nextColIdx >= columnsCount) {
+		            	// [右]移動(あふれ)の場合、次の行の左端へ
+		            	rowIdx++;
+		            	nextColIdx = 0;
+		                continue;
+		            }
+
+		            // 行移動後に範囲外になった場合は終了
+		            if ( rowIdx >= rowsCount ){ break; }
+		            
+		            TableColumn<S, ?> targetCol = columns.get(nextColIdx);
+		            
+		            if (targetCol.isEditable() && targetCol.isVisible() ) {
+		            	/* 有効CELL */
+		            	tableview.getSelectionModel().select(rowIdx, targetCol);
+		            	tableview.edit(rowIdx, targetCol);
+		            	System.out.println("getNextEditableColumn : OK");
+
+		            	break;
+		            
+		            } else {
+		            	/* 無効CELL */
+		            	nextColIdx += direction;
+		            }
+		        } 	
+		        
+		        System.out.println("getNextEditableColumn : Return NULL");
+			});
+		});
    }	
 
    /**

@@ -190,7 +190,7 @@ public class FormController extends BaseFormPage {
 		InventoryReturnMapper mapper = session.getMapper(InventoryReturnMapper.class);
 	    
 	    // 備品詳細データ取得
-	    return (List<T>) mapper.getTableLoanableData(this.stockType, this.stockCode);
+	    return (List<T>) mapper.getTableLoanableStockData(this.stockType, this.stockCode);
     }
 
     /**
@@ -274,7 +274,7 @@ public class FormController extends BaseFormPage {
 		CheckStockDataIntegrity(rows);
 		
     	// TableView Focus指定
-    	tableListView.setFocusFirstCell(col_staff_name);
+    	tableListView.setFocusFirstCell(col_is_checkin);
     }
     
 	@Override
@@ -557,11 +557,9 @@ public class FormController extends BaseFormPage {
     	
     	// 無効Cell Focus SKIP設定 
     	tableListView.onDisabledCellsFocusSkipEvent();
-
-    	tableListView.getSelectionModel().setCellSelectionEnabled(true);
     	
     	// 項目(カスタムセル)型設定
-		col_is_checkin.setCellTypeCustomCheckBox(false, true);    	
+		col_is_checkin.setCellTypeCustomCheckBox(true, true);
 
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);

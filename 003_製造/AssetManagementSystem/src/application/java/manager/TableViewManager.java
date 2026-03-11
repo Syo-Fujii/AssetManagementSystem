@@ -127,6 +127,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 */
 	public void setIsCellSelected(Boolean isCellSelected) {
 		this.isCellSelected = isCellSelected;
+		// セル選択モード
 		this.getSelectionModel().setCellSelectionEnabled( isCellSelected );
 	}
 	
@@ -246,24 +247,55 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 * CELL 有効化制御
 	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
 	 * @param <C> 対象カラムの型
-	 * @param column 対象カラム
-	 * @param isEnabled　有効化判定
+	 * @param column TableColumn 対象カラム
+	 * @param isEnabled Boolean 有効化判定
 	 */
 	@SuppressWarnings({ "hiding", "unused" })
 	public <T, C> void cellIsEnabled(TableColumn<T, C> column, Boolean isEnabled) {
+		Boolean isValueChenged = false;
+		
+		column.setEditable(isEnabled);
 		
 		column.setCellFactory(col -> new TableCell<T, C>() {
+			{
+				// コンストラクタ
+				if( !isValueChenged ) {
+					setDisable(!isEnabled);
+  
+					// 見た目の調整（非活性時にグレーアウトさせる等）
+					//pseudoClassStateChanged(DISABLED_PC, !isEnabled);
+					setFocusTraversable(isEnabled);
+				}
+			}
+
+            /**
+             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
+             * @param item
+             * @param empty
+             * @brief
+             * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
+             * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
+             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。
+             */
     	    @Override
     	    protected void updateItem(C item, boolean empty) {
+    	    	
+    	    	
     	        super.updateItem(item, empty);
+    	        
     	        if (empty || item == null) {
     	            setText(null);
+    	            setGraphic(null);
+    	            // 空のセルは無効化しない（リセット）
     	            setDisable(false);
     	        } else {
-    	            setText(item.toString());
-    	            // 選択・操作を制御
-    	            setDisable(!isEnabled);
-    	            setFocusTraversable(!isEnabled);
+    	        	setText(item.toString());
+    	        	
+    	        	if(isValueChenged) {
+        	        	// 選択・操作を制御
+        	            setDisable(!isEnabled);
+        	            setFocusTraversable(isEnabled);
+    	        	}
     	        }
     	    }
     	});
@@ -311,40 +343,86 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
     	this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
     	    if (event.getCode() == KeyCode.RIGHT || 
     	    	event.getCode() == KeyCode.TAB || 
-    	    	event.getCode() == KeyCode.LEFT) {
-    	        
+    	    	event.getCode() == KeyCode.LEFT)
+    	    {
     	    	// 現在のフォーカス位置を取得
     	        @SuppressWarnings("unchecked")
 				TablePosition<T, ?> pos = this.getFocusModel().getFocusedCell();
-    	        if (pos == null) return;
+    	        if (pos == null) { return; }
     	        
-    	        // INDEXを取得
-    	        int colIdx = this.getColumns().size();
+    	        // カラム数を取得
+    	        int columnsCount = this.getColumns().size();
+    	        // 明細行数を取得
+    	        int rowsCount = this.getItems().size();
     	        
+    	        if (columnsCount < 1 || rowsCount < 1) { return; }
+    	        
+    	        // [左]移動の場合、マイナス係数にする
     	        int direction = (event.getCode() == KeyCode.LEFT) ? -1 : 1;
     	        
     	        // 次のCELLのINDEXを取得
     	        int nextColIdx = pos.getColumn() + direction;
+    	        // 現在の明細行を取得
+    	        int rowIdx = pos.getRow();
 
-    	        // 有効な列が見つかるまで探し続ける
-    	        while (nextColIdx >= 0 && nextColIdx < colIdx) {
-    	            TableColumn<T, ?> nextCol = this.getColumns().get(nextColIdx);
-    	            
-    	            // 入力有効CELLではない場合
-    	            if (!nextCol.isEditable()) {
-    	            	nextColIdx += direction;  // 無効ならさらに次へ
-    	                event.consume();          // 元の移動を止める
-    	            } else {
-    	            	// スキップが発生した場合
-    	                if (event.isConsumed()) { 
-    	                    this.getSelectionModel().select(pos.getRow(), nextCol);
-    	                    this.getFocusModel().focus(pos.getRow(), nextCol);
-    	                }
-    	                break;
-    	                }
-    	            }
-    	        }
-    	    });}	
+            	System.out.println("CELL FOCUS制御");
+            	System.out.println("列数: [" + columnsCount + "] ");
+            	System.out.println("行数: [" + rowsCount + "] ");    	        
+            	System.out.println("係数: [" + direction + "] ");   
+            	System.out.println("[次]選択列番号: [" + nextColIdx + "] ");
+            	System.out.println("選択行番号: [" + rowIdx + "] ");
+            	
+    	        // 有効なセルが見つかるまで、行・列をまたいで探索
+                while (rowIdx >= 0 && rowIdx < rowsCount)
+                {
+                	System.out.println("CELL FOCUS制御");
+                	System.out.println("[次]選択列番号: [" + nextColIdx + "] ");
+                	System.out.println("選択行番号: [" + rowIdx + "] ");
+                	
+                	
+                	
+                	// 列の範囲外チェック（行をまたぐ処理）
+                    if ( nextColIdx < 0) { 
+                    	// [左]移動(あふれ)の場合、前の行の右端へ
+                    	rowIdx--;
+                    	nextColIdx = columnsCount - 1;
+                    	continue;
+                    
+                    } else if (nextColIdx >= columnsCount) {
+                    	// [右]移動(あふれ)の場合、次の行の左端へ
+                    	rowIdx++;
+                    	nextColIdx = 0;
+                        continue;
+                    }
+
+                    // 行移動後に範囲外になった場合は終了
+                    if (rowIdx < 0 || rowIdx >= rowsCount){ break; }
+                    
+                    TableColumn<T, ?> targetCol = this.getColumns().get(nextColIdx);
+                    
+                    if (targetCol.isEditable()) {
+    	            	/* 有効CELL */
+
+                    	// スキップが発生した(前回の移動先が無効CELL)場合
+    	                if (!event.isConsumed()){ event.consume(); }
+
+                        this.getSelectionModel().clearAndSelect(rowIdx, targetCol);
+                        this.getFocusModel().focus(rowIdx, targetCol);    	                
+
+                        break;
+                        //return; // 探索終了
+                    
+                    } else {
+    	            	/* 無効CELL */
+
+                    	// Focus移動をキャンセル
+                    	if (!event.isConsumed()){ event.consume(); }
+                    	// 無効なセルの場合はさらに次へ
+                    	nextColIdx += direction;
+                    }
+                } 
+    	    }});
+	}
 	
 	/**
 	 * 選択行番号取得
@@ -400,15 +478,22 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 * Stage の setOnShown イベントを使う
 	 */
 	public <S extends TableColumn<T, V>, V> void setFocusFirstCell(S targetColumn) {
-		
-		Platform.runLater(() -> {
-		    // 明細行が1行以上あるかチェック
-		    if (!this.getItems().isEmpty()) {
-		        this.requestFocus();
-		        this.getSelectionModel().select(0, targetColumn);
-		        this.edit(0, targetColumn);
-		    }
-	    });}
+	    Platform.runLater(() -> {		
+	    	Platform.runLater(() -> {
+	    		// 明細行が1行以上あるかチェック
+	    		if (!this.getItems().isEmpty()) {
+
+	    			this.requestFocus();
+	    			this.getSelectionModel().clearSelection();
+
+	    			this.getSelectionModel().select(0, targetColumn);
+	    			this.edit(0, targetColumn);
+
+	    			this.scrollTo(0);
+	    		}
+	    	});
+	    });
+	}
 
 	/**
 	 * Focus設定(指定行, 指定カラム)
