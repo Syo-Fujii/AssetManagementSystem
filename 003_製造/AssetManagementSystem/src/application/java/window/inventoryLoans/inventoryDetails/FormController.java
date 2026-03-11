@@ -1,4 +1,4 @@
-package application.java.window.inventoryDetails;
+package application.java.window.inventoryLoans.inventoryDetails;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -169,6 +169,7 @@ public class FormController extends BaseFormPage {
     	super.setPage(new application.
     			java.
     			window.
+    			inventoryLoans.
     			inventoryLoan.
     			FormController(this.stockType, this.stockCode, this.windowSizeType));
     }    
@@ -183,6 +184,7 @@ public class FormController extends BaseFormPage {
     	super.setPage(new application.
     			java.
     			window.
+    			inventoryLoans.
     			inventoryReturn.
     			FormController(this.stockType, this.stockCode, this.windowSizeType));
     }        
@@ -194,7 +196,7 @@ public class FormController extends BaseFormPage {
     public void onBackButtonClicked() {
 
     	// 遷移元画面に切替
-    	super.setPage(new application.java.window.inventoryList.FormController());
+    	super.setPage(new application.java.window.inventoryLoans.inventoryList.FormController());
     }
 
 	/**

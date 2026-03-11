@@ -1,7 +1,7 @@
 package application.java.window.testNextWindow;
 
 import application.java.base.BaseFormPage;
-import application.java.window.inventoryList.FormController;
+import application.java.window.inventoryLoans.inventoryList.FormController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

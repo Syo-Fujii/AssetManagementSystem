@@ -1,4 +1,4 @@
-package application.java.window.inventoryList;
+package application.java.window.inventoryLoans.inventoryList;
 
 import java.util.List;
 
@@ -150,6 +150,7 @@ public class FormController extends BaseFormPage {
     			            " 遷移先画面サイズ : [" + row.getWindowSize() + "]");
     	 super.setPage(new application.
     			 java.window.
+    			 inventoryLoans.
     			 inventoryDetails.
     			 FormController(row.getType(), row.getCode(), row.getWindowSize()));
     }

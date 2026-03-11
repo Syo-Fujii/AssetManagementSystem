@@ -1,7 +1,6 @@
-package application.java.window.inventoryLoan;
+package application.java.window.inventoryLoans.inventoryReturn;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,8 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
-import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.InventoryLoanDataModel;
+import application.java.base.tableViewListModel.InventoryReturnDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.AppUtil;
@@ -18,11 +17,9 @@ import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
-import application.java.manager.TableColumnManager.keyValuePairItem;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryLoanMapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import application.resources.mapper.InventoryReturnMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,8 +28,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * 備品貸出画面
- * @brief [inventoryLoan]画面操作メソッド(Controller)<br>
+ * 備品返却画面
+ * @brief [inventoryReturn]画面操作メソッド(Controller)<br>
  * <p>
  * TableViewを継承した[TableViewManager](カスタムControl)を用いる場合、
  * 画目デザイン(Screen Builder)では正しく操作できない。<br>
@@ -45,20 +42,20 @@ import javafx.scene.layout.AnchorPane;
  */
 public class FormController extends BaseFormPage {
 	
-	private final String FORM_NAME = "備品貸出画面";
+	private final String FORM_NAME = "備品返却画面";
 	
 	@FXML private AnchorPane pane_form;
 	
 	@FXML private Label lbl_title;
 	@FXML private Label lbl_stock_name;
 	
-	@FXML private TableViewManager<InventoryLoanDataModel> tableListView;
-	@FXML private TableColumn<InventoryLoanDataModel, String> col_serial;
-	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_staff_name;
-	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_start_date;
-	@FXML private TableColumnManager<InventoryLoanDataModel, String> col_limit_date;
-	@FXML private TableColumn<InventoryLoanDataModel, String> col_remarks;
-	@FXML private TableColumnManager<InventoryLoanDataModel, Boolean> col_is_checkout;
+	@FXML private TableViewManager<InventoryReturnDataModel> tableListView;
+	@FXML private TableColumn<InventoryReturnDataModel, String> col_serial;
+	@FXML private TableColumn<InventoryReturnDataModel, String> col_staff_name;
+	@FXML private TableColumn<InventoryReturnDataModel, String> col_start_date;
+	@FXML private TableColumn<InventoryReturnDataModel, String> col_limit_date;
+	@FXML private TableColumn<InventoryReturnDataModel, String> col_remarks;
+	@FXML private TableColumnManager<InventoryReturnDataModel, Boolean> col_is_checkin;
 
 	
 	@FXML private Button inventoryCounting_button;
@@ -79,13 +76,13 @@ public class FormController extends BaseFormPage {
 	{
 		this.setWindowTitle("備品管理システム");
 
-		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryLoan"));
-		this.setCssFile(AppUtil.MakeCssFilePath("InventoryLoanStyle"));
+		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryReturn"));
+		this.setCssFile(AppUtil.MakeCssFilePath("InventoryReturnStyle"));
 		
 		this.setPageTitle(FORM_NAME);
 	
     	/* カレンダー(DatePicker)の初期値 = 本日 */
-     	dateNow = LocalDate.now();
+     	dateNow = LocalDate.now();	
 	}
 	public FormController(Integer type, String code, Integer size) 
 	{
@@ -111,18 +108,11 @@ public class FormController extends BaseFormPage {
     	// 最初の画面起動として、[SQL Session]を生成・保持する。
 		MySqlManager.getSqlSessionFactory();
 
-    	// 選択肢のリスト(空データ)
-     	ObservableList<keyValuePairItem<Integer, String>> comboBoxSource = 
-     			FXCollections.observableArrayList();
-		
 		// TableView起動設定
-		this.tableViewSettings(comboBoxSource);
+		this.tableViewSettings();
 		
 		// 画面起動設定
 		this.formInitialize();
- 
-		System.out.println(FORM_NAME + " 使用者一覧(ComboBox 選択リスト)取得処理");
-		this.fetchStaffMembers(comboBoxSource);
 
     	System.out.println(FORM_NAME + " リスト表示処理");
     	super.<InventoryLoanDataModel>fillTableAsync();
@@ -134,21 +124,21 @@ public class FormController extends BaseFormPage {
      */
     @FXML
     public void onLoanButtonClicked() {
-    	try {
+    	/*try {
         	
     		// [貸出]が選択されている一覧を生成
         	List<InventoryLoanDataModel> availableRows = 
         			tableListView.
         			getItems().
         			stream().
-        			filter(r -> r.getIsCheckOut()).
+        			filter(r -> r.getIsCheckIn()).
         			collect(Collectors.toList());
         	
         	if (availableRows.isEmpty()) { return; }
 
         	AppConst.rowCheckResultData checkResult = isLoanableRowsCheck();
         	
-        	System.out.println(FORM_NAME + " 貸出チェック処理");
+        	System.out.println("備品貸出 貸出チェック処理");
         	if (!checkResult.result()) {
         		if( checkResult.isShowMsgBox()) {
         			this.showMessageInputError(checkResult.message());
@@ -161,10 +151,10 @@ public class FormController extends BaseFormPage {
         	}
         	
         	// 貸出処理(備品データ更新処理):データ操作のため垂直処理にて行う
-        	System.out.println(FORM_NAME + " 貸出(更新)処理");
+        	System.out.println("備品貸出 貸出(更新)処理");
         	super.executeBulkQuery(availableRows);  		
     		
-        	System.out.println(FORM_NAME + " リスト再表示処理");
+        	System.out.println("備品貸出 リスト再表示処理");
         	super.<InventoryLoanDataModel>fillTableAsync();
 
     	} catch (Exception ex) {
@@ -172,11 +162,11 @@ public class FormController extends BaseFormPage {
     		
     		// 貸出ボタン無効化
     		submit_button.setDisable(true);
-    	}
-    }
+    	}*/
+    }    
     
     /**
-     * [戻る]ボタン 押下イベント
+     * [戻る]ボタン 押下イベント 
      */
     @FXML
     public void onBackButtonClicked() {
@@ -187,7 +177,7 @@ public class FormController extends BaseFormPage {
  
     
 	/**
-	 * 備品データ取得クエリ発行(在庫データ取得)
+	 * 備品データ取得クエリ発行(貸出中データ取得)
      * クエリ発行処理(Mapper)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session SQLセッション
@@ -197,10 +187,10 @@ public class FormController extends BaseFormPage {
 	@Override
     @SuppressWarnings("unchecked")
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
-		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
+		InventoryReturnMapper mapper = session.getMapper(InventoryReturnMapper.class);
 	    
 	    // 備品詳細データ取得
-	    return (List<T>) mapper.getTableReturnableStockData(this.stockType, this.stockCode);
+	    return (List<T>) mapper.getTableLoanableStockData(this.stockType, this.stockCode);
     }
 
     /**
@@ -226,8 +216,8 @@ public class FormController extends BaseFormPage {
 
 	    for (T row : listData) {
 	    	mapper.updStockDataLoanOut( (InventoryLoanDataModel) row );
-	    }
-	
+	    }	
+		
 		return true;
     }	
 
@@ -266,7 +256,7 @@ public class FormController extends BaseFormPage {
 	@SuppressWarnings("unchecked")
 	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
 		
-    	List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
+    	List<InventoryReturnDataModel> rows = (List<InventoryReturnDataModel>) listData;
     	
     	tableListView.setSortedList( rows );
 
@@ -284,7 +274,7 @@ public class FormController extends BaseFormPage {
 		CheckStockDataIntegrity(rows);
 		
     	// TableView Focus指定
-    	tableListView.setFocusFirstCell(col_staff_name);
+    	tableListView.setFocusFirstCell(col_is_checkin);
     }
     
 	@Override
@@ -299,52 +289,6 @@ public class FormController extends BaseFormPage {
     }
 
     /**
-     * 使用者ComboBox 選択リスト取得処理
-     * @param comboBoxSource コンボボックスの選択リスト(kvpのObservableList)
-     * @brief コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
-     */
-    private void fetchStaffMembers(
-    		ObservableList<keyValuePairItem<Integer, String>> comboBoxSource)
-    {
-    	System.out.println("使用者ComboBox 選択リスト取得処理");
-    	
-    	MySqlManager.<StaffMasterModel>FillOnParallel(
-    			(SqlSession session) -> {
-					try {
-						return this.getStaffMasterData(session);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-				},
-    			listData -> { 
-    				modelsConvertToKeyValuePairList( listData, comboBoxSource ); },
-    			exception -> {
-    				System.err.println("使用者ComboBox 選択リスト取得失敗");
-    				super.exceptionResult(exception);
-    			}
-    	); 
-    }	
-
-    /**
-     * 社員一覧の取得
-     * @param session
-     * @throws Exception
-     * @return List<StaffMasterModel> 取得結果(行データ:StaffMasterModel のList)
-     */
-    private List<StaffMasterModel> getStaffMasterData(SqlSession session) throws Exception
-    {
-    	try {
-    		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
-    	    
-    	    // 社員マスター取得
-    	    return mapper.getStaffMasterData();
-
-    	} catch(Exception e){
-    		throw new Exception(e);
-    	}
-    }
-
-    /**
      * 追加機能：整合性検査
      * @param rows 
      * @brief 取得した備品データにてシリアル番号が重複している場合、警告MSGを発報する。<br>
@@ -352,10 +296,10 @@ public class FormController extends BaseFormPage {
      * 起動時に検査することを想定し、データの並び順(TableViewのカラム ソート)は考慮しない。<br>
      * ボタン押下時などカラム ソートの考慮が必要な場合は、[SortedList]の使用を要す。
      */
-    private void CheckStockDataIntegrity(List<InventoryLoanDataModel> rows) {
+    private void CheckStockDataIntegrity(List<InventoryReturnDataModel> rows) {
     	
     	// シリアルNoの重複データを取得
-    	List<AppConst.addRowNumData<InventoryLoanDataModel>> duplicateRows = 
+    	List<AppConst.addRowNumData<InventoryReturnDataModel>> duplicateRows = 
     			tableListView.getDuplicateRows("serialNo");
     	
     	if (duplicateRows == null || duplicateRows.isEmpty()) { return; }
@@ -382,7 +326,7 @@ public class FormController extends BaseFormPage {
      */
     private AppConst.rowCheckResultData isLoanableRowsCheck() {
     	
-    	this.dateNow = LocalDate.now();
+    	/*this.dateNow = LocalDate.now();
     	
     	List<AppConst.addRowNumData<InventoryLoanDataModel>> rows = 
     			tableListView.getRowsAddNumber();
@@ -453,7 +397,7 @@ public class FormController extends BaseFormPage {
     			int colNum = tableListView.getColumns().indexOf(col_start_date);
     			return new AppConst.rowCheckResultData(false, true, rowNum, colNum, sb.toString());
     		}
-    	}
+    	}*/
     	
     	return new AppConst.rowCheckResultData(
     			true, 
@@ -531,7 +475,7 @@ public class FormController extends BaseFormPage {
 		} else if (!isAllowFutureDate && isAfter) {
 			checkSb.append("の").append(title).append("が未来日になっています");
 			sb.append(checkSb.toString());
-			return false;
+			return false;		
 		}
 		
 		return true;
@@ -591,9 +535,9 @@ public class FormController extends BaseFormPage {
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      * 多分Webページと同じ概念。
      */
-	private void tableViewSettings(ObservableList<keyValuePairItem<Integer, String>> kvpItems)
+	private void tableViewSettings()
     {
-    	System.out.println("備品貸出 カラム・セル設定/定義");
+    	System.out.println(FORM_NAME + " カラム・セル設定/定義");
     	
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
@@ -606,22 +550,16 @@ public class FormController extends BaseFormPage {
    
     	// Cell 有効化制御
     	tableListView.cellIsEnabled(col_serial, false);
+    	tableListView.cellIsEnabled(col_staff_name, false);
+    	tableListView.cellIsEnabled(col_start_date, false);
+    	tableListView.cellIsEnabled(col_limit_date, false);
     	tableListView.cellIsEnabled(col_remarks, false);
     	
     	// 無効Cell Focus SKIP設定 
     	tableListView.onDisabledCellsFocusSkipEvent();
     	
     	// 項目(カスタムセル)型設定
-		col_staff_name.setCellTypeCustomComboBoxKeyValuesWithCheck(
-				kvpItems, 
-				"staffNo",
-				"isCheckOut",
-				"選択してください",
-				true, 
-				true);
-		col_start_date.setCellTypeCustomDatePicker(true, true, null, null, dateNow);
-		col_limit_date.setCellTypeCustomDatePicker(true, true, dateNow, dateNow, LocalDate.of(2099, 12, 31));
-		col_is_checkout.setCellTypeCustomCheckBox(false, true);    	
+		col_is_checkin.setCellTypeCustomCheckBox(true, true);
 
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
@@ -633,7 +571,7 @@ public class FormController extends BaseFormPage {
     	col_start_date.getStyleClass().add("center-aligned");
     	col_limit_date.getStyleClass().add("center-aligned"); 
     	col_remarks.getStyleClass().add("text-aligned");
-    	col_is_checkout.getStyleClass().add("center-aligned");
+    	col_is_checkin.getStyleClass().add("center-aligned");
 
     	// 0件の場合のCaptionを削除(「データがありません」非表示)
     	tableListView.setPlaceholder(new Label("")); 
@@ -645,7 +583,7 @@ public class FormController extends BaseFormPage {
      * Columnとデータクラスのプロパティの紐づけを当該メソッドで行う。<br>
      * <p>
      *  [FXML 画面.TableViewのColumn変数].<br>
-     *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列)<br>
+     *            setCellValueFactory( new PropertyValueFactory<>([データModelのプロパティ名]:String文字列))<br>
      *  入力項目の場合：プロパティをそのまま渡すゲッター<br>
      *  (StringProperty staffNameProperty() { return this.staffName; })がMODELに必要<br>
      *            setCellValueFactory( data -> data.getValue().staffNameProperty());
@@ -654,11 +592,11 @@ public class FormController extends BaseFormPage {
 
     	// CheckBoxのカラム設定(TableView)    	
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
-    	col_staff_name.setCellValueFactory( data -> data.getValue().staffNameProperty());
-     	col_start_date.setCellValueFactory( data -> data.getValue().startDateProperty());
-    	col_limit_date.setCellValueFactory( data -> data.getValue().limitDateProperty());
+    	col_staff_name.setCellValueFactory( new PropertyValueFactory<>("staffName"));
+     	col_start_date.setCellValueFactory( new PropertyValueFactory<>("startDate"));
+    	col_limit_date.setCellValueFactory( new PropertyValueFactory<>("limitDate"));
     	col_remarks.setCellValueFactory( new PropertyValueFactory<>("remarks"));
-    	col_is_checkout.setCellValueFactory( data -> data.getValue().isCheckOutProperty());
+    	col_is_checkin.setCellValueFactory( data -> data.getValue().isCheckInProperty());
     }
     
     /**
@@ -667,32 +605,12 @@ public class FormController extends BaseFormPage {
      */
     private void formInitialize()
     {
-    	System.out.println("備品貸出 画面初期化処理");
+    	System.out.println(FORM_NAME + " 画面初期化処理");
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
     }
 
-    /**
-     * データモデル(StaffMasterModel) kvpリスト変換処理
-     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
-     * メソッド参照: FXCollections::observableArrayList<br>
-     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
-     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
-     */   
-    private void modelsConvertToKeyValuePairList(
-    		List<StaffMasterModel> datas,
-    		ObservableList<keyValuePairItem<Integer, String>> kvpItems) {
-     	
-    	kvpItems.clear();
-    	
-        if (datas == null || datas.isEmpty()) { return; }
-
-        datas.stream().
-              map(row -> new keyValuePairItem<Integer, String>(row.getStaffNo(), row.getStaffName())).
-              forEach(kvpItems::add);
-    }
-    
     /**
      * 遷移元画面呼び出し
      * @brief 遷移元画面(備品明細：inventoryDetails)を呼出す。<br>
@@ -702,6 +620,7 @@ public class FormController extends BaseFormPage {
     	super.setPage(new application.
     			java.
     			window.
+    			inventoryLoans.
     			inventoryDetails.
     			FormController(this.stockType, this.stockCode, this.previousPageWindowSize.toString()));
     }
@@ -726,7 +645,7 @@ public class FormController extends BaseFormPage {
     	try {
 
     		// 選択行取得
-        	InventoryLoanDataModel row = tableListView.
+        	InventoryReturnDataModel row = tableListView.
         			getSelectionModel().
         			getSelectedItem();
 
@@ -738,10 +657,9 @@ public class FormController extends BaseFormPage {
         	System.out.println("選択行モデルデータ");
         	System.out.println("シリアルNo: [" + row.getSerialNo() + "] ");
         	System.out.println("貸出者名: [" + row.getStaffName() + "] ");
-        	System.out.println("貸出者ID: ["+ row.getStaffNo() + "]");
         	System.out.println("貸出開始日: ["+ row.getStartDate() + "]");
         	System.out.println("返却予定日: ["+ row.getLimitDate() + "]");
-        	System.out.println("貸出: ["+ row.getIsCheckOut() + "]"); 
+        	System.out.println("返却: ["+ row.getIsCheckIn() + "]"); 
     		
     		
     	} catch (Exception ex) {

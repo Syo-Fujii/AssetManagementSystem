@@ -2,7 +2,7 @@ package application;
 
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
-import application.java.window.inventoryList.FormController;
+import application.java.window.inventoryLoans.inventoryList.FormController;
 import javafx.stage.Stage;
 
 /**
