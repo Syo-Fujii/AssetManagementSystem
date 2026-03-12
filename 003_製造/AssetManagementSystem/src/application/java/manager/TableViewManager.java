@@ -181,7 +181,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	/**
 	 * 重複している明細行を返す
 	 * @param <T>
-	 * @param propertyName 重複を確認するプロパティ名
+	 * @param propertyName String 重複を確認するプロパティ名
 	 * @return 重複している行(:model：行データ)のリスト(行番号付きデータ)
 	 * @brief 重複している行のリストをaddRowNumData型(int:行番号, model:行データ)で返す
 	 * 明細行がない場合、NULLを返す。<br>
@@ -365,21 +365,19 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
     	        // 現在の明細行を取得
     	        int rowIdx = pos.getRow();
 
-            	System.out.println("CELL FOCUS制御");
-            	System.out.println("列数: [" + columnsCount + "] ");
-            	System.out.println("行数: [" + rowsCount + "] ");    	        
-            	System.out.println("係数: [" + direction + "] ");   
-            	System.out.println("[次]選択列番号: [" + nextColIdx + "] ");
-            	System.out.println("選択行番号: [" + rowIdx + "] ");
+    	        LogManager.writeTrace("[CELL FOCUS制御]");
+    	        LogManager.writeTrace("列数: [" + columnsCount + "] ");
+    	        LogManager.writeTrace("行数: [" + rowsCount + "] ");    	        
+    	        LogManager.writeTrace("係数: [" + direction + "] ");   
+    	        LogManager.writeTrace("[次]選択列番号: [" + nextColIdx + "] ");
+    	        LogManager.writeTrace("選択行番号: [" + rowIdx + "] ");
             	
     	        // 有効なセルが見つかるまで、行・列をまたいで探索
                 while (rowIdx >= 0 && rowIdx < rowsCount)
                 {
-                	System.out.println("CELL FOCUS制御");
-                	System.out.println("[次]選択列番号: [" + nextColIdx + "] ");
-                	System.out.println("選択行番号: [" + rowIdx + "] ");
-                	
-                	
+                	LogManager.writeTrace("[CELL FOCUS制御]");
+                	LogManager.writeTrace("[次]選択列番号: [" + nextColIdx + "] ");
+                	LogManager.writeTrace("選択行番号: [" + rowIdx + "] ");
                 	
                 	// 列の範囲外チェック（行をまたぐ処理）
                     if ( nextColIdx < 0) { 

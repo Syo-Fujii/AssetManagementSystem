@@ -151,6 +151,8 @@ public class FormController extends BaseFormPage {
         	if (showMessageUpdConfimedDate(serialNo)) {
         	    
         		LogManager.writeDebug("[" + FORM_NAME + "] ： 最終所在確認日更新処理");
+        		
+        		// 更新値設定
         		this.setUpdModelData(row);
         		super.<InventoryDetailsDataModel>executeCudQuery(new ArrayList<>(List.of(row)));
 
@@ -328,7 +330,7 @@ public class FormController extends BaseFormPage {
 	
 	/**
 	 *所在確認日 更新確認Message
-	 * @param serialNo
+	 * @param serialNo String 対象シリアルNO
 	 * @return 確認結果
 	 */
     private Boolean showMessageUpdConfimedDate(String serialNo) {
@@ -342,7 +344,7 @@ public class FormController extends BaseFormPage {
 	
     /**
      * 警告Message：備品データなし
-     * @param serialNo
+     * @param serialNo String 対象シリアルNO
      */
     private void showMessageEmptyStockData(String serialNo) {
     	String content = "備品[シリアルNo: "+ serialNo + " ]の備品データ(stock_data)が存在しません。";

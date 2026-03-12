@@ -2,6 +2,7 @@
 
 import application.java.common.AppConst;
 import application.java.common.AppUtil;
+import application.java.manager.LogManager;
 import application.java.manager.TableColumnManager.keyValuePairItem;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -160,17 +161,48 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
     	super.updateItem(value, empty);
 
     	System.out.println("CustomComboBoxKVP updateItem");
+    	System.out.println("empty : "+ empty);
+    	
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
-        if (empty) {
-            setGraphic(null);
+        if ( empty || value == null ) {
+            System.out.println("value : "+ value);
+            System.out.println("text : "+ getText());
+        	
+        	setGraphic(null);
             setText(null);
+
         } else {
         	// データが存在する場合の表示処理
+        	isAdjusting = true;
+        	if(this.comboBox.getValue() != null)
+        	{
+        		System.out.println("value : "+ this.comboBox.getValue().value());
+        	}
+        	
+        	
+            try {
+                // ComboBoxの選択状態を現在のモデルの値に合わせる
+                keyValuePairItem<Integer, String> selectedKvp = this.comboBox.getItems().stream()
+                        .filter(kvp -> kvp.value() != null && kvp.value().equals(value))
+                        .findFirst()
+                        .orElse(null);
+
+                //this.comboBox.setValue(selectedKvp); // ここでリスナーが動くが、フラグによりガードされる
+            } finally {
+                // ★処理が終わったらフラグを下ろす
+            	isAdjusting = false;
+            }
+        	
+        	
+        	
+            setText("");
+        	
+        	
+        	
         	if (isAlwaysShow) {
                 /* 常時表示モード */
                 setGraphic(this.comboBox);
                 setText(null);
-
         	} else {
                 /* 編集時のみ表示モード */
         		if (isEditing()) {
@@ -181,7 +213,8 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
                     setText(value != null ? value.toString() : null);
                 }
             }	
-        }}
+        }
+    }
  
     /**
      * カスタムコンボボックス生成
@@ -196,7 +229,6 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
     	// ComboBoxのサイズ(Cellに合わせる)
     	comboBox.prefWidthProperty().bind(this.widthProperty().subtract(5.0));
     	comboBox.setMaxWidth(Control.USE_PREF_SIZE);      	
-    	
     	
     	// ComboBox 表示設定[fromString(kvpを貰う) / toString(valueを返す)]メソッドをOverRide
         super.setupPairConverter(this.comboBox);
@@ -363,9 +395,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 
         } catch (Exception ex) {
         	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-        	System.err.println("モデルへの値反映に失敗しました: " + colId);
-            ex.printStackTrace();
-	    	
+        	LogManager.writeError("モデルへの値反映に失敗しました: " + colId);
             throw ex;
         } finally {
             isAdjusting = false;

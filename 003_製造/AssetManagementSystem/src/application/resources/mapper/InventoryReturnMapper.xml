@@ -106,41 +106,42 @@
      ]]>
     </select>
 
-    <!-- 社員マスターの取得 -->
-    <select id="getStaffMasterData">
-      SELECT
-        SM.staff_no AS staffNo,
-        SM.name AS staffName
-       FROM
-         staff_master SM
-       WHERE
-         1 = 1
-       AND SM.del = FALSE
-       ORDER BY SM.staff_no
-    </select>
-
-    <select id="getStockTypeName">
-      SELECT
-        STM.name
-       FROM
-         stock_type_master STM
-       WHERE
-         1 = 1
-       AND STM.stock_type = #{type}
-       AND STM.stock_code = #{code} 
-    </select>
-
     <!-- 備品データの更新(返却処理) -->
     <update id="updStockDataReturn">
       UPDATE
          stock_data SD
       SET 
-        SD.staff_no = #{staffNo},
-        SD.start_date = STR_TO_DATE(#{startDate}, '%Y/%m/%d'),
-        SD.limit_date = STR_TO_DATE(#{limitDate}, '%Y/%m/%d')
+        SD.return_date = #{returnDate},
+        SD.confirmed_date = #{confirmedDate}
       WHERE
         1 = 1
       AND SD.id = #{stockDataId}
     </update>
+
+    <!-- 備品データの登録(新規在庫・返却したシリアルNoの登録) -->
+    <insert id="insCopySerialNewStockData">
+      INSERT INTO stock_data
+      ( 
+          serial_no
+        , parent_stock_code
+        , staff_no
+        , start_date
+        , limit_date
+        , return_date
+        , confirmed_date
+        , del
+      ) 
+      VALUES 
+      ( 
+          #{serialNo}
+        , NULL
+        , NULL
+        , NULL
+        , NULL
+        , NULL
+        , #{confirmedDate}
+        , FALSE
+      )
+    </insert>
 
 </mapper>

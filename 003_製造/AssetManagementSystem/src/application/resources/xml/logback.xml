@@ -14,6 +14,10 @@
 
     <!-- ファイル出力 (RollingFileAppender) -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 閾値フィルター：DEBUG未満（TRACE）を切り捨てる -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
@@ -29,7 +33,13 @@
         </rollingPolicy>
     </appender>
 
-    <!-- Logger(ロギング)設定 -->
+    <!-- 全体の基本設定 (コンソールとファイルの両方を有効化) -->
+    <root level="TRACE">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+    <!-- 個別Logger(ロギング)設定 -->
     <logger name="com.yourproject.mapper" level="DEBUG" />
     <logger name="org.apache.ibatis" level="DEBUG" additivity="false">
         <appender-ref ref="FILE" />
@@ -38,10 +48,6 @@
         <appender-ref ref="FILE" />
     </logger>
 
-    <!-- 全体の基本設定 (コンソールとファイルの両方を有効化) -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
-    </root>
+
 
 </configuration>

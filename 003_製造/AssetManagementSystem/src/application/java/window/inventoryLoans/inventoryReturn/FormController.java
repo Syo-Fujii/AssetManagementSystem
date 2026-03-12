@@ -66,7 +66,6 @@ public class FormController extends BaseFormPage {
 	private Integer stockType = 0;
 	private String stockCode = "";
 	private Integer previousPageWindowSize = 1;
-	private LocalDate dateNow = null;
 
 	
 	/** 
@@ -82,9 +81,6 @@ public class FormController extends BaseFormPage {
 		this.setCssFile(AppUtil.MakeCssFilePath("InventoryReturnStyle"));
 		
 		this.setPageTitle(FORM_NAME);
-	
-    	/* カレンダー(DatePicker)の初期値 = 本日 */
-     	dateNow = LocalDate.now();	
 	}
 	public FormController(Integer type, String code, Integer size) 
 	{
@@ -139,6 +135,9 @@ public class FormController extends BaseFormPage {
         	
         	if (availableRows.isEmpty()) { return; }
 
+        	// 返却用の値(日付)を設定
+        	availableRows.forEach(this::setUpdModelData);
+       	
         	// 処理(備品データ更新処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 返却(更新・登録)処理");
         	super.executeBulkQuery(availableRows);  		
@@ -216,7 +215,10 @@ public class FormController extends BaseFormPage {
 		InventoryReturnMapper mapper = session.getMapper(InventoryReturnMapper.class);
 
 	    for (T row : listData) {
-	    	//mapper.updStockDataLoanOut( (InventoryReturnDataModel) row );
+	    	//データ更新(返却)処理
+	    	mapper.updStockDataReturn( (InventoryReturnDataModel) row );
+	    	//データ登録(同一シリアルNoの新規データ)処理
+	    	mapper.insCopySerialNewStockData( (InventoryReturnDataModel) row );
 	    }	
 		
 	 // Bulk処理にて一括更新を行うため、クエリ生成段階のResultとして常に[true]を返す。
@@ -269,8 +271,7 @@ public class FormController extends BaseFormPage {
 	    	// 備品分類の表示(再描画の際、0件でも表示させる)
 			lbl_stock_name.setText(rows.getFirst().getTypeName());
 		}
-		
-		inventoryCounting_button.setDisable(isEmptyRecords);
+
 		submit_button.setDisable(isEmptyRecords);
 		
 		// 備品データ重複検査(不整合CHECK)
@@ -372,7 +373,7 @@ public class FormController extends BaseFormPage {
      */
 	private void tableViewSettings()
     {
-    	System.out.println(FORM_NAME + " カラム・セル設定/定義");
+		LogManager.writeTrace("[" + FORM_NAME + "] ： カラム・セル設定/定義");
     	
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
@@ -424,7 +425,8 @@ public class FormController extends BaseFormPage {
      *            setCellValueFactory( data -> data.getValue().staffNameProperty());
      */
     private void callbackBindTableColumnSource() {
-
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： カラムBIND設定");
+    	
     	// CheckBoxのカラム設定(TableView)    	
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
     	col_staff_name.setCellValueFactory( new PropertyValueFactory<>("staffName"));
@@ -440,7 +442,7 @@ public class FormController extends BaseFormPage {
      */
     private void formInitialize()
     {
-    	System.out.println(FORM_NAME + " 画面初期化処理");
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize");
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
@@ -452,13 +454,11 @@ public class FormController extends BaseFormPage {
      */
     private void setUpdModelData(InventoryReturnDataModel row) {
 		// 本日を設定(文字列型)
-    	LocalDate date = LocalDate.now();
+    	LocalDate dateNow = LocalDate.now();
     	
-    	row.setConfirmedDate(date);
-    	row.setConfirmedDate(date);
+    	row.setReturnDate(dateNow);
+    	row.setConfirmedDate(dateNow);
     }   
-    
-    
     
     /**
      * 遷移元画面呼び出し

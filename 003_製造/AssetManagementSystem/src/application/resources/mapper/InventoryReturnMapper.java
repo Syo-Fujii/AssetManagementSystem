@@ -2,7 +2,6 @@ package application.resources.mapper;
 
 import java.util.List;
 
-import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.InventoryLoanDataModel;
 import application.java.base.tableViewListModel.InventoryReturnDataModel;
 
@@ -22,18 +21,18 @@ public interface InventoryReturnMapper {
 	 * @return 備品データ(備品返却に表示するデータ 貸出中データ)
 	 */
     List<InventoryLoanDataModel> getViewLoanableData(Integer type, String code );
-
-	/**
-	 * 社員マスターの取得
-	 * @return 社員マスターの一覧
-	 * @brief 論理削除しているユーザーは取得しない
-	 */
-    List<StaffMasterModel> getStaffMasterData();
     
     /**
-     * 備品データの更新(貸出処理)
-     * @param row InventoryLoanDataModel 対象データ行
+     * 備品データの更新(返却処理)
+     * @param row InventoryReturnDataModel 対象データ行
      * @return 更新件数
      */
-     int updStockDataLoanOut(InventoryLoanDataModel row);
+    int updStockDataReturn(InventoryReturnDataModel row);
+     
+     /**
+      * 備品データの登録(新規在庫・返却したシリアルNoの登録)
+      * @param row InventoryReturnDataModel 対象データ行
+      * @return 更新件数
+      */
+    int insCopySerialNewStockData(InventoryReturnDataModel row);
 }

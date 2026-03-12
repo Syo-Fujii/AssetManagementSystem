@@ -2,6 +2,7 @@ package application.java.window.inventoryLoans.inventoryLoan;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -284,8 +285,22 @@ public class FormController extends BaseFormPage {
 	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
 		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品(貸出)データ連携(BIND)処理");
 
+	    // ① 内部の選択インデックスをリセット（重要）
+	    tableListView.getSelectionModel().clearSelection();
+	    // データの入れ替え前に、TableView内部の「現在地」を完全に忘却させる
+	    tableListView.getSelectionModel().select(null); 
+	    tableListView.getFocusModel().focus(-1);
+	    
+	    
+	    // ② リストを空のObservableListで上書き（直接クリアせずインスタンスごと替えるのが安全）
+	    tableListView.setItems(null);
+	    tableListView.setItems(FXCollections.observableArrayList());
+		
+		
 		List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
-    	
+		
+		List<InventoryLoanDataModel> list = new ArrayList<>();
+		tableListView.setSortedList( list );
     	tableListView.setSortedList( rows );
 
     	Boolean isEmptyRecords = (listData == null || rows.isEmpty());
@@ -295,7 +310,6 @@ public class FormController extends BaseFormPage {
 			lbl_stock_name.setText(rows.getFirst().getTypeName());
 		}
 		
-		inventoryCounting_button.setDisable(isEmptyRecords);
 		submit_button.setDisable(isEmptyRecords);
 		
 		// 備品データ重複検査(不整合CHECK)
@@ -303,13 +317,28 @@ public class FormController extends BaseFormPage {
 		
     	// TableView Focus指定
     	tableListView.setFocusFirstCell(col_staff_name);
+
+    	/*Platform.runLater(() -> {
+	        // 二重チェック：実行時にリストが空になっていないか確認
+	        if (!tableListView.getItems().isEmpty()) {
+	            try {
+	                tableListView.requestFocus();
+	                // 最初のセルにフォーカスを当てる
+	                tableListView.setFocusFirstCell(col_staff_name);
+	            } catch (Exception e) {
+	                // ここで落ちてもシステムを止めない
+	                LogManager.writeDebug("Focus skip: " + e.getMessage());
+	            }
+	        }
+	    });*/
+
     }
     
-	@Override
     /**
      * DB取得失敗(例外発生)時の処理(非同期処理)
      * @brief controller内で用いる取得例外処理>
      */
+	@Override
 	protected void exceptionResult(Throwable exception)
     {
 		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品(貸出)データ取得失敗");
@@ -690,7 +719,7 @@ public class FormController extends BaseFormPage {
      */
     private void formInitialize()
     {
-    	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize"); 
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize");
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");

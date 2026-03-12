@@ -15,4 +15,5 @@
     <fullyQualifiedTypeName name="application.java.common.AppConst.rowCheckResultData"/>
     <fullyQualifiedTypeName name="application.java.common.AppUtil"/>
     <fullyQualifiedTypeName name="application.java.common.MessageBox"/>
+    <fullyQualifiedTypeName name="application.java.manager.LogManager"/>
 </qualifiedTypeNameHistroy>

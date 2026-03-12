@@ -154,8 +154,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             	super.updateItem(item, empty);
 
          		if (empty || item == null) {
-                    setGraphic(null);
-                    setText(null);
+                    //setGraphic(null);
+                    //setText(null);
 
                     // 【重要】isValueChengedがfalseであっても、
                     // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
@@ -299,8 +299,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 
          		if (empty || item == null) {
          			// 再利用の際、空行などの場合
-         			setGraphic(null);
-                    setText(null);
+         			//setGraphic(null);
+                    //setText(null);
 
                     // isValueChengedがfalseであっても、
                     // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
@@ -309,7 +309,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
                 	setFocusTraversable(false); 
                     
                 } else {
-                    setText(item.toString());
+                    //setText(item.toString());
  
                 	setDisable( !isEnabled );
                 	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
