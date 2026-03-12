@@ -13,6 +13,7 @@ import application.java.common.AppConst;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
+import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryDetailsMapper;
@@ -37,6 +38,8 @@ import javafx.scene.layout.AnchorPane;
  * ※ [TableViewManager]を用いても、Build・動作は正常におこなわれる。
  */
 public class FormController extends BaseFormPage {
+	
+	private final String FORM_NAME = "備品詳細画面";
 	
 	@FXML private AnchorPane pane_form;
 	
@@ -72,12 +75,14 @@ public class FormController extends BaseFormPage {
 	 */
 	public FormController() 
 	{
+		LogManager.writeInfo("[" + FORM_NAME + "] ： 初期化処理"); 
+		
 		this.setWindowTitle("備品管理システム");
 
 		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryDetails"));
 		this.setCssFile(AppUtil.MakeCssFilePath("InventoryDetailsStyle"));
 		
-		this.setPageTitle("備品詳細画面");
+		this.setPageTitle(FORM_NAME);
 	}
 	public FormController(Integer type, String code, String windowSize) 
 	{
@@ -97,8 +102,7 @@ public class FormController extends BaseFormPage {
      */
     @FXML
 	public void initialize() {
- 
-    	System.out.println("inventoryDetails controller initialize");
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize"); 
     	
     	// 最初の画面起動として、[SQL Session]を生成・保持する。
 		MySqlManager.getSqlSessionFactory();
@@ -109,17 +113,20 @@ public class FormController extends BaseFormPage {
 		// 画面起動設定
 		this.formInitialize();
 
-       	System.out.println("備品詳細 リスト表示処理");
+		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<InventoryDetailsDataModel>fillTableAsync();
     }
      
      /**
      * [所在確認]ボタン 押下イベント
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
      */
     @FXML
     public void onCountingButtonClicked() {
     	try {
-        	// 選択行取得
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [所在確認]ボタン押下"); 
+    		
+    		// 選択行取得
         	InventoryDetailsDataModel row = tableListView.
         			getSelectionModel().
         			getSelectedItem();
@@ -137,66 +144,91 @@ public class FormController extends BaseFormPage {
         		return;
         	}
         	
-        	System.out.println(
+        	LogManager.writeInfo(
         			"最終所在確認日更新 シリアル番号: [" + serialNo + "] " +
-        			"備品データ ID: ["+ dataId.toString() + "]");
+        			"備品データ ID: ["+ dataId.toString() + "]"); 
        	
         	if (showMessageUpdConfimedDate(serialNo)) {
         	    
-        		System.out.println("備品詳細 最終所在確認日更新処理");
+        		LogManager.writeDebug("[" + FORM_NAME + "] ： 最終所在確認日更新処理");
         		super.<InventoryDetailsDataModel>executeCudQuery(new ArrayList<>(List.of(row)));
 
-            	System.out.println("備品詳細 リスト再表示処理");
-            	super.<InventoryDetailsDataModel>fillTableAsync();
+        		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
+             	super.<InventoryDetailsDataModel>fillTableAsync();
         		
         	} else {
         	    // 「キャンセル」や「×」が押された時の処理
-        	    System.out.println("更新処理：Cancel");
+            	LogManager.writeDebug("[" + FORM_NAME + "] ： 処理がキャンセルされました。");
         	} 
     		
     	} catch (Exception ex) {
-    		System.err.println(ex);
+    		String title = "[" + FORM_NAME + "] ： [所在確認]ボタン押下でエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
     	}
    }
  
     /**
      * [貸出]ボタン 押下イベント 
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
      */
     @FXML
     public void onLoanButtonClicked() {
-
-    	// 備品貸出画面に切替
-    	super.setPage(new application.
-    			java.
-    			window.
-    			inventoryLoans.
-    			inventoryLoan.
-    			FormController(this.stockType, this.stockCode, this.windowSizeType));
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [貸出]ボタン押下"); 
+    		
+        	// 備品貸出画面に切替
+        	super.setPage(new application.
+        			java.
+        			window.
+        			inventoryLoans.
+        			inventoryLoan.
+        			FormController(this.stockType, this.stockCode, this.windowSizeType));
+    		
+    	} catch (Exception ex) {
+    		String title = "[" + FORM_NAME + "] ： 貸出画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
+    	}
     }    
   
     /**
-     * [返却]ボタン 押下イベント 
+     * [返却]ボタン 押下イベント
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
      */
     @FXML
     public void onReturnButtonClicked() {
-
-    	// 備品返却画面に切替
-    	super.setPage(new application.
-    			java.
-    			window.
-    			inventoryLoans.
-    			inventoryReturn.
-    			FormController(this.stockType, this.stockCode, this.windowSizeType));
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [返却]ボタン押下"); 
+    		
+        	// 備品返却画面に切替
+        	super.setPage(new application.
+        			java.
+        			window.
+        			inventoryLoans.
+        			inventoryReturn.
+        			FormController(this.stockType, this.stockCode, this.windowSizeType));		
+    	
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： 返却画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
     }        
     
     /**
      * [一覧に戻る]ボタン 押下イベント 
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
      */
     @FXML
     public void onBackButtonClicked() {
-
-    	// 遷移元画面に切替
-    	super.setPage(new application.java.window.inventoryLoans.inventoryList.FormController());
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [一覧に戻る]ボタン押下"); 
+    		
+    		// 遷移元画面に切替
+        	super.setPage(new application.java.window.inventoryLoans.inventoryList.FormController());
+    	
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： 一覧画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
     }
 
 	/**
@@ -209,7 +241,9 @@ public class FormController extends BaseFormPage {
     @SuppressWarnings("unchecked")
 	@Override
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
-		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品詳細データ取得処理");
+    	
+    	InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
 	    
 	    // 備品詳細データ取得
 	    return (List<T>) mapper.getTableDetailRecords(this.stockType, this.stockCode);
@@ -222,23 +256,30 @@ public class FormController extends BaseFormPage {
     @SuppressWarnings("unchecked")
 	@Override
     protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
-		
-    	List<InventoryDetailsDataModel> rows = (List<InventoryDetailsDataModel>) listData;
+    	try {
+    		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品詳細データ連携(BIND)処理");
+    		
+        	List<InventoryDetailsDataModel> rows = (List<InventoryDetailsDataModel>) listData;
+        	
+        	tableListView.setList( rows );
+
+        	// 備品分類の表示
+    		if (listData != null && !rows.isEmpty()) {
+    			lbl_stock_name.setText(rows.getFirst().getTypeName());
+    		}
+    		
+    		// [貸出]ボタン有効化制御([可]が一つでも存在する場合有効)
+    		loan_button.setDisable(!rows.stream().
+    				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_AVAILABLE));
+
+    		// [返却]ボタン有効化制御([貸出中]が一つでも存在する場合有効)
+    		return_button.setDisable(!rows.stream().
+    				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_CHECKED_OUT));	
     	
-    	tableListView.setList( rows );
-
-    	// 備品分類の表示
-		if (listData != null && !rows.isEmpty()) {
-			lbl_stock_name.setText(rows.getFirst().getTypeName());
-		}
-		
-		// [貸出]ボタン有効化制御([可]が一つでも存在する場合有効)
-		loan_button.setDisable(!rows.stream().
-				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_AVAILABLE));
-
-		// [返却]ボタン有効化制御([貸出中]が一つでも存在する場合有効)
-		return_button.setDisable(!rows.stream().
-				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_CHECKED_OUT));
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： 備品詳細データの連携中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
     }
     
     /**
@@ -248,7 +289,7 @@ public class FormController extends BaseFormPage {
 	@Override
     protected void exceptionResult(Throwable exception)
     {
-		System.err.println("備品詳細データ取得失敗");
+		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品詳細データ取得失敗");
 		super.exceptionResult(exception);
     }
 
@@ -270,6 +311,7 @@ public class FormController extends BaseFormPage {
      */
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品データ更新(limitDate更新)");
 		
 		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
 		
@@ -303,12 +345,15 @@ public class FormController extends BaseFormPage {
      * @param serialNo
      */
     private void showMessageEmptyStockData(String serialNo) {
+    	String content = "備品[シリアルNo: "+ serialNo + " ]の備品データ(stock_data)が存在しません。";
+    	
+    	LogManager.writeWarnig("データ異常：データ不整合 システム管理者に連絡してください。");
+    	LogManager.writeWarnig(content);
+    	
     	MessageBox.ShowWarnig(
     			"警告",
-    			"データ異常：備品データが存在しません。",
-    			"備品[シリアルNo: "+ serialNo + " ]の備品データ(stock_data)が存在しません。" + AppUtil.newLine() +
-    			"");
-    	
+    			"データ異常：データ不整合 システム管理者に連絡してください。",
+    			content);
     }
     
     /**

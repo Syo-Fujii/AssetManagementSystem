@@ -5,18 +5,14 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
-import application.java.base.dbTablesModel.StockTypeMasterModel;
+import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
 import application.java.common.AppUtil;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryListMapper;
-import application.resources.mapper.StockTypeMasterMapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -72,7 +68,7 @@ public class FormController extends BaseFormPage {
      */
     @FXML
 	void initialize() {
-     	LogManager.writeDebug("[" + FORM_NAME + "] ： controller initialize"); 
+     	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize"); 
     	
     	if(!tableListView.getIsColumnSettingCompleted()) {
         	// 最初の画面起動として、[SQL Session]を生成・保持する。
@@ -86,9 +82,61 @@ public class FormController extends BaseFormPage {
         	lbl_title.getStyleClass().add("titletext");
     	}
     	
-    	this.ShowInventoryList();
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
+    	super.<InventoryListDataModel>fillTableAsync(); 	
+
     }	
 
+	/**
+     * クエリ発行処理(Mapper)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param session SQLセッション
+     * @return List<T> 取得結果(行データ:T のList)
+     * @brief controller内で用いるクエリ発行処理<br>
+	 */
+    @SuppressWarnings("unchecked")
+	@Override
+    protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： DB 備品一覧データ取得");
+    	
+    	InventoryListMapper mapper = session.getMapper(InventoryListMapper.class);
+	    
+	    // 備品一覧データ取得
+	    return (List<T>) mapper.getTableRecords();
+    }
+
+	/**
+     * DB取得成功時の処理(非同期処理)
+     * @brief controller内で用いる取得成功時の処理<br>
+	 */
+    @SuppressWarnings("unchecked")
+	@Override
+    protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
+    	try {
+    		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品一覧データ連携(BIND)処理");
+    		
+    		List<InventoryListDataModel> rows = (List<InventoryListDataModel>) listData;
+        	
+        	tableListView.setList( rows );		
+    	
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： 備品一覧データの連携中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
+    }
+    
+    /**
+     * DB取得失敗(例外発生)時の処理(非同期処理)
+     * @brief controller内で用いる取得例外処理
+     */
+	@Override
+    protected void exceptionResult(Throwable exception)
+    {
+		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品一覧データ取得失敗"); 
+		super.exceptionResult(exception);
+    }    
+    
+    
     /**
      * TableView設定
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
@@ -96,7 +144,7 @@ public class FormController extends BaseFormPage {
      */
     @SuppressWarnings("unused")
 	private void tableViewSettings() {
-    	LogManager.writeDebug("[" + FORM_NAME + "] ： カラム・セル設定/定義");
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： カラム・セル設定/定義");
     	
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
@@ -134,6 +182,8 @@ public class FormController extends BaseFormPage {
      *            setCellValueFactory( data -> data.getValue().staffNameProperty());
      */
     private void callbackBindTableColumnSource() {
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： カラムBIND設定");
+
     	col_itemName.setCellValueFactory( new PropertyValueFactory<>("itemName"));
     	col_loanCnt.setCellValueFactory( new PropertyValueFactory<>("loanCount"));
     	col_retCnt.setCellValueFactory( new PropertyValueFactory<>("returnCount"));
@@ -144,160 +194,27 @@ public class FormController extends BaseFormPage {
     /**
      * TableView 明細行選択イベント
      * @param row 選択明細行
+     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
      */
     private void callbackTableSelectedRow(InventoryListDataModel row) {
-    	String content = "選択行 分類種別: " + row.getType() +
-    			         " 分類コード: " + row.getCode() + 
-    			         " 遷移先画面サイズ : [" + row.getWindowSize() + "]";
-    	LogManager.writeDebug("[" + FORM_NAME + "] ： " + content);
-    	 
-    	super.setPage(
-    			new application.
-    			java.window.
-    			inventoryLoans.
-    			inventoryDetails.
-    			FormController(row.getType(), row.getCode(), row.getWindowSize()));
-    }
-    
-    /**
-     * 備品一覧 リスト表示処理
-     */
-    private void ShowInventoryList()
-    {
-    	System.out.println("備品一覧 リスト表示処理");
+    	try {
+        	String content = "選択行 分類種別: " + row.getType() +
+			                 " 分類コード: " + row.getCode() + 
+			                 " 遷移先画面サイズ : [" + row.getWindowSize() + "]";
+	
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： " + content);
+	 
+        	super.setPage(
+        			new application.
+        			java.window.
+        			inventoryLoans.
+        			inventoryDetails.
+        			FormController(row.getType(), row.getCode(), row.getWindowSize())); 		
     	
-    	MySqlManager.<InventoryListDataModel>FillOnParallel(
-    			(SqlSession session) -> {
-					try {
-						return this.getInventoryListData(session);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-				},
-    			listData -> { 
-    				tableListView.setList( listData );},
-    			exception -> {
-    				System.err.println("備品一覧データ取得失敗");
-    				System.err.println(exception.getMessage());
-    	            // JavaFXのアラートを表示
-    	            Alert alert = new Alert(Alert.AlertType.ERROR);
-    	            alert.setTitle("データベースエラー");
-    	            alert.setHeaderText("データの取得に失敗しました");
-    	            alert.setContentText(exception.getCause() != null ? 
-    	                                 exception.getCause().getMessage() : exception.getMessage());
-    	            alert.showAndWait();
-    			}
-    			); 
-    }
-
-    /**
-     * DBクエリ発行処理
-     * @param session
-     * @throws Exception 
-     */
-    private List<InventoryListDataModel> getInventoryListData(SqlSession session) throws Exception
-    {
-    	try {
-    		
-    		InventoryListMapper mapper = session.getMapper(InventoryListMapper.class);
-    	    
-    	    // 備品一覧データ取得
-    	    return mapper.getTableRecords();
-
-    	} catch(Exception e){
-    		throw new Exception(e); 
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： 画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
     	}
-      }     
- 
-    /**
-     * (テスト用)TableViewデータ取得・表示処理
-     */
-    private void ShowTest()
-    {
-    	MySqlManager.ExecuteQueryOnParallel(
-    			(SqlSession session) -> {
-					try {
-						return this.Test(session);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-				},
-    			isSccess -> { tableListView.setItems( makeTastDatas() );},
-    			exception -> 
-    			{
-    				System.err.println("備品一覧データ取得失敗");
-    				System.err.println(exception.getMessage());
-    	            // JavaFXのアラートを表示
-    	            Alert alert = new Alert(Alert.AlertType.ERROR);
-    	            alert.setTitle("データベースエラー");
-    	            alert.setHeaderText("データの取得に失敗しました");
-    	            alert.setContentText(exception.getCause() != null ? 
-    	                                 exception.getCause().getMessage() : exception.getMessage());
-    	            alert.showAndWait();   				
-    			}
-    			); 
-    }    
-    
-    /**
-     * (テスト用)TableViewデータ取得処理
-     * @param session
-     * @throws Exception 
-     */
-    private Boolean Test(SqlSession session) throws Exception
-    {
-    	try {
-        	StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
-    	    
-    	    // 全件取得の実行
-    	    List<StockTypeMasterModel> userList = mapper.selectAll();
-    	    // userList.removeIf(Objects::isNull);
-    	    
-    	    int count = userList.size();
-    	    
-    	    List<StockTypeMasterModel> B = userList;
-    	    
-    	    return true; 		
-
-    	} catch(Exception e){
-    		throw new Exception(e); 
-    	}
-      }    
-    
-    /**
-     * テストデータ生成
-     * @return ObservableList<InventoryListDataModel> 備品一覧データ(1行分のデータ)のリスト
-     */
-    private ObservableList<InventoryListDataModel> makeTastDatas(){
-    	return FXCollections.observableArrayList(
-    			new InventoryListDataModel( "1行１列" , 100 , 100 , 100 ,0),
-                new InventoryListDataModel( "2行１列" , 0 , 0 , 0 , 0),
-                new InventoryListDataModel( "3行１列" , 9999 , 9999 , 9999 , 9999 ),
-                new InventoryListDataModel( "4行１列" , 1234 , 1234, 1234 ),
-
-    			new InventoryListDataModel( "5行１列" , 100 , 100 , 100 ,0),
-                new InventoryListDataModel( "6行１列" , 0 , 0 , 0 , 0),
-                new InventoryListDataModel( "7行１列" , 9999 , 9999 , 9999 , 9999 ),
-                new InventoryListDataModel( "8行１列" , 1234 , 1234, 1234 ),
-                
-    			new InventoryListDataModel( "9行１列" , 100 , 100 , 100 ,0),
-                new InventoryListDataModel( "10行１列" , 0 , 0 , 0 , 0),
-                new InventoryListDataModel( "11行１列" , 9999 , 9999 , 9999 , 9999 ),
-                new InventoryListDataModel( "12行１列" , 1234 , 1234, 1234 ),
-
-    			new InventoryListDataModel( "13行１列" , 100 , 100 , 100 ,0),
-                new InventoryListDataModel( "14行１列" , 0 , 0 , 0 , 0),
-                new InventoryListDataModel( "15行１列" , 9999 , 9999 , 9999 , 9999 ),
-                new InventoryListDataModel( "16行１列" , 1234 , 1234, 1234 ),
-
-    			new InventoryListDataModel( "17行１列" , 100 , 100 , 100 ,0),
-                new InventoryListDataModel( "18行１列" , 0 , 0 , 0 , 0),
-                new InventoryListDataModel( "19行１列" , 9999 , 9999 , 9999 , 9999 ),
-                new InventoryListDataModel( "20行１列" , 1234 , 1234, 1234 ),
-                
-    			new InventoryListDataModel( "21行１列" , 100 , 100 , 100 ,0),
-                new InventoryListDataModel( "22行１列" , 0 , 0 , 0 , 0),
-                new InventoryListDataModel( "23行１列" , 9999 , 9999 , 9999 , 9999 ),
-                new InventoryListDataModel( "24行１列" , 1234 , 1234, 1234 )
-    			);                
     }
 }

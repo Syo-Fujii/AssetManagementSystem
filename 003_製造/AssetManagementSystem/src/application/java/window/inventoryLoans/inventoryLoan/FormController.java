@@ -16,6 +16,7 @@ import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
+import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableColumnManager.keyValuePairItem;
@@ -77,6 +78,8 @@ public class FormController extends BaseFormPage {
 	 */
 	public FormController() 
 	{
+		LogManager.writeInfo("[" + FORM_NAME + "] ： 初期化処理"); 
+		
 		this.setWindowTitle("備品管理システム");
 
 		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryLoan"));
@@ -105,8 +108,7 @@ public class FormController extends BaseFormPage {
      */
     @FXML
 	public void initialize() {
- 
-    	System.out.println("inventoryLoan controller initialize");
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize"); 
     	
     	// 最初の画面起動として、[SQL Session]を生成・保持する。
 		MySqlManager.getSqlSessionFactory();
@@ -121,21 +123,23 @@ public class FormController extends BaseFormPage {
 		// 画面起動設定
 		this.formInitialize();
  
-		System.out.println(FORM_NAME + " 使用者一覧(ComboBox 選択リスト)取得処理");
+		LogManager.writeTrace("[" + FORM_NAME + "] ： 使用者一覧(ComboBox 選択リスト)取得処理");
 		this.fetchStaffMembers(comboBoxSource);
 
-    	System.out.println(FORM_NAME + " リスト表示処理");
+		LogManager.writeTrace("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<InventoryLoanDataModel>fillTableAsync();
 
     }
 
     /**
-     * [貸出]ボタン 押下イベント 
+     * [貸出]ボタン 押下イベント
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
      */
     @FXML
     public void onLoanButtonClicked() {
     	try {
-        	
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [貸出]ボタン押下");
+    		
     		// [貸出]が選択されている一覧を生成
         	List<InventoryLoanDataModel> availableRows = 
         			tableListView.
@@ -146,16 +150,16 @@ public class FormController extends BaseFormPage {
         	
         	if (availableRows.isEmpty()) { return; }
 
-        	AppConst.rowCheckResultData checkResult = isLoanableRowsCheck();
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： 貸出チェック処理");
         	
-        	System.out.println(FORM_NAME + " 貸出チェック処理");
+        	AppConst.rowCheckResultData checkResult = isLoanableRowsCheck();
         	if (!checkResult.result()) {
         		if( checkResult.isShowMsgBox()) {
         			this.showMessageInputError(checkResult.message());
         		}
-        		
-        		System.out.println("選択行: [" + checkResult.rowNum() + "] " +
-        		                   "カラム番号 [" + checkResult.colNo() + "]");
+        		String content = "[" + FORM_NAME + "] ： 選択行: [" + checkResult.rowNum() + "] " +
+        				                                "カラム番号 [" + checkResult.colNo() + "]";
+        		LogManager.writeDebug(content);
         		tableListView.setCellFocus(checkResult.rowNum() -1, checkResult.colNo());
         		return;
         	}
@@ -168,10 +172,11 @@ public class FormController extends BaseFormPage {
         	super.<InventoryLoanDataModel>fillTableAsync();
 
     	} catch (Exception ex) {
-    		System.err.println(ex);
-    		
     		// 貸出ボタン無効化
     		submit_button.setDisable(true);
+    		
+    		String title = "[" + FORM_NAME + "] ： [貸出]ボタン押下でエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
     	}
     }
     
@@ -197,6 +202,8 @@ public class FormController extends BaseFormPage {
 	@Override
     @SuppressWarnings("unchecked")
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品(貸出)データ取得処理");
+		
 		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
 	    
 	    // 備品詳細データ取得
@@ -222,6 +229,8 @@ public class FormController extends BaseFormPage {
      */
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品(貸出)データ更新処理");
+		
 		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
 
 	    for (T row : listData) {
@@ -265,8 +274,9 @@ public class FormController extends BaseFormPage {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
-		
-    	List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
+		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品(貸出)データ連携(BIND)処理");
+
+		List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
     	
     	tableListView.setSortedList( rows );
 
@@ -294,7 +304,7 @@ public class FormController extends BaseFormPage {
      */
 	protected void exceptionResult(Throwable exception)
     {
-		System.err.println("備品詳細データ取得失敗");
+		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品(貸出)データ取得失敗");
 		super.exceptionResult(exception);
     }
 
@@ -333,6 +343,7 @@ public class FormController extends BaseFormPage {
      */
     private List<StaffMasterModel> getStaffMasterData(SqlSession session) throws Exception
     {
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ取得処理");
     	try {
     		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
     	    
@@ -484,6 +495,8 @@ public class FormController extends BaseFormPage {
     		Boolean isAllowFutureDate,
     		Boolean isOneYearAfterCheck) {
 		   	
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： 日付チェック : [" + title + "]");
+    	
     	String message = sb.toString();
     	StringBuilder checkSb = new StringBuilder();
     	
@@ -555,6 +568,9 @@ public class FormController extends BaseFormPage {
      * @param rowMessage String 表示する内容
      */
     private void showMessageDuplicateStockData(String rowMessage) {
+    	LogManager.writeWarnig("データ異常：データ不整合 システム管理者に連絡してください。");
+    	LogManager.writeWarnig(rowMessage);
+    	
     	MessageBox.ShowWarnig(
     			"警告",
     			"データ異常：データ不整合 システム管理者に連絡してください。",
@@ -566,10 +582,7 @@ public class FormController extends BaseFormPage {
      * 例外Message：入力エラー
      */
     private void showMessageInputError(String message) {
-    	MessageBox.ShowErrorMessage(
-    			"入力エラー",
-    			"",
-    			message);
+    	MessageBox.ShowErrorMessage("入力エラー", "", message);
     }
    
     /**
@@ -578,12 +591,11 @@ public class FormController extends BaseFormPage {
      * @param message String 表示する内容
      */
     private void showMessageException(String title, String message) {
-    	MessageBox.ShowErrorMessage(
-    			"例外発生",
-    			title,
-    			message);
+    	LogManager.writeError(title);
+    	LogManager.writeError(message);
+
+    	MessageBox.ShowErrorMessage("例外発生", title, message);
     }    
-    
     
     /**
      * TableView設定
@@ -593,7 +605,7 @@ public class FormController extends BaseFormPage {
      */
 	private void tableViewSettings(ObservableList<keyValuePairItem<Integer, String>> kvpItems)
     {
-    	System.out.println("備品貸出 カラム・セル設定/定義");
+		LogManager.writeTrace("[" + FORM_NAME + "] ： カラム・セル設定/定義");
     	
     	// カラムBIND設定
     	tableListView.setBindColumnCallBack(this::callbackBindTableColumnSource);
@@ -651,7 +663,8 @@ public class FormController extends BaseFormPage {
      *            setCellValueFactory( data -> data.getValue().staffNameProperty());
      */
     private void callbackBindTableColumnSource() {
-
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： カラムBIND設定");
+    	
     	// CheckBoxのカラム設定(TableView)    	
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
     	col_staff_name.setCellValueFactory( data -> data.getValue().staffNameProperty());
@@ -667,7 +680,7 @@ public class FormController extends BaseFormPage {
      */
     private void formInitialize()
     {
-    	System.out.println("備品貸出 画面初期化処理");
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize"); 
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");

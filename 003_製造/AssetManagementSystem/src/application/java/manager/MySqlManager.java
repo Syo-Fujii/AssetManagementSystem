@@ -31,13 +31,12 @@ import application.java.common.AppConst.ExcuteQueryResultStatus;
 import javafx.concurrent.Task;   
 
 /**
- *  
- * 
- * final を使わずにシングルトン（唯一のインスタンス）を構成する場合、「遅延初期化（Lazy Initialization）」 
- * 並列処理はJavaFx.Task処理にて行う。 
- * MyBatisと」JavaFxが共存している場合、Configファイルで格納先PATHをしていしても認識しない。
- * そのため、インターフェースクラスを指定することで対応する。
- * 上記のため、Mapper.xmlとインターフェースは同階層・同名でそんざいさせること
+ * SQL(MySQL)操作クラス 
+ * @brief final を使わずにシングルトン（唯一のインスタンス）を構成する場合、「遅延初期化（Lazy Initialization）」<br> 
+ * 並列処理はJavaFx.Task処理にて行う。<br>
+ * MyBatisと」JavaFxが共存している場合、Configファイルで格納先PATHをしていしても認識しない。<br>
+ * そのため、インターフェースクラスを指定することで対応する。<br>
+ * 上記のため、Mapper.xmlとインターフェースは同階層・同名でそんざいさせること<br>
  */
 public class MySqlManager {
 	// 並列実行用の Thread(ExecutorService)
@@ -58,32 +57,32 @@ public class MySqlManager {
     private static HikariConfig hConfig = null;
     
     /**
-     * 
-     * @return
+     * コネクションプール使用判定
+     * @return boolean 判定結果
      */
     public boolean isConnectionPooling() {
 		return isConnectionPooling;
 	}
 
 	/**
-     * 
-     * @param isConnectionPooling
+     * コネクションプール使用設定
+     * @param isConnectionPooling boolean 設定値
      */
 	public void setConnectionPooling(boolean isConnectionPooling) {
 		this.isConnectionPooling = isConnectionPooling;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * 並列実行処理判定
+	 * @return boolean 判定結果
 	 */
 	public boolean isParallel() {
 		return MySqlManager.isParallel;
 	}
 
 	/**
-	 * 
-	 * @param isParallel
+	 * 並列実行処理設定
+	 * @param isParallel boolean 設定値
 	 */
 	public void setParallel(boolean isParallel) {
 		MySqlManager.isParallel = isParallel;
@@ -143,7 +142,7 @@ public class MySqlManager {
 	 *  ThreadPoolは、どのような呼び出しをされたとしても単一にて制御する
 	 */
 	static {
-		System.out.println("MySQL : 非同期処理 スレッドプール作成");
+		LogManager.writeInfo("[SQL操作クラス] ： 非同期処理 スレッドプール作成");
 		try {
 			executor = Executors.newFixedThreadPool(
 	    		    Runtime.getRuntime().availableProcessors(), // CPUコア数分だけ同時に実行可能
@@ -156,8 +155,7 @@ public class MySqlManager {
 			runningTasks = Collections.synchronizedSet(new HashSet<>());
 			
 		} catch(Exception e) {
-	        // ログ出力などを行い、致命的なエラーとしてスロー
-	        System.err.println("MySQL 非同期処理:スレッドプールの初期化に失敗");
+			LogManager.writeError("[SQL操作クラス] ： 非同期処理 スレッドプールの初期化に失敗", e);
 	        
 	        throw new ExceptionInInitializerError(e);
 		}
@@ -191,7 +189,7 @@ public class MySqlManager {
 	 * DBの切り替えを考慮し、SqlSessionFactoryを[final]ではなく、synchronizedで生成する。
 	 */
 	public static synchronized void ResetSqlSessionFactory(String configPath) {
- 		System.out.println("MySQL : SQL Session再設定");
+		LogManager.writeInfo("[SQL操作クラス] ： SQL Session再設定");
  
  		if (sqlSessionFactory == null) {
     		// returnせずに、新しいパスの設定と初期化に進む
@@ -226,7 +224,7 @@ public class MySqlManager {
 			return false;
 		}		
 		
-		System.out.println("MySQL : クエリ発行処理");
+		LogManager.writeDebug("[SQL操作クラス] ： クエリ発行処理");
 		try (SqlSession session = sqlSessionFactory.openSession()) {
         	return callback.apply(session);
 	    }		
@@ -249,7 +247,7 @@ public class MySqlManager {
 			return;
 		}			
 		
-		System.out.println("MySQL : クエリ発行処理(非同期処理)");
+		LogManager.writeDebug("[SQL操作クラス] ： 非同期処理 クエリ発行処理");
 		Task<Boolean> task = new Task<Boolean>() {
 		    @Override
 		    protected Boolean call() throws Exception {
@@ -265,13 +263,13 @@ public class MySqlManager {
 		// --- UIスレッドで実行されるイベント ---
 		task.setOnSucceeded(e -> {
 		    // 成功時：
-			System.out.println("MySQL : 非同期処終了[成功]");
+			LogManager.writeTrace("[SQL操作クラス] ： 非同期処理 処理終了[成功]");
 			successCallBack.accept(task.getValue());
 		});
 
 		task.setOnFailed(e -> {
 		    // 失敗時(Exceptionが発生した場合)：
-			System.out.println("MySQL : 非同期処終了[失敗]");
+			LogManager.writeTrace("[SQL操作クラス] ： 非同期処理 処理終了[失敗]");
 			exceptionCallback.accept(task.getException());
 		});
 
@@ -303,7 +301,7 @@ public class MySqlManager {
 			return false;
 		}		
 		
-		System.out.println("MySQL : トランザクション使用 クエリ発行・操作処理");
+		LogManager.writeDebug("[SQL操作クラス] ： トランザクション使用 クエリ発行・操作処理");
 		// 自動コミットをOFF(openSession(false)) トランザクション処理
 		try (SqlSession session = sqlSessionFactory.openSession(false)) {
         	try {
@@ -333,7 +331,7 @@ public class MySqlManager {
 	}
 	
 	/**
-	 * クエリ発行処理(トランザクションの開始) 
+	 * クエリ発行処理(トランザクションの開始：同期処理) 
 	 * @param <T> 取得テーブルのMODEL
 	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義) 戻り値：Boolean
 	 * @param resultCallBack クエリ取得結果に関するメソッド(呼び出し元にて定義)
@@ -343,7 +341,8 @@ public class MySqlManager {
 	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。<br>
 	 *  トランザクション管理を行い、メソッド(callback)が成功時Commit、失敗時にRollbackを行う。<br>
-	 *  Callbackメソッド内で連続してクエリ発行処理を行う場合などのBulk処理を行う。 
+	 *  Callbackメソッド内で連続してクエリ発行処理を行う場合などのBulk処理を行う。<br>
+	 *  Exception は呼出し元へThrowする。
 	 */
 	public static <T extends BaseTableViewModel> Boolean ExecuteBulk_UseTransaction(
 			BiFunction<SqlSession, List<T>, Boolean> callback,
@@ -358,7 +357,7 @@ public class MySqlManager {
 			return false;
 		}		
 		
-		System.out.println("MySQL : トランザクション使用 Bulk処理");
+		LogManager.writeDebug("[SQL操作クラス] ： トランザクション使用 Bulk処理");
 		// 自動コミットをOFF(openSession(false)) トランザクション処理
 		try (SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
         	try {
@@ -430,9 +429,11 @@ public class MySqlManager {
 			return;
 		}			
 		
-		System.out.println("MySQL : クエリ発行処理(非同期・トランザクション処理)");
+		LogManager.writeDebug("[SQL操作クラス] ： 非同期処理 クエリ発行処理(トランザクション処理)");
+			
 		Task<Boolean> task = new Task<Boolean>() {
-		    @Override
+		    
+			@Override
 		    protected Boolean call() throws Exception {
 	            try {
 	                runningTasks.add(this);
@@ -449,13 +450,13 @@ public class MySqlManager {
 		// --- UIスレッドで実行されるイベント ---
 		task.setOnSucceeded(e -> {
 		    // 成功時：
-			System.out.println("MySQL : 非同期・トランザクション処終了[成功]");
+			LogManager.writeTrace("[SQL操作クラス] ： 非同期処理 トランザクション処理終了[成功]");
 			successCallBack.accept(task.getValue());
 		});
 
 		task.setOnFailed(e -> {
 		    // 失敗時(Exceptionが発生した場合)：
-			System.out.println("MySQL : 非同期・トランザクション処終了[失敗]");
+			LogManager.writeTrace("[SQL操作クラス] ： 非同期処理 トランザクション処理終了[失敗]");
 			exceptionCallback.accept(task.getException());
 		});
 
@@ -476,7 +477,7 @@ public class MySqlManager {
 			return null;
 		}		
 		
-		System.out.println("MySQL : SELECT句発行処理");
+		LogManager.writeDebug("[SQL操作クラス] ： SELECT句発行");
 		try (SqlSession session = sqlSessionFactory.openSession()) {
         	return callback.apply(session);
 	    }		
@@ -501,7 +502,7 @@ public class MySqlManager {
 			return;
 		}		
 		
-		System.out.println("MySQL : SELECT句発行処理(非同期処理)");
+		LogManager.writeDebug("[SQL操作クラス] ： 非同期処理 SELECT句発行");
 		Task<List<T>> task = new Task<List<T>>() {
 		    @Override
 		    protected List<T> call() throws Exception {
@@ -517,13 +518,13 @@ public class MySqlManager {
 		// --- UIスレッドで実行されるイベント ---
 		task.setOnSucceeded(event -> {
 			// 成功時：
-			System.out.println("MySQL : 非同期処終了[成功]");
+			LogManager.writeTrace("[SQL操作クラス] ： 非同期処理 [成功]");
 			successCallBack.accept((List<T>)task.getValue());
 		});
 
 		task.setOnFailed(event -> {
 		    // 失敗時(Exceptionが発生した場合)：
-			System.out.println("MySQL : 非同期処終了[失敗]");
+			LogManager.writeTrace("[SQL操作クラス] ： 非同期処理 [失敗]");
 			exceptionCallback.accept(task.getException());
 		});
 
@@ -572,7 +573,7 @@ public class MySqlManager {
 	 */
 	private static void shutdownExecutor() {
 		if (!executor.isShutdown()) {
-			System.out.println("MySQL : 非同期処理 スレッドプール解放");
+			LogManager.writeDebug("[SQL操作クラス] ： 非同期処理 スレッドプール解放");
 
 			executor.shutdown(); // 新しいタスクを受け付けない
 	        try {
@@ -612,16 +613,18 @@ public class MySqlManager {
         
         // 3. HikariDataSourceにキャストしてClose
         if (dataSource instanceof HikariDataSource hikari) {
-        	System.out.println("MySQL : HikariCP DataSource Closeing");
           	hikari.close();
-        }   
+          	
+            LogManager.writeDebug("[SQL操作クラス] ： コネクションプール(HikariCP) Closeing");
+        }
     }
     
     /**
      * MySQL コネクションの確立(Sessionの生成)
      */
     private void SqlSessionSettings() {
-    	System.out.println("MySQL : SQL Session生成");
+    	LogManager.writeInfo("[SQL操作クラス] ： SQL Session生成");
+
     	try {
         	if (MySqlManager.hConfig != null) {
         		// MyBatis 設定ファイル(mybatis-config.xml)+ 
@@ -634,9 +637,7 @@ public class MySqlManager {
         	this.BuildSqlSession();	
 
         } catch (Exception e) {
-        	System.err.println("MySQL : SQL Session生成失敗");
-        	System.out.println(e.getMessage());
-        	throw new RuntimeException("SQL Session生成失敗", e);
+        	throw new RuntimeException("[SQL操作クラス] ： SQL Session生成失敗", e);
         }
     }
     
@@ -657,6 +658,8 @@ public class MySqlManager {
 			return;
 		}
 		
+		LogManager.writeDebug("[SQL操作クラス] ： mybatis有効化");
+		
 		// ↓ 自分のクラスのクラスローダーを使って確実に取得する
         try (InputStream inputStream = this.
         		getClass().
@@ -674,7 +677,7 @@ public class MySqlManager {
 	}
 
 	/**
-	 * [hConfig]クラス/MyBatisを用いた、SqlSessionの生成
+	 * [hConfig]クラス/MyBatisを用いた、SqlSessionの生成(コネクションプールの使用)
 	 * @brief HikariCP + mybatis-config記述。<br>
 	 * HikariConfigを設定した場合、外部で定義した[hConfig]クラスを用いて、HikariCPの定義を行う。<br>
 	 * mybatisconfig.xml の修正 <br>
@@ -690,8 +693,10 @@ public class MySqlManager {
 			return;
 		}
 	
+		LogManager.writeDebug("[SQL操作クラス] ： コネクションプール(HikariCP + mybatis)有効化");
+		
 		// 1. HikariCPの設定(外部にて定義)
-        
+		
 		// 2. MyBatisのEnvironment構築
 		Environment environment = new Environment(
            "development", 

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import application.java.common.AppConst.ExcuteQueryResultStatus;
-import application.java.common.MessageBox;
+import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
 
@@ -198,7 +198,8 @@ public abstract class BaseFormPage {
     				try {
     					return CudQueryUseTran(session, data);
     				} catch (Exception e) {
-     					throw new RuntimeException(e);
+    					// ExecuteQuery_UseTransactionへ通知
+    					throw new RuntimeException(e);
      			}}, 
     			(status) -> {
     				excuteQueryResult(status);
@@ -225,6 +226,7 @@ public abstract class BaseFormPage {
     				try {
     					return CudQueryUseTran(session, data);
     				} catch (Exception e) {
+    					// ExecuteBulk_UseTransactionへ通知
      					throw new RuntimeException(e);
      			}},
     			(status) -> {
@@ -278,12 +280,10 @@ public abstract class BaseFormPage {
      * 画面内にTableViewなどのDB取得を要するメソッド(処理)がある場合に用いる。<br>
      * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
      */
-	protected void exceptionResult(Throwable exception)
+	protected void exceptionResult(Throwable e)
     {
-		System.err.println(exception.getMessage());
-        
-		// JavaFXのアラートを表示
-        MessageBox.ShowErrorDbException(exception, "データの取得に失敗しました");
+		// 例外をMSG表示 + LOG出力
+        LogManager.showAndWriteError(LogManager.getExceptionTitle(e), e);
     }		
 
     /**

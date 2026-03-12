@@ -4,6 +4,7 @@ import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
 import application.java.window.inventoryLoans.inventoryList.FormController;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 /**
@@ -29,6 +30,9 @@ public final class Main extends JavaFxManager {
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 	    try {
+	    	
+	    	onExceptionUiThreadHandler();
+	    	
 	    	// JavaFxの各メソッドを呼び出すため、継承したMainを保持する
 	    	JavaFxManager.application = this;
 	        
@@ -41,8 +45,13 @@ public final class Main extends JavaFxManager {
 	    	this.setPage(new FormController());
 
 	    } catch (Exception e) {
-	        LogManager.showAndWriteError(e);
-	        // システム(JavaFx)にExceptionを通知する
+	    	
+	    	/* 例外MSGの二重起動防止の為、コメントアウト 
+	    	 * throwした場合、最終的に[Thread.setDefaultUncaughtExceptionHandler]が拾う
+	    	 * */
+	    	//LogManager.showAndWriteError(LogManager.getExceptionTitle(e), e);
+	        
+	    	// システム(JavaFx)にExceptionを通知する
 	        throw e;
 	    }
 	}
@@ -52,15 +61,44 @@ public final class Main extends JavaFxManager {
      */
     @Override
 	public void stop()  throws Exception {
-	    try {
-	    	MySqlManager.Close();
-	        super.stop();
-	        
-	        LogManager.writeInfo("終了処理 : 終了");
-	    } catch (Exception e) {
-	        LogManager.writeError("終了処理でエラーが発生しました", e);
-	        // システム(JavaFx)にExceptionを通知する
-	        throw e;
-	    }
+        try {
+            // DB切断
+            MySqlManager.Close();
+        } catch (Exception e) {
+            LogManager.writeError("終了処理（DB切断）でエラーが発生しました", e);
+         // システム(JavaFx)にExceptionを通知する
+            throw e; 
+ 
+        } finally {
+            // エラーの有無に関わらず、JavaFX基盤の終了処理は必ず呼ぶ
+            super.stop();
+            LogManager.writeInfo("終了処理 : 完了");
+        }
     }
+    
+	/**
+	 * JavaFXのUIスレッド例外処理
+	 * @brief 各イベントなどのJavaFxの UIスレッド（Event Dispatch Thread）]で<br>
+	 * 発生するExceptionを処理する。
+	 */
+	private void onExceptionUiThreadHandler() {
+
+    	Thread.setDefaultUncaughtExceptionHandler(
+    			(thread, throwable) -> {
+    			    Platform.runLater(() -> {
+    			    	LogManager.showAndWriteError(LogManager.getExceptionTitle(throwable), throwable);
+    			    	
+    			        try {
+    			            // DB切断
+    			            MySqlManager.Close();
+    			        } catch (Exception e) {
+    			            LogManager.writeError("終了処理（DB切断）でエラーが発生しました", e);
+    			        }
+    			    	
+    			    	// システムを終了する
+    			    	System.exit(1);
+    			    });
+    	});
+	}	    
+    
 }

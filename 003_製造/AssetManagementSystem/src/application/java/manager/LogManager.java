@@ -39,6 +39,13 @@ public class LogManager {
     /** 共通のロガーインスタンス */
     private static final Logger logger = LoggerFactory.getLogger(LogManager.class);    
     
+
+    /**
+     * トレースログを出力する
+     */
+    public static void writeTrace(String message) {
+        logger.trace(message);
+    }    
     
     /**
      * 情報ログを出力する
@@ -47,6 +54,20 @@ public class LogManager {
         logger.info(message);
     }
 
+    /**
+     * 警告ログを出力する
+     */
+    public static void writeWarnig(String message) {
+        logger.warn(message);
+    }   
+    
+    /**
+     * エラーログを出力する
+     */
+    public static void writeError(String message) {
+        logger.error(message);
+    }
+    
     /**
      * エラーログを出力する（例外情報付き）
      */
@@ -57,10 +78,11 @@ public class LogManager {
     /**
      * エラーログを出力し、例外MSGを表示する（例外情報付き）
      */
-    public static void showAndWriteError(Throwable t) {
-        logger.error(t.getMessage(), t);
+    public static void showAndWriteError(String title, Throwable t) {
+    	logger.error(title);
+    	logger.error(t.getMessage(), t);
         MessageBox.ShowErrorMessage(
-        		"例外エラー",
+        		title,
         		"システムでエラーが発生しました。詳細はLOGを確認してください。",
         		t);
     }    
@@ -78,4 +100,31 @@ public class LogManager {
     public static Logger getLogger(Class<?> clazz) {
         return LoggerFactory.getLogger(clazz);
     }
+    
+    /**
+     * Exceptionよりタイトル(例外発生クラス・メソッド・行番号)を生成する
+     * @param t Throwable Exception(Throwable)
+     * @return String 生成したタイトル
+     */
+    public static String getExceptionTitle(Throwable t) {
+        
+    	if (t == null || t.getStackTrace() == null || t.getStackTrace().length == 0) {
+            return "例外発生: [不明な場所]";
+        }
+    	
+    	StackTraceElement element = t.getStackTrace()[0];
+
+    	String className  = element.getClassName();  // クラス名（パッケージ含む）
+        int lastDot = className.lastIndexOf('.');
+        String simpleClassName = (lastDot != -1) ? className.substring(lastDot + 1) : className;
+    	
+        String methodName = element.getMethodName(); // メソッド名
+    	int lineNumber    = element.getLineNumber(); // 行番号
+
+    	return String.format("例外発生: [%s].[%s](行番号: %d)", 
+    			simpleClassName, 
+    			methodName, 
+    			lineNumber);
+    }
+ 
 }
