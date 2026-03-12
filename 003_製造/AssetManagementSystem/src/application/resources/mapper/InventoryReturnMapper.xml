@@ -130,8 +130,8 @@
        AND STM.stock_code = #{code} 
     </select>
 
-    <!-- 備品データの更新(貸出処理) -->
-    <update id="updStockDataLoanOut">
+    <!-- 備品データの更新(返却処理) -->
+    <update id="updStockDataReturn">
       UPDATE
          stock_data SD
       SET 

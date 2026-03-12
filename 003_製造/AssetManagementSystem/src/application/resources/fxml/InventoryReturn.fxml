@@ -33,7 +33,7 @@
         </columns>
       </TableViewManager>
       <Button id="inventoryCounting" fx:id="inventoryCounting_button" layoutX="25.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCountingButtonClicked" prefHeight="37.0" prefWidth="130.0" text="TEST選択行確認" AnchorPane.leftAnchor="25.0" />
-      <Button id="loan" fx:id="submit_button" layoutX="545.0" layoutY="580.0" mnemonicParsing="false" onAction="#onLoanButtonClicked" prefHeight="37.0" prefWidth="130.0" text="返却" AnchorPane.rightAnchor="180.0" />
+      <Button id="loan" fx:id="submit_button" layoutX="545.0" layoutY="580.0" mnemonicParsing="false" onAction="#onReturnButtonClicked" prefHeight="37.0" prefWidth="130.0" text="返却" AnchorPane.rightAnchor="180.0" />
       <Button id="back" fx:id="back_button" layoutX="695.0" layoutY="580.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="37.0" prefWidth="130.0" text="戻る" AnchorPane.rightAnchor="25.0" />
    </children>
 </AnchorPane>

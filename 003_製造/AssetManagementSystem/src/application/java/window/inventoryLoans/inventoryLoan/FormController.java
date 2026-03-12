@@ -123,10 +123,10 @@ public class FormController extends BaseFormPage {
 		// 画面起動設定
 		this.formInitialize();
  
-		LogManager.writeTrace("[" + FORM_NAME + "] ： 使用者一覧(ComboBox 選択リスト)取得処理");
+		LogManager.writeDebug("[" + FORM_NAME + "] ： 使用者一覧(ComboBox 選択リスト)取得処理");
 		this.fetchStaffMembers(comboBoxSource);
 
-		LogManager.writeTrace("[" + FORM_NAME + "] ： リスト表示処理");
+		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<InventoryLoanDataModel>fillTableAsync();
 
     }
@@ -165,10 +165,10 @@ public class FormController extends BaseFormPage {
         	}
         	
         	// 貸出処理(備品データ更新処理):データ操作のため垂直処理にて行う
-        	System.out.println(FORM_NAME + " 貸出(更新)処理");
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： 貸出(更新)処理");
         	super.executeBulkQuery(availableRows);  		
     		
-        	System.out.println(FORM_NAME + " リスト再表示処理");
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
         	super.<InventoryLoanDataModel>fillTableAsync();
 
     	} catch (Exception ex) {
@@ -185,9 +185,16 @@ public class FormController extends BaseFormPage {
      */
     @FXML
     public void onBackButtonClicked() {
-
-    	// 遷移元画面に切替
-    	this.showOwnerPage();
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [戻る]ボタン押下"); 
+    		
+    		// 遷移元画面に切替
+    		this.showOwnerPage();
+    	
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： 詳細画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
     }
  
     
@@ -237,6 +244,7 @@ public class FormController extends BaseFormPage {
 	    	mapper.updStockDataLoanOut( (InventoryLoanDataModel) row );
 	    }
 	
+	    // Bulk処理にて一括更新を行うため、クエリ生成段階のResultとして常に[true]を返す。
 		return true;
     }	
 
@@ -413,6 +421,8 @@ public class FormController extends BaseFormPage {
     		int rowNum = row.rowNum();
     		InventoryLoanDataModel model = row.model();
 
+    		if (!model.getIsCheckOut()) { continue; } 
+    		
     		StringBuilder sb = 
     				new StringBuilder("備品[シリアルNo: ").append(model.getSerialNo()).append(" ]");
 	

@@ -1,10 +1,14 @@
 package application.java.base.tableViewListModel;
 
+import java.time.LocalDate;
+
 import application.java.base.BaseTableViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -24,7 +28,9 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
     private StringProperty remarks;
     private BooleanProperty isCheckIn;
     private IntegerProperty stockDataId;
-	
+    
+    private ObjectProperty<LocalDate> returnDate;
+    private ObjectProperty<LocalDate> confirmedDate;
 	
 	/**
 	* [分類名称]取得
@@ -209,6 +215,47 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
 	}
 	
 	/**
+	* [返却日]項目取得
+	* @param returnDate 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/		
+	public LocalDate getReturnDate() {
+		return returnDate.get();
+	}
+
+	/**
+	* [返却日]項目設定
+	* @param returnDate 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/
+	public void setReturnDate(LocalDate date) {
+		this.returnDate.set(date);
+	}	
+
+	/**
+	* [最終所在確認日]項目取得
+	* @param confirmedDate 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/		
+	public LocalDate getConfirmedDate() {
+		return confirmedDate.get();
+	}
+
+	/**
+	* [最終所在確認日]項目設定
+	* @param confirmedDate 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/
+	public void setConfirmedDate(LocalDate date) {
+		this.confirmedDate.set(date);
+	}	
+	
+	
+	/**
     * コンストラクタ
     * @brief　引数なしコンストラクタがMyBatisの一覧(List)生成で用いられる。<br>
     * JavaFXの Property クラス（SimpleStringPropertyなど）は参照型で<br>
@@ -225,5 +272,8 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
 	    this.remarks = new SimpleStringProperty("");
 	    this.isCheckIn = new SimpleBooleanProperty(false);
 	    this.stockDataId = new SimpleIntegerProperty();
+	    
+	    this.returnDate  = new SimpleObjectProperty<>();
+	    this.confirmedDate  = new SimpleObjectProperty<>();
 	}
 }

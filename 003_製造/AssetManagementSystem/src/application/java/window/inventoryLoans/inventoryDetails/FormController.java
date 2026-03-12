@@ -151,6 +151,7 @@ public class FormController extends BaseFormPage {
         	if (showMessageUpdConfimedDate(serialNo)) {
         	    
         		LogManager.writeDebug("[" + FORM_NAME + "] ： 最終所在確認日更新処理");
+        		this.setUpdModelData(row);
         		super.<InventoryDetailsDataModel>executeCudQuery(new ArrayList<>(List.of(row)));
 
         		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
@@ -223,7 +224,7 @@ public class FormController extends BaseFormPage {
     		LogManager.writeInfo("[" + FORM_NAME + "] ： [一覧に戻る]ボタン押下"); 
     		
     		// 遷移元画面に切替
-        	super.setPage(new application.java.window.inventoryLoans.inventoryList.FormController());
+    		this.showOwnerPage();
     	
     	} catch ( Exception e) {
     		String title = "[" + FORM_NAME + "] ： 一覧画面遷移中にエラーが発生しました";
@@ -311,12 +312,11 @@ public class FormController extends BaseFormPage {
      */
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
-		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品データ更新(limitDate更新)");
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品データ更新(confirmedDate更新)");
 		
 		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
 		
-		// 本日を設定(文字列型)
-		row.setConfirmedDate(LocalDate.now().toString());
+
 
 		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
 	    
@@ -426,6 +426,8 @@ public class FormController extends BaseFormPage {
      *            setCellValueFactory( data -> data.getValue().staffNameProperty());
      */
     private void callbackBindTableColumnSource() {
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： カラムBIND設定");
+    	
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
     	col_staff_name.setCellValueFactory( new PropertyValueFactory<>("staffName"));
     	col_rent_flg.setCellValueFactory( new PropertyValueFactory<>("rentFlg"));
@@ -458,7 +460,7 @@ public class FormController extends BaseFormPage {
      * TableView 行選択イベント
      */
     private void callbackTableSelectedRow(InventoryDetailsDataModel row) {
-    	 System.out.println("選択行 シリアルNo: [ " + row.getSerialNo() + " ]");
+    	LogManager.writeTrace("選択行 シリアルNo: [ " + row.getSerialNo() + " ]");
     }
 
     /**
@@ -467,7 +469,7 @@ public class FormController extends BaseFormPage {
      */
     private void formInitialize()
     {
-    	System.out.println("備品詳細 画面初期化処理");
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： 画面初期化処理");
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
@@ -498,5 +500,28 @@ public class FormController extends BaseFormPage {
     		lbl_stock_name.setPrefWidth(1250);
     		return;
     	}
+    }
+    
+    /**
+     * 更新データ値設定(最終所在確認日)
+     * @param row InventoryDetailsDataModel 対象データの行クラス
+     */
+    private void setUpdModelData(InventoryDetailsDataModel row) {
+		// 本日を設定(文字列型)
+		row.setConfirmedDate(LocalDate.now().toString());
+    }
+
+    /**
+     * 遷移元画面呼び出し
+     * @brief 遷移元画面(備品一覧：inventoryList)を呼出す。<br>
+     */
+    private void showOwnerPage() {
+    	// 遷移元画面に切替
+    	super.setPage(new application.
+    			java.
+    			window.
+    			inventoryLoans.
+    			inventoryList.
+    			FormController());
     }
  }

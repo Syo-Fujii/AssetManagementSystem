@@ -15,10 +15,10 @@ import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
+import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
-import application.resources.mapper.InventoryLoanMapper;
 import application.resources.mapper.InventoryReturnMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -74,6 +74,8 @@ public class FormController extends BaseFormPage {
 	 */
 	public FormController() 
 	{
+		LogManager.writeInfo("[" + FORM_NAME + "] ： 初期化処理");
+		
 		this.setWindowTitle("備品管理システム");
 
 		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("InventoryReturn"));
@@ -103,7 +105,7 @@ public class FormController extends BaseFormPage {
     @FXML
 	public void initialize() {
  
-    	System.out.println("inventoryLoan controller initialize");
+    	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize"); 
     	
     	// 最初の画面起動として、[SQL Session]を生成・保持する。
 		MySqlManager.getSqlSessionFactory();
@@ -114,20 +116,21 @@ public class FormController extends BaseFormPage {
 		// 画面起動設定
 		this.formInitialize();
 
-    	System.out.println(FORM_NAME + " リスト表示処理");
+		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<InventoryLoanDataModel>fillTableAsync();
 
     }
 
     /**
-     * [貸出]ボタン 押下イベント 
+     * [返却]ボタン 押下イベント 
      */
     @FXML
-    public void onLoanButtonClicked() {
-    	/*try {
+    public void onReturnButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [返却]ボタン押下");
         	
-    		// [貸出]が選択されている一覧を生成
-        	List<InventoryLoanDataModel> availableRows = 
+    		// [返却]が選択されている一覧を生成
+        	List<InventoryReturnDataModel> availableRows = 
         			tableListView.
         			getItems().
         			stream().
@@ -136,33 +139,20 @@ public class FormController extends BaseFormPage {
         	
         	if (availableRows.isEmpty()) { return; }
 
-        	AppConst.rowCheckResultData checkResult = isLoanableRowsCheck();
-        	
-        	System.out.println("備品貸出 貸出チェック処理");
-        	if (!checkResult.result()) {
-        		if( checkResult.isShowMsgBox()) {
-        			this.showMessageInputError(checkResult.message());
-        		}
-        		
-        		System.out.println("選択行: [" + checkResult.rowNum() + "] " +
-        		                   "カラム番号 [" + checkResult.colNo() + "]");
-        		tableListView.setCellFocus(checkResult.rowNum() -1, checkResult.colNo());
-        		return;
-        	}
-        	
-        	// 貸出処理(備品データ更新処理):データ操作のため垂直処理にて行う
-        	System.out.println("備品貸出 貸出(更新)処理");
+        	// 処理(備品データ更新処理):データ操作のため垂直処理にて行う
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： 返却(更新・登録)処理");
         	super.executeBulkQuery(availableRows);  		
     		
-        	System.out.println("備品貸出 リスト再表示処理");
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
         	super.<InventoryLoanDataModel>fillTableAsync();
 
     	} catch (Exception ex) {
-    		System.err.println(ex);
-    		
-    		// 貸出ボタン無効化
+    		// 返却ボタン無効化
     		submit_button.setDisable(true);
-    	}*/
+    		
+    		String title = "[" + FORM_NAME + "] ： [返却]ボタン押下でエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
+    	}
     }    
     
     /**
@@ -170,9 +160,16 @@ public class FormController extends BaseFormPage {
      */
     @FXML
     public void onBackButtonClicked() {
-
-    	// 遷移元画面に切替
-    	this.showOwnerPage();
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [戻る]ボタン押下"); 
+    		
+    		// 遷移元画面に切替
+    		this.showOwnerPage();
+    	
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： 詳細画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
     }
  
     
@@ -187,14 +184,16 @@ public class FormController extends BaseFormPage {
 	@Override
     @SuppressWarnings("unchecked")
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品(返却≒貸出中)データ取得処理");
+		
 		InventoryReturnMapper mapper = session.getMapper(InventoryReturnMapper.class);
 	    
-	    // 備品詳細データ取得
+	    // 備品データ(貸出中)取得
 	    return (List<T>) mapper.getTableLoanableStockData(this.stockType, this.stockCode);
     }
 
     /**
-     * 備品データ更新クエリ発行(貸出処理)
+     * 備品データ更新クエリ発行(返却処理)
      * クエリ発行処理(Mapper:トランザクション処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session SQLセッション
@@ -212,12 +211,15 @@ public class FormController extends BaseFormPage {
      */
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
-		InventoryLoanMapper mapper = session.getMapper(InventoryLoanMapper.class);
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品(貸出中)データ更新・登録(返却)処理");
+		
+		InventoryReturnMapper mapper = session.getMapper(InventoryReturnMapper.class);
 
 	    for (T row : listData) {
-	    	mapper.updStockDataLoanOut( (InventoryLoanDataModel) row );
+	    	//mapper.updStockDataLoanOut( (InventoryReturnDataModel) row );
 	    }	
 		
+	 // Bulk処理にて一括更新を行うため、クエリ生成段階のResultとして常に[true]を返す。
 		return true;
     }	
 
@@ -243,7 +245,7 @@ public class FormController extends BaseFormPage {
 			
 			showMessageException(title, sb.toString());
 			
-    		// 貸出ボタン無効化
+    		// 返却ボタン無効化
     		submit_button.setDisable(true);
 		}
 	}	
@@ -255,6 +257,7 @@ public class FormController extends BaseFormPage {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
+		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品(返却)データ連携(BIND)処理");
 		
     	List<InventoryReturnDataModel> rows = (List<InventoryReturnDataModel>) listData;
     	
@@ -320,167 +323,6 @@ public class FormController extends BaseFormPage {
     	showMessageDuplicateStockData( details );
     }
     
-    /**
-     * 貸出データ 更新前チェック
-     * @return チェック結果
-     */
-    private AppConst.rowCheckResultData isLoanableRowsCheck() {
-    	
-    	/*this.dateNow = LocalDate.now();
-    	
-    	List<AppConst.addRowNumData<InventoryLoanDataModel>> rows = 
-    			tableListView.getRowsAddNumber();
-    	
-    	if( rows == null || rows.isEmpty()) { 
-   			return new AppConst.
-					rowCheckResultData(
-							false, 
-							false, 
-							AppConst.UNSET_NUMBER_VALUE,
-							AppConst.UNSET_NUMBER_VALUE,
-							"");
-    	}
-    	
-    	for (AppConst.addRowNumData<InventoryLoanDataModel> row : rows)
-    	{
-    		int rowNum = row.rowNum();
-    		InventoryLoanDataModel model = row.model();
-
-    		StringBuilder sb = 
-    				new StringBuilder("備品[シリアルNo: ").append(model.getSerialNo()).append(" ]");
-	
-    		// 社員マスターに登録されている社員以外を入力した場合
-    		if (model.getStaffNo().equals(AppConst.UNSET_NUMBER_VALUE)) {
-    			sb.append("の使用者が社員として登録されていません。");
-    			int colNum = tableListView.getColumns().indexOf(col_staff_name);
-    			return new AppConst.rowCheckResultData(false, true, rowNum, colNum, sb.toString());
-    		}
-    		
-    		// 日付チェック(貸出開始日)
-    		LocalDate stDate =  null;
-    		if( AppUtil.isDate(model.getStartDate()))
-        	{
-    			stDate = LocalDate.parse(model.getStartDate(),DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        	}
-    		if(!isValidateDateInput(stDate, "貸出開始日", sb, true, true, false, false)) {
-    			int colNum = tableListView.getColumns().indexOf(col_start_date);
-    			return new AppConst.
-    					rowCheckResultData(
-    							false, 
-    							!(AppUtil.StringIsNullOrEmpty(sb.toString())), 
-    							rowNum, 
-    							colNum, 
-    							sb.toString());
-    		}
-    		
-    		// 日付チェック(返却予定日)
-    		LocalDate ltDate =  null;
-    		if( AppUtil.isDate(model.getLimitDate()))
-        	{
-    			ltDate = LocalDate.parse(model.getLimitDate(),DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        	}
-    		if(!isValidateDateInput(ltDate, "返却予定日", sb, false, false, true, true)) {
-    			int colNum = tableListView.getColumns().indexOf(col_limit_date);
-    			return new AppConst.
-    					rowCheckResultData(
-    							false, 
-    							!(AppUtil.StringIsNullOrEmpty(sb.toString())), 
-    							rowNum, 
-    							colNum, 
-    							sb.toString());
-    		}   		
-    		
-    		// 日付整合性チェック
-    		if(stDate.isAfter(ltDate))
-    		{
-      			sb.append("の貸出開始日が返却予定日以降になっています。");
-    			int colNum = tableListView.getColumns().indexOf(col_start_date);
-    			return new AppConst.rowCheckResultData(false, true, rowNum, colNum, sb.toString());
-    		}
-    	}*/
-    	
-    	return new AppConst.rowCheckResultData(
-    			true, 
-    			false, 
-    			AppConst.UNSET_NUMBER_VALUE,
-    			AppConst.UNSET_NUMBER_VALUE,
-    			"") ;
-    }
-    
-    /**
-     * 日付チェック
-     * @param date LocalDate 対象日付
-     * @param title String 項目名称
-     * @param message String メッセージ
-     * @param isAllowPastDate Boolean 過去日を許可するか("真"の場合、許可)
-     * @param isBeforeConfCheck Boolean 過去日の場合、確認MSGを呼出すか
-     * @param isAllowFutureDate Boolean 未来日を許可するか("真"の場合、許可)
-     * @param isOneYearAfterCheck Boolean 未来日の場合、確認MSGを呼出すか
-     * @return 明細検査結果用データ(クラス:record)
-     * @brief 当該メソッドにて確認MessageBoxを表示し[いいえ](cancel)を選択した場合は、messageをnullにする。
-     */
-    private Boolean isValidateDateInput(
-    		LocalDate date, 
-    		String title, 
-    		StringBuilder sb,
-    		Boolean isAllowPastDate,
-    		Boolean isBeforeConfCheck,
-    		Boolean isAllowFutureDate,
-    		Boolean isOneYearAfterCheck) {
-		   	
-    	String message = sb.toString();
-    	StringBuilder checkSb = new StringBuilder();
-    	
-		// 必須チェック
-		if(date == null) {
-			checkSb.append("の").append(title).append("が未入力です。");
-			sb.append(checkSb.toString());
-			return false;
-		} 	
-		
-		// 過去日チェック
-		Boolean isBefore = date.isBefore(this.dateNow);
-		checkSb.append("の").append(title).append("が").append(AppUtil.newLine());
-		checkSb.append("過去日になっています");
-		if (isBeforeConfCheck && isBefore) {
-			checkSb.append("が");
-			
-			// 確認メッセージ呼び出し
-			if (! this.showMessageConfimed( message + checkSb.toString() )) {
-				sb.setLength(0);
-				return false;
-			}
-
-		} else if (!isAllowPastDate && isBefore) {
-			// エラーとする
-			sb.append(checkSb.append("。").toString());
-			return false;
-		}
-		
-		checkSb = new StringBuilder();
-		
-		// 未来日チェック
-		Boolean isAfter = date.isAfter(this.dateNow);
-		Boolean isOneYearAfter = date.isAfter(this.dateNow.plusYears(1));
-		if (isOneYearAfterCheck && isOneYearAfter) {
-			checkSb.append("の").append(title).append("が").append(AppUtil.newLine());
-			checkSb.append("1年以上先になっています。").append(AppUtil.newLine());
-			checkSb.append("1年おきに棚卸確認が必要になりますが、").append(AppUtil.newLine());
-			
-			// 確認メッセージ呼び出し
-			if (! this.showMessageConfimed( message + checkSb.toString())) {
-				sb.setLength(0);
-				return false;
-			}
-		} else if (!isAllowFutureDate && isAfter) {
-			checkSb.append("の").append(title).append("が未来日になっています");
-			sb.append(checkSb.toString());
-			return false;		
-		}
-		
-		return true;
-    }
-    
 	/**
 	 *確認Message
 	 * @param message String 表示する内容
@@ -499,33 +341,26 @@ public class FormController extends BaseFormPage {
      * @param rowMessage String 表示する内容
      */
     private void showMessageDuplicateStockData(String rowMessage) {
+    	LogManager.writeWarnig("データ異常：データ不整合 システム管理者に連絡してください。");
+    	LogManager.writeWarnig(rowMessage);
+    	
     	MessageBox.ShowWarnig(
     			"警告",
     			"データ異常：データ不整合 システム管理者に連絡してください。",
     			"備品(在庫)データに不整合(重複データ)が存在します。システム管理者に連絡してください。" + AppUtil.newLine() +
     			rowMessage);
     }
-    
-    /**
-     * 例外Message：入力エラー
-     */
-    private void showMessageInputError(String message) {
-    	MessageBox.ShowErrorMessage(
-    			"入力エラー",
-    			"",
-    			message);
-    }
-   
+
     /**
      * 例外Message：例外エラー
      * @param title String タイトル
      * @param message String 表示する内容
      */
     private void showMessageException(String title, String message) {
-    	MessageBox.ShowErrorMessage(
-    			"例外発生",
-    			title,
-    			message);
+    	LogManager.writeError(title);
+    	LogManager.writeError(message);
+
+    	MessageBox.ShowErrorMessage("例外発生", title, message);
     }    
     
     
@@ -611,6 +446,20 @@ public class FormController extends BaseFormPage {
     	lbl_title.getStyleClass().add("titletext");
     }
 
+    /**
+     * 更新データ値設定(返却日・最終所在確認日)
+     * @param row InventoryReturnDataModel 対象データの行クラス
+     */
+    private void setUpdModelData(InventoryReturnDataModel row) {
+		// 本日を設定(文字列型)
+    	LocalDate date = LocalDate.now();
+    	
+    	row.setConfirmedDate(date);
+    	row.setConfirmedDate(date);
+    }   
+    
+    
+    
     /**
      * 遷移元画面呼び出し
      * @brief 遷移元画面(備品明細：inventoryDetails)を呼出す。<br>

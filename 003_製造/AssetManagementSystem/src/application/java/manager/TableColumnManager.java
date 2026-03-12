@@ -543,7 +543,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		            	/* 有効CELL */
 		            	tableview.getSelectionModel().select(rowIdx, targetCol);
 		            	tableview.edit(rowIdx, targetCol);
-		            	System.out.println("getNextEditableColumn : OK");
+		            	LogManager.writeTrace("[TableColumnManager].[getNextEditableColumn] ： OK");
 
 		            	break;
 		            
@@ -553,7 +553,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		            }
 		        } 	
 		        
-		        System.out.println("getNextEditableColumn : Return NULL");
+		        LogManager.writeTrace("[TableColumnManager].[getNextEditableColumn] ： Return NULL");
 			});
 		});
    }	
