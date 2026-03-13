@@ -1,5 +1,6 @@
 package application.java.manager.CustomTableCells;
 
+import application.java.manager.LogManager;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
@@ -43,7 +44,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
         this.checkBox.focusedProperty().addListener(
         		(obs, oldVal, newVal) -> {
         			if (newVal) {
-        				System.out.println("CustomCheckBox focusedProperty().addListener");
+        				LogManager.writeTrace("[CustomCheckBox][focusedProperty] Start");
         				
         				// 親の TableView(TableCell)に対して、編集状態への移行(Enterが押下された)を通知
         				getTableView().edit(getIndex(), getTableColumn());
@@ -60,19 +61,19 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
      */
     @Override
     public void startEdit() {
+    	
     	super.startEdit();
     	
-    	System.out.println("CustomCheckBox startEdit");
+    	LogManager.writeTrace("[CustomCheckBox][cancelEdit] Start");
+    
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
         	setGraphic(checkBox);
         	setText(null);
-        } else if (!isEditing()) {
-        	System.out.println("CustomCheckBox NotEditMode");
-        	return;
+ 
+    	} else if (!isEditing()) {
+         	return;
         }
-
-    	System.out.println("CustomCheckBox EditMode");
 
     	checkBox.requestFocus();
     }
@@ -89,10 +90,12 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
      */
     @Override
     public void cancelEdit() {
+  
     	super.cancelEdit();
     	
-        System.out.println("CustomCheckBox cancelEdit");
-    	if (!isAlwaysShow) {
+    	LogManager.writeTrace("[CustomCheckBox][cancelEdit] Start");
+  
+        if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
             setGraphic(null);
@@ -117,9 +120,10 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
         
     	super.updateItem(item, empty);
 
-    	System.out.println("CustomCheckBox updateItem");
+    	LogManager.writeTrace("[CustomCheckBox][updateItem] Start");
+
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
-        if (empty) {
+        if (empty || item == null) {
             setGraphic(null);
         } else {
         	// データが存在する場合の表示処理
@@ -137,12 +141,15 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
                 /* 編集時のみ表示モード */
         		if (isEditing()) {
                     setGraphic(this.checkBox);
-                    setText(null); // エディタ表示中は文字を消す
+                    // エディタ表示中は文字を消す
+                    setText(null);
                 } else {
                     setGraphic(null);
                 }
             }
-        }}
+        }
+       	LogManager.writeTrace("[CustomCheckBox][updateItem] End");     
+    }
 	
     /**
      * カスタムチェックボックス生成
@@ -176,18 +183,18 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
 
         // 入力監視リスナー(Leave相当)
 		this.checkBox.setOnAction(
-        		(e) -> {
+        		(e) -> 
+        		{
         			if (isAdjusting) { return; }
-        			
-        			System.out.println("CustomCheckBox setOnAction");
+
+        			LogManager.writeTrace("[CustomCheckBox][setOnAction] Start");
+  
         			Boolean newVal = checkBox.isSelected();
  
-        			
         			if (!isEditing()) {
         				getTableView().edit(getIndex(), getTableColumn());
         			}               			
         			
-        			//System.out.println("値反映処理実行: " + value);
     				// 値の確定(TableView側へ通知)
     				this.commitEdit((T)newVal);
         			
@@ -198,15 +205,14 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
         				
     	                // 連動項目のBIND設定
     	                syncModelPropertyBindingEvent(null, newVal);          	    	
+            	    
             	    } catch (Exception ex) {
             	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-                        System.err.println("モデルへの値反映に失敗しました: ");
-            	    	
-            	    	ex.printStackTrace();
+            	    	LogManager.writeError("モデルへの値反映に失敗しました: " + colId);
             	    	throw ex;
             	    }
         		});
-        }
+	}
 	
     /**
      * 値の更新(確定)に連動する外部イベント設定

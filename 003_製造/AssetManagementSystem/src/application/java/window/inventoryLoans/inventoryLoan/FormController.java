@@ -293,9 +293,10 @@ public class FormController extends BaseFormPage {
 	    
 	    
 	    // ② リストを空のObservableListで上書き（直接クリアせずインスタンスごと替えるのが安全）
+	    
 	    tableListView.setItems(null);
 	    tableListView.setItems(FXCollections.observableArrayList());
-		
+	    tableListView.refresh();
 		
 		List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
 		

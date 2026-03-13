@@ -1,5 +1,6 @@
 package application.java.manager.CustomTableCells;
 
+import application.java.manager.LogManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,7 +75,7 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
         this.comboBox.focusedProperty().addListener(
         		(obs, oldVal, newVal) -> {
         			if (newVal) {
-        				System.out.println("CustomCell focusedProperty().addListener");
+        				LogManager.writeTrace("[CustomComboBox][focusedProperty] Start");
         				
         				// 親の TableView(TableCell)に対して、編集状態への移行(Enterが押下された)を通知
         				getTableView().edit(getIndex(), getTableColumn());
@@ -92,20 +93,21 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
      */
     @Override
     public void startEdit() {
+    	
     	super.startEdit();
     	
-    	System.out.println("CustomComboBox startEdit");
+    	LogManager.writeTrace("[CustomComboBox][startEdit] Start");
+    	
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
         	setGraphic(comboBox);
         	setText(null);
-        } else if (!isEditing()) {
-        	System.out.println("CustomComboBox NotEditMode");
+  
+    	} else if (!isEditing()) {
         	return;
         }
 
-    	System.out.println("CustomComboBox EditMode");
-    	comboBox.requestFocus();
+     	comboBox.requestFocus();
     	comboBox.getEditor().requestFocus();
     }
 
@@ -121,9 +123,11 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
      */
     @Override
     public void cancelEdit() {
+    	
     	super.cancelEdit();
     	
-        System.out.println("CustomCell cancelEdit");
+    	LogManager.writeTrace("[CustomComboBox][cancelEdit] Start");
+    	
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
@@ -147,25 +151,22 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
      */
     @Override
     protected void updateItem(T item, boolean empty) {
-    	super.updateItem(item, empty);
-    	setAlignment(Pos.CENTER);
     	
-    	System.out.println("CustomComboBox updateItem");
+    	super.updateItem(item, empty);
+  
+      	LogManager.writeTrace("[CustomComboBox][updateItem] Start");
+    	LogManager.writeTrace("value :["+ item + "] empty :[" + empty + "] text: [" + getText() + "]");
+    	
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
-        if (empty) {
+        if (empty || item == null) {
             setGraphic(null);
             setText(null);
+        
         } else {
         	// データが存在する場合の表示処理
         	if (isAlwaysShow) {
                 /* 常時表示モード */
-                
-            	//自動入力による重複処理の制御
-            	isAdjusting = true;
-                this.comboBox.setValue(item);
-                isAdjusting = false;
-
-                setGraphic(this.comboBox);
+        		setGraphic(this.comboBox);
                 setText(null);
         	} else {
                 /* 編集時のみ表示モード */
@@ -176,7 +177,9 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
                     setGraphic(null);
                     setText(item != null ? item.toString() : null);
                 }
-            }}
+            }
+        }
+    	LogManager.writeTrace("[CustomComboBox][updateItem] End");   
     }
  
     /**
@@ -228,34 +231,41 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
                   
 					  if (match != null) {
 						  Platform.runLater(
-								  () -> {
+								  () -> 
+								  {
 									  int caretPos = newValue.length();
 									  
 									  editor.setText(match); // 補完文字をセット
 									  editor.selectRange(caretPos, match.length()); // 補完部分をハイライト
                       			
-									  if (!this.comboBox.isShowing()) {
-										  this.comboBox.show(); // リストを表示
-										  }});}
+								        if (!this.comboBox.isShowing() || 
+									        	!this.comboBox.getItems().isEmpty()) 
+								        {
+								        	LogManager.writeTrace("[CustomComboBox][textProperty] comboBox.show");
+								        	// リストを表示
+								        	this.comboBox.show();
+								        }
+								  });}
 					  });
      	
         // オートコンプリートに伴う、値確定時の処理
         // ⇒ 全ての文字列が入力されてからCommitする
         this.comboBox.setOnAction(
-        		e -> {
-    				System.out.println("CustomCell setOnAction");
+        	  ( e ) -> 
+        	  {
+        		  LogManager.writeTrace("[CustomComboBox][setOnAction] Start");
         
-        			if (isAdjusting) { return; }
+        		  if (isAdjusting) { return; }
+        			
+        		  // エディタに入力されている文字列を取得
+        		  String editValue = this.comboBox.getEditor().getText();
 
-        			// エディタに入力されている文字列を取得
-  		            String editValue = this.comboBox.getEditor().getText();
-
-    				// 値の確定
-    				this.commitEdit((T) editValue);
+        		  // 値の確定
+        		  this.commitEdit((T) editValue);
     				
-    				// モデルへの値反映
-    				bindingModelProperty(colId, null, editValue); 
-    				});
+        		  // モデルへの値反映
+        		  bindingModelProperty(colId, null, editValue); 
+        	  });
     }
 
     /**
@@ -272,7 +282,9 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
         		(obs, oldVal, newVal) -> {
         			if (isAdjusting) { return; }
 
-    				// 値の確定
+        			LogManager.writeTrace("[CustomComboBox][selectedItemProperty] Start");
+    				
+        			// 値の確定
     				this.commitEdit(newVal);
     				
     				// モデルへの値反映
@@ -302,10 +314,9 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
 
         } catch (Exception ex) {
         	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-        	System.err.println("モデルへの値反映に失敗しました: " + colId);
-            ex.printStackTrace();
-	    	
+        	LogManager.writeError("モデルへの値反映に失敗しました: " + colId);
             throw ex;
+ 
         } finally {
             isAdjusting = false;
         }

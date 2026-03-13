@@ -24,14 +24,14 @@
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         
         <!-- 2. 接続URL (DB名、文字コード、タイムゾーンを指定) -->
-        <!-- <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B9&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;useCursorFetch=true"/> -->
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/java_learning?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B9&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;useCursorFetch=true"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B9&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;useCursorFetch=true"/>
+        <!-- <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/java_learning?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B9&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;useCursorFetch=true"/> -->
 
         <!-- 3. ユーザー名とパスワード -->
-        <!-- <property name="username" value="app2"/> -->
-        <!-- <property name="password" value="app_user_1234"/> -->
-        <property name="username" value="user"/>
-        <property name="password" value="user_1234"/>
+        <property name="username" value="app2"/>
+        <property name="password" value="app_user_1234"/>
+        <!-- <property name="username" value="user"/> -->
+        <!-- <property name="password" value="user_1234"/> -->
 
         <!-- 並列処理用のHikariCPプロパティを直接書ける -->
         <property name="maximumPoolSize" value="20"/>

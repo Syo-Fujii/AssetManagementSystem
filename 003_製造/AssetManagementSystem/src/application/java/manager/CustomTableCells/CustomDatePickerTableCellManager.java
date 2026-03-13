@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import application.java.common.AppUtil;
+import application.java.manager.LogManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
@@ -80,7 +81,6 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         }
 
         /* 常時表示モード */
-
 		this.datePicker.addEventFilter(KeyEvent.ANY, e -> {
 		    // カレンダー表示中のキー操作による意図しないフォーカス移動を防止
 		    if (this.getDatePicker().isShowing()) {
@@ -110,25 +110,30 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
      */
 	@Override
 	public void startEdit() {
-    	super.startEdit();
     	
-    	System.out.println("CustomDatePicker startEdit");
-    	if (!isAlwaysShow) {
+		super.startEdit();
+    	
+		LogManager.writeTrace("[CustomDatePicker][startEdit] Start");
+    	
+		if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
         	setGraphic(this.datePicker);
         	setText(null);
-        } else if (!isEditing()) {
-        	System.out.println("CustomDatePicker NotEditMode");
+        
+		} else if (!isEditing()) {
         	return;
         }
 
     	/* 後処理リスナー(startEditの後) */
         Platform.runLater(() -> {
-            if (this.datePicker != null && this.datePicker.getScene() != null) {
-    	    	System.out.println("CustomDatePicker EditMode");
+            if (this.datePicker != null && this.datePicker.getScene() != null)
+            {
     	    	this.datePicker.requestFocus();
+    	    	this.datePicker.getEditor().requestFocus();
             }
         });
+        
+        LogManager.writeTrace("[CustomDatePicker][startEdit] End");
     }
 
     /**
@@ -143,9 +148,11 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
      */
     @Override
     public void cancelEdit() {
+    	
     	super.cancelEdit();
     	
-        System.out.println("CustomDatePicker cancelEdit");
+    	LogManager.writeTrace("[CustomDatePicker][cancelEdit] Start");
+        
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
@@ -172,55 +179,57 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
      */
     @Override
     protected void updateItem(T item, boolean empty) {
+    	
     	super.updateItem(item, empty);
+
+    	LogManager.writeTrace("[CustomDatePicker][updateItem] Start");
+    	LogManager.writeTrace("Column : [" + testId + "]");
+    	LogManager.writeTrace("item : [" + (item != null ?item.toString() : "NULL" ) + "]");
+    	LogManager.writeTrace("text : [" + getText() + "]");
+    	LogManager.writeTrace("value : [" + this.datePicker.getValue() + "]");
     	
-    	System.out.println("CustomDatePicker updateItem");
-    	System.out.println("Column : [" + testId + "]");
-    	System.out.println("item : [" + (item != null ?item.toString() : "NULL" ) + "]");
-    	System.out.println("text : [" + getText() + "]");
-    	System.out.println("value : [" + this.datePicker.getValue() + "]");
-    	
-        if (empty) {
-        	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
+    	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
+    	if ( empty  || item == null ) {
         	setGraphic(null);
             setText(null);
-            return;
-        } 
+        } else {
+            LocalDate itemDate = null;
         	
-        LocalDate itemDate = null;
-        	
-		if( AppUtil.isDate(item.toString()))
-    	{
-    		itemDate = LocalDate.
-    				parse(item.toString(),
-    						DateTimeFormatter.
-    						ofPattern("yyyy/MM/dd"));
-    	}
-		
-		// データが存在する場合の表示処理
-		if (isAlwaysShow) {
+    		if( AppUtil.isDate(item.toString()))
+        	{
+        		itemDate = LocalDate.
+        				parse(item.toString(),
+        						DateTimeFormatter.
+        						ofPattern("yyyy/MM/dd"));
+        	}
+    		
+    		// データが存在する場合の表示処理
+    		if (isAlwaysShow) {
+    			/* 常時表示モード */
+  
+    			LocalDate calenderDate = this.datePicker.getValue();
+    			
+    			// 現在セットされているインスタンスが DatePicker で、かつ
+    			// 表示中の値がVALUEと同じなら、一切のプロパティ変更を行わない（フォーカス喪失を防ぐ）
+    			if (getGraphic() != this.datePicker ||
+            				!Objects.equals(itemDate, calenderDate)) {
+    				setGraphic(this.datePicker);
+    			}
 
-			/* 常時表示モード */
-			LocalDate calenderDate = this.datePicker.getValue();
-			
-			// 現在セットされているインスタンスが DatePicker で、かつ
-			// 表示中の値がVALUEと同じなら、一切のプロパティ変更を行わない（フォーカス喪失を防ぐ）
-			if (getGraphic() != this.datePicker ||
-        				!Objects.equals(itemDate, calenderDate)) {
-				setGraphic(this.datePicker);
-			}
+    			setText(null);
 
-			setText(null);
-
-		} else {
-			/* 編集時のみ表示モード */
-			if (isEditing()) {
-				setGraphic(this.datePicker);
-				setText(null);
-			} else {
-				setGraphic(null);
-				setText(item.toString()); 
-		}}
+    		} else {
+    			/* 編集時のみ表示モード */
+    			if (isEditing()) {
+    				setGraphic(this.datePicker);
+    				setText(null);
+    			} else {
+    				setGraphic(null);
+    				setText(item.toString());
+    			}
+    		} 
+        }
+    	LogManager.writeTrace("[CustomDatePicker][updateItem] End");  
     }
 	    
     /**
@@ -298,6 +307,8 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         		(e) -> {
         			if (isAdjusting) { return; }
          			
+        			LogManager.writeTrace("[CustomDatePicker][setOnAction] Start");
+         			
         			LocalDate date = datePicker.getValue();	
         			String value = ( date != null ) ? 
          			       date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "" ;
@@ -346,7 +357,9 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 		this.datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
 			if ( isAdjusting ) { return; }
 
-         	String value = ( newDate != null ) ? 
+			LogManager.writeTrace("[CustomDatePicker][valueProperty] Start");
+         	
+			String value = ( newDate != null ) ? 
          			newDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "" ;
 
    			if (!isEditing()) {
@@ -354,7 +367,6 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 			} 
 
    			datePicker.getEditor().setText(value);
-
 		});
 	}
 	
@@ -371,6 +383,8 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
         this.datePicker.focusedProperty().addListener(
         		(obs, wasFocused, isFocused) -> {
         			if (isFocused && !isAdjusting) {
+        				
+        				LogManager.writeTrace("[CustomDatePicker][focusedProperty] Start");
         				
         				/* 後処理リスナー */
         				Platform.runLater(() -> {
@@ -404,8 +418,7 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 
 	    		// 現在の値が空（null）の場合だけ、カレンダーの初期選択を今日にする
 	    		if (datePicker.getValue() == null) {
-	    			
-	    			System.out.println("CustomDatePicker CalenderShown 初期値設定");
+	    			LogManager.writeTrace("[CustomDatePicker][CalenderShown] 初期値設定");
 	    			datePicker.setValue(defaultDate);
 	    		}
 	    	});
@@ -476,10 +489,9 @@ public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, 
 
         } catch (Exception ex) {
         	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-        	System.err.println("モデルへの値反映に失敗しました: " + colId);
-            ex.printStackTrace();
-	    	
+        	LogManager.writeError("モデルへの値反映に失敗しました: " + colId);
             throw ex;
+ 
         } finally {
             isAdjusting = false;
         }

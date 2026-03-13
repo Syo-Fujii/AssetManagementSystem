@@ -31,6 +31,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	
 	private Boolean isEnterNextFocus = true;
 	
+	private CustomComboBoxWithCheckBoxManager<S, Integer, T> CustomComboBoxManager;
+	
 	/* 内部クラス */
 	public record keyValuePairItem<K, V>(Integer key, String value) {};
 	
@@ -265,7 +267,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		this.setEditable(isEnabled);
 		 
 		this.setCellFactory(col -> {
-		   CustomComboBoxWithCheckBoxManager<S, Integer, T> cb = new CustomComboBoxWithCheckBoxManager<S, Integer, T>(
+			CustomComboBoxWithCheckBoxManager<S, Integer, T> cb = new CustomComboBoxWithCheckBoxManager<S, Integer, T>(
 						this.getId(), 
 						keyModelName, 
 						CheckBoxModelName,
@@ -320,13 +322,12 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		
 		  if (!AppUtil.StringIsNullOrWhiteSpace(placeHolderText)) {
 			  // プレースホルダー（プロンプトテキスト）を設定
-			  cb.setPlaceHolder(placeHolderText);			  
+			  cb.setPlaceHolder(placeHolderText);
 		  }
-		  
 		  return cb;
-		});
+		}		);
 	}
-	
+
 	/**
 	 * CheckBox型セルの設定
 	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
@@ -543,7 +544,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		            	/* 有効CELL */
 		            	tableview.getSelectionModel().select(rowIdx, targetCol);
 		            	tableview.edit(rowIdx, targetCol);
-		            	LogManager.writeTrace("[TableColumnManager].[getNextEditableColumn] ： OK");
+		            	LogManager.writeTrace("[TableColumnManager].[onDisabledCellsFocusSkipEvent] ： OK");
 
 		            	break;
 		            
@@ -553,7 +554,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		            }
 		        } 	
 		        
-		        LogManager.writeTrace("[TableColumnManager].[getNextEditableColumn] ： Return NULL");
+		        LogManager.writeTrace("[TableColumnManager].[onDisabledCellsFocusSkipEvent] ： Return NULL");
 			});
 		});
    }	
@@ -582,5 +583,5 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
            }
        }
        return null;
-   }   
+   }
 }

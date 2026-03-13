@@ -104,17 +104,19 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
      */
     @Override
     public void startEdit() {
+ 
     	super.startEdit();
     	
-    	System.out.println("CustomComboBoxKVP startEdit");
+    	LogManager.writeTrace("[CustomComboBoxKVP][startEdit] Start");
+
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
         	setGraphic(comboBox);
         	setText(null);
-        } else if (!isEditing()) {
+ 
+    	} else if (!isEditing()) {
         	return;
         }
-    	System.out.println("CustomComboBoxKVP EditMode");
     	
     	comboBox.requestFocus();
     	comboBox.getEditor().requestFocus();
@@ -132,9 +134,11 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
      */
     @Override
     public void cancelEdit() {
+ 
     	super.cancelEdit();
     	
-        System.out.println("CustomComboBoxKVP cancelEdit");
+    	LogManager.writeTrace("[CustomComboBoxKVP][cancelEdit] Start");
+ 
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
@@ -160,45 +164,19 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         
     	super.updateItem(value, empty);
 
-    	System.out.println("CustomComboBoxKVP updateItem");
-    	System.out.println("empty : "+ empty);
+    	LogManager.writeTrace("[CustomComboBoxKVP][updateItem] Start");
+    	LogManager.writeTrace("value :["+ value + "] empty :[" + empty + "] text: [" + getText() + "]");
     	
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         if ( empty || value == null ) {
-            System.out.println("value : "+ value);
-            System.out.println("text : "+ getText());
-        	
-        	setGraphic(null);
+         	setGraphic(null);
             setText(null);
 
         } else {
         	// データが存在する場合の表示処理
-        	isAdjusting = true;
-        	if(this.comboBox.getValue() != null)
-        	{
-        		System.out.println("value : "+ this.comboBox.getValue().value());
-        	}
-        	
-        	
-            try {
-                // ComboBoxの選択状態を現在のモデルの値に合わせる
-                keyValuePairItem<Integer, String> selectedKvp = this.comboBox.getItems().stream()
-                        .filter(kvp -> kvp.value() != null && kvp.value().equals(value))
-                        .findFirst()
-                        .orElse(null);
+        	LogManager.writeTrace("comboBox.value :[" + ((this.comboBox.getValue() == null)?null:this.comboBox.getValue().value()) + "]");
+        	LogManager.writeTrace("comboBox.ItemCount :[" + this.comboBox.getItems().size() + "]");
 
-                //this.comboBox.setValue(selectedKvp); // ここでリスナーが動くが、フラグによりガードされる
-            } finally {
-                // ★処理が終わったらフラグを下ろす
-            	isAdjusting = false;
-            }
-        	
-        	
-        	
-            setText("");
-        	
-        	
-        	
         	if (isAlwaysShow) {
                 /* 常時表示モード */
                 setGraphic(this.comboBox);
@@ -214,6 +192,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
                 }
             }	
         }
+        LogManager.writeTrace("[CustomComboBoxKVP][updateItem] End");
     }
  
     /**
@@ -256,31 +235,33 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
      	// 入力監視リスナー(オートコンプリート機能の付与)
      	// (obs = 値変更を監視しているプロパティ:ObservableValue = editor.textProperty())
      	editor.textProperty().addListener(
-     			(obs, oldValue, newValue) -> {
-					  if (newValue == null || 
-						  newValue.isEmpty() || 
-						  newValue.length() < oldValue.length()) {
+     			(obs, oldText, newText) -> {
+					  if (newText == null || 
+						  newText.isEmpty() || 
+						  newText.length() < oldText.length()) {
 		                    return; // 削除時は補完しない
 		                }
 
 					  // 前方一致する最初の候補を探す(入力文字と最初が一致するリストの値)
-					  String match = this.comboBox.getItems().
+					  String matchText = this.comboBox.getItems().
 							  stream().
-							  filter(kvp ->  kvp.value().toLowerCase().startsWith(newValue.toLowerCase())).
+							  filter(kvp ->  kvp.value().toLowerCase().startsWith(newText.toLowerCase())).
 							  findFirst().
 							  map(item -> item.value()).  // ここでStringに変換
-							  orElse(newValue);            // 見つからなければ入力文字そのものを使う					  
+							  orElse(newText);            // 見つからなければ入力文字そのものを使う					  
 					  
-					  if (match != null) {
+					  if (matchText != null) {
+						  // 入力完了後(Leave)の動作(runLater)
 						  Platform.runLater(
-								  () -> {
+								  () -> 
+								  {
 									  isAdjusting = true;
 									  
 									  try {
-										  int caretPos = newValue.length();
-										  int matchLen = match.length();
+										  int caretPos = newText.length();
+										  int matchLen = matchText.length();
 										  
-										  editor.setText(match); // 補完文字をセット
+										  editor.setText(matchText); // 補完文字をセット
 
 									        if (caretPos <= matchLen) {
 									            editor.selectRange(caretPos, matchLen); // 補完部分をハイライト
@@ -289,40 +270,45 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 									            editor.positionCaret(matchLen);
 									        }
 
-									        if (!this.comboBox.isShowing()) {
-									        	this.comboBox.show(); // リストを表示
-									        	}
+									        if (!this.comboBox.isShowing() || 
+									        	!this.comboBox.getItems().isEmpty()) {
+									        	LogManager.writeTrace("[CustomComboBoxKVP][textProperty] comboBox.show");
+									        	
+									        	// リストを表示
+									        	this.comboBox.show();
+									        }
 									  } finally { 
 										  isAdjusting = false;
 									  }
-								  });}
-					  });
+								  });
+						  }
+     			});
      	
         // 入力監視リスナー(Leave相当)値確定時の処理
         // ⇒ 全ての文字列が入力されてからCommitする
         this.comboBox.setOnAction(
-        		e -> {
-    				System.out.println("CustomComboBoxKVP setOnAction");
-
+        		(e) -> {
+    				LogManager.writeTrace("[CustomComboBoxKVP][setOnAction] Start");
+    				
     				if(isAdjusting) { return; }
 
     				// エディタに入力されている文字列を取得
-  		            String editValue = this.comboBox.getEditor().getText();
+  		            String editText = this.comboBox.getEditor().getText();
   		       
   		            // 値確定処理
-  		            commitEdit((V) editValue);
+  		            commitEdit((V) editText);
   		            
   		            // リストから一致するものを探す
   		            keyValuePairItem<Integer, String> selectedKvp = 
   		            		this.comboBox.
   		            		     getItems().
   		            		     stream().
-  		            		     filter(kvp -> kvp.value().equals(editValue)).
+  		            		     filter(kvp -> kvp.value().equals(editText)).
   		            		     findFirst().
   		            		     orElse(null);
 
   		            // モデルへの値反映
-  		            bindingModelProperty(colId, keyModelName, selectedKvp, editValue);
+  		            bindingModelProperty(colId, keyModelName, selectedKvp, editText);
         		});
     }
     
@@ -340,20 +326,20 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         // 入力監視リスナー
 		// (obs = 値変更を監視しているプロパティ:ObservableValue = comboBox.getSelectionModel().selectedItemProperty())
         this.comboBox.getSelectionModel().selectedItemProperty().addListener(
-        		(obs, oldVal, newVal) -> {
-    			    if (newVal == null || isAdjusting) { return; }
+        		(obs, oldKvp, newKvp) -> {
+    			    if (newKvp == null || isAdjusting) { return; }
 
-        			System.out.println("CustomComboBoxKVP SelectedItem");
+    			    LogManager.writeTrace("[CustomComboBoxKVP][selectedItemProperty] Start");
            			
         			if (!isEditing()) {
         				getTableView().edit(getIndex(), getTableColumn());
         			}               			
         			
     				// 値の確定(TableView側へ通知)
-        			this.commitEdit((V) newVal.value());
+        			this.commitEdit((V) newKvp.value());
         			
         			// モデルへの値反映
-        			bindingModelProperty(colId, keyModelName, newVal, newVal.value());
+        			bindingModelProperty(colId, keyModelName, newKvp, newKvp.value());
         		});
     }
 
@@ -362,12 +348,12 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
      * @param selectedKvp 選択(入力)したコンボボックス一覧の対象データ
-     * @param editValue 画面に入力されている値
+     * @param editText 画面に入力されている値
      */
     private void bindingModelProperty(String colId, 
     		                          String keyModelName,
     		                          keyValuePairItem<Integer, String> selectedKvp,
-    		                          String editValue) {
+    		                          String editText) {
         // 二重実行防止
         if (isAdjusting) return;
         
@@ -376,7 +362,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 				
         	// 値の確定 VALUEのBIND
 			// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
-			super.setRowClassProperty(colId, String.class, editValue);
+			super.setRowClassProperty(colId, String.class, editText);
 
 			// KeyのBIND    	    	    	
 			if(!AppUtil.StringIsNullOrWhiteSpace(keyModelName)) {
@@ -386,9 +372,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 							AppConst.UNSET_NUMBER_VALUE;
 	                
 				super.setRowClassProperty(keyModelName, Integer.class, keyToSet);
-
-				System.out.println("call methodKey");
-              }
+			}
          
             // 連動項目のBIND設定
             syncModelPropertyBindingEvent(null, selectedKvp);
@@ -397,6 +381,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
         	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
         	LogManager.writeError("モデルへの値反映に失敗しました: " + colId);
             throw ex;
+  
         } finally {
             isAdjusting = false;
         }
