@@ -56,9 +56,6 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<InventoryReturnDataModel, String> col_limit_date;
 	@FXML private TableColumn<InventoryReturnDataModel, String> col_remarks;
 	@FXML private TableColumnManager<InventoryReturnDataModel, Boolean> col_is_checkin;
-
-	
-	@FXML private Button inventoryCounting_button;
 	
 	@FXML private Button submit_button;
 	@FXML private Button back_button;
@@ -491,47 +488,4 @@ public class FormController extends BaseFormPage {
     			inventoryDetails.
     			FormController(this.stockType, this.stockCode, this.previousPageWindowSize.toString()));
     }
-    
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    @FXML
-    /**
-     * [所在確認]ボタン 押下イベント
-     */
-    public void onCountingButtonClicked() {
-    	try {
-
-    		// 選択行取得
-        	InventoryReturnDataModel row = tableListView.
-        			getSelectionModel().
-        			getSelectedItem();
-
-        	if (row == null) {
-        	    // なにもしない
-        	    return;
-        	} 
- 
-        	System.out.println("選択行モデルデータ");
-        	System.out.println("シリアルNo: [" + row.getSerialNo() + "] ");
-        	System.out.println("貸出者名: [" + row.getStaffName() + "] ");
-        	System.out.println("貸出開始日: ["+ row.getStartDate() + "]");
-        	System.out.println("返却予定日: ["+ row.getLimitDate() + "]");
-        	System.out.println("返却: ["+ row.getIsCheckIn() + "]"); 
-    		
-    		
-    	} catch (Exception ex) {
-    		System.err.println(ex);
-    	}
-   }    
-    
  }
