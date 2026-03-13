@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.util.Optional;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -51,8 +52,35 @@ public class MessageBox {
     	alert.setHeaderText(headerText);
     	alert.setContentText(message);
 		
+    	// 1. ダイアログのサイズ変更を一時的に許可する
+    	alert.setResizable(true);
+
+    	// 2. メッセージを表示するLabelを取得し、折り返しを無効にする
+    	// (文字数に応じて横に伸ばすため)
+    	alert.getDialogPane().lookup(".content.label").setStyle("-fx-wrap-text: false;");    	
+    	
+    	alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);    	
     	alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
     	
+    	
+    	alert.getDialogPane().getScene().getWindow().setOnShowing(ev -> {
+    	    // 内部のラベルを探して折り返しを禁止する
+    	    Node label = alert.getDialogPane().lookup(".content.label");
+    	    if (label != null) {
+    	        label.setStyle("-fx-wrap-text: false;");
+    	    }
+    	});
+    	
+    	alert.getDialogPane().applyCss();
+    	alert.getDialogPane().layout();
+
+    	// 4. 計算された「推奨サイズ」をウィンドウに反映
+    	double prefWidth = alert.getDialogPane().getPrefWidth();
+    	alert.getDialogPane().setMinWidth(prefWidth); // 最小幅を推奨幅に固定
+
+    	// 5. それでも足りない場合や、特定の文字数を超えるなら三項演算子で補正
+    	alert.getDialogPane().setPrefWidth(message.length() > 30 ? 600 : Region.USE_COMPUTED_SIZE);
+
     	Optional<ButtonType> result =  alert.showAndWait();
 		
     	// [OK]に値するボタンの取得 

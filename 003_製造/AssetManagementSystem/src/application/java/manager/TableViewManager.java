@@ -468,6 +468,32 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	}	
 	
 	/**
+	 * 明細データ初期化処理
+	 * @brief JavaFxの機能として、CELLの再利用(既に生成されたCELL)を有している。<br>
+	 * 画面遷移(表示外明細行にスクロール)やデータ(DataSource)の入れ替えを行う際に<br>
+	 * 新行を生成するのではなく、既に生成されている(現在の表示に用いている)セルを利用(値の差し替え等)して<br>
+	 * データの切替をおこなっている。<br>
+	 * データの差し替えを行う際に、既に生成されているセルに値が設定されている場合は、データのBINDを差し替えても<br>
+	 * 差し替え前のセルの設定値が残ったままになる場合があるので、<br>
+	 * 当該メソッドにて、データのBIND設定・CELLの値を完全初期化する。<br>
+	 * 再検索などのデータに切替を行う際、切替前に呼び出すこと。
+	 */
+	public void dataSourceClear() {
+	    // 内部の選択インデックスをリセット（重要）
+	    this.getSelectionModel().clearSelection();
+	    
+	    // データの入れ替え前に、TableView内部の「現在地」を完全に忘却させる
+	    this.getSelectionModel().select(null); 
+	    this.getFocusModel().focus(-1);
+	    
+	    // リストを空のObservableListで上書き（直接クリアせずインスタンスごと替えるのが安全）
+	    this.setItems(null);
+	    this.setItems(FXCollections.observableArrayList());
+
+	    this.refresh();	
+	}
+	
+	/**
  	 * 初期Focus設定(先頭行, 指定カラム)
 	 * @param <S>
 	 * @param <V>

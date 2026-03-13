@@ -156,9 +156,6 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
             	super.updateItem(item, empty);
 
          		if (empty || item == null) {
-                    //setGraphic(null);
-                    //setText(null);
-
                     // 【重要】isValueChengedがfalseであっても、
                     // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
                 	setDisable(false);
@@ -166,8 +163,6 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
                 	setFocusTraversable(false); 
                     
                 } else {
-                    setText(item.toString());
- 
                 	setDisable( !isEnabled );
                 	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
                 	setFocusTraversable(isEnabled);                      
@@ -195,52 +190,48 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		this.setEditable(isEnabled);
  
 		this.setCellFactory(
-    			col -> new CustomComboBoxKvpSourceManager<S, Integer, T>(this.getId(), keyModelName, kvpItems, isAlwaysShow){
-    		// 初期化ブロックの為、親のコンストラクタ(super)は実行済
-            {
-            	// 初期化ブロック
-            	if( !isValueChenged ) {
-                	setDisable(!isEnabled);
-      
-                    // 見た目の調整（非活性時にグレーアウトさせる等）
-                	pseudoClassStateChanged(DISABLED_PC, !isEnabled);
-                	setFocusTraversable(isEnabled);
-            	}
-            }
+				( col ) -> new CustomComboBoxKvpSourceManager<S, Integer, T>(this.getId(), keyModelName, kvpItems, isAlwaysShow)
+				{
+					// 初期化ブロックの為、親のコンストラクタ(super)は実行済
+					{
+						// 静的初期化ブロック
+						if( !isValueChenged ) {
+							setDisable(!isEnabled);
+               
+							// 見た目の調整（非活性時にグレーアウトさせる等）
+							pseudoClassStateChanged(DISABLED_PC, !isEnabled);
+							setFocusTraversable(isEnabled);
+						}
+					}
 
-            /**
-             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
-             * @param item
-             * @param empty
-             * @brief
-             * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
-             * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
-             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
-             * カスタムControlの[updateItem]を呼出す(super)こと
-             */
-            @Override
-            public void updateItem(T item, boolean empty) {
-            	super.updateItem(item, empty);
+					/**
+					 * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event) 
+					 * @param item
+					 * @param empty
+					 * @brief
+					 * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br> 
+					 * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
+					 * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
+					 * カスタムControlの[updateItem]を呼出す(super)こと
+					 */
+					@Override
+           
+					public void updateItem(T item, boolean empty) {
+          
+						super.updateItem(item, empty);
 
-         		if (empty || item == null) {
-                    // 再利用の際、空行などの場合
-         			setGraphic(null);
-                    setText(null);
-
-                    // isValueChengedがfalseであっても、
-                    // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
-                	setDisable(false);
-                	pseudoClassStateChanged(DISABLED_PC, false);
-                	setFocusTraversable(false); 
-                    
-                } else {
-                    setText(item.toString());
- 
-                	setDisable( !isEnabled );
-                	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
-                	setFocusTraversable(isEnabled);                      
-                }  
-            }
+ 						if (empty || item == null) {
+ 							// isValueChengedがfalseであっても、
+ 							// 再利用対策として「空セル」は標準状態（disable=false）に戻す 
+ 							setDisable(false);
+							pseudoClassStateChanged(DISABLED_PC, false);
+							setFocusTraversable(false); 
+						} else {
+							setDisable( !isEnabled );
+							pseudoClassStateChanged(DISABLED_PC, !isEnabled );
+							setFocusTraversable(isEnabled);
+						}
+					}
         });			
 	}
 
@@ -266,66 +257,66 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		
 		this.setEditable(isEnabled);
 		 
-		this.setCellFactory(col -> {
-			CustomComboBoxWithCheckBoxManager<S, Integer, T> cb = new CustomComboBoxWithCheckBoxManager<S, Integer, T>(
-						this.getId(), 
-						keyModelName, 
-						CheckBoxModelName,
-						kvpItems, 
-						isAlwaysShow){
-    		// 初期化ブロックの為、親のコンストラクタ(super)は実行済
-            {
-            	// 初期化ブロック
-            	if( !isValueChenged ) {
-                	setDisable(!isEnabled);
-      
-                    // 見た目の調整（非活性時にグレーアウトさせる等）
-                	pseudoClassStateChanged(DISABLED_PC, !isEnabled);
-                	setFocusTraversable(isEnabled);
-            	}
-            }
+		this.setCellFactory(
+				( col ) -> 
+				{
+					CustomComboBoxWithCheckBoxManager<S, Integer, T> cb = 
+							new CustomComboBoxWithCheckBoxManager<S, Integer, T>(
+									this.getId(),
+									keyModelName,
+									CheckBoxModelName,
+									kvpItems,
+									isAlwaysShow)
+					{
+ 						// 初期化ブロックの為、親のコンストラクタ(super)は実行済
+ 						{
+ 							// 静的初期化ブロック
+ 							if( !isValueChenged ) {
+ 								setDisable(!isEnabled);
+                 
+ 								// 見た目の調整（非活性時にグレーアウトさせる等）
+ 								pseudoClassStateChanged(DISABLED_PC, !isEnabled);
+ 								setFocusTraversable(isEnabled);
+ 							}
+ 						}
 
-            /**
-             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
-             * @param item
-             * @param empty
-             * @brief
-             * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
-             * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
-             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
-             * カスタムControlの[updateItem]を呼出す(super)こと
-             */
-            @Override
-            public void updateItem(T item, boolean empty) {
-            	super.updateItem(item, empty);
+            
+ 						/**   
+ 						 * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)    
+ 						 * @param item
+ 						 * @param empty
+ 						 * @brief
+ 						 * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
+ 						 * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
+ 						 * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
+ 						 * カスタムControlの[updateItem]を呼出す(super)こと
+ 						 */
+ 						@Override
+ 						public void updateItem(T item, boolean empty) {
+            
+ 							super.updateItem(item, empty);
+       
+ 							if (empty || item == null) {
+ 								// isValueChengedがfalseであっても、
+ 								// 再利用対策として「空セル」は標準状態（disable=false）に戻す 
+ 								setDisable(false);
+ 								pseudoClassStateChanged(DISABLED_PC, false);
+ 								setFocusTraversable(false); 
+ 							} else {
+ 								setDisable( !isEnabled );
+ 								pseudoClassStateChanged(DISABLED_PC, !isEnabled );
+ 								setFocusTraversable(isEnabled);                      
+ 							}  
+ 						}
+					};
 
-         		if (empty || item == null) {
-         			// 再利用の際、空行などの場合
-         			//setGraphic(null);
-                    //setText(null);
+					if (!AppUtil.StringIsNullOrWhiteSpace(placeHolderText)) {
+						// プレースホルダー（プロンプトテキスト）を設定
+						cb.setPlaceHolder(placeHolderText);
+					}
 
-                    // isValueChengedがfalseであっても、
-                    // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
-                	setDisable(false);
-                	pseudoClassStateChanged(DISABLED_PC, false);
-                	setFocusTraversable(false); 
-                    
-                } else {
-                    //setText(item.toString());
- 
-                	setDisable( !isEnabled );
-                	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
-                	setFocusTraversable(isEnabled);                      
-                }  
-            }
-		  };
-		
-		  if (!AppUtil.StringIsNullOrWhiteSpace(placeHolderText)) {
-			  // プレースホルダー（プロンプトテキスト）を設定
-			  cb.setPlaceHolder(placeHolderText);
-		  }
-		  return cb;
-		}		);
+					return cb;
+				});
 	}
 
 	/**
@@ -343,63 +334,67 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		this.setEditable(isEnabled);
 		 
     	this.setCellFactory(
-    			col -> new CustomCheckBoxTableCellManager<S,T>(this.getId(), isAlwaysShow){
-    		// 初期化ブロックの為、親のコンストラクタ(super)は実行済
-            {
-            	// 初期化ブロック
-            	if( !isValueChenged ) {
-                	setDisable(!isEnabled);
-      
-                    // 見た目の調整（非活性時にグレーアウトさせる等）
-                	pseudoClassStateChanged(DISABLED_PC, !isEnabled);
-                	setFocusTraversable(isEnabled);
-            	}
-            }
+    			( col ) -> new CustomCheckBoxTableCellManager<S,T>(this.getId(), isAlwaysShow)
+    			{
+    				// 初期化ブロックの為、親のコンストラクタ(super)は実行済
+    				{
+    					// 初期化ブロック
+    					if( !isValueChenged ) {
+    						setDisable(!isEnabled);
+                   
+    						// 見た目の調整（非活性時にグレーアウトさせる等）
+    						pseudoClassStateChanged(DISABLED_PC, !isEnabled);
+    						setFocusTraversable(isEnabled);
+    					}
+    				}
 
-            /**
-             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
-             * @param item
-             * @param empty
-             * @brief
-             * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
-             * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
-             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
-             * カスタムControlの[updateItem]を呼出す(super)こと
-             */
-            @Override
-            public void updateItem(T item, boolean empty) {
-            	super.updateItem(item, empty);
+            
+    				/**
+            		* セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
+            	    * @param item
+             		* @param empty
+             		* @brief
+             		* 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
+             		* スクロールして「有効な行」だったセルが「空の行」になった際、<br>
+             		* setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。<br>
+             		* カスタムControlの[updateItem]を呼出す(super)こと
+             		*/
+    				@Override
+           
+    				public void updateItem(T item, boolean empty) {
+       
+    					super.updateItem(item, empty);
 
-         		if (empty || item == null) {
-         		// 再利用の際、空行などの場合
-         			setGraphic(null);
-                    setText(null);
+      					if (empty || item == null) {
+    						// 再利用の際、空行などの場合
+    						//setGraphic(null);
+    						//setText(null);
 
-                    // 【重要】isValueChengedがfalseであっても、
-                    // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
-                	setDisable(false);
-                	pseudoClassStateChanged(DISABLED_PC, false);
-                	setFocusTraversable(false); 
-                    
-                } else {
-                    setText(item.toString());
+    						// 【重要】isValueChengedがfalseであっても、
+    						// 再利用対策として「空セル」は標準状態（disable=false）に戻す 
+    						setDisable(false);
+    						pseudoClassStateChanged(DISABLED_PC, false);
+    						setFocusTraversable(false); 
+    					} else {
+    						//setText(item.toString());
  
-                	setDisable( !isEnabled );
-                	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
-                	setFocusTraversable(isEnabled);                      
+    						setDisable( !isEnabled );
+    						pseudoClassStateChanged(DISABLED_PC, !isEnabled );
+    						setFocusTraversable(isEnabled);                      
+                	
+    						// 編集時のみ表示MODEでのTEXT設定
 
-                	// 編集時のみ表示MODEでのTEXT設定
-					if (isAlwaysShow) {
-						setText(null);
-					} else {
-			            if (item instanceof Boolean) {
-			                setText((Boolean) item ? "CHECKED" : "");
-			            } else {
-			                setText(item.toString());
-			            }
-					}
-                }
-            }
+    						if (isAlwaysShow) {
+    							setText(null);
+    						} else {
+    							if (item instanceof Boolean) {
+    								setText((Boolean) item ? "CHECKED" : "");
+    							} else {
+    								setText(item.toString());
+    							}
+    						}
+    					}
+    				}
         });	
 	}
 
@@ -422,57 +417,57 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		this.setEditable(isEnabled);
 		 
 	   	this.setCellFactory(
-    			col -> new CustomDatePickerTableCellManager<S,T>(
-    					this.getId(),
+	   			( col ) -> 
+	   			new CustomDatePickerTableCellManager<S,T>(
+	   					this.getId(),
     					defaultDate,
     					minDate,
     					maxDate,
-    					isAlwaysShow){
-    		// 初期化ブロックの為、親のコンストラクタ(super)は実行済
-            {
-            	// 初期化ブロック
-            	if( !isValueChenged ) {
-                	setDisable(!isEnabled);
+    					isAlwaysShow)
+	   			{
+	   				// 初期化ブロックの為、親のコンストラクタ(super)は実行済
+	   				{
+	   					// 静的初期化ブロック
+	   					if( !isValueChenged ) {
+	   						setDisable(!isEnabled);
       
-                    // 見た目の調整（非活性時にグレーアウトさせる等）
-                	pseudoClassStateChanged(DISABLED_PC, !isEnabled);
-                	setFocusTraversable(isEnabled);
-            	}
-            }
+	   						// 見た目の調整（非活性時にグレーアウトさせる等）
+	   						pseudoClassStateChanged(DISABLED_PC, !isEnabled);
+	   						setFocusTraversable(isEnabled);
+	   					}
+	   				}
 
-            /**
-             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
-             * @param item
-             * @param empty
-             * @brief
-             * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
-             * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
-             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。
-             */
-            @Override
-            public void updateItem(T item, boolean empty) {
 
-            	// CustomDatePickerTableCellManager.updateItem
-            	super.updateItem(item, empty);
+	   				/**
+	   				* セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
+	   				* @param item
+	   				* @param empty
+	   				* @brief
+	   				* 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
+	   				* スクロールして「有効な行」だったセルが「空の行」になった際、<br>
+	   				* setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。
+	   				*/
+	   				@Override
+	   				public void updateItem(T item, boolean empty) {
 
-         		if (empty || item == null) {
-                    setGraphic(null);
-                    setText(null);
+	   					super.updateItem(item, empty);
+   
+	   					if (empty || item == null) {
+	   						//setGraphic(null);
+	   						//setText(null);
 
-                    // 【重要】isValueChengedがfalseであっても、
-                    // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
-                	setDisable(false);
-                	pseudoClassStateChanged(DISABLED_PC, false);
-                	setFocusTraversable(false); 
-                    
-                } else {
-                 	setText(item.toString());
- 
-                	setDisable( !isEnabled );
-                	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
-                	setFocusTraversable(isEnabled);
-                }
-            }
+	   						// 【重要】isValueChengedがfalseであっても、
+	   						// 再利用対策として「空セル」は標準状態（disable=false）に戻す 
+	   						setDisable(false);
+	   						pseudoClassStateChanged(DISABLED_PC, false);
+	   						setFocusTraversable(false); 
+	   					} else {
+	   						//setText(item.toString());
+	   						setDisable( !isEnabled );
+	   						pseudoClassStateChanged(DISABLED_PC, !isEnabled );
+	   						setFocusTraversable(isEnabled);
+	   					}
+	   				}
         });
 	}
 	

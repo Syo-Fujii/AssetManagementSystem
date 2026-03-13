@@ -2,7 +2,6 @@ package application.java.window.inventoryLoans.inventoryLoan;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -165,6 +164,9 @@ public class FormController extends BaseFormPage {
         		return;
         	}
         	
+        	// 貸出実行確認
+        	if( !showMessageIsCheckOutItems(availableRows) ) { return; }
+        	
         	// 貸出処理(備品データ更新処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 貸出(更新)処理");
         	super.executeBulkQuery(availableRows);  		
@@ -285,23 +287,11 @@ public class FormController extends BaseFormPage {
 	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
 		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品(貸出)データ連携(BIND)処理");
 
-	    // ① 内部の選択インデックスをリセット（重要）
-	    tableListView.getSelectionModel().clearSelection();
-	    // データの入れ替え前に、TableView内部の「現在地」を完全に忘却させる
-	    tableListView.getSelectionModel().select(null); 
-	    tableListView.getFocusModel().focus(-1);
-	    
-	    
-	    // ② リストを空のObservableListで上書き（直接クリアせずインスタンスごと替えるのが安全）
-	    
-	    tableListView.setItems(null);
-	    tableListView.setItems(FXCollections.observableArrayList());
-	    tableListView.refresh();
+		// データ設定(BIND・SELL設定値)を初期化
+		tableListView.dataSourceClear();
 		
 		List<InventoryLoanDataModel> rows = (List<InventoryLoanDataModel>) listData;
 		
-		List<InventoryLoanDataModel> list = new ArrayList<>();
-		tableListView.setSortedList( list );
     	tableListView.setSortedList( rows );
 
     	Boolean isEmptyRecords = (listData == null || rows.isEmpty());
@@ -318,21 +308,6 @@ public class FormController extends BaseFormPage {
 		
     	// TableView Focus指定
     	tableListView.setFocusFirstCell(col_staff_name);
-
-    	/*Platform.runLater(() -> {
-	        // 二重チェック：実行時にリストが空になっていないか確認
-	        if (!tableListView.getItems().isEmpty()) {
-	            try {
-	                tableListView.requestFocus();
-	                // 最初のセルにフォーカスを当てる
-	                tableListView.setFocusFirstCell(col_staff_name);
-	            } catch (Exception e) {
-	                // ここで落ちてもシステムを止めない
-	                LogManager.writeDebug("Focus skip: " + e.getMessage());
-	            }
-	        }
-	    });*/
-
     }
     
     /**
@@ -589,7 +564,34 @@ public class FormController extends BaseFormPage {
 		
 		return true;
     }
-    
+ 
+	/**
+	 *貸出確認Message
+	 * @param rows 貸出するデータ(MODEL)のリスト
+	 * @return 確認結果
+	 */
+    private Boolean showMessageIsCheckOutItems(List<InventoryLoanDataModel> rows) {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	rows.forEach(r -> 
+    	{
+    		String sn = r.getSerialNo();
+    		String st = r.getStartDate();
+    		String lt = r.getLimitDate();
+
+    		sb.append("シリアルNO :[").append(sn != null ? sn : "").append("] ");
+    		sb.append("貸出開始日 :[").append(st != null ? st : "").append("] ");
+    		sb.append("返却予定日 :[").append(lt != null ? lt : "").append("] ");
+    		sb.append(AppUtil.newLine());
+    	});
+
+    	return MessageBox.ShowConfirmation(
+    			ShowButtonType.YES_NO,
+    			"貸出確認",
+    			"下記の備品の貸出を行います。よろしいですか？",
+    			sb.toString());
+    }    
+
 	/**
 	 *確認Message
 	 * @param message String 表示する内容

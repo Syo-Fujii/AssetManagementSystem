@@ -138,6 +138,9 @@ public class FormController extends BaseFormPage {
         	// 返却用の値(日付)を設定
         	availableRows.forEach(this::setUpdModelData);
        	
+        	// 返却実行確認
+        	if( !showMessageIsCheckInItems(availableRows) ) { return; }     	
+        	
         	// 処理(備品データ更新処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 返却(更新・登録)処理");
         	super.executeBulkQuery(availableRows);  		
@@ -261,7 +264,10 @@ public class FormController extends BaseFormPage {
 	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
 		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品(返却)データ連携(BIND)処理");
 		
-    	List<InventoryReturnDataModel> rows = (List<InventoryReturnDataModel>) listData;
+		// データ設定(BIND・SELL設定値)を初期化
+		tableListView.dataSourceClear();  	
+		
+		List<InventoryReturnDataModel> rows = (List<InventoryReturnDataModel>) listData;
     	
     	tableListView.setSortedList( rows );
 
@@ -325,17 +331,29 @@ public class FormController extends BaseFormPage {
     }
     
 	/**
-	 *確認Message
-	 * @param message String 表示する内容
+	 *返却確認Message
+	 * @param rows 返却するデータ(MODEL)のリスト
 	 * @return 確認結果
 	 */
-    private Boolean showMessageConfimed(String message) {
+    private Boolean showMessageIsCheckInItems(List<InventoryReturnDataModel> rows) {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	rows.forEach(r -> 
+    	{
+    		String sn = r.getSerialNo();
+    		String name = r.getStaffName();
+
+    		sb.append("シリアルNO :[").append(sn != null ? sn : "").append("] ");
+    		sb.append("使用者 :[").append(name != null ? name : "").append("] ");
+    		sb.append(AppUtil.newLine());
+    	});
+
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
-    			"確認",
-    			null,
-    			message + "よろしいですか？");
-    }
+    			"返却確認",
+    			"下記の備品の返却を行います。よろしいですか？",
+    			sb.toString());
+    }   
 
     /**
      * 警告Message：備品データ不整合(重複データ)
