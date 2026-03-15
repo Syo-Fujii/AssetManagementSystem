@@ -8,6 +8,7 @@ import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
+import javafx.scene.paint.Color;
 
 /** 画面生成基底クラス(Controller基底クラス) 
  *  画面設定(Controller)に対するクラス
@@ -20,11 +21,16 @@ public abstract class BaseFormPage {
 	private String fxmlFilePath = "";
 	private String cssFilePath = "";
 	
-	
 	private String windowTitle  = "";
 	private String pageTitle  = "";
-	
 
+	/* ウィンドウ枠使用設定 */
+	private boolean useframe = true;
+	
+	/* 背景ウィンドウ色 */
+	private Color windowColor = null;
+
+	
 	/**
 	 * 参照する画面ファイル(FXML)を取得する。
 	 * @return fxmlFilePath
@@ -56,7 +62,7 @@ public abstract class BaseFormPage {
 	public void setCssFile(String css) {
 		this.cssFilePath = css;
 	}
-
+	
 	/**
 	 * 画面.横幅を取得する。
 	 * @return windowWidth
@@ -88,6 +94,40 @@ public abstract class BaseFormPage {
 	public void setWindowHeight(Integer windowHeight) {
 		this.windowHeight = windowHeight;
 	}	
+
+	/**
+	 * Window(枠)背景色を取得する。
+	 * @return backGroundColor javafx.scene.paint.Color
+	 */	
+	public Color getWindowColor() {
+		return this.windowColor;
+	}
+
+	/**
+	 * Window(枠)背景色を設定する。
+	 * @param backGroundColor javafx.scene.paint.Color 設定する背景色
+	 * @brief 説定した場合、Window枠の背景色を変更する。
+	 */	
+	public void setWindowColor(Color backGroundColor) {
+		this.windowColor = backGroundColor;
+	}	
+
+	/**
+	 * Window枠有効判定を取得する。
+	 * @return useframe boolean Window枠有効判定
+	 */		
+	public boolean getIsUseWindowFrame() { 
+		return this.useframe; 
+	}
+
+	/**
+	 * Window(枠)背景色を設定する。
+	 * @param isUseFrame boolean Window枠有効判定
+	 * @brief 無効とした場合、Window枠を非表示にする
+	 */	
+	public void setIsUseWindowFrame(boolean isUseFrame) { 
+		this.useframe = isUseFrame; 
+	}
 	
 	/**
 	 * Window(枠)名称を取得する。

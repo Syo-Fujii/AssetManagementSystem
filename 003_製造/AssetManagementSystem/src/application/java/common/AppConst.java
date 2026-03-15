@@ -3,7 +3,11 @@ package application.java.common;
 import java.util.Arrays;
 
 import application.java.base.BaseTableViewModel;
+import javafx.stage.StageStyle;
 
+/**
+ * 
+ */
 public class AppConst {
 	
 	/**
@@ -74,6 +78,60 @@ public class AppConst {
 	}	
 
 	/**
+	 * Window(ウィンドウ枠)スタイル
+	 */
+	public static enum WindowStyle {
+		DECORATED(1, "DECORATED(標準)"),
+		TRANSPARENT(2, "TRANSPARENT(透明枠・背景色透明)"),
+		UNDECORATED(3, "UNDECORATED(透明枠・不透明背景)"),
+		UTILITY(4, "UTILITY(最小化・最大化ボタンなし)");
+
+	    private final int id;
+	    private final String label;
+
+	    /** コンストラクタ */
+	    WindowStyle(int id, String label) {
+	        this.id = id;
+	        this.label = label;
+	    }
+
+	    public int getId() { return id; }
+	    public String getlabel() { return label; }
+
+	    /**
+	     * 定数に対応する[StageStyle]を返す
+	     * @return StageStyle javafx.stage.StageStyle Window枠の設定
+	     */
+	    public StageStyle getStyle() 
+	    { 
+	    	switch (this.id) {
+	        case 1:
+	            return StageStyle.DECORATED;
+	    	case 2:
+	            return StageStyle.TRANSPARENT;
+	        case 3:
+	            return StageStyle.UNDECORATED;
+	        case 4:
+	            return StageStyle.UTILITY;
+	        default:
+	            return StageStyle.DECORATED; // 標準枠
+	        }	
+	    }
+	    
+	    /**
+	     * 数値(引数)から一致するEnum要素を返す
+	     * @param id
+	     * @return 一致するEnum要素
+	     */	    
+	    public static WindowStyle fromStyle(int id) {
+	        return Arrays.stream(WindowStyle.values())
+	                 .filter(s -> s.getId() == id)
+	                 .findFirst()  // 最初に見つかったものを取得
+	                 .orElse(null); // 見つからなければ null を返す
+	    }	
+	}	
+	
+	/**
 	 * Enum SQL実行結果
 	 */
 	public static enum ExcuteQueryResultStatus {
@@ -122,10 +180,12 @@ public class AppConst {
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;
 	
+	/** 各フォルダPATH */
+	public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
 	public static final String FXML_PATH = "/application/resources/fxml/";
-
 	public static final String CSS_PATH = "/application/resources/css/";
-
+	public static final String IMAGE_FOLDER_PATH = "/application/resources/images/";
+	
 	/**
 	 * 明細行付き行データ(クラス:record)
 	 * @param <T>
@@ -143,5 +203,11 @@ public class AppConst {
      * メッセージ:[String]<br>
      * を保持する。<br>
 	 */
-	public record rowCheckResultData(Boolean result, Boolean isShowMsgBox, int rowNum, int colNo, String message) {};
+	public record rowCheckResultData(
+			Boolean result,
+			Boolean isShowMsgBox,
+			int rowNum,
+			int colNo,
+			String message) {};
+
 }

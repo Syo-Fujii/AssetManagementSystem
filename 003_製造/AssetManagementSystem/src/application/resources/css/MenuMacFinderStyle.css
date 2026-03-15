@@ -1,0 +1,203 @@
+/* 最下部(親)AnkerPanel */
+.root-pane {
+    -fx-background-color: transparent;
+}
+
+/* VBox(2段目) */
+.main-window { 
+	-fx-background-color: rgba(246, 246, 246, 0.95); /* わずかに透過 */
+	/* -fx-background-color: #F6F6F6; /* Mac標準の薄いグレー */
+    -fx-background-radius: 12;
+	/* 枠の影(AnchorPaneの余白部分に表示) */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 5);
+	-fx-border-radius: 12;
+	-fx-border-color: #D1D1D1;    /* 繊細な外枠の線 */
+	-fx-border-width: 0.5;
+}
+
+/* HBox(3段目)[TitleBar] */
+.title-bar {
+    /* グラデーションで金属感を出す（オプション） */
+    -fx-background-color: linear-gradient(to bottom, #f6f6f6, #e8e8e8);
+    /* 下側にだけ薄い線を入れる */
+    -fx-border-color: transparent transparent #d1d1d1 transparent;
+	-fx-background-radius: 12 12 0 0;
+	-fx-border-width: 0.5;
+	-fx-padding: 10 15 10 15;
+	-fx-alignment: CENTER_LEFT;	
+}
+
+/* StackPanel(3段目)[TitleBar] ボタン共通設定 */
+.traffic-light {
+    -fx-stroke: rgba(0,0,0,0.15); /* ボタンの薄い縁取り（Mac標準） */
+    -fx-stroke-type: INSIDE;
+    -fx-stroke-width: 0.5;
+}
+
+/* StackPanel(3段目)[TitleBar] マウスを載せた時の演出 */
+.traffic-light:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 0.85;
+}
+
+/*  StackPanel.Circle(3段目)[TitleBar] ） */
+.traffic-light .circle {
+    -fx-stroke: rgba(0,0,0,0.1);
+    -fx-stroke-type: INSIDE;
+}
+
+/* StackPanel.Circle(3段目)[TitleBar] 各ボタンの色 */
+.close-btn .circle { -fx-fill: #FF5F56; }
+.minimize-btn .circle { -fx-fill: #FFBD2E; }
+.zoom-btn .circle { -fx-fill: #27C93F; }
+
+/* [TitleBar] アイコン共通設定：普段は透明にする */
+.icon-text {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(0, 0, 0, 0.5); /* 少し薄い黒 */
+    -fx-opacity: 0; /* 普段は隠す */
+}
+/* [TitleBar] 親(StackPane)にマウスが載った時、中のアイコンを表示する */
+.traffic-light:hover .icon-text {
+    -fx-opacity: 1;
+}
+
+/* AnChorPanel(3段目)[Page]  */
+.page-pane {
+    -fx-background-color: transparent;
+	/* 角丸の設定：上(0, 0) 下(20, 20) */
+	-fx-background-radius: 0 0 12 12;
+	-fx-border-radius: 12;
+}
+
+/* AnChorPanel/ ImageView (4段目)[BackGroungImagePage]  */
+.imagepage-pane {
+	/* 画像を「背景」として指定 */
+	/*-fx-background-image: url('../images/menuWindow/menuImage_1.jpg');*/
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+	-fx-background-size: cover;
+
+	/* 角丸の設定：上(0, 0) 下(20, 20) */
+	-fx-background-radius: 0 0 12 12;
+
+	/* 背景色を透明にして角丸を有効化 */
+	/*-fx-background-color: transparent;*/
+	-fx-background-color: rgb(0, 0, 160);
+}
+
+
+/* メニューバー全体 */
+.menu-bar {
+    -fx-background-color: #F6F6F6; /* 薄いグレー */
+    -fx-border-color: #DCDCDC;
+    -fx-border-width: 0 0 1 0; /* 下線のみ */
+    -fx-font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-font-size: 13px;
+}
+
+/* メニュー項目（ファイル、編集など） */
+.menu {
+    -fx-padding: 5 10 5 10;
+}
+
+/* メニューの文字色（通常時） */
+.menu .label {
+    -fx-text-fill: #333333;
+}
+
+/* ホバー時の背景と文字色 */
+.menu:hover {
+    -fx-background-color: #E0E0E0;
+    -fx-background-radius: 4;
+}
+
+/* プルダウンメニュー（コンテキストメニュー） */
+.context-menu {
+    -fx-background-color: rgba(255, 255, 255, 0.9); /* 半透明 */
+    -fx-background-radius: 6;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
+}
+
+/* メニュー項目（新規、開くなど） */
+.menu-item {
+    -fx-padding: 5 15 5 15;
+}
+
+.menu-item .label {
+    -fx-text-fill: #333333;
+}
+
+/* 項目ホバー時 */
+.menu-item:focused {
+    -fx-background-color: #007AFF; /* Macの青 */
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: white;
+}
+
+/* HBox(4段目)[SideBar] */
+.side-bar {
+    -fx-background-color: rgba(246, 246, 246, 0.8); /* 薄いグレー */
+	-fx-background-radius: 0 0 0 12;
+}
+
+/* サイドバーボタンの基本設定 */
+.sidebar-button {
+    -fx-background-color: transparent; /* 通常時は背景なし */
+    -fx-background-radius: 6;         /* Mac標準の角丸 */
+    -fx-padding: 6 12 6 12;           /* 上下左右の余白 */
+    -fx-text-fill: #4A4A4A;           /* 少し柔らかい黒 */
+    -fx-alignment: CENTER_LEFT;       /* 左寄せ */
+    -fx-font-size: 13px;
+}
+
+/* マウスホバー時（Finderのリスト選択前のような薄いグレー） */
+.sidebar-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.05); 
+    -fx-cursor: hand;
+}
+
+/* 選択中（アクティブ）の状態：Finder標準の青 */
+.sidebar-button:selected, 
+.sidebar-button.active {
+    -fx-background-color: #007AFF;    /* Mac標準のアクセントブルー */
+    -fx-text-fill: white;             /* 文字は白抜き */
+}
+
+/* クリックした瞬間（少し沈む感じ） */
+.sidebar-button:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+/* ボタンの基本スタイル */
+.mac-button {
+    -fx-background-color: transparent; /* 通常時は透明 */
+    -fx-background-radius: 6;         /* 緩やかな角丸 */
+    -fx-text-fill: #333333;           /* 文字色 */
+    -fx-font-family: "SF Pro Text", "Helvetica Neue", "System"; /* Mac標準フォントを意識 */
+    -fx-padding: 5 12 5 12;
+    -fx-transition: 0.2s;             /* ふんわり変化させる（JavaFXでは標準外だが意識） */
+}
+
+/* マウスホバー時（少しグレーにする） */
+.mac-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.05); /* ほんのりグレー */
+    -fx-cursor: hand;
+}
+
+/* クリック時（少し濃いグレーにする） */
+.mac-button:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* アクティブ（選択中）なボタンの強調 */
+.mac-button.active {
+    -fx-background-color: #007AFF;   /* Macのアクセントカラー（青） */
+    -fx-text-fill: white;
+}

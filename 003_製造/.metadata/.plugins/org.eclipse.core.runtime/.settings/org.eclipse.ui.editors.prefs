@@ -22,7 +22,6 @@ searchResultIndicationColor=255,255,0
 showEnclosedSpaces=false
 showLeadingSpaces=false
 showTrailingSpaces=false
-showWhitespaceCharacters=true
 spellingEnabled=false
 whitespaceCharacterAlphaValue=30
 writeOccurrenceHighlighting=false

@@ -3,6 +3,8 @@ package application.java.manager.form;
 import java.util.Objects;
 
 import application.java.base.BaseFormPage;
+import application.java.common.AppConst;
+import application.java.common.AppUtil;
 import application.java.manager.LogManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +49,7 @@ public class JavaFxManager extends Application{
 	      stage = primaryStage;
 	}
 	
-	/**
+	/**　
 	* 画面設定・表示処理
 	* @param cls BaseFormPage 遷移先画面のclass
 	* @param params Object 遷移先画面用パラメータ
@@ -60,6 +62,10 @@ public class JavaFxManager extends Application{
 	*/
 	@SuppressWarnings("unused")
 	public void setPage(BaseFormPage cls, Object...params) throws Exception{
+		
+		// ウィンドウ枠を切替る場合、[stage]を再生成する
+		setWindowFrame(cls.getIsUseWindowFrame());
+		
 		FXMLLoader loader = new FXMLLoader();
 		
 		loader.setController(cls);
@@ -80,6 +86,8 @@ public class JavaFxManager extends Application{
 		if (!cls.getCssFile().isEmpty()) {
 			scene.getStylesheets().add(getClass().getResource(cls.getCssFile()).toExternalForm());
 		}
+		
+		System.out.print(cls.getCssFile() + AppUtil.newLine());
 		
 		/*
 		BaseFormPage page = (BaseFormPage)loader.getController();
@@ -110,7 +118,12 @@ public class JavaFxManager extends Application{
         	this.WindowShown(cls);
         });		
 		
-		stage.setScene(scene);
+        // ウィンドウ背景色の設定(設定した場合のみ)
+        if (cls.getWindowColor() != null) {
+    		scene.setFill(cls.getWindowColor());
+        }
+        
+        stage.setScene(scene);
 		
 		if (isSizeToScene)
 		{
@@ -118,7 +131,7 @@ public class JavaFxManager extends Application{
 			stage.sizeToScene();
 		}
 		
-		LogManager.writeInfo("画面展開 [setPage] : " + cls.getPageTitle()); 
+		LogManager.writeInfo("画面展開 [setPage] : " + cls.getPageTitle());
 		stage.show();
 	}
 	
@@ -139,5 +152,27 @@ public class JavaFxManager extends Application{
 
 		// Page(scene) で設定したWindowShownEvent呼出
 		cls.windowShown();
+	}
+	
+	/**
+	 * ウィンドウ(枠)設定
+	 * @param isUseFlame
+	 * @brief ウィンドウ(枠)設定は生成時に一回しかできない為、<br>
+	 * 切り替える場合はウィンドウ(stage)を生成しなおす。
+	 */
+	private void setWindowFrame(boolean isUseFlame) {
+        
+		AppConst.WindowStyle targetStyle = 
+				!isUseFlame ? AppConst.WindowStyle.TRANSPARENT : AppConst.WindowStyle.DECORATED;	
+		
+		if ( (stage.getStyle().equals(targetStyle.getStyle()))) { return; }
+		
+		LogManager.writeDebug("Window切替 [setWindowFrame] : " + targetStyle.getlabel());
+		
+		// 表示中の場合は閉じる
+		if ( stage.isShowing() ) { stage.close(); }
+		
+        stage = new Stage(); // 新しいStageを生成
+        stage.initStyle(targetStyle.getStyle());
 	}
 }

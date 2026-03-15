@@ -3,7 +3,7 @@ package application;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
-import application.java.window.inventoryLoans.inventoryList.FormController;
+import application.java.window.MenuController;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
@@ -42,10 +42,10 @@ public final class Main extends JavaFxManager {
 	    	super.start(primaryStage);
 			
 	    	// 最初に表示する画面を設定
-	    	this.setPage(new FormController());
+	    	//this.setPage(new FormController());
+	    	this.setPage(new MenuController(true));
 
 	    } catch (Exception e) {
-	    	
 	    	/* 例外MSGの二重起動防止の為、コメントアウト 
 	    	 * throwした場合、最終的に[Thread.setDefaultUncaughtExceptionHandler]が拾う
 	    	 * */
@@ -64,9 +64,10 @@ public final class Main extends JavaFxManager {
         try {
             // DB切断
             MySqlManager.Close();
+
         } catch (Exception e) {
             LogManager.writeError("終了処理（DB切断）でエラーが発生しました", e);
-         // システム(JavaFx)にExceptionを通知する
+            // システム(JavaFx)にExceptionを通知する
             throw e; 
  
         } finally {
@@ -100,5 +101,4 @@ public final class Main extends JavaFxManager {
     			    });
     	});
 	}	    
-    
 }

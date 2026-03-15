@@ -68,6 +68,7 @@ public class MySqlManager {
      * コネクションプール使用設定
      * @param isConnectionPooling boolean 設定値
      */
+	@SuppressWarnings("static-access")
 	public void setConnectionPooling(boolean isConnectionPooling) {
 		this.isConnectionPooling = isConnectionPooling;
 	}

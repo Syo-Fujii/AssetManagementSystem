@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="540.0" styleClass="root-pane" stylesheets="@../css/MenuMacFinderStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="20.0" layoutY="20.0" prefHeight="500.0" prefWidth="500.0" styleClass="main-window" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <HBox fx:id="titleBar" prefHeight="40.0" prefWidth="500.0" styleClass="title-bar">
+               <children>
+                  <HBox alignment="CENTER_LEFT" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" spacing="8.0">
+                     <children>
+                        <StackPane>
+                           <children>
+                              <Circle fill="DODGERBLUE" radius="10.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle" />
+                              <Text onMouseClicked="#handleClose" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="icon-text" text="×" textAlignment="JUSTIFY" StackPane.alignment="CENTER">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <styleClass>
+                              <String fx:value="traffic-light" />
+                              <String fx:value="close-btn" />
+                           </styleClass>
+                        </StackPane>
+                        <StackPane>
+                           <children>
+                              <Circle fill="DODGERBLUE" onMouseClicked="#handleMinimize" radius="10.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle" />
+                              <Text onMouseClicked="#handleMinimize" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="icon-text" text="-" />
+                           </children>
+                           <styleClass>
+                              <String fx:value="traffic-light" />
+                              <String fx:value="minimize-btn" />
+                           </styleClass>
+                        </StackPane>
+                        <StackPane>
+                           <children>
+                              <Circle fill="DODGERBLUE" radius="10.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="icon-text" text="+" />
+                           </children>
+                           <styleClass>
+                              <String fx:value="traffic-light" />
+                              <String fx:value="zoom-btn" />
+                           </styleClass>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <Region minWidth="0.0" prefHeight="200.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="lbl_title" text="タイトル" />
+                  <Region minWidth="0.0" prefHeight="200.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                  <Pane maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+               </children>
+            </HBox>
+            <AnchorPane layoutY="40.0" prefHeight="460.0" styleClass="page-pane">
+               <children>
+                  <AnchorPane fx:id="imagePane" styleClass="imagepage-pane" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fx:id="backImage" fitHeight="459.0" fitWidth="499.0" mouseTransparent="true" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <ImageView fx:id="frontImage" fitHeight="459.0" fitWidth="499.0" mouseTransparent="true" opacity="0.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <VBox prefHeight="459.0" prefWidth="140.0" spacing="2.0" styleClass="side-bar" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="カテゴリー" />
+                        <ToggleButton fx:id="loanlist_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLoanListButtonClicked" styleClass="sidebar-button" text="貸出業務">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sideMenuGroup" />
+                           </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="棚卸業務" toggleGroup="$sideMenuGroup" />
+                        <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="マスタメンテナンス" toggleGroup="$sideMenuGroup" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
