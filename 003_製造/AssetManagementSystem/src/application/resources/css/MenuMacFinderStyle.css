@@ -112,7 +112,7 @@
 
 	/* 背景色を透明にして角丸を有効化 */
 	/*-fx-background-color: transparent;*/
-	-fx-background-color: rgb(0, 0, 160);
+	/*-fx-background-color: rgb(0, 0, 160);*/
 
 	/* 角丸の設定：上(0, 0) 下(20, 20) */
 	-fx-background-radius: 0 0 12 12;	

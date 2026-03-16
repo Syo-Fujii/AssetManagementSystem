@@ -109,6 +109,21 @@ public class FileManager {
 	    return getClass().getResource("/" + result).toExternalForm();
 	}	
 
+	/**
+	 * 
+	 * @param targetDirectory
+	 * @return
+	 */
+	public Boolean existsFolder(String targetDirectory) {
+		
+		Path path = Paths.get(targetDirectory);
+		
+		return (Files.exists(path) && Files.isDirectory(path));
+	}
+	public Boolean existsFolder(Path path) {
+		
+		return (Files.exists(path) && Files.isDirectory(path));
+	}	
 	
 	/**
 	 * 

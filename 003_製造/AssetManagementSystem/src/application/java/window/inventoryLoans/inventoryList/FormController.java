@@ -13,6 +13,7 @@ import application.java.manager.MySqlManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryListMapper;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -46,6 +47,7 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<InventoryListDataModel, Integer> col_unknownCnt;
 	@FXML private TableColumn<InventoryListDataModel, Integer> col_totalCnt;
 	
+	@FXML private Button back_button;
 	
 	/** 
 	 * コンストラクタ
@@ -86,7 +88,25 @@ public class FormController extends BaseFormPage {
     	super.<InventoryListDataModel>fillTableAsync(); 	
 
     }	
-
+    
+    /**
+     * [メニューに戻る]ボタン 押下イベント 
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
+     */
+    @FXML
+    public void onBackButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [メニューに戻る]ボタン押下"); 
+    		
+    		// 遷移元画面に切替
+    		this.showOwnerPage();
+    	
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： メニュー画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
+    }
+    
 	/**
      * クエリ発行処理(Mapper)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
@@ -217,4 +237,16 @@ public class FormController extends BaseFormPage {
     		LogManager.showAndWriteError(title, e);
     	}
     }
+    
+    /**
+     * 遷移元画面呼び出し
+     * @brief 遷移元画面(メニュー：Menu)を呼出す。<br>
+     */
+    private void showOwnerPage() throws Exception {
+    	// 遷移元画面に切替
+    	super.setPage(new application.
+    			java.
+    			window.
+    			MenuController(true));
+    }    
 }

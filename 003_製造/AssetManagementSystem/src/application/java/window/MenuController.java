@@ -31,10 +31,16 @@ import javafx.util.Duration;
  * Window(枠:stage)の切替イベントを追加・適用する。<br>
  * Window枠の透明化(非表示)に伴い、既存のウィンドウバーを操作できるボタン群を追加<br>
  * 背景画像の取り込み/COVER・スライドショー機能を追加する<br>
+ * ※ 当該アプリでは、各画面のControllerに対するCSSをControllerクラスで定義・<br>
+ * Page(scene)生成時にセットすることで対応させている。<br>
+ * fxml(Screenbuilder)にて、CSSを設定している場合、アプリのLoad時にfxmlのcssパスも参照することになり<br>
+ * 警告が発生することがある。(多分、Javaとfxmlで相対PATHの開始ディレクトリィが違う？)<br>
+ * 警告に問題ある場合は、fxml側のCSS参照を削除すること。(アプリではControllerクラスの設定だけで有効化されます。)<br>
+ * ScreenBuilderにて、反映させる(デザイナでの見た目)場合は、 fxml(Screenbuilder)にて、CSSを設定してください。
  */
 public class MenuController extends BaseFormPage {
 
-	private final String FORM_NAME = "メニュー画面";
+	private final String FORM_NAME = "備品管理システム メニュー画面";
 	private final Integer CLIP_RECT_ANGLE = 12;
 	private final String IMAGE_FORM_FOLDER = "menuWindow";
 	
@@ -77,6 +83,7 @@ public class MenuController extends BaseFormPage {
 	{
 		LogManager.writeInfo("[" + FORM_NAME + "] ： 初期化処理"); 
 		
+		// 背景画像の取得(PATH)
 		setBackGroundImagePaths();
 		
 		// MAC風Window設定
@@ -97,19 +104,22 @@ public class MenuController extends BaseFormPage {
 		this.isBgImageCover = isImgCover;
 	}
 	
-	
+    /**
+     * 画面(scene)初期化イベント
+     * .NET Load相当 
+     * 画面の表示前、ノードが配置された段階で実行
+     */
     @FXML
     public void initialize() {
-    	
     	lbl_title.setText(FORM_NAME);
     	
     	// 画像用パネル下部設定
     	applyImagePaneBottomRoundedClip();
     	
     	onTitleBarMousePressEvent();
-    	
+
         Platform.runLater(() -> {
-            if (imagePaths.length > 0) {
+            if (imagePaths != null && imagePaths.length > 0) {
             	//startBackgroundSlideShow(imagePane, 5);
             	startBackgroundSlideShowFade(frontImage, backImage, 5);
             }
@@ -332,19 +342,22 @@ public class MenuController extends BaseFormPage {
     }
 
     /**
-     * 
+     * 背景画像一覧取得()
      * @throws Exception
+     * @brief 指定フォルダより、対象ファイルのPATHをリストで取得する<br>
      */
     private void setBackGroundImagePaths() throws Exception {
-		
+    	
 		// 背景画像一覧の取得
     	FileManager fileIo = new FileManager();
-		
+    	
 		String path = fileIo.
 				resourcePathCombine( new String[] { 
 								AppConst.SOURCE_FULL_PATH, 
 								AppConst.IMAGE_FOLDER_PATH, 
 								IMAGE_FORM_FOLDER });
+
+		if (!fileIo.existsFolder(path)) { return; }
 
 		this.imagePaths = fileIo.
 				getResourceUrlFullPathList(path).toArray( String[]::new );   	

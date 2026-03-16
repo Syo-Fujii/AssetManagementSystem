@@ -175,13 +175,13 @@ public class AppConst {
 
 	/**	貸出状態:貸出中 */
 	public static final Integer LOANSTATE_CHECKED_OUT = 2;
-	
-	
+
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;
 	
 	/** 各フォルダPATH */
-	public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
+	// public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
+	public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\002_Repositories\\003_製造\\AssetManagementSystem\\src\\";
 	public static final String FXML_PATH = "/application/resources/fxml/";
 	public static final String CSS_PATH = "/application/resources/css/";
 	public static final String IMAGE_FOLDER_PATH = "/application/resources/images/";
