@@ -29,9 +29,9 @@
 
 /* StackPanel(3段目)[TitleBar] ボタン共通設定 */
 .traffic-light {
-    -fx-stroke: rgba(0,0,0,0.15); /* ボタンの薄い縁取り（Mac標準） */
-    -fx-stroke-type: INSIDE;
+	-fx-cursor: hand;
     -fx-stroke-width: 0.5;
+	-fx-smooth: true;	
 }
 
 /* StackPanel(3段目)[TitleBar] マウスを載せた時の演出 */
@@ -40,22 +40,53 @@
     -fx-opacity: 0.85;
 }
 
+/* StackPanel(3段目)[TitleBar] クリックした瞬間に少し沈む演出 */
+.traffic-light:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
 /*  StackPanel.Circle(3段目)[TitleBar] ） */
 .traffic-light .circle {
-    -fx-stroke: rgba(0,0,0,0.1);
-    -fx-stroke-type: INSIDE;
+	-fx-stroke-type: INSIDE;
+	-fx-stroke: rgba(0,0,0,0.2);
+}
+
+.traffic-light:hover .circle {
+    /* ホバー時に全体をわずかにトーンダウンさせ、アイコンを際立たせる */
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
 }
 
 /* StackPanel.Circle(3段目)[TitleBar] 各ボタンの色 */
-.close-btn .circle { -fx-fill: #FF5F56; }
-.minimize-btn .circle { -fx-fill: #FFBD2E; }
-.zoom-btn .circle { -fx-fill: #27C93F; }
+.close-btn .circle { 
+	/* 鮮やかな赤のグラデーション */ 
+	-fx-fill: linear-gradient(to bottom,
+	 #ff5f57 0%,
+	 #ff4b42 100%);
+	/* ボタンの薄い縁取り（Mac標準） */
+	-fx-stroke: #e0443e;
+}
+
+.minimize-btn .circle { -fx-fill: linear-gradient(to bottom, 
+     #ffda44 0%, 
+     #ffbd2e 45%, 
+     #e0a41d 100%
+); }
+
+.zoom-btn .circle { -fx-fill: linear-gradient(to bottom, 
+     #3ee054 0%, 
+     #28c940 45%, 
+     #1da12f 100%
+    ); }
 
 /* [TitleBar] アイコン共通設定：普段は透明にする */
 .icon-text {
-    -fx-font-size: 12px;
+	/* 角に丸みのあるフォント */
+	-fx-font-family: "Helvetica", "Arial", sans-serif;
+	-fx-font-size: 9px;
     -fx-font-weight: bold;
-    -fx-text-fill: rgba(0, 0, 0, 0.5); /* 少し薄い黒 */
+	-fx-fill: rgba(0, 0, 0, 0.6); 
+	-fx-text-fill: rgba(0, 0, 0, 0.6); /* 少し薄い黒 */
     -fx-opacity: 0; /* 普段は隠す */
 }
 /* [TitleBar] 親(StackPane)にマウスが載った時、中のアイコンを表示する */
@@ -66,7 +97,7 @@
 /* AnChorPanel(3段目)[Page]  */
 .page-pane {
     -fx-background-color: transparent;
-	/* 角丸の設定：上(0, 0) 下(20, 20) */
+	/* 角丸の設定：上(0, 0) 下(12, 12) */
 	-fx-background-radius: 0 0 12 12;
 	-fx-border-radius: 12;
 }
@@ -79,12 +110,12 @@
 	-fx-background-position: center;
 	-fx-background-size: cover;
 
-	/* 角丸の設定：上(0, 0) 下(20, 20) */
-	-fx-background-radius: 0 0 12 12;
-
 	/* 背景色を透明にして角丸を有効化 */
 	/*-fx-background-color: transparent;*/
 	-fx-background-color: rgb(0, 0, 160);
+
+	/* 角丸の設定：上(0, 0) 下(20, 20) */
+	-fx-background-radius: 0 0 12 12;	
 }
 
 
@@ -171,8 +202,6 @@
 .sidebar-button:pressed {
     -fx-background-color: rgba(0, 0, 0, 0.1);
 }
-
-
 
 
 /* ボタンの基本スタイル */
