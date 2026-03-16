@@ -10597,3 +10597,18 @@ java.lang.IllegalStateException: Disconnected before saving. https://bugs.eclips
 
 !ENTRY org.eclipse.lsp4e 4 0 2026-03-16 18:22:32.920
 !MESSAGE 18:20:05.575 [pool-3-thread-67] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/MenuController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-03-16 18:23:16.566
+!MESSAGE 18:23:16.565 [pool-3-thread-70] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/MenuController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-03-16 18:25:02.719
+!MESSAGE 18:23:19.090 [pool-3-thread-70] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/MenuController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-03-16 18:25:26.388
+!MESSAGE 18:25:22.034 [pool-3-thread-72] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/MenuController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-03-16 18:26:23.347
+!MESSAGE 18:26:23.346 [pool-3-thread-73] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/MenuController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-03-16 18:26:39.957
+!MESSAGE 18:26:39.947 [pool-3-thread-73] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/MenuController.java
