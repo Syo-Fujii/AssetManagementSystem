@@ -50,7 +50,9 @@ public class AppConst {
 		AVAILABLE(1, "可"),
 	    CHECKED_OUT(2, "貸出中"),
 	    UNKNOWN(3, "不明"),
-	    UNAVAILABLE(4,"不可");
+	    UNAVAILABLE(4,"不可"),
+	    /* 返却処理に含めるため、[貸出中]で[不明]のデータを分ける */
+	    CHECKOUT_AND_UNKNOWN(5, "不明");
 
 	    private final int state;
 	    private final String label;
@@ -169,12 +171,6 @@ public class AppConst {
 	        return null;
 	    }	
 	}	
-
-	/**	貸出状態:可 */
-	public static final Integer LOANSTATE_AVAILABLE = 1;
-
-	/**	貸出状態:貸出中 */
-	public static final Integer LOANSTATE_CHECKED_OUT = 2;
 
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;

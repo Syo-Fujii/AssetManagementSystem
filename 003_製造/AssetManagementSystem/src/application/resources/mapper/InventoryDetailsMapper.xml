@@ -43,9 +43,13 @@
              STM.name              AS type_name 
            , SM.serial_no          AS serialNo
            , IFNULL(STF.name, '')  AS staffName        -- 貸出先ユーザー
+           /* DataViewとの整合性を考慮しString型とする */
            , CASE 
                WHEN SM.rent_flg
                    THEN '4'                           -- 不可 / 貸出可否(TRUEの場合、貸出不可)
+               /* 返却処理に含めるため、[貸出中]で[不明]のデータを分ける */
+               WHEN SD.staff_no IS NOT NULL AND DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
+                   THEN '5'                           -- 不明 / 可否表示は不明だがデータの種別は分ける [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする)
                WHEN DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
                    THEN '3'                           -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする)
                WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
@@ -115,7 +119,7 @@
        SELECT
           EDV.シリアルナンバー         AS serialNo,
           EDV.使用者                   AS staffName,
-          EDV.貸出可否                 AS rentFlg,
+          EDV.貸出可否                 AS rentFlg,               -- 貸出可否の文字列が設定されている想定
           EDV.貸出開始日               AS startDate,
           EDV.返却予定日               AS limitDate,
           EDV.最終所在確認日           AS confirmedDate,

@@ -135,6 +135,8 @@ public class FormController extends BaseFormPage {
     	try {
     		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品一覧データ連携(BIND)処理");
     		
+    		// 当該画面では再描画(再検索)はない為[dataSourceClear]は呼出さない
+    		
     		List<InventoryListDataModel> rows = (List<InventoryListDataModel>) listData;
         	
         	tableListView.setList( rows );		

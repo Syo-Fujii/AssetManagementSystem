@@ -262,7 +262,10 @@ public class FormController extends BaseFormPage {
     	try {
     		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品詳細データ連携(BIND)処理");
     		
-        	List<InventoryDetailsDataModel> rows = (List<InventoryDetailsDataModel>) listData;
+    		// データ設定(BIND・SELL設定値)を初期化
+    		tableListView.dataSourceClear();        	
+    		
+    		List<InventoryDetailsDataModel> rows = (List<InventoryDetailsDataModel>) listData;
         	
         	tableListView.setList( rows );
 
@@ -273,11 +276,12 @@ public class FormController extends BaseFormPage {
     		
     		// [貸出]ボタン有効化制御([可]が一つでも存在する場合有効)
     		loan_button.setDisable(!rows.stream().
-    				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_AVAILABLE));
+    				anyMatch(r -> r.getRentValue() == AppConst.LoanStatus.AVAILABLE.getState()));
 
     		// [返却]ボタン有効化制御([貸出中]が一つでも存在する場合有効)
     		return_button.setDisable(!rows.stream().
-    				anyMatch(r -> r.getRentValue() == AppConst.LOANSTATE_CHECKED_OUT));	
+    				anyMatch(r -> r.getRentValue() == AppConst.LoanStatus.CHECKED_OUT.getState() ||
+    						      r.getRentValue() == AppConst.LoanStatus.CHECKOUT_AND_UNKNOWN.getState()));	
     	
     	} catch ( Exception e) {
     		String title = "[" + FORM_NAME + "] ： 備品詳細データの連携中にエラーが発生しました";

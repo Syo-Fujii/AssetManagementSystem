@@ -19,7 +19,8 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	private StringProperty typeName;
 	private StringProperty serialNo;
 	private StringProperty staffName;
-    private StringProperty rentFlg;
+    /* DataViewからの取得の場合を考慮しString型とする */
+	private StringProperty rentFlg;
 	private StringProperty startDate;
 	private StringProperty limitDate;
 	private StringProperty confirmedDate;

@@ -34,8 +34,8 @@
          AND SD.del = FALSE
          /* [貸出中]データの取得 */
          AND SD.staff_no IS NOT NULL 
-         /* [不明]のデータは対象としない */
-         AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+         /* 返却処理においては[不明]を考慮しない ⇐ [不明]のデータは対象としない */
+         /* AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) */
          WHERE
             1 = 1
          AND STM.stock_type = #{type}
