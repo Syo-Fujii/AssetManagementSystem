@@ -316,14 +316,14 @@ public class FormController extends BaseFormPage {
      *     mapper.updateA(data1);<br>
      *     mapper.updateB(data2);<br>
      */
+	@SuppressWarnings("unused")
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
 		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品データ更新(confirmedDate更新)");
 		
-		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
+		if (listData == null || listData.isEmpty()) { return false; }
 		
-
-
+		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
 		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
 	    
 	    // 備品詳細データ取得

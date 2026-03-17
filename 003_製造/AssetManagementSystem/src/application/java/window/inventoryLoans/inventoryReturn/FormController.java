@@ -382,7 +382,6 @@ public class FormController extends BaseFormPage {
     
     /**
      * TableView設定
-     * @param kvpItems コンボボックスの選択リスト(kvpのObservableList)
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      * 多分Webページと同じ概念。
      */
@@ -442,12 +441,13 @@ public class FormController extends BaseFormPage {
     private void callbackBindTableColumnSource() {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： カラムBIND設定");
     	
-    	// CheckBoxのカラム設定(TableView)    	
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
     	col_staff_name.setCellValueFactory( new PropertyValueFactory<>("staffName"));
      	col_start_date.setCellValueFactory( new PropertyValueFactory<>("startDate"));
     	col_limit_date.setCellValueFactory( new PropertyValueFactory<>("limitDate"));
     	col_remarks.setCellValueFactory( new PropertyValueFactory<>("remarks"));
+    	
+    	// カラム設定(Cell.valueとmodelのBIND)
     	col_is_checkin.setCellValueFactory( data -> data.getValue().isCheckInProperty());
     }
     

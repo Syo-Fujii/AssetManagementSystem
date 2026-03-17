@@ -49,6 +49,7 @@
     <mapper class="application.resources.mapper.InventoryDetailsMapper"/>
     <mapper class="application.resources.mapper.InventoryLoanMapper"/>
     <mapper class="application.resources.mapper.InventoryReturnMapper"/>
+    <mapper class="application.resources.mapper.PerformInventoryMapper"/>
     <mapper class="application.resources.mapper.StockTypeMasterMapper"/>
   </mappers>
 

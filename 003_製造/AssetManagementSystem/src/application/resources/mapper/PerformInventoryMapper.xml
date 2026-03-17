@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.PerformInventoryMapper">
+
+    <!-- 棚卸データの取得 -->
+    <select id="getTableInventoryRecords">
+     <![CDATA[
+       WITH BASE_TABLE AS
+       (
+         SELECT
+           DISTINCT
+              SM.serial_no
+            , SD.id
+         FROM
+           stock_type_master STM
+         /* 参照権限を考慮する場合に用いる
+         INNER JOIN 
+           stock_type_data STD
+          ON STM.stock_type = STD.stock_type
+         AND STM.stock_code = STD.stock_code*/ 
+         INNER JOIN 
+           stock_master SM
+          ON STM.stock_type = SM.stock_type 
+         AND STM.stock_code = SM.stock_code
+         AND STM.del = FALSE 
+         AND SM.del = FALSE 
+         /* 棚卸のため、INNER JOINとする */
+         INNER JOIN
+           stock_data SD
+          ON SM.serial_no = SD.serial_no 
+           /* 返却済データの除去 ≒ 最新の備品データを取得 */
+         AND SD.return_date IS NULL
+         AND SD.del = FALSE
+         WHERE
+            1 = 1
+       )
+
+       SELECT
+             SM.serial_no          AS serialNo
+           , STM.name              AS type_name 
+           , IFNULL(SM.name, '')   AS model
+           , CASE 
+               WHEN SM.rent_flg
+                   THEN '4'                           -- 不可 / 貸出可否(TRUEの場合、貸出不可)
+               WHEN DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
+                   THEN '3'                           -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする)
+               WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+                   THEN '2'                           -- 貸出中
+               WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+                   THEN '1'                           -- 可
+               ELSE  
+                   '4'                                -- 不可 / 備品データが未登録の場合など、異常なデータ
+             END AS rentFlg
+           , IFNULL(STF.name, '')  AS staffName       -- 貸出先ユーザー
+           , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '-') AS startDate
+           , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '-') AS limitDate
+           , IFNULL(DATE_FORMAT(SD.confirmed_date, '%Y/%m/%d'), '-') AS confirmedDate
+           , SM.remarks AS remarks
+
+           , SM.remarks AS remarksMasterValue         -- 更新比較用に現在の「備考」の値を取得ー
+           , SD.id AS stockDataId
+        FROM
+         BASE_TABLE B
+       INNER JOIN 
+         stock_master SM
+        ON B.serial_no = SM.serial_no 
+       INNER JOIN
+          stock_type_master STM
+        ON SM.stock_type = STM.stock_type   
+       AND SM.stock_code = STM.stock_code
+
+       /* 棚卸のため、INNER JOINとする */
+       INNER JOIN
+         stock_data SD
+        ON B.id = SD.id 
+
+       /* 未登録データを考慮しLEFT JOINとする */
+       LEFT JOIN
+         staff_master STF 
+        ON SD.staff_no = STF.staff_no 
+
+       WHERE
+         1 = 1
+       ORDER BY
+           STM.stock_type
+         , STM.stock_code
+         , SM.serial_no
+     ]]>
+    </select>
+
+    <!-- 備品データの最終所在確認日更新 -->
+    <update id="updConfirmedDate" parameterType="application.java.base.tableViewListModel.InventoryDetailsDataModel">
+       UPDATE stock_data
+        SET
+          confirmed_date = STR_TO_DATE( #{confirmedDate}, '%Y-%m-%d')
+       WHERE
+          id = #{stockDataId}
+    </update>
+
+    <!-- Viwew[equip_detail_view]から全データの取得 -->
+    <select id="getViewAllRecords">
+       SELECT
+          EDV.シリアルナンバー         AS serialNo,
+          EDV.使用者                   AS staffName,
+          EDV.貸出可否                 AS rentFlg,               -- 貸出可否の文字列が設定されている想定
+          EDV.貸出開始日               AS startDate,
+          EDV.返却予定日               AS limitDate,
+          EDV.最終所在確認日           AS confirmedDate,
+          EDV.製品名                   AS model,
+          EDV.メーカー                 AS maker,
+          EDV.接続先PCシリアルナンバー AS destinationSerialNo,
+          EDV.分類                     AS type,
+          EDV.リース返却予定日         AS leaseDate,
+          EDV.備考                     AS remarks,
+          EDV.stock_type,
+          EDV.stock_code, 
+          EDV.備品データID,            AS stockDataId,
+          EDV.社員番号                 AS staff_no
+       FROM
+           equip_detail_view EDV
+       WHERE
+         1 = 1
+       AND EDV.stock_type = #{type}
+       AND EDV.stock_code = #{code}
+       ORDER BY
+        EDV.シリアルナンバー
+           
+    </select>
+
+    <select id="getStockTypeName">
+      SELECT
+        STM.name
+       FROM
+         stock_type_master STM
+       WHERE
+         1 = 1
+       AND STM.stock_type = #{type}
+       AND STM.stock_code = #{code} 
+    </select>
+
+    <select id="getWindowSize">
+         SELECT
+           IFNULL( GCM.value_1, '1') AS windowSize
+         FROM
+           generic_code_master GCM
+         WHERE
+           1 = 1
+         AND GCM.type_key = #{type}
+         AND GCM.code = #{code}   
+    </select>
+
+</mapper>

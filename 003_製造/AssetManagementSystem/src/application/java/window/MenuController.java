@@ -143,6 +143,24 @@ public class MenuController extends BaseFormPage {
     		LogManager.showAndWriteError(title, ex);
     	}
     }        
+   
+    /**
+     * [棚卸業務]ボタン 押下イベント 
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
+     */
+    @FXML
+    public void onVerifyLocationButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [棚卸業務]ボタン押下"); 
+    		
+        	// 棚卸画面に切替
+        	super.setPage(new application.java.window.verifyLocation.performInventory.FormController());
+    		
+    	} catch (Exception ex) {
+    		String title = "[" + FORM_NAME + "] ： 棚卸画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
+    	}
+    }      
     
     /**
      * finder風タイトルバー用画面移動イベント

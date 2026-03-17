@@ -30,9 +30,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	private static final PseudoClass DISABLED_PC = PseudoClass.getPseudoClass("disabled-cell");
 	
 	private Boolean isEnterNextFocus = true;
-	
-	private CustomComboBoxWithCheckBoxManager<S, Integer, T> CustomComboBoxManager;
-	
+
+
 	/* 内部クラス */
 	public record keyValuePairItem<K, V>(Integer key, String value) {};
 	
@@ -121,8 +120,12 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	 * @param items 選択リストに表示するデータ
 	 * @param isEnabled CELL 有効化制御
 	 * @param isAlwaysShow 常にComboBoxを表示するか
-	 * @brief 値による動的変更はない[false]とする。
+	 * @brief 値による動的変更はない[false]とする。<br>
+	 * カラムのIDを元にModelのプロパティを検索・設定するため、入力項目の場合は<br>
+	 * ScreenBuilderなどでカラムのIDとモデルのプロパティ名を紐づけること<br>
+	 * TableColumn ID : [serialNo] = Modelプロパティ名: [serialNo] / getSerialNo / setSerialNo
 	 */
+	@SuppressWarnings("unused")
 	public void setCellTypeCustomComboBox(ObservableList<T> items, Boolean isEnabled, Boolean isAlwaysShow){
 		Boolean isValueChenged = false;
 		
@@ -173,10 +176,10 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 
 	/**
 	 * ComboBox型セル(選択リスト KeyValuePair)の設定
-	 * @param items 選択リストに表示するデータ
-     * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
-	 * @param isEnabled CELL 有効化制御
-	 * @param isAlwaysShow 常にComboBoxを表示するか
+	 * @param kvpItems ObservableList[keyValuePairItem[Integer, String]] 選択リストに表示するデータ
+     * @param keyModelName String 選択リストのkeyを格納するModelのプロパティ名
+	 * @param isEnabled Boolean CELL 有効化制御
+	 * @param isAlwaysShow Boolean 常にComboBoxを表示するか
 	 * @brief 値による動的変更はない[false]とする。
 	 */
 	@SuppressWarnings({ "unused" })
@@ -237,12 +240,12 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 
 	/**
 	 * ComboBox型セル(選択リスト KeyValuePair + 連動プロパティ)の設定
-	 * @param items 選択リストに表示するデータ
-     * @param keyModelName 選択リストのkeyを格納するModelのプロパティ名
-     * @param CheckBoxModelName 値更新に連動させるModelのプロパティ名
-     * @param placeHolderText 未選択時(空欄)時に表示させる文字(未設定の場合は、表示しない)
-	 * @param isEnabled CELL 有効化制御
-	 * @param isAlwaysShow 常にComboBoxを表示するか
+	 * @param kvpItems ObservableList[keyValuePairItem[Integer, String]] 選択リストに表示するデータ
+     * @param keyModelName String 選択リストのkeyを格納するModelのプロパティ名
+     * @param CheckBoxModelName String 値更新に連動させるModelのプロパティ名
+     * @param placeHolderText String 未選択時(空欄)時に表示させる文字(未設定の場合は、表示しない)
+	 * @param isEnabled Boolean CELL 有効化制御
+	 * @param isAlwaysShow Boolean 常にComboBoxを表示するか
 	 * @brief 値による動的変更はない[false]とする。
 	 */
 	@SuppressWarnings({ "unused" })
@@ -321,10 +324,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 
 	/**
 	 * CheckBox型セルの設定
-	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
-	 * @param items 選択リストに表示するデータ
-	 * @param isEnabled CELL 有効化制御
-	 * @param isAlwaysShow 常にComboBoxを表示するか
+	 * @param isEnabled Boolean CELL 有効化制御
+	 * @param isAlwaysShow Boolean 常にComboBoxを表示するか
 	 * @brief 値による動的変更はない[false]とする。
 	 */
 	@SuppressWarnings("unused")
@@ -400,9 +401,11 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 
 	/**
 	 * DatePicker型セルの設定
-	 * @param <T> 継承元が[BaseTableViewModel]のデータクラス
-	 * @param isEnabled CELL 有効化制御
-	 * @param isAlwaysShow 常にComboBoxを表示するか
+	 * @param isEnabled Boolean CELL 有効化制御
+	 * @param isAlwaysShow Boolean 常にComboBoxを表示するか
+	 * @param defaultDate LocalDate 日付カレンダー初期位置
+	 * @param minDate LocalDate 許容される日付の最小値
+	 * @param maxDate LocalDate 許容される日付の最大値
 	 * @brief 値による動的変更はない[false]とする。
 	 */
 	@SuppressWarnings("unused")

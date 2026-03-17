@@ -704,12 +704,13 @@ public class FormController extends BaseFormPage {
     private void callbackBindTableColumnSource() {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： カラムBIND設定");
     	
-    	// CheckBoxのカラム設定(TableView)    	
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
+    	col_remarks.setCellValueFactory( new PropertyValueFactory<>("remarks"));
+
+    	// カラム設定(Cell.valueとmodelのBIND)
     	col_staff_name.setCellValueFactory( data -> data.getValue().staffNameProperty());
      	col_start_date.setCellValueFactory( data -> data.getValue().startDateProperty());
     	col_limit_date.setCellValueFactory( data -> data.getValue().limitDateProperty());
-    	col_remarks.setCellValueFactory( new PropertyValueFactory<>("remarks"));
     	col_is_checkout.setCellValueFactory( data -> data.getValue().isCheckOutProperty());
     }
     

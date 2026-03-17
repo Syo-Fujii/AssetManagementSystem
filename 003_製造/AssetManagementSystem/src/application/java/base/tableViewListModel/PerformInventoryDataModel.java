@@ -3,55 +3,37 @@ package application.java.base.tableViewListModel;
 import application.java.base.BaseTableViewModel;
 import application.java.common.AppConst.LoanStatus;
 import application.java.common.AppUtil;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * 備品詳細データクラス
- * @brief 備品詳細画面で表示する明細リストのデータ
- * ※ １行分のデータ
- * 画面Controllerにて呼び出される前提
+ * 棚卸データクラス
+ * @brief 棚卸画面で表示する明細リストのデータ<br>
+ * ※ １行分のデータ<br>
+ * 画面Controllerにて呼び出される前提<br>
  */
-public class InventoryDetailsDataModel extends BaseTableViewModel {
+public class PerformInventoryDataModel extends BaseTableViewModel {
 
-	private StringProperty typeName;
 	private StringProperty serialNo;
-	private StringProperty staffName;
+	private StringProperty typeName;
+	private StringProperty model;
     /* DataViewからの取得の場合を考慮しString型とする */
 	private StringProperty rentFlg;
+    private StringProperty staffName;
 	private StringProperty startDate;
 	private StringProperty limitDate;
 	private StringProperty confirmedDate;
-    private StringProperty model;
-    private StringProperty maker;
-    private StringProperty destinationSerialNo;
-    private StringProperty type;
-	private StringProperty leaseDate;
-    private StringProperty remarks;
+	private StringProperty remarks;
+	private StringProperty inventoryDate;
+    private BooleanProperty isInventory;
+
+	private StringProperty remarksMasterValue;
     private IntegerProperty stockDataId;
 
-	/**
-	* [分類名称]取得
-	* @return typeName
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/    
-    public String getTypeName() {
-		return typeName.get();
-	}
-
-	/**
-	* [分類名称]項目設定
-	* @param typeName 設定する値
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/    
-	public void setTypeName(String name) {
-		this.typeName.set(name);
-	}    
-    
 	/**
 	* [シリアルNo]取得
 	* @return serialNo
@@ -71,26 +53,46 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	public void setSerialNo(String no) {
 		this.serialNo.set(no);
 	}
-
+	
 	/**
-	* [使用者]取得
-	* @return staff Name
+	* [分類名称]取得
+	* @return typeName
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/    
-	public String getStaffName() {
-		return staffName.get();
+    public String getTypeName() {
+		return typeName.get();
 	}
 
 	/**
-	* [使用者]項目設定
-	* @param staff Name 設定する値
+	* [分類名称]項目設定
+	* @param typeName 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/   	
-	public void setStaffName(String name) {
-		this.staffName.set(name);
+	*/    
+	public void setTypeName(String name) {
+		this.typeName.set(name);
+	}    
+
+	/**
+	* [製品名]取得
+	* @return model
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/
+	public String getModel() {
+		return model.get();
 	}
+
+	/**
+	* [製品名]項目設定
+	* @param model 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/
+	public void setModel(String model) {
+		this.model.set(model);;
+	}	
 
 	/**
 	* [貸出可否]取得
@@ -121,6 +123,26 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	*/   	
 	public void setRentFlg(String flg) {
 		this.rentFlg.set(flg);
+	}
+	
+	/**
+	* [使用者]取得
+	* @return staff Name
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/    
+	public String getStaffName() {
+		return staffName.get();
+	}
+
+	/**
+	* [使用者]項目設定
+	* @param staff Name 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/   	
+	public void setStaffName(String name) {
+		this.staffName.set(name);
 	}
 
 	/**
@@ -184,108 +206,8 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	}
 
 	/**
-	* [製品名]取得
-	* @return model
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public String getModel() {
-		return model.get();
-	}
-
-	/**
-	* [製品名]項目設定
-	* @param model 設定する値
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public void setModel(String model) {
-		this.model.set(model);;
-	}
-
-	/**
-	* [メーカー]取得
-	* @return maker
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public String getMaker() {
-		return maker.get();
-	}
-
-	/**
-	* [メーカー]項目設定
-	* @param model 設定する値
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public void setMaker(String maker) {
-		this.maker.set(maker);;
-	}
-
-	/**
-	* [分類]取得
-	* @return type
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public String getType() {
-		return type.get();
-	}
-	
-	/**
-	* [分類]項目設定
-	* @param type 設定する値
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public void setType(String type) {
-		this.type.set(type);
-	}	
-	
-	/**
-	* [接続先PCシリアルNo]取得
-	* @return destinationSerialNo
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public String getDestinationSerialNo() {
-		return destinationSerialNo.get();
-	}
-
-	/**
-	* [接続先PCシリアルNo]項目設定
-	* @param model 設定する値
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/	
-	public void setDestinationSerialNo(String destinationSerialNo) {
-		this.destinationSerialNo.set(destinationSerialNo);
-	}
-
-	/**
-	* [リース返却予定日]項目取得
-	* @return leaseDate
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/	
-	public String getLeaseDate() {
-		return leaseDate.get();
-	}
-
-	/**
-	* [リース返却予定日]項目設定
-	* @param leaseDate 設定する値
-	* @brief [javafx.beans.property] 
-	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	*/
-	public void setLeaseDate(String leaseDate) {
-		this.leaseDate.set(leaseDate);
-	}
-
-	/**
 	* [備考]項目取得
-	* @return remarks
+	* @param leaseDate 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/		
@@ -303,6 +225,102 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 		this.remarks.set(remarks);
 	}
 
+	/**
+	* [備考] Property取得 (TableViewとの連動に必須)
+	* @return remarks (Property)
+	* @brief [javafx.beans.property]
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須<br>
+	* ≒ 明細の入力項目の場合はプロパティを渡すゲッターを用意する
+	*/
+	public StringProperty remarksProperty() {
+	    return remarks;
+	}
+	
+	/**
+	* [棚卸日]取得
+	* @return inventoryDate
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/ 	
+	public String getInventoryDate() {
+		return inventoryDate.get();
+	}
+
+	/**
+	* [棚卸日]項目設定
+	* @param inventoryDate 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/	
+	public void setInventoryDate(String inventoryDate) {
+		this.inventoryDate.set(inventoryDate);
+	}
+
+	/**
+	* [棚卸日] Property取得 (TableViewとの連動に必須)
+	* @return inventoryDate (Property)
+	* @brief [javafx.beans.property]
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須<br>
+	* ≒ 明細の入力項目の場合はプロパティを渡すゲッターを用意する
+	*/
+	public StringProperty inventoryDateProperty() {
+	    return inventoryDate;
+	}		
+	
+	/**
+	* [棚卸]項目取得
+	* @return isInventory
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/		
+	public Boolean getIsInventory() {
+		return isInventory.get();
+	}
+
+	/**
+	* [棚卸]項目設定
+	* @param isInventory 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/
+	public void setIsInventory(Boolean checked) {
+		this.isInventory.set(checked);
+	}
+
+	/**
+	* [棚卸] Property取得 (TableViewとの連動に必須)
+	* @return isInventory (Property)
+	* @brief [javafx.beans.property]
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須<br>
+	* ≒ 明細の入力項目の場合はプロパティを渡すゲッターを用意する
+	*/
+	public BooleanProperty isInventoryProperty() {
+	    return isInventory;
+	}	
+	
+	/**
+	* [備考](更新対象比較用)項目取得
+	* @return remarksMasterValue
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/		
+	public String getRemarksMasterValue() {
+		return remarksMasterValue.get();
+	}
+
+	/**
+	* [備考](更新対象比較用)項目設定
+	* @param remarksMasterValue 設定する値
+	* @brief [javafx.beans.property] 
+	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	*/
+	public void setRemarksMasterValue(String remarks) {
+		this.remarksMasterValue.set(remarks);
+	}
+	
 	/**
 	* [備品データ ID]項目取得
 	* @return stockDataId
@@ -322,7 +340,6 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
 	public void setStockDataId(Integer id ) {
 		this.stockDataId.set(id);
 	}
-
 	
 	/**
     * コンストラクタ
@@ -332,21 +349,20 @@ public class InventoryDetailsDataModel extends BaseTableViewModel {
     * MyBatisが値を入れようとしても「入れ物」が存在しないためエラーになる為<br>
     * コンストラクタで、全プロパティの初期化を行う。
     */
-	public InventoryDetailsDataModel(){
-		this.typeName = new SimpleStringProperty("");
+	public PerformInventoryDataModel(){
 		this.serialNo = new SimpleStringProperty("");
-	    this.staffName = new SimpleStringProperty("");
+		this.typeName = new SimpleStringProperty("");
+	    this.model = new SimpleStringProperty("");
 	    this.rentFlg = new SimpleStringProperty("");
+		this.staffName = new SimpleStringProperty("");
 	    this.startDate = new SimpleStringProperty("");
 	    this.limitDate = new SimpleStringProperty("");
 	    this.confirmedDate = new SimpleStringProperty("");
-	    this.model = new SimpleStringProperty("");
-	    this.maker = new SimpleStringProperty("");
-	    this.destinationSerialNo = new SimpleStringProperty("");
-	    this.type = new SimpleStringProperty("");
-	    this.leaseDate = new SimpleStringProperty("");
 	    this.remarks = new SimpleStringProperty("");
+	    this.inventoryDate = new SimpleStringProperty("");
+	    this.isInventory = new SimpleBooleanProperty(false);
+	    
+	    this.remarksMasterValue = new SimpleStringProperty("");
 	    this.stockDataId = new SimpleIntegerProperty();
-	    		
 	 }
 }

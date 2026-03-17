@@ -145,7 +145,7 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
 	
 	/**
 	* [備考]項目取得
-	* @param remarks 設定する値
+	* @return remarks
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/		
@@ -165,7 +165,7 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
 
 	/**
 	* [返却]項目取得
-	* @param isCheckOut 設定する値
+	* @return isCheckIn
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/		
@@ -175,20 +175,21 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
 
 	/**
 	* [返却]項目設定
-	* @param isCheckOut 設定する値
+	* @param isCheckIn 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/
 	public void setIsCheckIn(Boolean checked) {
 		this.isCheckIn.set(checked);
-	}	
+	}
 
 	/**
 	* [返却] Property取得 (TableViewとの連動に必須)
-	* @param isCheckOut (Property)
+	* @return isCheckIn (Property)
 	* @brief [javafx.beans.property]
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須<br>
+	* ≒ 明細の入力項目の場合はプロパティを渡すゲッターを用意する
 	*/
 	public BooleanProperty isCheckInProperty() {
 	    return isCheckIn;
@@ -196,7 +197,7 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
 	
 	/**
 	* [備品データ ID]項目取得
-	* @param stockDataId 設定する値
+	* @return stockDataId
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/		
@@ -216,7 +217,7 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
 	
 	/**
 	* [返却日]項目取得
-	* @param returnDate 設定する値
+	* @return returnDate 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/		

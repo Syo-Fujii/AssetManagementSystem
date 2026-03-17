@@ -1,0 +1,190 @@
+/*
+EclipseのCSSエディタで -fx-background-color などのプロパティに黄色の波線（警告）が出るのは、
+Eclipseが標準のCSS規格（W3C）に従ってバリデーション（検証）を行っているためです。
+JavaFX独自のプロパティ（-fx- で始まるもの）は標準CSSには存在しないため、
+Eclipseが「こんなプロパティは知らないよ！」と親切に警告してくれています。
+  解決方法：警告を無視するか設定を変える
+  この警告が出ていても、プログラムの実行には全く影響ありません。
+  もし目障りな場合は、以下の手順でEclipseの設定を変更して警告を消すことができます。
+    1 設定画面を開く
+     1-1 ウィンドウ (Window) ＞ 設定 (Preferences) を開きます。
+    2 CSSの検証設定を探す
+     2-1 左側のメニューから Web ＞ CSS ファイル (CSS Files) ＞ 検証 (Validation) を選択します。
+    3 不明なプロパティのレベルを下げる
+     3-1 リストの中から 「不明なプロパティ (Unknown property)」を探し、
+	     右側のドロップダウンを 警告 (Warning) から 無視 (Ignore) に変更します。
+    4 適用して閉じる
+     4-1 適用して閉じる (Apply and Close) を押すと、波線が消えます。
+ 
+ 特定のTableViewだけに適用したい場合は、
+ Javaコードで tableView.getStyleClass().add("my-table"); とした上で、
+ CSSのセレクタを .my-table に変更して個別に管理する。
+*/
+
+/* [AnchorPane] 検索条件項目 */
+.searchGroupBox {
+	-fx-border-color: rgb(51, 51, 51);
+	-fx-border-width: 0.5;
+	-fx-border-radius: 8;
+}
+
+/* [AnchorPane] 検索条件枠タイトル */
+.searchTitle {
+	-fx-background: #f4f4f4;
+	-fx-background-color: -fx-background;
+	-fx-alignment: center;
+}
+
+/* [TableView] 全体 */
+.table-view {
+	/* 枠線の色 */
+	-fx-border-color: black;
+	/* 枠線の太さ（数値で調整）*/
+	-fx-border-width: 2px;
+}
+
+/* [TableView] ヘッダー全体 */
+.table-view .column-header-background {
+    /* 透明設定・リセット */ 
+	-fx-background-color: transparent;
+	-fx-background-insets: 0;
+}
+
+/* [TableView] ヘッダー背景色 */
+.table-view .column-header {
+    -fx-background-color: #002060;
+	
+	-fx-border-color: white;
+    -fx-border-width: 0.1;
+}
+
+/* [TableView] ヘッダー文字 */
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* [TableView] 明細データ */
+.table-view .table-cell {
+    -fx-border-color: black;
+    -fx-border-width: 0.3px; 
+}
+
+/* [TableView] 空行の背景を透明にし、境界線を消す */
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* [TableView] セル自体の境界線も消す */
+.table-row-cell:empty .table-cell {
+    -fx-border-color: transparent;
+}
+
+
+.titletext {
+    -fx-font-weight: bold;
+}
+
+.text-aligned {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.center-aligned {
+    -fx-alignment: CENTER;
+}
+
+.combo-box-editable > .text-field {
+    -fx-alignment: CENTER-LEFT;
+}
+
+/* すべての DatePicker の入力テキストを中央寄せにする */
+.date-picker > .text-field {
+    -fx-alignment: CENTER;
+}
+
+/* 特定の ID (例: #myDatePicker) を持つものだけに適用する場合 */
+#myDatePicker > .text-field {
+    -fx-alignment: CENTER;
+}
+
+/* カレンダーの背景色 */
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: #3f51b5;
+}
+
+/* 日付部分の背景色 */
+.date-picker-popup > .calendar-grid {
+    -fx-background-color: #ffffff;
+}
+
+.date-picker-popup .label {
+    -fx-text-fill: white;
+}
+
+/* 月・年の切り替えボタン（矢印）の色 */
+.date-picker-popup .left-arrow,
+.date-picker-popup .right-arrow {
+    -fx-background-color: white;
+}
+
+/* 通常の日付 */
+.date-picker-popup .day-cell {
+    -fx-text-fill: #333333;
+}
+
+/* マウスホバー時 */
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #e3f2fd;
+}
+
+/* 「今日」の日付 */
+.date-picker-popup .today {
+    -fx-background-color: #99FF99;
+    -fx-text-fill: #FF66CC;
+    -fx-font-weight: bold;
+}
+
+/* 選択された日付 */
+.date-picker-popup .selected {
+    -fx-background-color: #3f51b5;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .day-cell:disabled {
+    -fx-opacity: 0.3;
+    -fx-background-color: #f4f4f4;
+    -fx-text-fill: #bbbbbb;
+}
+
+.date-picker-popup .day-name-cell {
+    -fx-text-fill: #757575;
+    -fx-font-size: 0.9em;
+}
+
+/* --- 曜日ヘッダー（月火水...）の色変更 --- */
+/* 土曜日 (index 5) */
+.date-picker-popup> .day-name-cell:nth-child(6) {
+    -fx-text-fill: blue !important;
+}
+/* 日曜日 (index 6) */
+.date-picker-popup .day-name-cell:nth-child(7) {
+    -fx-text-fill: red !important;
+}
+
+/* --- 日付数字（1, 2, 3...）の色変更 --- */
+/* 土曜日列 */
+.date-picker-popup .day-cell:nth-child(7n+6) {
+    -fx-text-fill: blue;
+}
+/* 日曜日列 */
+.date-picker-popup .day-cell:nth-child(7n) {
+    -fx-text-fill: red;
+}
+
+/* 選択中や今日の日付と重なった時の色を維持したい場合 */
+.date-picker-popup .day-cell:nth-child(7n).today,
+.date-picker-popup .day-cell:nth-child(7n).selected {
+    -fx-text-fill: red;
+}
+

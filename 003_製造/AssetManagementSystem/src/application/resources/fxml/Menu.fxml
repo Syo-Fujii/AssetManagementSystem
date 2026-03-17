@@ -85,7 +85,7 @@
                               <ToggleGroup fx:id="sideMenuGroup" />
                            </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="棚卸業務" toggleGroup="$sideMenuGroup" />
+                        <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onVerifyLocationButtonClicked" styleClass="sidebar-button" text="棚卸業務" toggleGroup="$sideMenuGroup" />
                         <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="マスタメンテナンス" toggleGroup="$sideMenuGroup" />
                      </children>
                      <padding>

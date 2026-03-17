@@ -124,7 +124,8 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	* @return startDate(Property)
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
-	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須<br>
+	* ≒ 明細の入力項目の場合はプロパティを渡すゲッターを用意する
 	*/
 	public StringProperty startDateProperty() {
 	    return this.startDate;
@@ -155,7 +156,8 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 	* @return limitDate(Property)
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
-	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須<br>
+	* ≒ 明細の入力項目の場合はプロパティを渡すゲッターを用意する
 	*/
 	public StringProperty limitDateProperty() {
 	    return this.limitDate;
@@ -203,10 +205,11 @@ public class InventoryLoanDataModel extends BaseTableViewModel {
 
 	/**
 	* [貸出] Property取得 (TableViewとの連動に必須)
-	* @param isCheckOut (Property)
+	* @return isCheckOut (Property)
 	* @brief [javafx.beans.property]
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
-	* 値に応じて、TableViewの表示を変更(連動)させる為に必須
+	* 値に応じて、TableViewの表示を変更(連動)させる為に必須<br>
+	* ≒ 明細の入力項目の場合はプロパティを渡すゲッターを用意する
 	*/
 	public BooleanProperty isCheckOutProperty() {
 	    return isCheckOut;
