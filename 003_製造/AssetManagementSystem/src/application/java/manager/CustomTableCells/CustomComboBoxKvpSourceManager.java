@@ -170,13 +170,19 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         if ( empty || value == null ) {
          	setGraphic(null);
-            setText(null);
+         	// TableCell.SetText
+         	setText(null);
 
         } else {
         	// データが存在する場合の表示処理
         	LogManager.writeTrace("comboBox.value :[" + ((this.comboBox.getValue() == null)?null:this.comboBox.getValue().value()) + "]");
         	LogManager.writeTrace("comboBox.ItemCount :[" + this.comboBox.getItems().size() + "]");
-
+        	
+        	// TextではなくValueで値を管理しているため、comboBox.setTextは行わない。
+        	// ※ [editor.textProperty().addListener]を監視しているため
+        	// comboBox.setTextで未定義の状態のComboBoxを操作する可能性が発生する。
+        	comboBox.getEditor();
+        	
         	if (isAlwaysShow) {
                 /* 常時表示モード */
                 setGraphic(this.comboBox);
@@ -188,6 +194,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
                     setText(null);
                 } else {
                     setGraphic(null);
+                    // TableCell.SetText
                     setText(value != null ? value.toString() : null);
                 }
             }	
@@ -241,7 +248,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 						  newText.length() < oldText.length()) {
 		                    return; // 削除時は補完しない
 		                }
-
+					  
 					  // 前方一致する最初の候補を探す(入力文字と最初が一致するリストの値)
 					  String matchText = this.comboBox.getItems().
 							  stream().
@@ -389,8 +396,8 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 
     /**
      * 値の更新(確定)に連動する外部イベント設定
-     * @param befValue selectedItemProperty().addListener oldVal
-     * @param newValue selectedItemProperty().addListener newVal
+     * @param befValue 変更前の値
+     * @param newValue 確定した値
 	 * @brief 行データ(Model)の他の項目(Property)を連動して変更する場合などの用いる。<br>
 	 * 当該クラスを継承した、子クラスにて内容を定義する.
      */

@@ -57,6 +57,8 @@
            , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '-') AS limitDate
            , IFNULL(DATE_FORMAT(SD.confirmed_date, '%Y/%m/%d'), '-') AS confirmedDate
            , SM.remarks AS remarks
+           
+           , '2026/03/18' AS inventoryDate
 
            , SM.remarks AS remarksMasterValue         -- 更新比較用に現在の「備考」の値を取得ー
            , SD.id AS stockDataId

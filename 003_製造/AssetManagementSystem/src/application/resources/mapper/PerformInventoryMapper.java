@@ -14,7 +14,7 @@ public interface PerformInventoryMapper {
 	 * 備品詳細データ取得(テーブルより取得)
 	 * @return 備品データ(備品詳細に表示するデータ)
 	 */
-    List<PerformInventoryDataModel> getTableInventoryRecords();
+    List<PerformInventoryDataModel> getTableInventoryRecords(String defaultDate);
     
 	/**
 	 * 備品データの最終所在確認日更新

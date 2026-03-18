@@ -11,6 +11,7 @@ import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
 import application.java.manager.CustomTableCells.CustomComboBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxWithCheckBoxManager;
 import application.java.manager.CustomTableCells.CustomDatePickerTableCellManager;
+import application.java.manager.CustomTableCells.CustomTextFieldTableCellManager;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.scene.control.TableCell;
@@ -181,6 +182,9 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	 * @param isEnabled Boolean CELL 有効化制御
 	 * @param isAlwaysShow Boolean 常にComboBoxを表示するか
 	 * @brief 値による動的変更はない[false]とする。
+	 * カラムのIDを元にModelのプロパティを検索・設定するため、入力項目の場合は<br>
+	 * ScreenBuilderなどでカラムのIDとモデルのプロパティ名を紐づけること<br>
+	 * TableColumn ID : [serialNo] = Modelプロパティ名: [serialNo] / getSerialNo / setSerialNo
 	 */
 	@SuppressWarnings({ "unused" })
 	public void setCellTypeCustomComboBoxKeyValues(
@@ -247,6 +251,9 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	 * @param isEnabled Boolean CELL 有効化制御
 	 * @param isAlwaysShow Boolean 常にComboBoxを表示するか
 	 * @brief 値による動的変更はない[false]とする。
+	 * カラムのIDを元にModelのプロパティを検索・設定するため、入力項目の場合は<br>
+	 * ScreenBuilderなどでカラムのIDとモデルのプロパティ名を紐づけること<br>
+	 * TableColumn ID : [serialNo] = Modelプロパティ名: [serialNo] / getSerialNo / setSerialNo
 	 */
 	@SuppressWarnings({ "unused" })
 	public void setCellTypeCustomComboBoxKeyValuesWithCheck(
@@ -325,8 +332,11 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	/**
 	 * CheckBox型セルの設定
 	 * @param isEnabled Boolean CELL 有効化制御
-	 * @param isAlwaysShow Boolean 常にComboBoxを表示するか
+	 * @param isAlwaysShow Boolean 常にCheckBoxを表示するか
 	 * @brief 値による動的変更はない[false]とする。
+	 * カラムのIDを元にModelのプロパティを検索・設定するため、入力項目の場合は<br>
+	 * ScreenBuilderなどでカラムのIDとモデルのプロパティ名を紐づけること<br>
+	 * TableColumn ID : [serialNo] = Modelプロパティ名: [serialNo] / getSerialNo / setSerialNo
 	 */
 	@SuppressWarnings("unused")
 	public void setCellTypeCustomCheckBox(Boolean isEnabled, Boolean isAlwaysShow){
@@ -402,11 +412,14 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	/**
 	 * DatePicker型セルの設定
 	 * @param isEnabled Boolean CELL 有効化制御
-	 * @param isAlwaysShow Boolean 常にComboBoxを表示するか
+	 * @param isAlwaysShow Boolean 常にDatePickerを表示するか
 	 * @param defaultDate LocalDate 日付カレンダー初期位置
 	 * @param minDate LocalDate 許容される日付の最小値
 	 * @param maxDate LocalDate 許容される日付の最大値
 	 * @brief 値による動的変更はない[false]とする。
+	 * カラムのIDを元にModelのプロパティを検索・設定するため、入力項目の場合は<br>
+	 * ScreenBuilderなどでカラムのIDとモデルのプロパティ名を紐づけること<br>
+	 * TableColumn ID : [serialNo] = Modelプロパティ名: [serialNo] / getSerialNo / setSerialNo
 	 */
 	@SuppressWarnings("unused")
 	public void setCellTypeCustomDatePicker(
@@ -472,6 +485,64 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	   					}
 	   				}
         });
+	}
+	
+	/**
+	 * TextField型セルの設定
+	 * @param isEnabled CELL 有効化制御
+	 * @param isAlwaysShow 常にTextFieldを表示するか
+	 * @brief 値による動的変更はない[false]とする。<br>
+	 * カラムのIDを元にModelのプロパティを検索・設定するため、入力項目の場合は<br>
+	 * ScreenBuilderなどでカラムのIDとモデルのプロパティ名を紐づけること<br>
+	 * TableColumn ID : [serialNo] = Modelプロパティ名: [serialNo] / getSerialNo / setSerialNo
+	 */
+	@SuppressWarnings("unused")
+	public void setCellTypeCustomInputText(Boolean isEnabled, Boolean isAlwaysShow){
+		Boolean isValueChenged = false;
+		
+		this.setEditable(isEnabled);
+ 
+		this.setCellFactory(
+    			col -> new CustomTextFieldTableCellManager<S,T>(this.getId(), isAlwaysShow){
+    		// 初期化ブロックの為、親のコンストラクタ(super)は実行済
+            {
+            	// 初期化ブロック
+            	if( !isValueChenged ) {
+                	setDisable(!isEnabled);
+      
+                    // 見た目の調整（非活性時にグレーアウトさせる等）
+                	pseudoClassStateChanged(DISABLED_PC, !isEnabled);
+                	setFocusTraversable(isEnabled);
+            	}
+            }
+
+            /**
+             * セルを描画・更新する際に内部で呼び出されるメソッド(TextChanged Event)
+             * @param item
+             * @param empty
+             * @brief
+             * 行の再利用対策: TableCell は画面に見えている分しか生成されない。<br>
+             * スクロールして「有効な行」だったセルが「空の行」になった際、<br>
+             * setDisable を更新しないと、空のセルが非活性のまま残るなどの表示バグが起きる。
+             */
+            @Override
+            public void updateItem(T item, boolean empty) {
+            	super.updateItem(item, empty);
+
+         		if (empty || item == null) {
+                    // 【重要】isValueChengedがfalseであっても、
+                    // 再利用対策として「空セル」は標準状態（disable=false）に戻す 
+                	setDisable(false);
+                	pseudoClassStateChanged(DISABLED_PC, false);
+                	setFocusTraversable(false); 
+                    
+                } else {
+                	setDisable( !isEnabled );
+                	pseudoClassStateChanged(DISABLED_PC, !isEnabled );
+                	setFocusTraversable(isEnabled);                      
+                }  
+            }
+        });		
 	}
 	
 	/**

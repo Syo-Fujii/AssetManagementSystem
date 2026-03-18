@@ -2,11 +2,10 @@ package application.java.manager.CustomTableCells;
 
 import application.java.manager.LogManager;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
+import javafx.scene.control.TextField;
 
 /**
- * カスタムControl：TableCell + CheckBox
+ * カスタムControl：TableCell + TextField
  * @param <S> (Table Source / Subject): 行データのクラス名。
  * @param <T> (Column Type): セルに表示する項目の型。
  * @brief
@@ -14,25 +13,26 @@ import javafx.scene.control.Control;
  * [Enter]で入力(編集)モードへ遷移 / 編集モード値確定
  * [ESC]で入力(編集)キャンセル処理
  */
-public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T> {
-	private final CheckBox checkBox;
+public class CustomTextFieldTableCellManager<S, T> extends TableCellManager<S, T>  {
+	private final TextField InputText;
 	private final Boolean isAlwaysShow;
 
 	private Boolean isAdjusting = false;
 	
+	
 	/**
      * コンストラクタ
-     * @param colId カラムのID(自身(カスタムチェックボックス)のカラムのID)
-     * @param isAlwaysShow CheckBoxを常時表示するか
+     * @param colId カラムのID(自身(カスタムテキスト)のカラムのID)
+     * @param isAlwaysShow TextFieldを常時表示するか
 	 */
 	@SuppressWarnings("unused")
-	public CustomCheckBoxTableCellManager(String colId, Boolean isAlwaysShow) {
+	public CustomTextFieldTableCellManager(String colId, Boolean isAlwaysShow) {
 		this.isAlwaysShow = isAlwaysShow;
 
-		this.checkBox = new CheckBox();
+		this.InputText = new TextField();
 
 		// カスタムControlの生成
-		createCustomCheckBox(colId); 
+		createCustomTextField(colId); 
 	        
         if (!this.isAlwaysShow)
         {
@@ -41,10 +41,10 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
 
         /* 常時表示モード */
         // ComboBoxがフォーカスを得た＝ユーザーが操作しようとしている
-        this.checkBox.focusedProperty().addListener(
+        this.InputText.focusedProperty().addListener(
         		(obs, oldVal, newVal) -> {
         			if (newVal) {
-        				LogManager.writeTrace("[CustomCheckBox][focusedProperty] Start");
+        				LogManager.writeTrace("[CustomTextFeild][focusedProperty] Start");
         				
         				// 親の TableView(TableCell)に対して、編集状態への移行(Enterが押下された)を通知
         				getTableView().edit(getIndex(), getTableColumn());
@@ -64,18 +64,18 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
     	
     	super.startEdit();
     	
-    	LogManager.writeTrace("[CustomCheckBox][cancelEdit] Start");
+    	LogManager.writeTrace("[CustomTextFeild][cancelEdit] Start");
     
     	if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
-        	setGraphic(checkBox);
+        	setGraphic(InputText);
         	setText(null);
  
     	} else if (!isEditing()) {
          	return;
         }
 
-    	checkBox.requestFocus();
+    	InputText.requestFocus();
     }
 
     /**
@@ -93,18 +93,18 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
   
     	super.cancelEdit();
     	
-    	LogManager.writeTrace("[CustomCheckBox][cancelEdit] Start");
+    	LogManager.writeTrace("[CustomTextFeild][cancelEdit] Start");
   
         if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
             setGraphic(null);
-            setText(getItem() != null ? ((boolean) getItem() ? "CHECKED" : "") : null);
+            setText(getItem() != null ? getItem().toString() : null);
             return;
         }
     	
     	/* 常時表示モード */
-    	setGraphic(this.checkBox); 
+    	setGraphic(this.InputText); 
     } 	
 	
     /**
@@ -120,86 +120,88 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
         
     	super.updateItem(item, empty);
 
-    	LogManager.writeTrace("[CustomCheckBox][updateItem] Start");
+    	LogManager.writeTrace("[CustomTextFeild][updateItem] Start");
 
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         if (empty || item == null) {
             setGraphic(null);
+            // TableCell.SetText
+            setText(null);
+            
         } else {
+        	// 表示する前に、TextFieldに現在のデータモデルの値をセットする
+            InputText.setText(item.toString());
+        	
         	// データが存在する場合の表示処理
         	if (isAlwaysShow) {
                 /* 常時表示モード */
-
-            	//自動入力による重複処理の制御
-            	isAdjusting = true;
-        		this.checkBox.setSelected((Boolean) item);
-        		isAdjusting = false;
-        		
-                setGraphic(this.checkBox);
+        		setGraphic(this.InputText);
+                setText(null);
 
         	} else {
                 /* 編集時のみ表示モード */
         		if (isEditing()) {
-                    setGraphic(this.checkBox);
+                    setGraphic(this.InputText);
                     // エディタ表示中は文字を消す
                     setText(null);
                 } else {
                     setGraphic(null);
+                    // TableCell.SetText
+                    setText(item != null ? item.toString() : null);
                 }
             }
         }
-       	LogManager.writeTrace("[CustomCheckBox][updateItem] End");     
+       	LogManager.writeTrace("[CustomTextFeild][updateItem] End");     
     }
 	
     /**
-     * カスタムチェックボックス生成
-     * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
+     * カスタムテキスト生成
+     * @param colId カラムのID(自身(カスタムテキスト)のカラムのID)
      */
-    private void createCustomCheckBox(String colId) {
+    private void createCustomTextField(String colId) {
         
-    	// CheckBoxの配置(Cellの中央)
-    	this.setAlignment(Pos.CENTER);
+    	// TextFieldの配置(Cellの左)
+    	this.setAlignment(Pos.CENTER_LEFT);
 
-    	// CheckBoxのサイズ(Cellに合わせる)    	
-    	// checkBox.prefWidthProperty().bind(this.widthProperty().subtract(5.0));
-        // CheckBoxの幅を「自動（内容に合わせる）」にする
-        // ※ bind してしまうと、CheckBoxの領域がセルいっぱいに広がり、
-        //    中のアイコンは「CheckBox領域内の左」に固定されてしまいます。
-    	checkBox.setMinWidth(Control.USE_PREF_SIZE); 
-    	checkBox.setMaxWidth(Control.USE_PREF_SIZE);       	
+    	// TextFieldのサイズ(Cellに合わせる)    	
+    	// TextField.prefWidthProperty().bind(this.widthProperty().subtract(5.0));
+        // TextFieldの幅を「自動（内容に合わせる）」にする
+        // ※ bind してしまうと、TextFieldの領域がセルいっぱいに広がり、
+        //    中のアイコンは「TextField領域内の左」に固定されてしまいます。
+    	InputText.prefWidthProperty().bind(this.widthProperty().subtract(5)); 
 
-    	// チェック確定機能追加
-    	onCheckedCheckBox(colId);        
+    	// 値確定機能追加
+    	onLeaveTextValue(colId);        
     }	
 	
     /**
-	 * 機能追加：CheckBox選択確定動作(Leave Event)
+	 * 機能追加：TextField選択確定動作(Leave Event)
 	 * @param colId カラムのID(自身(カスタムControl)のカラムのID)
      * @brief 選択したItemをカラムのBINDソース[S]に反映<br>
 	 * カラムの[id]と[fx:id]は同一の前提
      */	
 	@SuppressWarnings({ "unchecked", "unused" })
-	private void onCheckedCheckBox(String colId) {
+	private void onLeaveTextValue(String colId) {
 
         // 入力監視リスナー(Leave相当)
-		this.checkBox.setOnAction(
+		this.InputText.setOnAction(
         		(e) -> 
         		{
         			if (isAdjusting) { return; }
 
-        			LogManager.writeTrace("[CustomCheckBox][setOnAction] Start");
+        			LogManager.writeTrace("[CustomTextFeild][setOnAction] Start");
   
-        			Boolean newVal = checkBox.isSelected();
+        			String editValue = this.InputText.getText();
  
         			if (!isEditing()) {
         				getTableView().edit(getIndex(), getTableColumn());
         			}               			
         			
     				// 値の確定(TableView側へ通知)
-    				this.commitEdit((T)newVal);
+    				this.commitEdit((T) editValue);
         			
         			// モデルへの値反映
-    				bindingModelProperty(colId, null, newVal); 
+    				bindingModelProperty(colId, null, editValue); 
         		});
 	}
 
@@ -209,7 +211,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
      * @param oldVal 変更前の入力値
      * @param newVal 入力値
      */
-	private void bindingModelProperty(String colId,Boolean oldVal,Boolean newVal) {
+	private void bindingModelProperty(String colId,String oldVal,String newVal) {
         // 二重実行防止
         if (isAdjusting) return;
         
@@ -217,7 +219,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
         try {
         	// 値の確定 VALUEのBIND
 			// ※ リフレクションが最新のJAVAでは禁止(Exception)されているため
-			super.setRowClassProperty(colId, Boolean.class, newVal);
+			super.setRowClassProperty(colId, String.class, newVal);
         
             // 連動項目のBIND設定
             syncModelPropertyBindingEvent(null, newVal);
@@ -239,7 +241,7 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
 	 * @brief 行データ(Model)の他の項目(Property)を連動して変更する場合などの用いる。<br>
 	 * 当該クラスを継承した、子クラスにて内容を定義する.
      */
-    protected void syncModelPropertyBindingEvent(Boolean befValue, Boolean newValue) {
+    protected void syncModelPropertyBindingEvent(String befValue, String newValue) {
     	return;
     }	
 }

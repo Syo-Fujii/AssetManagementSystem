@@ -35,10 +35,11 @@ public class FormController  extends BaseFormPage {
 	@FXML private TableColumn<PerformInventoryDataModel, String> col_start_date;
 	@FXML private TableColumn<PerformInventoryDataModel, String> col_limit_date;
 	@FXML private TableColumn<PerformInventoryDataModel, String> col_confirmed_date;
-	@FXML private TableColumn<PerformInventoryDataModel, String> col_remarks;
+	@FXML private TableColumnManager<PerformInventoryDataModel, String> col_remarks;
 	@FXML private TableColumnManager<PerformInventoryDataModel, String> col_inventory_date;
 	@FXML private TableColumnManager<PerformInventoryDataModel, Boolean> col_is_inventory;
 
+	@FXML private Button inventory_button;
 	@FXML private Button back_button;
 	
 	private LocalDate dateNow = null;
@@ -84,6 +85,34 @@ public class FormController  extends BaseFormPage {
 		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<PerformInventoryDataModel>fillTableAsync();
     }	
+ 
+    
+    @FXML
+    public void onInventoryButtonClicked() {
+    	try {
+    		// 選択行取得
+    		PerformInventoryDataModel row = tableListView.
+        			getSelectionModel().
+        			getSelectedItem();
+
+        	if (row == null) {
+        	    // なにもしない
+        	    return;
+        	} 
+
+        	LogManager.writeTrace("[モデル内値]"); 
+        	LogManager.writeTrace("シリアルNo：[" + row.getSerialNo() + "]"); 
+        	LogManager.writeTrace("備考：[" + row.getRemarks() + "]");
+        	LogManager.writeTrace("棚卸日：[" + row.getInventoryDate() + "]");
+        	LogManager.writeTrace("棚卸CHECK：[" + row.getIsInventory().toString() + "]");
+    	
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： メニュー画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
+    }	   
+   
+    
     
     /**
      * [メニューに戻る]ボタン 押下イベント 
@@ -115,10 +144,12 @@ public class FormController  extends BaseFormPage {
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
     	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 棚卸データ取得処理");
     	
+    	String dateText = AppUtil.convertToString(this.dateNow, "yyyy/MM/dd");
+    	
     	PerformInventoryMapper mapper = session.getMapper(PerformInventoryMapper.class);
-	    
+    	
 	    // 棚卸データ取得
-	    return (List<T>) mapper.getTableInventoryRecords();
+	    return (List<T>) mapper.getTableInventoryRecords( dateText );
     }
 
 	/**
@@ -186,6 +217,7 @@ public class FormController  extends BaseFormPage {
     	tableListView.onDisabledCellsFocusSkipEvent();
     	
     	// 項目(カスタムセル)型設定
+    	col_remarks.setCellTypeCustomInputText(true, true);
 		col_inventory_date.setCellTypeCustomDatePicker(true, true, dateNow, null, dateNow);
 		col_is_inventory.setCellTypeCustomCheckBox(true, true);    	
 
@@ -193,16 +225,6 @@ public class FormController  extends BaseFormPage {
     	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(true);
     	
-    	// TableView[列]文字設定 
-    	/*col_serial.getStyleClass().add("text-aligned");
-    	col_type_name.getStyleClass().add("text-aligned");
-    	col_model.getStyleClass().add("center-aligned");
-    	col_staff_name.getStyleClass().add("center-aligned");
-    	col_start_date.getStyleClass().add("center-aligned");
-    	col_limit_date.getStyleClass().add("center-aligned"); 
-    	col_remarks.getStyleClass().add("text-aligned");
-    	col_is_checkout.getStyleClass().add("center-aligned");*/
-
     	// 0件の場合のCaptionを削除(「データがありません」非表示)
     	tableListView.setPlaceholder(new Label("")); 
     }  
@@ -224,6 +246,7 @@ public class FormController  extends BaseFormPage {
     	col_serial.setCellValueFactory( new PropertyValueFactory<>("serialNo"));
     	col_type_name.setCellValueFactory( new PropertyValueFactory<>("typeName"));
     	col_model.setCellValueFactory( new PropertyValueFactory<>("model"));
+    	col_rent_flg.setCellValueFactory( new PropertyValueFactory<>("rentFlg"));
     	col_staff_name.setCellValueFactory( new PropertyValueFactory<>("staffName"));
      	col_start_date.setCellValueFactory( new PropertyValueFactory<>("startDate"));
     	col_limit_date.setCellValueFactory( new PropertyValueFactory<>("limitDate"));

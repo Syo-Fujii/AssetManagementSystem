@@ -30,6 +30,16 @@ public class AppUtil {
     }
 
     /**
+     * 日付を文字列に変換する
+     * @param date LocalDate 対象日付
+     * @param format String 書式形式
+     * @return 変換した文字列
+     */
+    public static String convertToString(LocalDate date, String format) {
+    	return date.format(DateTimeFormatter.ofPattern(format));
+    }
+    
+    /**
      * 文字列を数値(int型)に変換可能か判定
      * @param str 対象文字列
      * @return 変換可能判定

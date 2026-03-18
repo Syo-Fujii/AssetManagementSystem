@@ -160,9 +160,13 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
     	// セルが空、またはデータがnullの場合の処理（重要：再利用対策）
         if (empty || item == null) {
             setGraphic(null);
+            // TableCell.SetText
             setText(null);
         
         } else {
+            // 表示する前に、現在のデータモデルの値をセットする
+        	comboBox.getEditor().setText(item.toString());
+
         	// データが存在する場合の表示処理
         	if (isAlwaysShow) {
                 /* 常時表示モード */
@@ -175,6 +179,7 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
                     setText(null);
                 } else {
                     setGraphic(null);
+                    // TableCell.SetText
                     setText(item != null ? item.toString() : null);
                 }
             }
@@ -320,12 +325,12 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
         } finally {
             isAdjusting = false;
         }
-    }     
+    }
     
     /**
      * 値の更新(確定)に連動する外部イベント設定
-     * @param befValue selectedItemProperty().addListener oldVal
-     * @param newValue selectedItemProperty().addListener newVal
+     * @param befValue 変更前の値
+     * @param newValue 確定した値
 	 * @brief 行データ(Model)の他の項目(Property)を連動して変更する場合などの用いる。<br>
 	 * 当該クラスを継承した、子クラスにて内容を定義する.
      */
