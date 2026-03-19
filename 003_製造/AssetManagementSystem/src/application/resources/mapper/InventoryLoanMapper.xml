@@ -45,7 +45,7 @@
        SELECT
              STM.name              AS type_name 
            , SM.serial_no          AS serialNo
-           , '責任　三郎' AS staffName
+           , '' AS staffName
            , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '') AS startDate
            , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '') AS limitDate
            , SM.remarks AS remarks

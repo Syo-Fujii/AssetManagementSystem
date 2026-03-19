@@ -1,5 +1,7 @@
 package application.java.manager.CustomTableCells;
 
+import java.util.Objects;
+
 import application.java.manager.LogManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -164,8 +166,19 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
             setText(null);
         
         } else {
-            // 表示する前に、現在のデータモデルの値をセットする
-        	comboBox.getEditor().setText(item.toString());
+    		// 表示する前に、現在のデータモデルの値をセットする(初期値の設定)
+            if (!Objects.equals(item.toString(), this.comboBox.getEditor().getText()) &&
+            		getIndex() >= 0 && 
+            		!this.comboBox.getItems().isEmpty() ) {
+            	Platform.runLater(() -> {
+            		isAdjusting = true;
+            		try {
+                        this.comboBox.getEditor().setText(item.toString());
+                    } finally {
+                        isAdjusting = false;
+                    }
+                });
+            }	
 
         	// データが存在する場合の表示処理
         	if (isAlwaysShow) {
@@ -222,36 +235,51 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
      	// 入力監視リスナー
      	// (obs = 値変更を監視しているプロパティ:ObservableValue = editor.textProperty())
      	editor.textProperty().addListener(
-     			(obs, oldValue, newValue) -> {
-					  if (newValue == null || 
-						  newValue.isEmpty() || 
-						  newValue.length() < oldValue.length()) {
-		                    return; // 削除時は補完しない
-		                }
+     			(obs, oldText, newText) -> {
+     			    // 追加：リストが空なら何もしない
+     			    if (this.comboBox.getItems() == null || this.comboBox.getItems().isEmpty()) { return; }	
+     				if (newText == null || newText.isEmpty() || newText.length() < oldText.length()) {
+     					return; // 削除時は補完しない
+     				}
 					  
-					  // 前方一致する最初の候補を探す(入力文字と最初が一致するリストの値)
-					  String match = (String)this.comboBox.getItems().stream()
-							  .filter(i ->  i.toString().toLowerCase().startsWith(newValue.toLowerCase()))
-							  .findFirst().orElse(null);
-                  
-					  if (match != null) {
-						  Platform.runLater(
-								  () -> 
-								  {
-									  int caretPos = newValue.length();
-									  
-									  editor.setText(match); // 補完文字をセット
-									  editor.selectRange(caretPos, match.length()); // 補完部分をハイライト
-                      			
-								        if (!this.comboBox.isShowing() || 
-									        	!this.comboBox.getItems().isEmpty()) 
-								        {
-								        	LogManager.writeTrace("[CustomComboBox][textProperty] comboBox.show");
-								        	// リストを表示
-								        	this.comboBox.show();
-								        }
-								  });}
-					  });
+     				// 前方一致する最初の候補を探す(入力文字と最初が一致するリストの値)
+     				String match = (String)this.comboBox.
+     						getItems().
+     						stream().
+     						filter(i ->  i.toString().toLowerCase().startsWith(newText.toLowerCase())).
+     						findFirst().
+     						orElse(null);
+					  
+     				if (match != null) {
+     					Platform.runLater( () -> 
+     					{
+     						isAdjusting = true;
+     						try {
+     							int caretPos = newText.length();
+     							int matchLen = match.length();
+										  
+     							editor.setText(match); // 補完文字をセット
+
+     							if (caretPos <= matchLen) {
+     								editor.selectRange(caretPos, matchLen); // 補完部分をハイライト
+     							} else {
+     								// もし入力文字の方が長い場合は、とりあえず末尾にカーソルを置く
+     								editor.positionCaret(matchLen);
+     							}
+
+     							/*// 値入力後、選択リストを表示する
+     							if (!this.comboBox.isShowing() || 
+   									!this.comboBox.getItems().isEmpty()) {
+     								LogManager.writeTrace("[CustomComboBox][textProperty] comboBox.show");
+     								// リストを表示
+     								this.comboBox.show();
+     							}*/
+     						} finally { 
+     							isAdjusting = false;
+     						}
+     					});
+     				}
+     			});
      	
         // オートコンプリートに伴う、値確定時の処理
         // ⇒ 全ての文字列が入力されてからCommitする
@@ -260,7 +288,7 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
         	  {
         		  LogManager.writeTrace("[CustomComboBox][setOnAction] Start");
         
-        		  if (isAdjusting) { return; }
+        		  if( isAdjusting || isEmpty() || getIndex() < 0 ) { return; }
         			
         		  // エディタに入力されている文字列を取得
         		  String editValue = this.comboBox.getEditor().getText();
@@ -285,15 +313,23 @@ public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T>
 		// (obs = 値変更を監視しているプロパティ:ObservableValue = comboBox.getSelectionModel().selectedItemProperty())
         this.comboBox.getSelectionModel().selectedItemProperty().addListener(
         		(obs, oldVal, newVal) -> {
-        			if (isAdjusting) { return; }
+        			if (newVal == null || isAdjusting) { return; }
 
         			LogManager.writeTrace("[CustomComboBox][selectedItemProperty] Start");
-    				
-        			// 値の確定
-    				this.commitEdit(newVal);
-    				
-    				// モデルへの値反映
-    				bindingModelProperty(colId, oldVal.toString(), newVal.toString());
+    			    Platform.runLater(() -> {
+                		isAdjusting = true;
+                		try {
+                			if (!isEditing()) { getTableView().edit(getIndex(), getTableColumn()); }               			
+                			
+            				// 値の確定(TableView側へ通知)
+                			this.commitEdit(newVal);
+                			
+            				// モデルへの値反映
+            				bindingModelProperty(colId, oldVal.toString(), newVal.toString());
+                        } finally {
+                            isAdjusting = false;
+                        }
+    			    });          			
         		});
     }
 

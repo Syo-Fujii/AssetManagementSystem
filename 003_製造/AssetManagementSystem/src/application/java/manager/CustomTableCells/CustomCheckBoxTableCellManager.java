@@ -1,5 +1,7 @@
 package application.java.manager.CustomTableCells;
 
+import java.util.Objects;
+
 import application.java.manager.LogManager;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
@@ -126,17 +128,23 @@ public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T>
         if (empty || item == null) {
             setGraphic(null);
         } else {
+        	// 表示する前に、現在のデータモデルの値をセットする(初期値の設定)
+            if (!Objects.equals((Boolean) item, checkBox.isSelected())) {
+                isAdjusting = true;
+                try {
+                	//自動入力による重複処理の制御
+                	this.checkBox.setSelected((Boolean) item);
+                } finally {
+                    isAdjusting = false;
+                }
+            }	
+
         	// データが存在する場合の表示処理
         	if (isAlwaysShow) {
                 /* 常時表示モード */
-
-            	//自動入力による重複処理の制御
-            	isAdjusting = true;
-        		this.checkBox.setSelected((Boolean) item);
-        		isAdjusting = false;
-        		
                 setGraphic(this.checkBox);
-
+                // TableCell.SetText
+                setText(null);
         	} else {
                 /* 編集時のみ表示モード */
         		if (isEditing()) {

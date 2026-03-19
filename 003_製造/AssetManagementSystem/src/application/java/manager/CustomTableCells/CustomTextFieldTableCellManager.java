@@ -1,5 +1,7 @@
 package application.java.manager.CustomTableCells;
 
+import java.util.Objects;
+
 import application.java.manager.LogManager;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -129,8 +131,16 @@ public class CustomTextFieldTableCellManager<S, T> extends TableCellManager<S, T
             setText(null);
             
         } else {
-        	// 表示する前に、TextFieldに現在のデータモデルの値をセットする
-            InputText.setText(item.toString());
+        	// 表示する前に、現在のデータモデルの値をセットする(初期値の設定)
+            if (!Objects.equals(item.toString(), this.InputText.getText())) {
+                isAdjusting = true;
+                try {
+                	//自動入力による重複処理の制御
+                	this.InputText.setText(item.toString());
+                } finally {
+                    isAdjusting = false;
+                }
+            }	
         	
         	// データが存在する場合の表示処理
         	if (isAlwaysShow) {
