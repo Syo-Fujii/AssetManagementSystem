@@ -2,6 +2,7 @@ package application.java.common;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * 共通関数クラス
@@ -29,6 +30,23 @@ public class AppUtil {
         }
     }
 
+    /**
+     * 文字列を日付(LocalDate型)に変換する
+     * @param val 対象文字列
+     * @param defaultValue 変換出来ない場合の値(int)
+     * @return 日付(LocalDate型)
+     */
+    public static LocalDate parseDate(String date) {
+        try {
+        	if (date == null || date.isEmpty()) return null;
+            
+        	return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }    
+    
     /**
      * 日付を文字列に変換する
      * @param date LocalDate 対象日付

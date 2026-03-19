@@ -328,7 +328,6 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 								  // if (!isEditing()) { getTableView().edit(getIndex(), getTableColumn()); }  
 								  // 補完文字をセット
 								  editor.setText(matchText);
-
 							  } finally { 
 								  isAdjusting = false;
 							  }

@@ -72,6 +72,7 @@ public class FormController extends BaseFormPage {
 	
 	/** 
 	 * コンストラクタ
+	 * @brief エラーハンドリングは[setPage]となる。<br>
 	 */
 	public FormController() 
 	{
@@ -98,7 +99,8 @@ public class FormController extends BaseFormPage {
      * .NET FormLoad & Shown相当 
      * 画面の表示前、ノードが配置された段階で実行
      * @brief 画面(scene)の遷移には、FXMLLoaderでFXMLを読み込み、新しいControllerを生成しているので<br>
-     * 当該が各画面(scene)の呼び出しイベント(FormLoad/FormShown)相当となる。
+     * 当該が各画面(scene)の呼び出しイベント(FormLoad/FormShown)相当となる。<br>
+	 * エラーハンドリングは[setPage](FXMLLoader.load)となる。
      */
     @FXML
 	public void initialize() {
@@ -301,6 +303,7 @@ public class FormController extends BaseFormPage {
     }
 
     /**
+     * 備品データ更新クエリ発行(最終所在確認日更新処理)
      * クエリ発行処理(Mapper:トランザクション処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session SQLセッション
@@ -326,7 +329,7 @@ public class FormController extends BaseFormPage {
 		InventoryDetailsDataModel row = (InventoryDetailsDataModel)listData.getFirst();
 		InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
 	    
-	    // 備品詳細データ取得
+	    // 最終所在確認日更新処理
 	    Integer updCount =  mapper.updConfirmedDate(row);
 
 	    return true;

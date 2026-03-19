@@ -57,14 +57,12 @@
            , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '-') AS limitDate
            , IFNULL(DATE_FORMAT(SD.confirmed_date, '%Y/%m/%d'), '-') AS confirmedDate
            , SM.remarks AS remarks
-           
-           , '2026/03/18' AS inventoryDate
-
+           , #{defaultDate} AS inventoryDate          -- 初期値の設定(画面側との整合性を保つため、保持した値を用いる)
            , SM.remarks AS remarksMasterValue         -- 更新比較用に現在の「備考」の値を取得ー
            , SD.id AS stockDataId
         FROM
          BASE_TABLE B
-       INNER JOIN 
+       INNER JOIN
          stock_master SM
         ON B.serial_no = SM.serial_no 
        INNER JOIN
@@ -91,14 +89,24 @@
      ]]>
     </select>
 
-    <!-- 備品データの最終所在確認日更新 -->
-    <update id="updConfirmedDate" parameterType="application.java.base.tableViewListModel.InventoryDetailsDataModel">
+    <!-- 備品データの最終所在確認日 更新 -->
+    <update id="updConfirmedDate" parameterType="application.java.base.tableViewListModel.PerformInventoryDataModel">
        UPDATE stock_data
         SET
-          confirmed_date = STR_TO_DATE( #{confirmedDate}, '%Y-%m-%d')
+          confirmed_date = STR_TO_DATE( #{inventoryDate}, '%Y/%m/%d')
        WHERE
           id = #{stockDataId}
     </update>
+
+    <!-- 備品マスタの備考 更新 -->
+    <update id="updMasterRemarks" parameterType="application.java.base.tableViewListModel.PerformInventoryDataModel">
+       UPDATE stock_master
+        SET
+          remarks = #{remarks}
+       WHERE
+          serial_no = #{serialNo}
+    </update>
+
 
     <!-- Viwew[equip_detail_view]から全データの取得 -->
     <select id="getViewAllRecords">
@@ -128,28 +136,6 @@
        ORDER BY
         EDV.シリアルナンバー
            
-    </select>
-
-    <select id="getStockTypeName">
-      SELECT
-        STM.name
-       FROM
-         stock_type_master STM
-       WHERE
-         1 = 1
-       AND STM.stock_type = #{type}
-       AND STM.stock_code = #{code} 
-    </select>
-
-    <select id="getWindowSize">
-         SELECT
-           IFNULL( GCM.value_1, '1') AS windowSize
-         FROM
-           generic_code_master GCM
-         WHERE
-           1 = 1
-         AND GCM.type_key = #{type}
-         AND GCM.code = #{code}   
     </select>
 
 </mapper>

@@ -67,6 +67,7 @@ public class FormController extends BaseFormPage {
 	
 	/** 
 	 * コンストラクタ
+	 * @brief エラーハンドリングは[setPage]となる。<br>
 	 */
 	public FormController() 
 	{
@@ -93,7 +94,8 @@ public class FormController extends BaseFormPage {
      * .NET FormLoad & Shown相当 
      * 画面の表示前、ノードが配置された段階で実行
      * @brief 画面(scene)の遷移には、FXMLLoaderでFXMLを読み込み、新しいControllerを生成しているので<br>
-     * 当該が各画面(scene)の呼び出しイベント(FormLoad/FormShown)相当となる。
+     * 当該が各画面(scene)の呼び出しイベント(FormLoad/FormShown)相当となる。<br>
+	 * エラーハンドリングは[setPage](FXMLLoader.load)となる。
      */
     @FXML
 	public void initialize() {
@@ -116,6 +118,7 @@ public class FormController extends BaseFormPage {
 
     /**
      * [返却]ボタン 押下イベント 
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
      */
     @FXML
     public void onReturnButtonClicked() {
@@ -156,6 +159,7 @@ public class FormController extends BaseFormPage {
     
     /**
      * [戻る]ボタン 押下イベント 
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
      */
     @FXML
     public void onBackButtonClicked() {
@@ -189,6 +193,49 @@ public class FormController extends BaseFormPage {
 	    
 	    // 備品データ(貸出中)取得
 	    return (List<T>) mapper.getTableLoanableStockData(this.stockType, this.stockCode);
+    }
+	
+	/**
+     * DB取得成功時の処理(非同期処理)
+     * @brief controller内で用いる取得成功時の処理<br>
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
+		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品(返却)データ連携(BIND)処理");
+		
+		// データ設定(BIND・SELL設定値)を初期化
+		tableListView.dataSourceClear();  	
+		
+		List<InventoryReturnDataModel> rows = (List<InventoryReturnDataModel>) listData;
+    	
+    	tableListView.setSortedList( rows );
+
+    	Boolean isEmptyRecords = (listData == null || rows.isEmpty());
+    	
+		if (!isEmptyRecords) {
+	    	// 備品分類の表示(再描画の際、0件でも表示させる)
+			lbl_stock_name.setText(rows.getFirst().getTypeName());
+		}
+
+		submit_button.setDisable(isEmptyRecords);
+		
+		// 備品データ重複検査(不整合CHECK)
+		CheckStockDataIntegrity(rows);
+		
+    	// TableView Focus指定
+    	tableListView.setFocusFirstCell(col_is_checkin);
+    }
+    
+    /**
+     * DB取得失敗(例外発生)時の処理(非同期処理)
+     * @brief controller内で用いる取得例外処理>
+     */
+	@Override
+	protected void exceptionResult(Throwable exception)
+    {
+		System.err.println("備品詳細データ取得失敗");
+		super.exceptionResult(exception);
     }
 
     /**
@@ -250,51 +297,8 @@ public class FormController extends BaseFormPage {
     		// 返却ボタン無効化
     		submit_button.setDisable(true);
 		}
-	}	
+	}		
 	
-	/**
-     * DB取得成功時の処理(非同期処理)
-     * @brief controller内で用いる取得成功時の処理<br>
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
-		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品(返却)データ連携(BIND)処理");
-		
-		// データ設定(BIND・SELL設定値)を初期化
-		tableListView.dataSourceClear();  	
-		
-		List<InventoryReturnDataModel> rows = (List<InventoryReturnDataModel>) listData;
-    	
-    	tableListView.setSortedList( rows );
-
-    	Boolean isEmptyRecords = (listData == null || rows.isEmpty());
-    	
-		if (!isEmptyRecords) {
-	    	// 備品分類の表示(再描画の際、0件でも表示させる)
-			lbl_stock_name.setText(rows.getFirst().getTypeName());
-		}
-
-		submit_button.setDisable(isEmptyRecords);
-		
-		// 備品データ重複検査(不整合CHECK)
-		CheckStockDataIntegrity(rows);
-		
-    	// TableView Focus指定
-    	tableListView.setFocusFirstCell(col_is_checkin);
-    }
-    
-	@Override
-    /**
-     * DB取得失敗(例外発生)時の処理(非同期処理)
-     * @brief controller内で用いる取得例外処理>
-     */
-	protected void exceptionResult(Throwable exception)
-    {
-		System.err.println("備品詳細データ取得失敗");
-		super.exceptionResult(exception);
-    }
-
     /**
      * 追加機能：整合性検査
      * @param rows 

@@ -62,77 +62,85 @@ public class JavaFxManager extends Application{
 	*/
 	@SuppressWarnings("unused")
 	public void setPage(BaseFormPage cls, Object...params) throws Exception{
-		
-		// ウィンドウ枠を切替る場合、[stage]を再生成する
-		setWindowFrame(cls.getIsUseWindowFrame());
-		
-		FXMLLoader loader = new FXMLLoader();
-		
-		loader.setController(cls);
-		
-		Parent root = (Parent)loader.load(cls.getClass().getResourceAsStream(cls.getfxmlFilePath()));
-		
-		// シーン(ステージに表示する内容)の生成
-		// FXMLドキュメントからオブジェクト階層をロード
-		Scene scene = null;
-		if (!Objects.isNull(cls.getWindowWidth()) && !Objects.isNull(cls.getWindowHeight())) {
-			// 画面クラスで横幅・高さを設定した場合は用いる
-			scene = new Scene(root, cls.getWindowWidth(), cls.getWindowHeight());
-		} else {
-			scene = new Scene(root);
-		}
-		
-		// CSSファイルの読込
-		if (!cls.getCssFile().isEmpty()) {
-			scene.getStylesheets().add(getClass().getResource(cls.getCssFile()).toExternalForm());
-		}
-		
-		System.out.print(cls.getCssFile() + AppUtil.newLine());
-		
-		/*
-		BaseFormPage page = (BaseFormPage)loader.getController();
-		page.setApp(this);		
-		page.loadParameter(params);
-		*/
-		
-		// Event 付与(Control.VisibleChanged Form.Activated相当)
-		stage.sceneProperty().addListener((observable,oldScene,newScene) -> {
-		    if (newScene == null) {
-		        // ノード(stage)よりシーンから削除された
-		    } else {
-		        // ノード(stage)にシーンが追加(変更)された
-                newScene.windowProperty().addListener((obs, oldWindow, newWindow) -> {
-                    if (newWindow != null) {
-                        // Window (Stage) が確定した時の処理
-                    }
-                });
+    	try {
+    		LogManager.writeInfo("画面展開 [setPage] ： 画面設定・表示処理 開始"); 
+    		
+    		// ウィンドウ枠を切替る場合、[stage]を再生成する
+    		setWindowFrame(cls.getIsUseWindowFrame());
+    		
+    		FXMLLoader loader = new FXMLLoader();
+    		
+    		loader.setController(cls);
+    		
+    		Parent root = (Parent)loader.load(cls.getClass().getResourceAsStream(cls.getfxmlFilePath()));
+    		
+    		// シーン(ステージに表示する内容)の生成
+    		// FXMLドキュメントからオブジェクト階層をロード
+    		Scene scene = null;
+    		if (!Objects.isNull(cls.getWindowWidth()) && !Objects.isNull(cls.getWindowHeight())) {
+    			// 画面クラスで横幅・高さを設定した場合は用いる
+    			scene = new Scene(root, cls.getWindowWidth(), cls.getWindowHeight());
+    		} else {
+    			scene = new Scene(root);
+    		}
+    		
+    		// CSSファイルの読込
+    		if (!cls.getCssFile().isEmpty()) {
+    			scene.getStylesheets().add(getClass().getResource(cls.getCssFile()).toExternalForm());
+    		}
+    		
+    		System.out.print(cls.getCssFile() + AppUtil.newLine());
+    		
+    		/*
+    		BaseFormPage page = (BaseFormPage)loader.getController();
+    		page.setApp(this);		
+    		page.loadParameter(params);
+    		*/
+    		
+    		// Event 付与(Control.VisibleChanged Form.Activated相当)
+    		stage.sceneProperty().addListener((observable,oldScene,newScene) -> {
+    		    if (newScene == null) {
+    		        // ノード(stage)よりシーンから削除された
+    		    } else {
+    		        // ノード(stage)にシーンが追加(変更)された
+                    newScene.windowProperty().addListener((obs, oldWindow, newWindow) -> {
+                        if (newWindow != null) {
+                            // Window (Stage) が確定した時の処理
+                        }
+                    });
+                }
+    		});
+    		
+    		// 画面内容(パラメータ設定)の展開
+    		cls.loadParameter(params);
+    		
+    		// Event 付与(Form Shown相当)
+    		// [Window]の描画が完全に完了した時点で呼出されるイベント
+            stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> {
+            	this.WindowShown(cls);
+            });		
+    		
+            // ウィンドウ背景色の設定(設定した場合のみ)
+            if (cls.getWindowColor() != null) {
+        		scene.setFill(cls.getWindowColor());
             }
-		});
-		
-		// 画面内容(パラメータ設定)の展開
-		cls.loadParameter(params);
-		
-		// Event 付与(Form Shown相当)
-		// [Window]の描画が完全に完了した時点で呼出されるイベント
-        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> {
-        	this.WindowShown(cls);
-        });		
-		
-        // ウィンドウ背景色の設定(設定した場合のみ)
-        if (cls.getWindowColor() != null) {
-    		scene.setFill(cls.getWindowColor());
-        }
-        
-        stage.setScene(scene);
-		
-		if (isSizeToScene)
-		{
-			// 中身(scene)のサイズに合わせてウィンドウ枠をフィットさせる
-			stage.sizeToScene();
-		}
-		
-		LogManager.writeInfo("画面展開 [setPage] : " + cls.getPageTitle());
-		stage.show();
+            
+            stage.setScene(scene);
+    		
+    		if (isSizeToScene)
+    		{
+    			// 中身(scene)のサイズに合わせてウィンドウ枠をフィットさせる
+    			stage.sizeToScene();
+    		}
+    		
+    		LogManager.writeInfo("画面展開 [setPage] : " + cls.getPageTitle());
+    		stage.show();
+    	
+    	} catch ( Exception e) {
+    		String title = "画面展開 [setPage] : 画面展開中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    		throw e;
+    	}
 	}
 	
 	/**

@@ -16,9 +16,9 @@
 <!-- <?import application.java.manager.TableViewManager?> -->
 <!-- Java内でインスタンス化したクラスを設定する場合は、fxタグ:fx:controller="application.java.window.inventoryList.FormController"を指定しない -->
 
-<AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1430.0" stylesheets="@../css/PerformInventoryStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1450.0" stylesheets="@../css/PerformInventoryStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label id="title" fx:id="lbl_title" layoutX="25.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="1430.0" styleClass="titletext" text="タイトル" textAlignment="CENTER">
+      <Label id="title" fx:id="lbl_title" layoutX="25.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="1450.0" styleClass="titletext" text="タイトル" textAlignment="CENTER">
          <font>
             <Font size="21.0" />
          </font>
@@ -50,13 +50,13 @@
             </Label>
          </children>
       </AnchorPane>
-      <TableViewManager id="details" fx:id="tableListView" layoutX="25.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="1380.0" snapToPixel="false" AnchorPane.leftAnchor="25.0">
+      <TableViewManager id="details" fx:id="tableListView" layoutX="25.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="1400.0" snapToPixel="false" AnchorPane.leftAnchor="25.0">
         <columns>
            <TableColumn id="serial" fx:id="col_serial" editable="false" maxWidth="300.0" minWidth="150.0" prefWidth="150.0" styleClass="text-aligned" text="シリアルナンバー" />
            <TableColumn id="typeName" fx:id="col_type_name" editable="false" maxWidth="1500.0" minWidth="150.0" prefWidth="150.0" styleClass="text-aligned" text="備品分類名称" />
            <TableColumn id="model" fx:id="col_model" editable="false" maxWidth="1500.0" minWidth="150.0" prefWidth="150.0" styleClass="text-aligned" text="製品名" />
            <TableColumn id="rent_flg" fx:id="col_rent_flg" editable="false" maxWidth="211.0" minWidth="0.0" prefWidth="62.0" resizable="false" styleClass="center-aligned" text="貸出可否" />
-           <TableColumn id="staff_name" fx:id="col_staff_name" editable="false" maxWidth="600.0" minWidth="100.0" prefWidth="100.0" styleClass="center-aligned" text="使用者" />
+           <TableColumn id="staff_name" fx:id="col_staff_name" editable="false" maxWidth="600.0" minWidth="120.0" prefWidth="120.0" styleClass="center-aligned" text="使用者" />
            <TableColumn id="start_date" fx:id="col_start_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" styleClass="center-aligned" text="貸出開始日" />
            <TableColumn id="limit_date" fx:id="col_limit_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" styleClass="center-aligned" text="返却予定日" />
            <TableColumn id="confirmed_date" fx:id="col_confirmed_date" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" styleClass="center-aligned" text="所在確認日" />
@@ -65,7 +65,7 @@
            <TableColumnManager id="isInventory" fx:id="col_is_inventory" editable="false" maxWidth="95.0" minWidth="-Infinity" prefWidth="95.0" resizable="false" styleClass="center-aligned" text="棚卸" />
         </columns>
       </TableViewManager>
-      <Button id="inventory" fx:id="inventory_button" layoutX="1000.0" layoutY="626.0" mnemonicParsing="false" onAction="#onInventoryButtonClicked" prefHeight="37.0" prefWidth="130.0" text="棚卸" AnchorPane.rightAnchor="180.0" />
-      <Button id="back" fx:id="back_button" layoutX="1155.0" layoutY="626.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="37.0" prefWidth="130.0" text="メニューに戻る" AnchorPane.rightAnchor="25.0" />
+      <Button id="inventory" fx:id="inventory_button" layoutX="1000.0" layoutY="635.0" mnemonicParsing="false" onAction="#onInventoryButtonClicked" prefHeight="37.0" prefWidth="130.0" text="棚卸" AnchorPane.rightAnchor="180.0" />
+      <Button id="back" fx:id="back_button" layoutX="1155.0" layoutY="635.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="37.0" prefWidth="130.0" text="メニューに戻る" AnchorPane.rightAnchor="25.0" />
    </children>
 </AnchorPane>

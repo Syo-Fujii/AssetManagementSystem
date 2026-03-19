@@ -30,7 +30,6 @@ public final class Main extends JavaFxManager {
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 	    try {
-	    	
 	    	onExceptionUiThreadHandler();
 	    	
 	    	// JavaFxの各メソッドを呼び出すため、継承したMainを保持する
@@ -46,11 +45,6 @@ public final class Main extends JavaFxManager {
 	    	this.setPage(new MenuController(true));
 
 	    } catch (Exception e) {
-	    	/* 例外MSGの二重起動防止の為、コメントアウト 
-	    	 * throwした場合、最終的に[Thread.setDefaultUncaughtExceptionHandler]が拾う
-	    	 * */
-	    	//LogManager.showAndWriteError(LogManager.getExceptionTitle(e), e);
-	        
 	    	// システム(JavaFx)にExceptionを通知する
 	        throw e;
 	    }
@@ -82,8 +76,8 @@ public final class Main extends JavaFxManager {
 	 * @brief 各イベントなどのJavaFxの UIスレッド（Event Dispatch Thread）]で<br>
 	 * 発生するExceptionを処理する。
 	 */
+	@SuppressWarnings("unused")
 	private void onExceptionUiThreadHandler() {
-
     	Thread.setDefaultUncaughtExceptionHandler(
     			(thread, throwable) -> {
     			    Platform.runLater(() -> {

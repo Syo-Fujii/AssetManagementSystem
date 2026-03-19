@@ -51,6 +51,7 @@ public class FormController extends BaseFormPage {
 	
 	/** 
 	 * コンストラクタ
+	 * @brief エラーハンドリングは[setPage]となる。<br>
 	 */
 	public FormController() {
 		LogManager.writeInfo("[" + FORM_NAME + "] ： 初期化処理"); 
@@ -65,8 +66,11 @@ public class FormController extends BaseFormPage {
 	
     /**
      * 画面(scene)初期化イベント
-     * .NET Load相当 
+     * .NET FormLoad & Shown相当 
      * 画面の表示前、ノードが配置された段階で実行
+     * @brief 画面(scene)の遷移には、FXMLLoaderでFXMLを読み込み、新しいControllerを生成しているので<br>
+     * 当該が各画面(scene)の呼び出しイベント(FormLoad/FormShown)相当となる。<br>
+	 * エラーハンドリングは[setPage](FXMLLoader.load)となる。
      */
     @FXML
 	void initialize() {
