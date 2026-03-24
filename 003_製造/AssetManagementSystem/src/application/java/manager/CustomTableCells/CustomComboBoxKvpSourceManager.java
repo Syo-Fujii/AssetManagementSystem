@@ -2,10 +2,11 @@
 
 import java.util.Objects;
 
+import application.java.base.BaseTableViewModel;
 import application.java.common.AppConst;
 import application.java.common.AppUtil;
 import application.java.manager.LogManager;
-import application.java.manager.TableColumnManager.keyValuePairItem;
+import application.java.manager.TableColumnManager.colKeyValuePairItem;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,10 +23,10 @@ import javafx.scene.control.TextField;
  * 編集時のみ表示モード
  * [Enter]で入力(編集)モードへ遷移 / 編集モード値確定
  * [ESC]で入力(編集)キャンセル処理
- *
  */
-public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S, V> {
-	private final ComboBox<keyValuePairItem<Integer, String>> comboBox;
+public class CustomComboBoxKvpSourceManager<S  extends BaseTableViewModel, K, V> extends TableCellManager<S, V> 
+{
+	private final ComboBox<colKeyValuePairItem<Integer, String>> comboBox;
 
     private final Boolean isAlwaysShow;
     private Boolean isAdjusting = false;
@@ -43,7 +44,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 	 * 選択肢（リスト）を設定する。
 	 * @param kvpItems 設定する選択肢（リスト）: ObservableList[keyValuePairItem[Integer, String]]
 	 */
-	public void setDataSource(ObservableList<keyValuePairItem<Integer, String>> kvpItems) {
+	public void setDataSource(ObservableList<colKeyValuePairItem<Integer, String>> kvpItems) {
 		this.comboBox.setItems(kvpItems);
 	}		
 	
@@ -51,7 +52,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 	 * 選択肢（リスト）を追加する。
 	 * @param kvpItem 追加するデータ：keyValuePairItem[Integer, String]
 	 */
-	public void setData(keyValuePairItem<Integer, String> kvpItem) {
+	public void setData(colKeyValuePairItem<Integer, String> kvpItem) {
 		this.comboBox.getItems().add(kvpItem);
 	}	
 	
@@ -79,7 +80,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 	 * @return 選択肢(KeyValuePair)
 	 * @brief 一致する選択肢がない場合は[null]を返す。<br>
 	 */
-	public keyValuePairItem<Integer, String> getSelectedListItem(String text){
+	public colKeyValuePairItem<Integer, String> getSelectedListItem(String text){
 		return this.comboBox.
 				getItems().
 				stream().
@@ -100,7 +101,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 	public CustomComboBoxKvpSourceManager(
 			String colId,
 			String keyModelName,
-			ObservableList<keyValuePairItem<Integer, String>> kvpItems,
+			ObservableList<colKeyValuePairItem<Integer, String>> kvpItems,
 			Boolean isAlwaysShow) 
     {
     	this.isAlwaysShow = isAlwaysShow;
@@ -366,7 +367,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
   		            commitEdit((V) editText);
   		            
   		            // リストから一致するものを探す
-  		            keyValuePairItem<Integer, String> selectedKvp = this.getSelectedListItem(editText);
+  		            colKeyValuePairItem<Integer, String> selectedKvp = this.getSelectedListItem(editText);
 
   		            // モデルへの値反映
   		            bindingModelProperty(colId, keyModelName, selectedKvp, editText);
@@ -418,7 +419,7 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
      */
     private void bindingModelProperty(String colId, 
     		                          String keyModelName,
-    		                          keyValuePairItem<Integer, String> selectedKvp,
+    		                          colKeyValuePairItem<Integer, String> selectedKvp,
     		                          String editText) {
         // 二重実行防止
         if (isAdjusting) return;
@@ -461,8 +462,8 @@ public class CustomComboBoxKvpSourceManager<S, K, V> extends TableCellManager<S,
 	 * 当該クラスを継承した、子クラスにて内容を定義する.
      */
     protected void syncModelPropertyBindingEvent(
-    		keyValuePairItem<Integer, String> befValue, 
-    		keyValuePairItem<Integer, String> newValue) {
+    		colKeyValuePairItem<Integer, String> befValue, 
+    		colKeyValuePairItem<Integer, String> newValue) {
     	
     	return;
     }

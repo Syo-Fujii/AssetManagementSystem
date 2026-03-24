@@ -2,6 +2,7 @@ package application.java.manager.CustomTableCells;
 
 import java.util.Objects;
 
+import application.java.base.BaseTableViewModel;
 import application.java.manager.LogManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -19,9 +20,9 @@ import javafx.scene.control.TextField;
  * 編集時のみ表示モード
  * [Enter]で入力(編集)モードへ遷移 / 編集モード値確定
  * [ESC]で入力(編集)キャンセル処理
- *
  */
-public class CustomComboBoxTableCellManager<S, T> extends TableCellManager<S, T> {
+public class CustomComboBoxTableCellManager<S extends BaseTableViewModel, T> extends TableCellManager<S, T> 
+{
     private final ComboBox<T> comboBox;
     private final Boolean isAlwaysShow;
 

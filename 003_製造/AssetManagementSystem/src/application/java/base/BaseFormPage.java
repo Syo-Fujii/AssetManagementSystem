@@ -4,11 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
+import javafx.util.StringConverter;
 
 /** 画面生成基底クラス(Controller基底クラス) 
  *  画面設定(Controller)に対するクラス
@@ -29,7 +33,10 @@ public abstract class BaseFormPage {
 	
 	/* 背景ウィンドウ色 */
 	private Color windowColor = null;
-
+	
+	/* 内部クラス */
+	public record keyValuePairItem<V>(Integer key, V value) {};	
+	
 	
 	/**
 	 * 参照する画面ファイル(FXML)を取得する。
@@ -355,6 +362,67 @@ public abstract class BaseFormPage {
      * OSレベルでウィンドウが表示され、全コンポーネントのレイアウト計算や描画が完全に終わった状態での表示処理	 
 	 */
 	protected void stageShown(){}
+
+    /**
+     * データモデル kvpリスト変換処理
+     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
+     * メソッド参照: FXCollections::observableArrayList<br>
+     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
+     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
+     */   
+	protected <T extends BaseTableViewModel, V > void modelsConvertToKeyValuePairList(
+    		List<T> datas,
+    		String keyPropertyName,
+    		String valuePropertyName,
+    		Class<V> valueType,
+    		ObservableList<keyValuePairItem<V>> kvpItems) {
+     	
+    	kvpItems.clear();
+    	
+        if (datas == null || datas.isEmpty()) { return; }
+
+        datas.
+        stream().
+        map(( model ) -> new keyValuePairItem<V>(
+        		model.getModelProperty(keyPropertyName, Integer.class),
+        		model.getModelProperty(valuePropertyName, valueType))).
+        forEach(kvpItems::add);
+    }	
+	
+    /**
+     * コンボボックス(Kvp)の選択リスト表示処理
+     * @brief KVP型のコンボボックスの場合、[Value]を選択肢としてリストを生成する。
+     */   
+	protected <V > void comboBoxKvpDisplayMember( ComboBox<keyValuePairItem<V>> cbo ) 
+	{
+		cbo.setConverter(new StringConverter<keyValuePairItem<V>>() {
+
+			/* Kvpより、Valueを返す */
+			@Override
+    	    public String toString(keyValuePairItem<V> item) 
+			{
+				 // valueを表示
+				return (item == null || item.value() == null) ? "" : item.value().toString();
+    	    }
+
+			/* 選択リストより、Kvpを返す */
+    	    @Override
+    	    public keyValuePairItem<V> fromString(String string) 
+    	    {
+    	        // 編集不可（ReadOnly）コンボの場合は null でOK
+    	        return null; 
+    	    }
+    	});
+	}		
+
+    /**
+     * コンボボックス(Kvp)の選択Key取得処理
+     */   
+	protected <V > Integer comboBoxKvpselectedKey( ComboBox<keyValuePairItem<V>> cbo ) 
+	{
+		return cbo.getValue() != null ? cbo.getValue().key() : AppConst.UNSET_NUMBER_VALUE;
+	}	
+	
 	
     /**
      * DBクエリ発行処理

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppConst;
 import application.java.common.AppUtil;
 import application.java.manager.CustomTableCells.CustomCheckBoxTableCellManager;
 import application.java.manager.CustomTableCells.CustomComboBoxKvpSourceManager;
@@ -32,9 +33,8 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	
 	private Boolean isEnterNextFocus = true;
 
-
 	/* 内部クラス */
-	public record keyValuePairItem<K, V>(Integer key, String value) {};
+	public record colKeyValuePairItem<K, V>(Integer key, String value) {};
 	
 	/**
 	 * コンストラクタ
@@ -188,7 +188,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	 */
 	@SuppressWarnings({ "unused" })
 	public void setCellTypeCustomComboBoxKeyValues(
-			ObservableList<keyValuePairItem<Integer, String>> kvpItems,
+			ObservableList<colKeyValuePairItem<Integer, String>> kvpItems,
 			String keyModelName,			
 			Boolean isEnabled, 
 			Boolean isAlwaysShow){
@@ -257,7 +257,7 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	 */
 	@SuppressWarnings({ "unused" })
 	public void setCellTypeCustomComboBoxKeyValuesWithCheck(
-			ObservableList<keyValuePairItem<Integer, String>> kvpItems,
+			ObservableList<colKeyValuePairItem<Integer, String>> kvpItems,
 			String keyModelName,
 			String CheckBoxModelName,
 			String placeHolderText,
@@ -546,6 +546,70 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 	}
 	
 	/**
+	 * 編集モード確定(EnterKey押下)時のFocus動作
+     * @param enterFocus AppConst.CellEnterFocus 動作の種類(Enum定数)
+     * @param scrollCount int 明細スクロールする行単位
+	 * @brief 編集モード確定(setOnEditCommit)時に、定数[CellEnterFocus]に応じたFocus遷移を設定する。<br>
+	 *   ・NONE：何もしない(NULL・[scrollCount]無効)<br>
+	 *   ・DEFAULT：TableColumnの標準動作(何もしない・[scrollCount]無効)<br>
+	 *   ・NEXT：次の有効CELLへ遷移(末尾の場合は下行へ遷移・[scrollCount]有効)<br>
+	 *   ・UNDER：下行のCELLへ遷移([scrollCount]有効)<br>
+	 */
+	@SuppressWarnings({ "unused" })
+	public void setEditCommitHandler(AppConst.CellEnterFocus enterFocus, int scrollCount) {
+
+    	switch (enterFocus) {
+        case NONE:
+        	this.setOnEditCommit(null);
+        	return;
+    	case DEFAULT:
+		    // モデルの値を更新する標準的な処理
+    		this.setOnEditCommit(event -> {
+    		    T newValue = event.getNewValue();
+    		});
+        	return;
+    	case NEXT:
+    		onDisabledCellsFocusSkipEvent(scrollCount);
+        	return;
+        case UNDER:
+        	onUnderDisabledCellsFocusSkipEvent(scrollCount);
+        	return;
+        default:
+		    // モデルの値を更新する標準的な処理
+    		this.setOnEditCommit(event -> {
+    		    T newValue = event.getNewValue();
+    		});
+        }	
+   }	
+
+    /**
+     * データモデル kvpリスト変換処理
+     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
+     * メソッド参照: FXCollections::observableArrayList<br>
+     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
+     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
+     */   
+	@SuppressWarnings("hiding")
+	public <T extends BaseTableViewModel> void rowsConvertToKeyValuePairList(
+    		List<T> datas,
+    		String keyPropertyName,
+    		String valuePropertyName,
+    		ObservableList<colKeyValuePairItem<Integer, String>> kvpItems) {
+     	
+    	kvpItems.clear();
+    	
+        if (datas == null || datas.isEmpty()) { return; }
+
+        datas.
+        stream().
+        map(row -> new colKeyValuePairItem<Integer, String>(
+        		row.getModelProperty(keyPropertyName, Integer.class), 
+        		row.getModelProperty(valuePropertyName, String.class))).
+        forEach(kvpItems::add);
+    }	
+
+	
+	/**
 	 * 編集モード確定(EnterKey押下)時に次のセルFocus移動
 	 * @brief
 	 * リフレクション（setAccessible(true)）を使うことが禁止されているため、<br>
@@ -555,18 +619,16 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
        
 		if(!isEnterNextFocus){ return; }
 
-		onDisabledCellsFocusSkipEvent();
+		onDisabledCellsFocusSkipEvent(1);
    }
 
-   /**
+	/**
     * 次の編集可能なカラムを探す
-    * @param tv 対象TableView
-    * @param currentCol 対象TableColumn
-    * @return 編集可能なTableColumn
-	* @brief 対象TableColumn より次の編集可能なTableColumnを返す。<br>
+    * @param scrollCount int 明細スクロールする行単位
+	* @brief 対象TableColumn より次の編集可能なTableCellを返す。<br>
 	* 有効なカラム
     */
-	private void onDisabledCellsFocusSkipEvent() {
+	private void onDisabledCellsFocusSkipEvent(int scrollCount) {
 		
 		// 編集モード時、確定(EnterKey)イベント
 		// 入力監視リスナー
@@ -612,10 +674,16 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		            if (targetCol.isEditable() && targetCol.isVisible() ) {
 		            	/* 有効CELL */
 		            	tableview.getSelectionModel().select(rowIdx, targetCol);
+
+		            	if (rowIdx - scrollCount > 0)
+		            	{
+		            		tableview.scrollTo(rowIdx - scrollCount); 
+		            	}		            	
+		            	
 		            	tableview.edit(rowIdx, targetCol);
 		            	LogManager.writeTrace("[TableColumnManager].[onDisabledCellsFocusSkipEvent] ： OK");
 
-		            	break;
+		            	return;
 		            
 		            } else {
 		            	/* 無効CELL */
@@ -628,6 +696,68 @@ public class TableColumnManager<S extends BaseTableViewModel,T> extends TableCol
 		});
    }	
 
+	/**
+    * 同カラムにて下の編集可能なカラムを探す
+    * @param scrollCount int 明細スクロールする行単位
+	* @brief 対象TableColumn より下行の編集可能なTableCellを返す。<br>
+	* 有効なカラム
+    */	
+	private void onUnderDisabledCellsFocusSkipEvent(int scrollCount) {
+
+		// 編集モード時、確定(EnterKey)イベント
+		// 入力監視リスナー
+		// (event = 変更を監視しているプロパティ:event = TableVolumn.CellEditEvent)		
+		this.setOnEditCommit(event -> {
+			// 処理確定後の動作
+			javafx.application.Platform.runLater(() -> {
+				
+				TableColumn<S, ?> targetCol = event.getTableColumn();
+				
+				
+				if (!targetCol.isEditable()) { return; }
+
+				TableView<S> tableview = event.getTableView();
+				
+				// 明細行数を取得
+		        int rowsCount = tableview.getItems().size();
+		        
+		        if (rowsCount < 1) { return; }
+		        
+		        // 係数
+		        int direction = 1;
+
+		        // 次の明細行番号を取得
+		        int nextRowIdx = event.getTablePosition().getRow() + direction;
+
+		        // 有効なセルが見つかるまで、行をまたいで探索
+		        while (nextRowIdx < rowsCount)
+		        {
+	            	/* 有効CELL */
+	            	tableview.getSelectionModel().select(nextRowIdx, targetCol);
+	                
+	            	if (nextRowIdx - scrollCount > 0)
+	            	{
+	            		tableview.scrollTo(nextRowIdx - scrollCount); 
+	            	}
+	            	
+	            	tableview.requestFocus();
+	            	tableview.edit(nextRowIdx, targetCol);			        	
+		        	
+	                // editを開始しても、実際に対象が編集状態でなければ（＝拒否されたら）次を探す
+	                if (tableview.getEditingCell() != null) {
+	                	LogManager.writeTrace("[TableColumnManager].[onUnderDisabledCellsFocusSkipEvent] ： OK");
+	                    return; 
+	                }			        	
+		        	
+	            	/* 次の行へ */
+	                nextRowIdx++;	        	
+		        } 			        
+		        
+		        LogManager.writeTrace("[TableColumnManager].[onUnderDisabledCellsFocusSkipEvent] ： Return NULL");	        
+			});
+		});			
+	}
+	
    /**
     * PropertyValueFactory からプロパティ名を抽出
     * @brief 使用禁止：（InaccessibleObjectException）が発生<br>

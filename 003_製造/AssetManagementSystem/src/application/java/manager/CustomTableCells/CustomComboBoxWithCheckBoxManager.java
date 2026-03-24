@@ -2,14 +2,17 @@ package application.java.manager.CustomTableCells;
 
 import java.util.Objects;
 
+import application.java.base.BaseTableViewModel;
 import application.java.common.AppConst;
 import application.java.common.AppUtil;
 import application.java.manager.LogManager;
-import application.java.manager.TableColumnManager.keyValuePairItem;
+import application.java.manager.TableColumnManager.colKeyValuePairItem;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
-public class CustomComboBoxWithCheckBoxManager<S, K, V> extends CustomComboBoxKvpSourceManager<S, K, V> {
+public class CustomComboBoxWithCheckBoxManager<S extends BaseTableViewModel, K, V> 
+extends CustomComboBoxKvpSourceManager<S, K, V> 
+{
 	private final String checkModelName; // 連動先Modelのプロパティ名
 
     /**
@@ -24,7 +27,7 @@ public class CustomComboBoxWithCheckBoxManager<S, K, V> extends CustomComboBoxKv
     		String colId, 
     		String keyModelName, 
     		String checkModelName,
-    		ObservableList<keyValuePairItem<Integer, String>> kvpItems, 
+    		ObservableList<colKeyValuePairItem<Integer, String>> kvpItems, 
     		Boolean isAlwaysShow) {
         
         this.checkModelName = checkModelName;
@@ -69,8 +72,8 @@ public class CustomComboBoxWithCheckBoxManager<S, K, V> extends CustomComboBoxKv
      */
     @Override
     protected void syncModelPropertyBindingEvent(
-            keyValuePairItem<Integer, String> befValue, 
-            keyValuePairItem<Integer, String> newValue) {
+    		colKeyValuePairItem<Integer, String> befValue, 
+    		colKeyValuePairItem<Integer, String> newValue) {
         
     	if (!AppUtil.StringIsNullOrWhiteSpace(checkModelName)) {
 			// 連動先値設定

@@ -6,7 +6,7 @@ import application.java.base.BaseTableViewModel;
 import javafx.stage.StageStyle;
 
 /**
- * 
+ * 定数クラス
  */
 public class AppConst {
 	
@@ -127,6 +127,40 @@ public class AppConst {
 	     */	    
 	    public static WindowStyle fromStyle(int id) {
 	        return Arrays.stream(WindowStyle.values())
+	                 .filter(s -> s.getId() == id)
+	                 .findFirst()  // 最初に見つかったものを取得
+	                 .orElse(null); // 見つからなければ null を返す
+	    }	
+	}
+
+	/**
+	 * TableCell 編集確定([Enter]Key押下)の際のFocus動作
+	 */
+	public static enum CellEnterFocus {
+		NONE(1, "なにもしない"),
+		DEFAULT(2, "TebleCellの標準動作"),
+		NEXT(3, "次(前)の編集可能なCELLへ遷移"),
+		UNDER(4, "下の編集可能なCELLへ遷移");
+
+	    private final int id;
+	    private final String label;
+
+	    /** コンストラクタ */
+	    CellEnterFocus(int id, String label) {
+	        this.id = id;
+	        this.label = label;
+	    }
+
+	    public int getId() { return id; }
+	    public String getlabel() { return label; }
+
+	    /**
+	     * 数値(引数)から一致するEnum要素を返す
+	     * @param id
+	     * @return 一致するEnum要素
+	     */	    
+	    public static CellEnterFocus fromId(int id) {
+	        return Arrays.stream(CellEnterFocus.values())
 	                 .filter(s -> s.getId() == id)
 	                 .findFirst()  // 最初に見つかったものを取得
 	                 .orElse(null); // 見つからなければ null を返す

@@ -2,6 +2,7 @@ package application.java.manager.CustomTableCells;
 
 import java.util.Objects;
 
+import application.java.base.BaseTableViewModel;
 import application.java.manager.LogManager;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
@@ -16,7 +17,8 @@ import javafx.scene.control.Control;
  * [Enter]で入力(編集)モードへ遷移 / 編集モード値確定
  * [ESC]で入力(編集)キャンセル処理
  */
-public class CustomCheckBoxTableCellManager<S, T> extends TableCellManager<S, T> {
+public class CustomCheckBoxTableCellManager<S extends BaseTableViewModel, T> extends TableCellManager<S, T>
+{
 	private final CheckBox checkBox;
 	private final Boolean isAlwaysShow;
 

@@ -32,9 +32,9 @@
             <Label layoutX="664.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="最終所在確認日" />
             <HBox layoutY="40.0" prefHeight="25.0" prefWidth="830.0" spacing="15.0">
                <children>
-                  <ComboBox prefWidth="150.0" />
+                  <ComboBox id="cboSearchType" fx:id="cbo_Search_Type" prefWidth="150.0" />
                   <TextField prefHeight="25.0" prefWidth="150.0" />
-                  <ComboBox prefWidth="150.0" />
+                  <ComboBox id="cboSearchStaff" fx:id="cbo_Search_Staff" prefWidth="150.0" />
                   <DatePicker prefHeight="25.0" prefWidth="139.0" />
                   <DatePicker prefHeight="25.0" prefWidth="139.0" />
                </children>

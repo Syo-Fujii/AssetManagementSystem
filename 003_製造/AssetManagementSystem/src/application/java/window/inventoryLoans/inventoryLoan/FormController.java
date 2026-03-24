@@ -18,7 +18,7 @@ import application.java.common.MessageBox.ShowButtonType;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
-import application.java.manager.TableColumnManager.keyValuePairItem;
+import application.java.manager.TableColumnManager.colKeyValuePairItem;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.InventoryLoanMapper;
 import javafx.collections.FXCollections;
@@ -111,8 +111,8 @@ public class FormController extends BaseFormPage {
     	// 最初の画面起動として、[SQL Session]を生成・保持する。
 		MySqlManager.getSqlSessionFactory();
 
-    	// 選択肢のリスト(空データ)
-     	ObservableList<keyValuePairItem<Integer, String>> comboBoxSource = 
+    	// 選択肢のリスト(空データ) ※ 非同期で取得する為、予め定義
+     	ObservableList<colKeyValuePairItem<Integer, String>> comboBoxSource = 
      			FXCollections.observableArrayList();
 		
 		// TableView起動設定
@@ -321,14 +321,14 @@ public class FormController extends BaseFormPage {
 	}		
 	
     /**
-     * 使用者ComboBox 選択リスト取得処理
+     * 使用者Cell(ComboBox) 選択リスト取得処理
      * @param comboBoxSource コンボボックスの選択リスト(kvpのObservableList)
      * @brief コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
      */
     private void fetchStaffMembers(
-    		ObservableList<keyValuePairItem<Integer, String>> comboBoxSource)
+    		ObservableList<colKeyValuePairItem<Integer, String>> comboBoxSource)
     {
-    	System.out.println("使用者ComboBox 選択リスト取得処理");
+    	System.out.println("使用者CELL(ComboBox) 選択リスト取得処理");
     	
     	MySqlManager.<StaffMasterModel>FillOnParallel(
     			(SqlSession session) -> {
@@ -339,9 +339,9 @@ public class FormController extends BaseFormPage {
 					}
 				},
     			listData -> { 
-    				modelsConvertToKeyValuePairList( listData, comboBoxSource ); },
+    				staffMasterModelsConvertToKeyValuePairList( listData, comboBoxSource ); },
     			exception -> {
-    				System.err.println("使用者ComboBox 選択リスト取得失敗");
+    				System.err.println("使用者CELL(ComboBox) 選択リスト取得失敗");
     				super.exceptionResult(exception);
     			}
     	); 
@@ -644,7 +644,7 @@ public class FormController extends BaseFormPage {
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      * 多分Webページと同じ概念。
      */
-	private void tableViewSettings(ObservableList<keyValuePairItem<Integer, String>> kvpItems)
+	private void tableViewSettings(ObservableList<colKeyValuePairItem<Integer, String>> kvpItems)
     {
 		LogManager.writeTrace("[" + FORM_NAME + "] ： カラム・セル設定/定義");
     	
@@ -735,17 +735,12 @@ public class FormController extends BaseFormPage {
      * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
      * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
      */   
-    private void modelsConvertToKeyValuePairList(
+    private void staffMasterModelsConvertToKeyValuePairList(
     		List<StaffMasterModel> datas,
-    		ObservableList<keyValuePairItem<Integer, String>> kvpItems) {
+    		ObservableList<colKeyValuePairItem<Integer, String>> kvpItems) {
      	
-    	kvpItems.clear();
-    	
-        if (datas == null || datas.isEmpty()) { return; }
-
-        datas.stream().
-              map(row -> new keyValuePairItem<Integer, String>(row.getStaffNo(), row.getStaffName())).
-              forEach(kvpItems::add);
+    	col_staff_name.
+    	rowsConvertToKeyValuePairList(datas, "staffNo", "staffName", kvpItems);
     }
     
     /**

@@ -1,21 +1,39 @@
 package application.java.manager.CustomTableCells;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import application.java.manager.TableColumnManager.keyValuePairItem;
+import application.java.base.BaseTableViewModel;
+import application.java.manager.TableColumnManager.colKeyValuePairItem;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.util.StringConverter;
 
-public class TableCellManager<S, T> extends TableCell<S, T>  {
+public class TableCellManager<S extends BaseTableViewModel, T> extends TableCell<S, T>  {
 	
 	/**
-	 * 
-	 * @param propertyName
-	 * @param type
-	 * @param value
+	 * 対象とするMODELの指定したプロパティの値を取得する
+	 * @param propertyName String 対象プロパティ名
+	 * @param type プロパティの型
+	 * @return 取得した値
+	 * @throws Exception
+	 */
+	protected <R > R getRowClassProperty(String propertyName, Class<R> type) {
+		// モデルへの値取得
+		try {
+	    	S rowData = this.getTableView().getItems().get(getIndex());
+	    	
+	    	return rowData.getModelProperty(propertyName, type);
+
+	    } catch (Exception e) {
+	    	System.err.println("モデルへの値取得に失敗しました: " + propertyName);
+	    	throw new RuntimeException(e);
+	    }
+	}
+	
+	/**
+	 * 対象とするMODEL(Row)の指定したプロパティに値を設定する
+	 * @param propertyName String 対象プロパティ名
+	 * @param type プロパティの型
+	 * @param value 設定する値
 	 * @throws Exception
 	 */
 	protected void setRowClassProperty(String propertyName, Class<?> type, Object value ) {
@@ -23,33 +41,12 @@ public class TableCellManager<S, T> extends TableCell<S, T>  {
 		try {
 	    	S rowData = this.getTableView().getItems().get(getIndex());
 	    	
-	    	// メソッド(値のSetter プロパティ)名の生成
-	        String methodName = "set" +
-	    	                    propertyName.substring(0, 1).toUpperCase() +
-	    	                    propertyName.substring(1);
-	        
-            // モデルからメソッドを探して実行
-            Method setter = rowData.getClass().getMethod(methodName, type);
-            setter.invoke(rowData, type.cast(value));
-
-	    } catch (InvocationTargetException itex) {
-	    	// 型が不一致（例: String vs Object）で失敗する場合のデバッグ
-            System.err.println("モデルへの値反映に失敗しました: " + propertyName);
-            // リフレクション先の例外を処理
-            Throwable cause = itex.getCause();
-            System.err.println("メソッド内部でエラーが発生しました: " + cause.getMessage());
-            cause.printStackTrace(); 
-            throw new RuntimeException(cause);
-
-	    } catch (NoSuchMethodException e) {
-	    	System.err.println("モデルへの値反映に失敗しました: " + propertyName);
-	    	System.err.println("メソッドが見つかりません: " + propertyName);
-	        throw new RuntimeException(e);
+	    	rowData.setModelProperty(propertyName, type, value);
 
 	    } catch (Exception e) {
-	    	System.err.println("モデルへの値反映に失敗しました: " + propertyName);
 	    	throw new RuntimeException(e);
-	    }}
+	    }
+	}
 	
     /**
      * 
@@ -84,15 +81,15 @@ public class TableCellManager<S, T> extends TableCell<S, T>  {
 	 * ComboBoxにPair型の表示方法（StringConverter）を設定する
 	 * @param cb 対象コンボボックスControl
 	 */
-	protected void setupPairConverter(ComboBox<keyValuePairItem<Integer, String>> cb) {
+	protected void setupPairConverter(ComboBox<colKeyValuePairItem<Integer, String>> cb) {
 	    
-		cb.setConverter(new StringConverter<keyValuePairItem<Integer, String>>() {
+		cb.setConverter(new StringConverter<colKeyValuePairItem<Integer, String>>() {
 
 			/**
 	         * kvpのクラスを引数に、設定されているValue(String型)を返す
 	         */
 			@Override
-	        public String toString(keyValuePairItem<Integer, String> object) {
+	        public String toString(colKeyValuePairItem<Integer, String> object) {
 	            return (object == null) ? "" : object.value();
 	        }
 
@@ -100,8 +97,8 @@ public class TableCellManager<S, T> extends TableCell<S, T>  {
 	         * 引数の文字列に一致する、kvpを返す
 	         */
 			@Override
-	        public keyValuePairItem<Integer, String> fromString(String string) {
-	            ObservableList<keyValuePairItem<Integer, String>> items = cb.getItems();
+	        public colKeyValuePairItem<Integer, String> fromString(String string) {
+	            ObservableList<colKeyValuePairItem<Integer, String>> items = cb.getItems();
 	            
 	            // items が null または空の場合は処理を中断する
 	            if (items == null || string == null || string.isEmpty()) {
@@ -112,7 +109,7 @@ public class TableCellManager<S, T> extends TableCell<S, T>  {
 	            return cb.getItems().stream()
 	                .filter(item -> item.value().equals(string))
 	                .findFirst()
-	                .orElseGet(() -> new keyValuePairItem<>(-1, string));  // 新規入力対応
+	                .orElseGet(() -> new colKeyValuePairItem<>(-1, string));  // 新規入力対応
 	                //.orElse(null);
 	        }
 	    });

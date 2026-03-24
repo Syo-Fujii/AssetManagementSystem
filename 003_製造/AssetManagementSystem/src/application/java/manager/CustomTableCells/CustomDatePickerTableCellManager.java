@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import application.java.base.BaseTableViewModel;
 import application.java.common.AppUtil;
 import application.java.manager.LogManager;
 import javafx.application.Platform;
@@ -25,7 +26,8 @@ import javafx.scene.input.MouseEvent;
  * [Enter]で入力(編集)モードへ遷移 / 編集モード値確定
  * [ESC]で入力(編集)キャンセル処理
  */
-public class CustomDatePickerTableCellManager<S, T> extends TableCellManager<S, T> {
+public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> extends TableCellManager<S, T> 
+{
 	private final DatePicker datePicker;
     private final Boolean isAlwaysShow;
 

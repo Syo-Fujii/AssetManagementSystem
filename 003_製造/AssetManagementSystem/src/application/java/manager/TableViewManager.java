@@ -338,6 +338,7 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 
 	/**
 	 * 無効化CELL 選択(Focus)スキップ イベント
+	 * @brief Key[左]・[右]・[TAB]を押下した場合のEventを制御(次(前)のCELLへ遷移)
 	 */
 	public void onDisabledCellsFocusSkipEvent() {
     	this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {

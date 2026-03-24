@@ -89,6 +89,19 @@
      ]]>
     </select>
 
+    <!-- 社員マスターの取得 -->
+    <select id="getStaffMasterData">
+      SELECT
+        SM.staff_no AS staffNo,
+        SM.name AS staffName
+       FROM
+         staff_master SM
+       WHERE
+         1 = 1
+       AND SM.del = FALSE
+       ORDER BY SM.staff_no
+    </select>
+
     <!-- 備品データの最終所在確認日 更新 -->
     <update id="updConfirmedDate" parameterType="application.java.base.tableViewListModel.PerformInventoryDataModel">
        UPDATE stock_data

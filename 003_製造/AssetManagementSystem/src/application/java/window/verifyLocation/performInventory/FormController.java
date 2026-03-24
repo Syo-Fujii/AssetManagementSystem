@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
+import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.PerformInventoryDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
@@ -20,8 +21,11 @@ import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
 import application.resources.mapper.PerformInventoryMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,6 +48,9 @@ public class FormController  extends BaseFormPage {
 	private final String FORM_NAME = "棚卸画面";
 
 	@FXML private Label lbl_title;	
+	
+	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Type;
+	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Staff;
 	
 	@FXML private TableViewManager<PerformInventoryDataModel> tableListView;
 	@FXML private TableColumn<PerformInventoryDataModel, String> col_serial;
@@ -103,6 +110,9 @@ public class FormController  extends BaseFormPage {
 		// 画面起動設定
 		this.formInitialize();
 
+		
+		makeSarchComboBox_staffMaster();
+		
 		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<PerformInventoryDataModel>fillTableAsync();
     }	
@@ -305,6 +315,52 @@ public class FormController  extends BaseFormPage {
 			inventory_button.setDisable(true);
 		}
 	}
+
+    /**
+     * 使用者ComboBox 選択リスト取得処理
+     * @param comboBoxSource コンボボックスの選択リスト(kvpのObservableList)
+     * @brief コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
+     */
+	private void fetchStaffMembers(ObservableList<keyValuePairItem<String>> comboBoxSource)
+    {
+    	System.out.println("検索・使用者(ComboBox) 選択リスト取得処理");
+    	
+    	MySqlManager.<StaffMasterModel>FillOnParallel(
+    			(SqlSession session) -> {
+					try {
+						return this.getStaffMasterData(session);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				},
+    			listData -> { 
+    				staffMasterModelsConvertToKeyValuePairList( listData, comboBoxSource ); },
+    			exception -> {
+    				System.err.println("検索・使用者(ComboBox)  選択リスト取得失敗");
+    				super.exceptionResult(exception);
+    			}
+    	); 
+    }
+
+    /**
+     * 社員一覧の取得
+     * @param session
+     * @throws Exception
+     * @return List<StaffMasterModel> 取得結果(行データ:StaffMasterModel のList)
+     */
+    private List<StaffMasterModel> getStaffMasterData(SqlSession session) throws Exception
+    {
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ取得処理");
+    	try {
+    		PerformInventoryMapper mapper = session.getMapper(PerformInventoryMapper.class);
+    	    
+    	    // 社員マスター取得
+    	    return mapper.getStaffMasterData();
+
+    	} catch(Exception e){
+    		throw new Exception(e);
+    	}
+    }	
 	
     /**
      * 追加機能：整合性検査
@@ -509,15 +565,18 @@ public class FormController  extends BaseFormPage {
     	tableListView.cellIsEnabled(col_start_date, false);
     	tableListView.cellIsEnabled(col_limit_date, false);
     	tableListView.cellIsEnabled(col_confirmed_date, false);
-      	
-    	// 無効Cell Focus SKIP設定 
-    	tableListView.onDisabledCellsFocusSkipEvent();
     	
     	// 項目(カスタムセル)型設定
     	col_remarks.setCellTypeCustomInputText(true, true);
 		col_inventory_date.setCellTypeCustomDatePicker(true, true, dateNow, null, dateNow);
 		col_is_inventory.setCellTypeCustomCheckBox(true, true);    	
 
+    	// 無効Cell Focus SKIP設定 
+    	//※ Key[左]・[右]・[TAB]
+    	tableListView.onDisabledCellsFocusSkipEvent();		
+    	//※ [棚卸]項目(CheckBox) [Enter]のFocus処理 [下のCELLへ遷移]
+    	col_is_inventory.setEditCommitHandler(AppConst.CellEnterFocus.UNDER, 5);
+		
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(true);
@@ -566,6 +625,42 @@ public class FormController  extends BaseFormPage {
     	lbl_title.setText(this.getPageTitle());
     	// lbl_title.getStyleClass().add("titletext");
     }
+
+    /**
+     * コンボボックス(検索用):使用者　生成処理
+     * @brief 検索項目の[使用者]を設定する 
+     */   
+    private void makeSarchComboBox_staffMaster() {
+
+    	// 選択肢のリスト(空データ)　※ 非同期で取得する為、予め定義
+     	ObservableList<keyValuePairItem<String>> comboBoxSource = FXCollections.observableArrayList();    	
+
+     	// リスト表示項目設定
+     	this.comboBoxKvpDisplayMember(cbo_Search_Staff);
+     	
+     	cbo_Search_Staff.setItems(comboBoxSource);
+
+     	// データ取得
+     	fetchStaffMembers(comboBoxSource);
+    }      
+    
+    /**
+     * データモデル(StaffMasterModel) kvpリスト変換処理
+     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
+     * メソッド参照: FXCollections::observableArrayList<br>
+     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
+     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
+     */   
+    private void staffMasterModelsConvertToKeyValuePairList(
+    		List<StaffMasterModel> datas, ObservableList<keyValuePairItem<String>> kvpItems) {
+    	super.modelsConvertToKeyValuePairList( datas, "staffNo", "staffName", String.class, kvpItems ); 
+    	
+    	// データが存在する場合、先頭リストに空欄を生成する
+    	if (!(kvpItems == null || kvpItems.isEmpty()))
+    	{
+    		kvpItems.add(0, new keyValuePairItem<>(AppConst.UNSET_NUMBER_VALUE, ""));
+    	}
+    }    
     
     /**
      * 遷移元画面呼び出し
@@ -578,6 +673,8 @@ public class FormController  extends BaseFormPage {
     			window.
     			MenuController(true));
     }
+    
+    
     
     private void testRowSelectedValues() {
     	try {
