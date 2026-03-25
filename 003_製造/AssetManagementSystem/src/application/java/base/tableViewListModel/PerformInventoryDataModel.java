@@ -101,7 +101,7 @@ public class PerformInventoryDataModel extends BaseTableViewModel {
 	public String getRentFlg() {
 		// 取得した数値を、定数の文字列(Label)に変換・表示
 		return LoanStatus.
-				fromState(this.getRentValue()).getlabel();
+				fromState(this.getRentValue()).getLabel();
 	}
 
 	/**

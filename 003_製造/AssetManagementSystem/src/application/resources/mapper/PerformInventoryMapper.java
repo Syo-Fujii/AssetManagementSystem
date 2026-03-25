@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import application.java.base.dbTablesModel.StaffMasterModel;
+import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 import application.java.base.tableViewListModel.PerformInventoryDataModel;
 
@@ -20,9 +21,16 @@ public interface PerformInventoryMapper {
     List<PerformInventoryDataModel> getTableInventoryRecords(@Param("defaultDate") String defaultDate);
   
 	/**
+	 * 備品分類マスターの取得
+	 * @return 備品分類マスターの一覧
+	 * @brief 論理削除している備品分類データは取得しない
+	 */
+    List<StockTypeMasterModel> getStockTypeMasterData();  
+    
+    /**
 	 * 社員マスターの取得
 	 * @return 社員マスターの一覧
-	 * @brief 論理削除しているユーザーは取得しない
+	 * @brief 論理削除しているユーザーを含む
 	 */
     List<StaffMasterModel> getStaffMasterData();    
     

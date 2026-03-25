@@ -63,10 +63,11 @@
 		<item key="VisibilityModifier" value="1"/>
 		<item key="FinalModifier" value="false"/>
 		<item key="SynchronizedModifier" value="false"/>
-		<item key="Comments" value="false"/>
+		<item key="Comments" value="true"/>
+		<item key="InsertPosition.v2" value="2"/>
 	</section>
 	<section name="AddGetterSetterDialog">
-		<item key="SortOrdering" value="false"/>
+		<item key="SortOrdering" value="true"/>
 		<item key="RemoveFinal" value="true"/>
 	</section>
 	<section name="DialogBounds_GetterSetterTreeSelectionDialog">
@@ -74,7 +75,7 @@
 		<item key="DIALOG_Y_ORIGIN" value="63"/>
 		<item key="DIALOG_WIDTH" value="538"/>
 		<item key="DIALOG_HEIGHT" value="692"/>
-		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
+		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
 	</section>
 	<section name="JarPackageWizard">
 		<item key="JarPackageWizardPage.EXPORT_CLASS_FILES" value="true"/>
@@ -96,6 +97,7 @@
 		<item key="JarManifestWizardPage.MANIFEST_LOCATION" value=""/>
 		<item key="JarManifestWizardPage.SEAL_JAR" value="false"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\CustomControlManager.jar"/>
 			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\TableViewManager.jar"/>
 			<item value="F:\Ecripse\001_備品管理システム\003_製造\Jarファイル\TableViewManager.jar"/>
 			<item value="F:\Ecripse\001_備品管理システム\003_製造\Jarファイル\005_JARファイル.jar"/>

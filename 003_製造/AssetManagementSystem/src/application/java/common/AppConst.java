@@ -45,6 +45,7 @@ public class AppConst {
 
 	/**
 	 * Enum 貸出状態
+     * @brief 学習のため、DB 汎用マスタに登録せずEnumにて定義する
 	 */
 	public static enum LoanStatus {
 		AVAILABLE(1, "可"),
@@ -64,7 +65,7 @@ public class AppConst {
 	    }
 
 	    public int getState() { return state; }
-	    public String getlabel() { return label; }
+	    public String getLabel() { return label; }
 
 	    /**
 	     * 数値(引数)から一致するEnum要素を返す
@@ -208,6 +209,8 @@ public class AppConst {
 
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;
+
+	
 	
 	/** 各フォルダPATH */
 	// public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";

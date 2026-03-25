@@ -2,6 +2,7 @@
 
 <?import application.java.manager.TableColumnManager?>
 <?import application.java.manager.TableViewManager?>
+<?import application.java.manager.customControl.CustomDatePickerControlManager?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -13,7 +14,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<!-- <?import application.java.manager.TableViewManager?> -->
 <!-- Java内でインスタンス化したクラスを設定する場合は、fxタグ:fx:controller="application.java.window.inventoryList.FormController"を指定しない -->
 
 <AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1450.0" stylesheets="@../css/PerformInventoryStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
@@ -23,20 +23,22 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="25.0" layoutY="80.0" prefHeight="80.0" prefWidth="1000.0" styleClass="searchGroupBox">
+      <AnchorPane layoutX="25.0" layoutY="80.0" prefHeight="80.0" prefWidth="1150.0" styleClass="searchGroupBox">
          <children>
             <Label layoutX="15.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="備品分類" />
             <Label layoutX="180.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="シリアルナンバー" />
-            <Label layoutX="345.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="使用者" />
-            <Label layoutX="510.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="返却予定日" />
-            <Label layoutX="664.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="最終所在確認日" />
-            <HBox layoutY="40.0" prefHeight="25.0" prefWidth="830.0" spacing="15.0">
+            <Label layoutX="345.0" layoutY="15.0" prefHeight="25.0" text="貸出可否" />
+            <Label layoutX="480.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="使用者" />
+            <Label layoutX="645.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="返却予定日" />
+            <Label layoutX="799.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="最終所在確認日" />
+            <HBox layoutY="40.0" prefHeight="25.0" prefWidth="950.0" spacing="15.0">
                <children>
                   <ComboBox id="cboSearchType" fx:id="cbo_Search_Type" prefWidth="150.0" />
                   <TextField prefHeight="25.0" prefWidth="150.0" />
+                  <ComboBox id="cboSearchLoanStatus" fx:id="cbo_Search_Status" prefWidth="120.0" />
                   <ComboBox id="cboSearchStaff" fx:id="cbo_Search_Staff" prefWidth="150.0" />
                   <DatePicker prefHeight="25.0" prefWidth="139.0" />
-                  <DatePicker prefHeight="25.0" prefWidth="139.0" />
+                  <CustomDatePickerControlManager fx:id="dp_Search_Confirmed" prefHeight="25.0" prefWidth="139.0" />
                </children>
                <padding>
                   <Insets left="15.0" />

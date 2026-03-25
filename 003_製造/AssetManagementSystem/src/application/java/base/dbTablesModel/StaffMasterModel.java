@@ -14,18 +14,19 @@ import javafx.beans.property.StringProperty;
  * ※ １行分のデータ<br>
  * 画面Controllerにて呼び出される前提<br>
  */
-public class StaffMasterModel extends BaseTableViewModel  {
+public class StaffMasterModel extends BaseTableViewModel {
 
     private IntegerProperty staffNo;
 	private StringProperty staffName;
-    private IntegerProperty authNo;	
-    private BooleanProperty del;		
+    private IntegerProperty authNo;
+    private BooleanProperty del;
 	
 	/**
 	 * [社員番号]取得
 	 * @return staffNo
 	 * @brief [javafx.beans.property] 
-	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[staffNo]とする<br>
 	 */
 	public Integer getStaffNo() {
 		return staffNo.get();
@@ -35,7 +36,8 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * [社員番号]項目設定
 	 * @param no 設定する値
 	 * @brief [javafx.beans.property] 
-	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[staffNo]とする<br>
 	 */
 	public void setStaffNo(Integer no) {
 		this.staffNo.set(no);
@@ -45,7 +47,8 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * [氏名]取得
 	 * @return name
 	 * @brief [javafx.beans.property] 
-	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[staffName]とする<br>
 	 */
 	public String getStaffName() {
 		return staffName.get();
@@ -55,7 +58,8 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * [氏名]項目設定
 	 * @param name 設定する値
 	 * @brief [javafx.beans.property] 
-	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[staffName]とする<br>
 	 */
 	public void setStaffName(String name) {
 		this.staffName.set(name);
@@ -65,7 +69,8 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * [権限]取得
 	 * @return authNo
 	 * @brief [javafx.beans.property] 
-	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[authNo]とする<br>
 	 */
 	public Integer getAuthNo() {
 		return authNo.get();
@@ -75,7 +80,8 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * [権限]項目設定
 	 * @param no 設定する値
 	 * @brief [javafx.beans.property] 
-	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[authNo]とする<br>
 	 */
 	public void setAuthNo(Integer no) {
 		this.authNo.set(no);
@@ -85,21 +91,23 @@ public class StaffMasterModel extends BaseTableViewModel  {
 	 * [削除フラグ]取得
 	 * @return del
 	 * @brief [javafx.beans.property] 
-	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[delFlg]とする<br>
 	 */
 	public Boolean getDelFlg() {
 		return del.get();
-		}
+	}
 
 	 /**
 	 * [削除フラグ]項目設定
 	 * @param isdeleted 設定する値
 	 * @brief [javafx.beans.property] 
-	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[delFlg]とする<br>
 	 */
 	public void setDelFlg(Boolean isdeleted) {
 		this.del.set(isdeleted);
-		}	 
+	}	 
 
 	 /**
      * コンストラクタ

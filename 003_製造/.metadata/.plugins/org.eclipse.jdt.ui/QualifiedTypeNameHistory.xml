@@ -14,8 +14,9 @@
     <fullyQualifiedTypeName name="application.java.common.MessageBox"/>
     <fullyQualifiedTypeName name="application.java.manager.LogManager"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.WindowStyle"/>
-    <fullyQualifiedTypeName name="application.java.common.AppConst"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="application.java.common.AppUtil"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.LoanStatus"/>
+    <fullyQualifiedTypeName name="application.java.common.AppConst.CellEnterFocus"/>
+    <fullyQualifiedTypeName name="application.java.common.AppConst"/>
 </qualifiedTypeNameHistroy>

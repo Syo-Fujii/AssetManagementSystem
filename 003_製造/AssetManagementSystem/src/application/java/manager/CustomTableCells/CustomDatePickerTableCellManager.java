@@ -15,7 +15,6 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.input.InputMethodRequests;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 
 /**
  * カスタムControl：TableCell + DatePicker
@@ -47,9 +46,11 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
 	/**
      * コンストラクタ
      * @param colId カラムのID(自身(カスタムチェックボックス)のカラムのID)
+	 * @param calShowFirstDate LocalDate 日付の初期値
+	 * @param minDate LocalDate 許容される日付の最小値
+	 * @param maxDate LocalDate 許容される日付の最大値
      * @param isAlwaysShow CheckBoxを常時表示するか
 	 */
-	@SuppressWarnings("unused")
 	public CustomDatePickerTableCellManager(
 			String colId,
 			LocalDate calShowFirstDate,
@@ -90,12 +91,12 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
 		});		
 		
 		// マウスが放された瞬間
-        this.datePicker.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> {
+        /* this.datePicker.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> {
             if (!datePicker.isShowing()) {
             	// 非表示の場合、強制表示
             	Platform.runLater(() -> { datePicker.show(); });
             }
-        });
+        }); */
         
         onFocusDatePicker();
 	}
@@ -320,7 +321,7 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
         			// 入力制御      	
         			// 範囲外なら強制的に nullに戻す
         			if (dateIsOutOfRange(date)) {
-        	            System.out.println("TableColumn : 選択範囲外の日付です: " + date); 
+        				LogManager.writeError("TableColumn : 選択範囲外の日付です: " + date);; 
         	            date = null;
         	            value = "";
         			}

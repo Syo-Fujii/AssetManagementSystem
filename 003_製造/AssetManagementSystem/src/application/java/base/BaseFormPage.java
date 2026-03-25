@@ -396,7 +396,6 @@ public abstract class BaseFormPage {
 	protected <V > void comboBoxKvpDisplayMember( ComboBox<keyValuePairItem<V>> cbo ) 
 	{
 		cbo.setConverter(new StringConverter<keyValuePairItem<V>>() {
-
 			/* Kvpより、Valueを返す */
 			@Override
     	    public String toString(keyValuePairItem<V> item) 
@@ -423,7 +422,6 @@ public abstract class BaseFormPage {
 		return cbo.getValue() != null ? cbo.getValue().key() : AppConst.UNSET_NUMBER_VALUE;
 	}	
 	
-	
     /**
      * DBクエリ発行処理
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
@@ -440,7 +438,7 @@ public abstract class BaseFormPage {
     	} catch(Exception e){
     		throw new Exception(e); 
     	}
-      }
+    }
     
     /**
      * DBクエリ(INS・UPD・DEL/トランザクション使用)発行処理

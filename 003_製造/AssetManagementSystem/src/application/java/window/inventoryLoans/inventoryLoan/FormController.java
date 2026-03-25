@@ -328,7 +328,7 @@ public class FormController extends BaseFormPage {
     private void fetchStaffMembers(
     		ObservableList<colKeyValuePairItem<Integer, String>> comboBoxSource)
     {
-    	System.out.println("使用者CELL(ComboBox) 選択リスト取得処理");
+    	LogManager.writeTrace("使用者CELL(ComboBox) 選択リスト取得処理");
     	
     	MySqlManager.<StaffMasterModel>FillOnParallel(
     			(SqlSession session) -> {
@@ -341,7 +341,7 @@ public class FormController extends BaseFormPage {
     			listData -> { 
     				staffMasterModelsConvertToKeyValuePairList( listData, comboBoxSource ); },
     			exception -> {
-    				System.err.println("使用者CELL(ComboBox) 選択リスト取得失敗");
+    				LogManager.writeError("使用者CELL(ComboBox) 選択リスト取得失敗");
     				super.exceptionResult(exception);
     			}
     	); 
@@ -735,12 +735,10 @@ public class FormController extends BaseFormPage {
      * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
      * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
      */   
-    private void staffMasterModelsConvertToKeyValuePairList(
-    		List<StaffMasterModel> datas,
-    		ObservableList<colKeyValuePairItem<Integer, String>> kvpItems) {
-     	
-    	col_staff_name.
-    	rowsConvertToKeyValuePairList(datas, "staffNo", "staffName", kvpItems);
+    private void staffMasterModelsConvertToKeyValuePairList(List<StaffMasterModel> datas,
+    		                                                ObservableList<colKeyValuePairItem<Integer, String>> kvpItems ) 
+    {
+    	col_staff_name.rowsConvertToKeyValuePairList(datas, "staffNo", "staffName", kvpItems);
     }
     
     /**

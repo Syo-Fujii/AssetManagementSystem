@@ -35,71 +35,102 @@
          WHERE
             1 = 1
        )
+       , SOURCE_RECORDS AS
+       ( 
+         SELECT
+              SM.serial_no          AS serialNo
+            , STM.name              AS type_name 
+            , IFNULL(SM.name, '')   AS model
+            , CASE 
+                WHEN SM.rent_flg
+                    THEN '4'                           -- 不可 / 貸出可否(TRUEの場合、貸出不可)
+                WHEN DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
+                    THEN '3'                           -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする)
+                WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+                    THEN '2'                           -- 貸出中
+                WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+                    THEN '1'                           -- 可
+                ELSE  
+                    '4'                                -- 不可 / 備品データが未登録の場合など、異常なデータ
+              END AS rentFlg
+            , IFNULL(STF.name, '')  AS staffName       -- 貸出先ユーザー
+            , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '-') AS startDate
+            , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '-') AS limitDate
+            , IFNULL(DATE_FORMAT(SD.confirmed_date, '%Y/%m/%d'), '-') AS confirmedDate
+            , SM.remarks AS remarks
+            , #{defaultDate} AS inventoryDate          -- 初期値の設定(画面側との整合性を保つため、保持した値を用いる)
+            , SM.remarks AS remarksMasterValue         -- 更新比較用に現在の「備考」の値を取得ー
 
-       SELECT
-             SM.serial_no          AS serialNo
-           , STM.name              AS type_name 
-           , IFNULL(SM.name, '')   AS model
-           , CASE 
-               WHEN SM.rent_flg
-                   THEN '4'                           -- 不可 / 貸出可否(TRUEの場合、貸出不可)
-               WHEN DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
-                   THEN '3'                           -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする)
-               WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
-                   THEN '2'                           -- 貸出中
-               WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
-                   THEN '1'                           -- 可
-               ELSE  
-                   '4'                                -- 不可 / 備品データが未登録の場合など、異常なデータ
-             END AS rentFlg
-           , IFNULL(STF.name, '')  AS staffName       -- 貸出先ユーザー
-           , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '-') AS startDate
-           , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '-') AS limitDate
-           , IFNULL(DATE_FORMAT(SD.confirmed_date, '%Y/%m/%d'), '-') AS confirmedDate
-           , SM.remarks AS remarks
-           , #{defaultDate} AS inventoryDate          -- 初期値の設定(画面側との整合性を保つため、保持した値を用いる)
-           , SM.remarks AS remarksMasterValue         -- 更新比較用に現在の「備考」の値を取得ー
-           , SD.id AS stockDataId
-        FROM
-         BASE_TABLE B
-       INNER JOIN
-         stock_master SM
-        ON B.serial_no = SM.serial_no 
-       INNER JOIN
-          stock_type_master STM
-        ON SM.stock_type = STM.stock_type   
-       AND SM.stock_code = STM.stock_code
+            , SD.id AS stockDataId
+            , STM.id AS stockTypeId
+            , STM.stock_type AS stockTypeType
+            , STM.stock_code AS stockTypeCode
+            , STF.staff_no AS staffNo
+         FROM
+           BASE_TABLE B
+         INNER JOIN
+           stock_master SM
+          ON B.serial_no = SM.serial_no 
+         INNER JOIN
+           stock_type_master STM
+          ON SM.stock_type = STM.stock_type   
+         AND SM.stock_code = STM.stock_code
 
-       /* 棚卸のため、INNER JOINとする */
-       INNER JOIN
-         stock_data SD
-        ON B.id = SD.id 
+         /* 棚卸のため、INNER JOINとする */
+         INNER JOIN
+           stock_data SD
+          ON B.id = SD.id 
 
-       /* 未登録データを考慮しLEFT JOINとする */
-       LEFT JOIN
-         staff_master STF 
-        ON SD.staff_no = STF.staff_no 
-
+         /* 未登録データを考慮しLEFT JOINとする 棚卸のため削除フラグを考慮しない */
+         LEFT JOIN
+           staff_master STF 
+          ON SD.staff_no = STF.staff_no 
        WHERE
          1 = 1
-       ORDER BY
+      )
+      
+      
+      SELECT
+         S.*
+      FROM
+        SOURCE_RECORDS S
+      WHERE
+        1 = 1
+      ORDER BY
+           S.stockTypeType
+         , S.stockTypeCode
+         , S.serialNo
+     ]]>
+    </select>
+
+    <!-- 備品分類マスターの取得 -->
+    <select id="getStockTypeMasterData">
+       SELECT
+         STM.id AS stockTypeId,
+         STM.name AS stockTypeName
+       FROM
+         stock_type_master STM
+       WHERE
+         1 = 1
+       AND STM.del = FALSE
+      ORDER BY
            STM.stock_type
          , STM.stock_code
-         , SM.serial_no
-     ]]>
     </select>
 
     <!-- 社員マスターの取得 -->
     <select id="getStaffMasterData">
-      SELECT
-        SM.staff_no AS staffNo,
-        SM.name AS staffName
+     <![CDATA[
+       SELECT
+         SM.staff_no AS staffNo,
+         SM.name AS staffName
        FROM
          staff_master SM
        WHERE
          1 = 1
-       AND SM.del = FALSE
+       /* 棚卸のため削除フラグを考慮しない */
        ORDER BY SM.staff_no
+     ]]>
     </select>
 
     <!-- 備品データの最終所在確認日 更新 -->

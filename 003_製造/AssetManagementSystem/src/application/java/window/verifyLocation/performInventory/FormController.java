@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.StaffMasterModel;
+import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.base.tableViewListModel.PerformInventoryDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
@@ -20,6 +22,7 @@ import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
+import application.java.manager.customControl.CustomDatePickerControlManager;
 import application.resources.mapper.PerformInventoryMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,7 +53,9 @@ public class FormController  extends BaseFormPage {
 	@FXML private Label lbl_title;	
 	
 	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Type;
+	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Status;
 	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Staff;
+	@FXML private CustomDatePickerControlManager dp_Search_Confirmed;
 	
 	@FXML private TableViewManager<PerformInventoryDataModel> tableListView;
 	@FXML private TableColumn<PerformInventoryDataModel, String> col_serial;
@@ -106,15 +111,20 @@ public class FormController  extends BaseFormPage {
 		
 		// TableView起動設定
 		this.tableViewSettings();
+
+		// 検索コンボボックスの生成(DB)
+		makeSarchComboBox_StockTypeMaster();
+		makeSarchComboBox_StaffMaster();
+		
+		// 検索コンボボックスの生成(ENUM)
+		makeSarchComboBox_LoanStatus();		
 		
 		// 画面起動設定
 		this.formInitialize();
-
-		
-		makeSarchComboBox_staffMaster();
 		
 		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<PerformInventoryDataModel>fillTableAsync();
+
     }	
  
     /**
@@ -317,13 +327,39 @@ public class FormController  extends BaseFormPage {
 	}
 
     /**
-     * 使用者ComboBox 選択リスト取得処理
+     * 検索条件：備品分類ComboBox 選択リスト取得処理
+     * @param comboBoxSource コンボボックスの選択リスト(kvpのObservableList)
+     * @brief 非同期による取得、コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
+     */
+	private void fetchStockTypes(ObservableList<keyValuePairItem<String>> comboBoxSource)
+    {
+		LogManager.writeTrace("検索・備品分類(ComboBox) 選択リスト取得処理");
+    	
+    	MySqlManager.<StockTypeMasterModel>FillOnParallel(
+    			(SqlSession session) -> {
+					try {
+						return this.getStockTypeMasterData(session);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				},
+    			listData -> { 
+    				stockTypeMasterModelsConvertToKeyValuePairList( listData, comboBoxSource ); },
+    			exception -> {
+    				LogManager.writeError("検索・備品分類(ComboBox)  選択リスト取得失敗");
+    				super.exceptionResult(exception);
+    			}
+    	); 
+    }
+	
+    /**
+     * 検索条件：使用者ComboBox 選択リスト取得処理
      * @param comboBoxSource コンボボックスの選択リスト(kvpのObservableList)
      * @brief コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
      */
 	private void fetchStaffMembers(ObservableList<keyValuePairItem<String>> comboBoxSource)
     {
-    	System.out.println("検索・使用者(ComboBox) 選択リスト取得処理");
+		LogManager.writeTrace("検索・使用者(ComboBox) 選択リスト取得処理");
     	
     	MySqlManager.<StaffMasterModel>FillOnParallel(
     			(SqlSession session) -> {
@@ -336,12 +372,32 @@ public class FormController  extends BaseFormPage {
     			listData -> { 
     				staffMasterModelsConvertToKeyValuePairList( listData, comboBoxSource ); },
     			exception -> {
-    				System.err.println("検索・使用者(ComboBox)  選択リスト取得失敗");
+    				LogManager.writeError("検索・使用者(ComboBox)  選択リスト取得失敗");
     				super.exceptionResult(exception);
     			}
     	); 
     }
 
+	/**
+     * 備品分類一覧の取得
+     * @param session
+     * @throws Exception
+     * @return List<StockTypeMasterModel> 取得結果(行データ:StockTypeMasterModel のList)
+     */
+    private List<StockTypeMasterModel> getStockTypeMasterData(SqlSession session) throws Exception
+    {
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ取得処理");
+    	try {
+    		PerformInventoryMapper mapper = session.getMapper(PerformInventoryMapper.class);
+    	    
+    	    // 備品分類マスター取得
+    	    return mapper.getStockTypeMasterData();
+
+    	} catch(Exception e){
+    		throw new Exception(e);
+    	}
+    }
+	
     /**
      * 社員一覧の取得
      * @param session
@@ -623,14 +679,37 @@ public class FormController  extends BaseFormPage {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize");
     	
     	lbl_title.setText(this.getPageTitle());
-    	// lbl_title.getStyleClass().add("titletext");
+    	
+    	// 検索[最終所在確認日]最大値　設定(未来日の禁止)
+    	this.dp_Search_Confirmed.setDateRange(null, dateNow);
+
+    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
+    	this.cbo_Search_Status.getSelectionModel().selectFirst();
     }
 
+    /**
+     * コンボボックス(検索用):備品分類　生成処理
+     * @brief 検索項目の[備品分類]を設定する 
+     */   
+    private void makeSarchComboBox_StockTypeMaster() {
+
+    	// 選択肢のリスト(空データ)　※ 非同期で取得する為、予め定義
+     	ObservableList<keyValuePairItem<String>> comboBoxSource = FXCollections.observableArrayList();    	
+
+     	// リスト表示項目設定
+     	this.comboBoxKvpDisplayMember(cbo_Search_Type);
+     	
+     	cbo_Search_Type.setItems(comboBoxSource);
+
+     	// データ取得
+     	fetchStockTypes(comboBoxSource);
+    }
+    
     /**
      * コンボボックス(検索用):使用者　生成処理
      * @brief 検索項目の[使用者]を設定する 
      */   
-    private void makeSarchComboBox_staffMaster() {
+    private void makeSarchComboBox_StaffMaster() {
 
     	// 選択肢のリスト(空データ)　※ 非同期で取得する為、予め定義
      	ObservableList<keyValuePairItem<String>> comboBoxSource = FXCollections.observableArrayList();    	
@@ -642,7 +721,57 @@ public class FormController  extends BaseFormPage {
 
      	// データ取得
      	fetchStaffMembers(comboBoxSource);
-    }      
+    }
+
+    /**
+     * コンボボックス(検索用):貸出可否　生成処理
+     * @brief 検索項目の[貸出可否]を設定する 
+     */   
+    private void makeSarchComboBox_LoanStatus() {
+    	
+    	// 選択肢のリスト(空データ)
+     	ObservableList<keyValuePairItem<String>> comboBoxSource = FXCollections.observableArrayList();    	
+
+     	comboBoxSource.addAll(
+     			Stream.of(AppConst.LoanStatus.values()).
+     			filter(e -> e.getState() != AppConst.LoanStatus.CHECKOUT_AND_UNKNOWN.getState()).
+     			map( (state) -> { return new keyValuePairItem<String>( state.getState(), state.getLabel()); }).
+     			collect(Collectors.toList()));
+     	
+    	// データが存在する場合、先頭リストに空欄を生成する
+    	if (!(comboBoxSource == null || comboBoxSource.isEmpty()))
+    	{
+    		comboBoxSource.add(0, new keyValuePairItem<>(AppConst.UNSET_NUMBER_VALUE, ""));
+    	}
+     	
+     	// リスト表示項目設定
+     	this.comboBoxKvpDisplayMember(cbo_Search_Status);
+     	
+     	cbo_Search_Status.setItems(comboBoxSource);
+
+    }  
+    
+    /**
+     * データモデル(StockTypeMasterModel) kvpリスト変換処理
+     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
+     * メソッド参照: FXCollections::observableArrayList<br>
+     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
+     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
+     */   
+    private void stockTypeMasterModelsConvertToKeyValuePairList( 
+    		List<StockTypeMasterModel> datas, 
+    		ObservableList<keyValuePairItem<String>> kvpItems) 
+    {
+    	super.modelsConvertToKeyValuePairList( datas, "stockTypeId", "stockTypeName", String.class, kvpItems ); 
+    	
+    	// データが存在する場合、先頭リストに空欄を生成する
+    	if (!(kvpItems == null || kvpItems.isEmpty()))
+    	{
+    		kvpItems.add(0, new keyValuePairItem<>(AppConst.UNSET_NUMBER_VALUE, ""));
+    		
+        	this.cbo_Search_Type.getSelectionModel().selectFirst();
+    	}
+    }        
     
     /**
      * データモデル(StaffMasterModel) kvpリスト変換処理
@@ -651,14 +780,18 @@ public class FormController  extends BaseFormPage {
      * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
      * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
      */   
-    private void staffMasterModelsConvertToKeyValuePairList(
-    		List<StaffMasterModel> datas, ObservableList<keyValuePairItem<String>> kvpItems) {
+    private void staffMasterModelsConvertToKeyValuePairList( 
+    		List<StaffMasterModel> datas, 
+    		ObservableList<keyValuePairItem<String>> kvpItems) 
+    {
     	super.modelsConvertToKeyValuePairList( datas, "staffNo", "staffName", String.class, kvpItems ); 
     	
     	// データが存在する場合、先頭リストに空欄を生成する
     	if (!(kvpItems == null || kvpItems.isEmpty()))
     	{
     		kvpItems.add(0, new keyValuePairItem<>(AppConst.UNSET_NUMBER_VALUE, ""));
+    		
+    		this.cbo_Search_Staff.getSelectionModel().selectFirst();
     	}
     }    
     
