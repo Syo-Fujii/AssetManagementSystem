@@ -210,7 +210,8 @@ public class AppConst {
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;
 
-	
+	/** 入力制限 正規表現(半角英数字) */
+	public static final String REGEX_ALPHA_NUMERIC = "^[a-zA-Z0-9]*$";
 	
 	/** 各フォルダPATH */
 	// public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";

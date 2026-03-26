@@ -3,13 +3,13 @@
 <?import application.java.manager.TableColumnManager?>
 <?import application.java.manager.TableViewManager?>
 <?import application.java.manager.customControl.CustomDatePickerControlManager?>
+<?import application.java.manager.customControl.CustomTextFieldControlManager?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
@@ -34,17 +34,17 @@
             <HBox layoutY="40.0" prefHeight="25.0" prefWidth="950.0" spacing="15.0">
                <children>
                   <ComboBox id="cboSearchType" fx:id="cbo_Search_Type" prefWidth="150.0" />
-                  <TextField prefHeight="25.0" prefWidth="150.0" />
+                  <CustomTextFieldControlManager id="txtSearchSerial" fx:id="txt_Search_Serial" prefHeight="25.0" prefWidth="150.0" />
                   <ComboBox id="cboSearchLoanStatus" fx:id="cbo_Search_Status" prefWidth="120.0" />
                   <ComboBox id="cboSearchStaff" fx:id="cbo_Search_Staff" prefWidth="150.0" />
-                  <DatePicker prefHeight="25.0" prefWidth="139.0" />
-                  <CustomDatePickerControlManager fx:id="dp_Search_Confirmed" prefHeight="25.0" prefWidth="139.0" />
+                  <DatePicker id="dpSearchReturn" prefHeight="25.0" prefWidth="139.0" />
+                  <CustomDatePickerControlManager id="dpSearchConfirmed" fx:id="dp_Search_Confirmed" prefHeight="25.0" prefWidth="139.0" />
                </children>
                <padding>
                   <Insets left="15.0" />
                </padding>
             </HBox>
-            <Button id="inventoryCounting" fx:id="search_button" layoutX="834.0" layoutY="30.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="130.0" text="検索" AnchorPane.rightAnchor="15.0" />
+            <Button id="search" fx:id="search_button" layoutX="834.0" layoutY="30.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" prefHeight="37.0" prefWidth="130.0" text="検索" AnchorPane.rightAnchor="15.0" />
             <Label layoutX="30.0" layoutY="-15.0" prefHeight="30.0" prefWidth="115.0" styleClass="searchTitle" text="検索条件">
                <font>
                   <Font size="16.0" />

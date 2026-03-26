@@ -13,8 +13,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Control;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.input.InputMethodRequests;
 import javafx.scene.input.KeyEvent;
+import javafx.util.StringConverter;
 
 /**
  * カスタムControl：TableCell + DatePicker
@@ -32,16 +34,88 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
 
     private final LocalDate defaultDate;
     private final LocalDate lowerDate;
-    private final LocalDate upeerDate;
+    private final LocalDate upperDate;
+
+    private String format = "yyyy/MM/dd";
+    private String regex = "^[0-9]{0,4}/?[0-9]{0,2}/?[0-9]{0,2}$";
+    private Integer maxLength = 10;    
     
 	private Boolean isAdjusting = false;
-	private String testId = "";
+	private String columnId = "";
+
+	/**
+	 * 日付の入力形式(書式) 取得
+	 * @return format
+	 */
+	public String getFormat() {
+		return format;
+	}
+
+	/**
+	 * 日付の入力形式(書式) 設定
+	 * @param format セットする format
+	 */
+	public void setFormat(String format) {
+		this.format = format;
+	}	
+
+	/**
+	 * 入力制限(正規表現パターン) 取得
+	 * @return regex
+	 */
+	public String getRegex() {
+		return regex;
+	}
+
+	/**
+	 * 入力制限(正規表現パターン) 設定
+	 * @param regex セットする regex
+	 */
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
+	
+	/**
+	 * 最大文字数 取得
+	 * @return maxLength
+	 */
+	public Integer getMaxLength() {
+		return maxLength;
+	}
+
+	/**
+	 * 最大文字数 取得
+	 * @param maxLength セットする maxLength
+	 */
+	public void setMaxLength(Integer maxLength) {
+		this.maxLength = maxLength;
+	}
+	
+	/**
+	 * テキスト入力の入力制限 設定
+	 * @param format String 日付の形式
+	 * @param regexPattern String 正規表現パターン
+	 * @param length Integer 最大文字数
+	 */
+    public void setValidInput(String format, String regexPattern, Integer length) {
+    	if (!AppUtil.StringIsNullOrWhiteSpace(format)) {
+    		this.setFormat(format);;
+    	}
+    
+    	if (!AppUtil.StringIsNullOrWhiteSpace(regexPattern)) {
+    		this.setRegex(regexPattern);
+    	} 
+    	
+    	if (length != null) { this.setMaxLength(length); }
+    	
+    	this.setupTextValidation();
+    }
 	
     // datePickerを外部から取得するためのメソッドを追加
     public DatePicker getDatePicker() {
         return this.datePicker;
-    }	
-	
+    }	    
+    
 	
 	/**
      * コンストラクタ
@@ -61,7 +135,7 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
 		this.isAlwaysShow = isAlwaysShow;
 
 		this.lowerDate = minDate;
-		this.upeerDate = maxDate;
+		this.upperDate = maxDate;
 		
 		if (calShowFirstDate == null) {
 			this.defaultDate = LocalDate.now();
@@ -70,12 +144,10 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
 			};
 		
         this.datePicker = new DatePicker();
-        
-        this.testId = colId;
-        
+        this.columnId = colId;
         
         // カスタムControlの生成
-		createCustomDatePickerBox(colId);
+		createCustomDatePickerBox();
 		
 		if (!this.isAlwaysShow)
         {
@@ -185,7 +257,7 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
     	super.updateItem(item, empty);
 
     	LogManager.writeTrace("[CustomDatePicker][updateItem] Start");
-    	LogManager.writeTrace("Column : [" + testId + "]");
+    	LogManager.writeTrace("Column : [" + columnId + "]");
     	LogManager.writeTrace("item : [" + (item != null ?item.toString() : "NULL" ) + "]");
     	LogManager.writeTrace("dp.text : [" + this.datePicker.getEditor().getText() + "]");
     	LogManager.writeTrace("dp.value : [" + this.datePicker.getValue() + "]");
@@ -254,7 +326,7 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
      * カスタムDatePicker生成
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)
      */
-    private void createCustomDatePickerBox(String colId) {
+    private void createCustomDatePickerBox() {
     	
     	// DatePickerの配置(Cellの中央)
     	this.setAlignment(Pos.CENTER);
@@ -278,9 +350,12 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
             @Override public void cancelLatestCommittedText() {}
             @Override public String getSelectedText() { return ""; }
         }); 
-    	
+		
+	    // テキスト入力制限 追加
+	    setupTextValidation();        
+        
     	// チェック確定機能追加
-    	onLeaveDatePickerValue(colId);
+    	onLeaveDatePickerValue(this.columnId);
 
     	// カレンダー表示設定
     	onCalenderShown();
@@ -419,6 +494,44 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
 	}
 
 	/**
+	 * 正規表現　最大文字数を用いた入力制限
+	 */
+	private void setupTextValidation() {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		
+		// コンバーターの設定
+		datePicker.setConverter(new StringConverter<LocalDate>() {
+		    @Override
+		    public String toString(LocalDate date) {
+		        return (date != null) ? formatter.format(date) : "";
+		    }
+		    
+		    @Override
+		    public LocalDate fromString(String string) {
+		        if (string == null || string.isEmpty()) return null;
+		        try {
+		            return LocalDate.parse(string, formatter);
+		        } catch (Exception e) {
+		            return null;		        }
+		    }
+		});	
+		
+		// 入力制限
+		datePicker.getEditor().setTextFormatter(new TextFormatter<>( change -> 
+		{
+		    String newText = change.getControlNewText();
+		
+		    // 正規表現 & 文字数制限
+		    if (newText.matches(regex) && newText.length() <= maxLength) {
+		        return change;
+		    }
+		    
+		    return null;
+		}));
+	}
+	
+	/**
 	 *設定した日付が範囲内かどうか
 	 * @param date 日付
 	 * @return　判定結果
@@ -433,7 +546,7 @@ public class CustomDatePickerTableCellManager<S extends BaseTableViewModel, T> e
 		
 		// 下限(lower)より前、または上限(upper)より後の日付を無効化
         isBeforeLower = (lowerDate != null && date.isBefore(lowerDate));
-        isAfterUpper = (upeerDate != null && date.isAfter(upeerDate));		
+        isAfterUpper = (upperDate != null && date.isAfter(upperDate));		
 		
 		return (isBeforeLower || isAfterUpper);
 	}

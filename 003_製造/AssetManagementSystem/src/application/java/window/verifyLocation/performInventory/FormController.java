@@ -23,12 +23,14 @@ import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
 import application.java.manager.customControl.CustomDatePickerControlManager;
+import application.java.manager.customControl.CustomTextFieldControlManager;
 import application.resources.mapper.PerformInventoryMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -53,9 +55,13 @@ public class FormController  extends BaseFormPage {
 	@FXML private Label lbl_title;	
 	
 	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Type;
+	@FXML private CustomTextFieldControlManager txt_Search_Serial;
 	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Status;
 	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Staff;
+	@FXML private DatePicker dp_Search_Return;
 	@FXML private CustomDatePickerControlManager dp_Search_Confirmed;
+	
+	@FXML private Button search_button;
 	
 	@FXML private TableViewManager<PerformInventoryDataModel> tableListView;
 	@FXML private TableColumn<PerformInventoryDataModel, String> col_serial;
@@ -74,6 +80,14 @@ public class FormController  extends BaseFormPage {
 	@FXML private Button back_button;
 	
 	private LocalDate dateNow = null;
+	
+	private Integer searchStockType = null;
+	private String searchSerialNo = null;
+	private Integer searchRentStatus = null;
+	private Integer searchStaffNo = null;
+	private LocalDate searchReturnDate = null;
+	private LocalDate searchConfirmedDate = null;	
+	
 	
 	/** 
 	 * コンストラクタ
@@ -127,6 +141,37 @@ public class FormController  extends BaseFormPage {
 
     }	
  
+    /**
+     * [検索]ボタン 押下イベント
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
+     */
+    @FXML
+    public void onSearchButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [検索]ボタン押下");
+    		
+		
+    		/*
+    		this.searchStockType = cbo_Search_Type.get
+    		private String searchSerialNo = null;
+    		private Integer searchRentStatus = null;
+    		private Integer searchStaffNo = null;
+    		private LocalDate searchReturnDate = null;
+    		private LocalDate searchConfirmedDate = null;			
+    		*/
+    		
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： リスト検索表示処理");
+        	super.<PerformInventoryDataModel>fillTableAsync();
+
+    	} catch (Exception ex) {
+    		// 棚卸ボタン無効化
+    		inventory_button.setDisable(true);
+    		
+    		String title = "[" + FORM_NAME + "] ： [検索]ボタン押下でエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
+    	}
+    }    
+    
     /**
      * [棚卸]ボタン 押下イベント
      * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
@@ -215,7 +260,14 @@ public class FormController  extends BaseFormPage {
     	PerformInventoryMapper mapper = session.getMapper(PerformInventoryMapper.class);
     	
 	    // 棚卸データ取得
-	    return (List<T>) mapper.getTableInventoryRecords( dateText );
+	    return (List<T>) mapper.getTableInventoryRecords( 
+	    		dateText,
+	    		searchStockType, 
+	    		searchSerialNo, 
+	    		searchRentStatus, 
+	    		searchStaffNo, 
+	    		searchReturnDate, 
+	    		searchConfirmedDate );
     }
     
 	/**
@@ -680,6 +732,9 @@ public class FormController  extends BaseFormPage {
     	
     	lbl_title.setText(this.getPageTitle());
     	
+    	// 検索[シリアルナンバー]入力制限　設定(半角英数字のみ 最大20文字)
+    	this.txt_Search_Serial.setValidInput(AppConst.REGEX_ALPHA_NUMERIC, 20);
+    	
     	// 検索[最終所在確認日]最大値　設定(未来日の禁止)
     	this.dp_Search_Confirmed.setDateRange(null, dateNow);
 
@@ -808,8 +863,9 @@ public class FormController  extends BaseFormPage {
     }
     
     
-    
-    private void testRowSelectedValues() {
+    /** テスト用　行選択処理 */
+    @SuppressWarnings("unused")
+	private void testRowSelectedValues() {
     	try {
     		// 選択行取得
     		PerformInventoryDataModel row = tableListView.

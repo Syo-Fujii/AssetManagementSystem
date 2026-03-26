@@ -3,6 +3,7 @@ package application.java.manager.customControl;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import application.java.common.AppUtil;
 import application.java.manager.LogManager;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
@@ -19,7 +20,11 @@ public class CustomDatePickerControlManager extends DatePicker {
 
 	private  LocalDate defaultDate;
     private  LocalDate lowerDate;
-    private  LocalDate upeerDate;	
+    private  LocalDate upperDate;
+    
+    private String format = "yyyy/MM/dd";
+    private String regex = "^[0-9]{0,4}/?[0-9]{0,2}/?[0-9]{0,2}$";
+    private Integer maxLength = 10;
 	
     private Boolean isAdjusting = false;
  
@@ -60,17 +65,65 @@ public class CustomDatePickerControlManager extends DatePicker {
 	 * 日付の最大値 取得
 	 * @return upeerDate
 	 */
-	public LocalDate getUpeerDate() {
-		return upeerDate;
+	public LocalDate getUpperDate() {
+		return upperDate;
 	}
 
 	/**
 	 * 日付の最大値 設定
 	 * @param upeerDate セットする upeerDate
 	 */
-	public void setUpeerDate(LocalDate upeerDate) {
-		this.upeerDate = upeerDate;
+	public void setUpperDate(LocalDate upeerDate) {
+		this.upperDate = upeerDate;
 	}    
+
+	/**
+	 * 日付の入力形式(書式) 取得
+	 * @return format
+	 */
+	public String getFormat() {
+		return format;
+	}
+
+	/**
+	 * 日付の入力形式(書式) 設定
+	 * @param format セットする format
+	 */
+	public void setFormat(String format) {
+		this.format = format;
+	}	
+
+	/**
+	 * 入力制限(正規表現パターン) 取得
+	 * @return regex
+	 */
+	public String getRegex() {
+		return regex;
+	}
+
+	/**
+	 * 入力制限(正規表現パターン) 設定
+	 * @param regex セットする regex
+	 */
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
+	
+	/**
+	 * 最大文字数 取得
+	 * @return maxLength
+	 */
+	public Integer getMaxLength() {
+		return maxLength;
+	}
+
+	/**
+	 * 最大文字数 取得
+	 * @param maxLength セットする maxLength
+	 */
+	public void setMaxLength(Integer maxLength) {
+		this.maxLength = maxLength;
+	}
 
 	/**
 	 * 日付の有効範囲 設定
@@ -79,10 +132,31 @@ public class CustomDatePickerControlManager extends DatePicker {
 	 */	
     public void setDateRange(LocalDate min, LocalDate max) {
         this.lowerDate = min;
-        this.upeerDate = max;
-        onCalenderLimitDateRange();
+        this.upperDate = max;
+       
+        this.onCalenderLimitDateRange();
     }    
 
+	/**
+	 * テキスト入力の入力制限 設定
+	 * @param format String 日付の形式
+	 * @param regexPattern String 正規表現パターン
+	 * @param length Integer 最大文字数
+	 */
+    public void setValidInput(String format, String regexPattern, Integer length) {
+    	if (!AppUtil.StringIsNullOrWhiteSpace(format)) {
+    		this.setFormat(format);;
+    	}
+    
+    	if (!AppUtil.StringIsNullOrWhiteSpace(regexPattern)) {
+    		this.setRegex(regexPattern);
+    	} 
+    	
+    	if (length != null) { this.setMaxLength(length); }
+    	
+    	this.setupTextValidation();
+    }       
+  
     
     /**
      * FXML用デフォルトコンストラクタ
@@ -90,7 +164,7 @@ public class CustomDatePickerControlManager extends DatePicker {
     public CustomDatePickerControlManager() {
         super();
         this.lowerDate = null;
-        this.upeerDate = null;
+        this.upperDate = null;
         this.defaultDate = LocalDate.now();
         
         // コンストラクタで初期化メソッドを呼ぶ
@@ -109,9 +183,8 @@ public class CustomDatePickerControlManager extends DatePicker {
 	{
 		super();
 		
-
 		this.lowerDate = minDate;
-		this.upeerDate = maxDate;
+		this.upperDate = maxDate;
 		
 		if (showFirstDate == null) {
 			this.defaultDate = LocalDate.now();
@@ -221,17 +294,13 @@ public class CustomDatePickerControlManager extends DatePicker {
 	}	
 
 	/**
-	 * 機能追加：カレンダー表示 初期日付設定
+	 * 正規表現　最大文字数を用いた入力制限
 	 */
-	@SuppressWarnings("unused")
-	private void onImputCheck() {
-		// 1. フォーマットを「/」区切りに定義
-		String pattern = "yyyy/MM/dd";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+	private void setupTextValidation() {
 
-		DatePicker dp = this;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
 		
-		// 2. コンバーターの設定（表示と解析）
+		// コンバーターの設定
 		this.setConverter(new StringConverter<LocalDate>() {
 		    @Override
 		    public String toString(LocalDate date) {
@@ -244,23 +313,23 @@ public class CustomDatePickerControlManager extends DatePicker {
 		        try {
 		            return LocalDate.parse(string, formatter);
 		        } catch (Exception e) {
-		            return dp.getValue(); // 解析不可なら現在の値（またはnull）を維持
-		        }
+		            return null;		        }
 		    }
 		});	
 		
+		// 入力制限
 		this.getEditor().setTextFormatter(new TextFormatter<>( change -> 
 		{
 		    String newText = change.getControlNewText();
 		
-		    // 正規表現: 数字と'/'のみ許可 かつ x文字以内
-		    if (newText.matches("[0-9/]*") && newText.length() <= 10) {
+		    // 正規表現 & 文字数制限
+		    if (newText.matches(regex) && newText.length() <= maxLength) {
 		        return change;
 		    }
 		    
 		    return null;
 		}));
-	}		
+	}
 
 	/**
 	 * カスタムDatePicker生成
@@ -275,6 +344,9 @@ public class CustomDatePickerControlManager extends DatePicker {
 	        @Override public String getSelectedText() { return ""; }
 	    }); 
 		
+	    // テキスト入力制限 追加
+	    setupTextValidation();
+	    
 		// チェック確定機能追加
 		onLeaveDatePickerValue();
 
@@ -298,7 +370,7 @@ public class CustomDatePickerControlManager extends DatePicker {
 		
 		// 下限(lower)より前、または上限(upper)より後の日付を無効化
         isBeforeLower = (lowerDate != null && date.isBefore(lowerDate));
-        isAfterUpper = (upeerDate != null && date.isAfter(upeerDate));		
+        isAfterUpper = (upperDate != null && date.isAfter(upperDate));		
 		
 		return (isBeforeLower || isAfterUpper);
 	}

@@ -1,5 +1,6 @@
 package application.resources.mapper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +19,14 @@ public interface PerformInventoryMapper {
 	 * 棚卸(備品データ)取得(テーブルより取得)
 	 * @return 備品データ(棚卸に表示するデータ)
 	 */
-    List<PerformInventoryDataModel> getTableInventoryRecords(@Param("defaultDate") String defaultDate);
+    List<PerformInventoryDataModel> getTableInventoryRecords(
+    		@Param("defaultDate") String defaultDate,
+    		@Param("type") Integer type,
+    		@Param("serialNo") String serialNo,
+    		@Param("status") Integer status,
+    		@Param("staffNo") Integer staffNo,
+    		@Param("returnDate") LocalDate returnDate,
+    		@Param("confDate") LocalDate confDate);
   
 	/**
 	 * 備品分類マスターの取得
