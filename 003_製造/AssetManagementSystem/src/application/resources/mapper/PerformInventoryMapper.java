@@ -25,8 +25,8 @@ public interface PerformInventoryMapper {
     		@Param("serialNo") String serialNo,
     		@Param("status") Integer status,
     		@Param("staffNo") Integer staffNo,
-    		@Param("returnDate") LocalDate returnDate,
-    		@Param("confDate") LocalDate confDate);
+    		@Param("limitDate") LocalDate limitDate,
+    		@Param("confirmedDate") LocalDate confirmedDate);
   
 	/**
 	 * 備品分類マスターの取得

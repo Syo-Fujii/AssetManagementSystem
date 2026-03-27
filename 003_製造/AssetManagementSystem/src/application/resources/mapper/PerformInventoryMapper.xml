@@ -113,12 +113,12 @@
           AND S.staffNo = #{staffNo}
       </if>
 
-      <if test= "returnDate != null">
-          AND S.returnDate <![CDATA[ <= ]]> #{returnDate}
+      <if test= "limitDate != null">
+          AND S.returnDate <![CDATA[ <= ]]> #{limitDate}
       </if>
 
-      <if test= "confDate != null">
-          AND S.confDate <![CDATA[ <= ]]> #{confDate}
+      <if test= "confirmedDate != null">
+          AND S.confDate <![CDATA[ <= ]]> #{confirmedDate}
       </if>
    </where>
 

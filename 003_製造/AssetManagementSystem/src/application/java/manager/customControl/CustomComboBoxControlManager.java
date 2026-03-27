@@ -12,6 +12,7 @@ import javafx.util.StringConverter;
 
 /**
  * カスタムControl：ComboBox
+ * @brief keyValuePairItem[V]をデータSourceとするカスタムComboBox<br>
  */
 public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V>> {
 
@@ -20,14 +21,20 @@ public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V
 	private Boolean isAddBlankRow = false;  
 
     /**
-	 * @return isAddBlankRow
+     * 先頭ブランク追加判定 取得
+	 * @return isAddBlankRow 判定結果
+	 * @brief 選択肢の先頭にブランクを挿入するかの判定<br>
+	 * [真]の場合、データ設定の際に先頭に[空欄]:ブランクを設定する 
 	 */
 	public Boolean getIsAddBlankRow() {
 		return isAddBlankRow;
 	}
 
 	/**
-	 * @param isAddBlankRow セットする isAddBlankRow
+	 * 先頭ブランク追加判定 設定 
+	 * @param isAddBlankRow 判定結果
+	 * @brief 選択肢の先頭にブランクを挿入するかの判定<br>
+	 * [真]の場合、データ設定の際に先頭に[空欄]:ブランクを設定する 
 	 */
 	public void setIsAddBlankRow(Boolean isAddBlankRow) {
 		this.isAddBlankRow = isAddBlankRow;
@@ -50,27 +57,33 @@ public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V
 		return (value != null) ? value.toString() : "";
 	}	
 	
+	/**
+	 * データ設定 (データSourceの設定:KeyValuePairのリスト)
+	 * @param datas ObservableList[keyValuePairItem[V]] Kvpのリスト(valueの型は指定なし)
+	 */
 	@SuppressWarnings("unchecked")
 	public void setDataSource_KvpList(ObservableList<keyValuePairItem<V>> datas) {
 		
 		comboBoxSource.clear();
-		comboBoxSource = datas;
-		this.setItems(comboBoxSource); 
+		comboBoxSource.setAll(datas); 
 
     	// データが存在する場合、先頭リストに空欄を生成する
     	if ( isAddBlankRow && !(comboBoxSource == null || comboBoxSource.isEmpty()) )
     	{
     		comboBoxSource.add(0, new keyValuePairItem<V>(AppConst.UNSET_NUMBER_VALUE, (V)""));
     	}
+    	
+    	this.setItems(comboBoxSource);
 	}
 
     /**
-     * データモデル kvpリスト変換処理
-     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
-     * メソッド参照: FXCollections::observableArrayList<br>
-     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
-     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
-     */ 	
+     * データ設定 (データSourceの設定:DB MODELのリスト)	
+     * @param <T> (Table Source / Subject): 行データのクラス(BaseTableViewModelを継承したクラス)
+     * @param datas List[T] Modelのリスト
+     * @param keyPropertyName String [key]項目にするMODELのプロパティ名
+     * @param valuePropertyName String [value]項目にするMODELのプロパティ名
+     * @param valueType [value]項目にするプロパティの型
+     */
 	public <T extends BaseTableViewModel> void setDataSource_ModelList(
 			List<T> datas, 
 			String keyPropertyName, 
@@ -109,7 +122,8 @@ public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V
     }    	
 	
     /**
-     * 
+     * 選択肢リスト先頭項目指定 処理
+	 * @brief 選択リストの先頭を選択状態にする<br>
      */
     public void setupListSelectedFirst() {
     	if ( isAddBlankRow && !(comboBoxSource == null || comboBoxSource.isEmpty()))

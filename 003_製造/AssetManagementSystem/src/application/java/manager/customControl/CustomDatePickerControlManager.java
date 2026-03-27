@@ -15,6 +15,7 @@ import javafx.util.StringConverter;
 
 /**
  * カスタムControl：DatePicker
+ * @brief 入力制限・日付初期/最小/最大値・最大文字数を追加したカスタムDatePicker<br>
  */
 public class CustomDatePickerControlManager extends DatePicker {
 
@@ -361,7 +362,6 @@ public class CustomDatePickerControlManager extends DatePicker {
 	 * @return　判定結果
 	 */
 	private boolean dateIsOutOfRange(LocalDate date) {
- 		
 		// 未入力（クリア）を許可する場合
 		if(date == null) { return false; }
 		

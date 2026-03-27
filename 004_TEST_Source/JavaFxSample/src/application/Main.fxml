@@ -7,7 +7,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <children>
-      <TextField layoutX="87.0" layoutY="154.0" prefHeight="25.0" prefWidth="383.0" />
+      <TextField layoutX="87.0" layoutY="154.0" prefHeight="25.0" prefWidth="383.0" text="a" />
       <Label alignment="CENTER" layoutX="87.0" layoutY="36.0" prefHeight="17.0" prefWidth="383.0" text="Label" />
       <Button layoutX="217.0" layoutY="300.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="122.0" text="ボタン" />
    </children>

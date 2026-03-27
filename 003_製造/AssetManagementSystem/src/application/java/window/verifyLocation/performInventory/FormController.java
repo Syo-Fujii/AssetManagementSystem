@@ -3,6 +3,7 @@ package application.java.window.verifyLocation.performInventory;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,6 +23,7 @@ import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
+import application.java.manager.customControl.CustomComboBoxControlManager;
 import application.java.manager.customControl.CustomDatePickerControlManager;
 import application.java.manager.customControl.CustomTextFieldControlManager;
 import application.resources.mapper.PerformInventoryMapper;
@@ -29,7 +31,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -54,11 +55,11 @@ public class FormController  extends BaseFormPage {
 
 	@FXML private Label lbl_title;	
 	
-	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Type;
+	@FXML private CustomComboBoxControlManager<String> cbo_Search_Type;
 	@FXML private CustomTextFieldControlManager txt_Search_Serial;
-	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Status;
-	@FXML private ComboBox<keyValuePairItem<String>> cbo_Search_Staff;
-	@FXML private DatePicker dp_Search_Return;
+	@FXML private CustomComboBoxControlManager<String> cbo_Search_Status;
+	@FXML private CustomComboBoxControlManager<String> cbo_Search_Staff;
+	@FXML private DatePicker dp_Search_Limit;
 	@FXML private CustomDatePickerControlManager dp_Search_Confirmed;
 	
 	@FXML private Button search_button;
@@ -85,7 +86,7 @@ public class FormController  extends BaseFormPage {
 	private String searchSerialNo = null;
 	private Integer searchRentStatus = null;
 	private Integer searchStaffNo = null;
-	private LocalDate searchReturnDate = null;
+	private LocalDate searchLimitDate = null;
 	private LocalDate searchConfirmedDate = null;	
 	
 	
@@ -127,8 +128,8 @@ public class FormController  extends BaseFormPage {
 		this.tableViewSettings();
 
 		// 検索コンボボックスの生成(DB)
-		makeSarchComboBox_StockTypeMaster();
-		makeSarchComboBox_StaffMaster();
+		makeSarchComboBox_StockTypes();
+		makeSarchComboBox_StaffMembers();
 		
 		// 検索コンボボックスの生成(ENUM)
 		makeSarchComboBox_LoanStatus();		
@@ -149,18 +150,20 @@ public class FormController  extends BaseFormPage {
     public void onSearchButtonClicked() {
     	try {
     		LogManager.writeInfo("[" + FORM_NAME + "] ： [検索]ボタン押下");
+
+    		// 検索条件初期化
+    		clearSearchValues();
     		
-		
-    		/*
-    		this.searchStockType = cbo_Search_Type.get
-    		private String searchSerialNo = null;
-    		private Integer searchRentStatus = null;
-    		private Integer searchStaffNo = null;
-    		private LocalDate searchReturnDate = null;
-    		private LocalDate searchConfirmedDate = null;			
-    		*/
+    		this.searchStockType = this.cbo_Search_Type.getSelectedKey();
+    		this.searchSerialNo = Optional.ofNullable(this.txt_Search_Serial.getText()).orElse(""); 
+    		this.searchRentStatus = this.cbo_Search_Status.getSelectedKey();
+    		this.searchStaffNo = this.cbo_Search_Staff.getSelectedKey();
+    		this.searchLimitDate = this.dp_Search_Limit.getValue();
+    		this.searchConfirmedDate = this.dp_Search_Confirmed.getValue();
     		
-        	LogManager.writeDebug("[" + FORM_NAME + "] ： リスト検索表示処理");
+    		testSarchContrlSelectedValues();
+    		
+    		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト検索表示処理");
         	super.<PerformInventoryDataModel>fillTableAsync();
 
     	} catch (Exception ex) {
@@ -266,7 +269,7 @@ public class FormController  extends BaseFormPage {
 	    		searchSerialNo, 
 	    		searchRentStatus, 
 	    		searchStaffNo, 
-	    		searchReturnDate, 
+	    		searchLimitDate, 
 	    		searchConfirmedDate );
     }
     
@@ -380,10 +383,8 @@ public class FormController  extends BaseFormPage {
 
     /**
      * 検索条件：備品分類ComboBox 選択リスト取得処理
-     * @param comboBoxSource コンボボックスの選択リスト(kvpのObservableList)
-     * @brief 非同期による取得、コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
      */
-	private void fetchStockTypes(ObservableList<keyValuePairItem<String>> comboBoxSource)
+	private void fetchStockTypes()
     {
 		LogManager.writeTrace("検索・備品分類(ComboBox) 選択リスト取得処理");
     	
@@ -396,7 +397,7 @@ public class FormController  extends BaseFormPage {
 					}
 				},
     			listData -> { 
-    				stockTypeMasterModelsConvertToKeyValuePairList( listData, comboBoxSource ); },
+    				setupComboBox_SearchStockType( listData ); },
     			exception -> {
     				LogManager.writeError("検索・備品分類(ComboBox)  選択リスト取得失敗");
     				super.exceptionResult(exception);
@@ -406,10 +407,9 @@ public class FormController  extends BaseFormPage {
 	
     /**
      * 検索条件：使用者ComboBox 選択リスト取得処理
-     * @param comboBoxSource コンボボックスの選択リスト(kvpのObservableList)
      * @brief コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
      */
-	private void fetchStaffMembers(ObservableList<keyValuePairItem<String>> comboBoxSource)
+	private void fetchStaffMembers()
     {
 		LogManager.writeTrace("検索・使用者(ComboBox) 選択リスト取得処理");
     	
@@ -422,7 +422,7 @@ public class FormController  extends BaseFormPage {
 					}
 				},
     			listData -> { 
-    				staffMasterModelsConvertToKeyValuePairList( listData, comboBoxSource ); },
+    				setupComboBox_SearchStaff( listData ); },
     			exception -> {
     				LogManager.writeError("検索・使用者(ComboBox)  選択リスト取得失敗");
     				super.exceptionResult(exception);
@@ -738,48 +738,30 @@ public class FormController  extends BaseFormPage {
     	// 検索[最終所在確認日]最大値　設定(未来日の禁止)
     	this.dp_Search_Confirmed.setDateRange(null, dateNow);
 
-    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
-    	this.cbo_Search_Status.getSelectionModel().selectFirst();
+		// 検索条件初期化
+		clearSearchValues();
     }
 
     /**
      * コンボボックス(検索用):備品分類　生成処理
      * @brief 検索項目の[備品分類]を設定する 
      */   
-    private void makeSarchComboBox_StockTypeMaster() {
-
-    	// 選択肢のリスト(空データ)　※ 非同期で取得する為、予め定義
-     	ObservableList<keyValuePairItem<String>> comboBoxSource = FXCollections.observableArrayList();    	
-
-     	// リスト表示項目設定
-     	this.comboBoxKvpDisplayMember(cbo_Search_Type);
-     	
-     	cbo_Search_Type.setItems(comboBoxSource);
-
+    private void makeSarchComboBox_StockTypes() {
      	// データ取得
-     	fetchStockTypes(comboBoxSource);
+     	fetchStockTypes();
     }
     
     /**
      * コンボボックス(検索用):使用者　生成処理
      * @brief 検索項目の[使用者]を設定する 
      */   
-    private void makeSarchComboBox_StaffMaster() {
-
-    	// 選択肢のリスト(空データ)　※ 非同期で取得する為、予め定義
-     	ObservableList<keyValuePairItem<String>> comboBoxSource = FXCollections.observableArrayList();    	
-
-     	// リスト表示項目設定
-     	this.comboBoxKvpDisplayMember(cbo_Search_Staff);
-     	
-     	cbo_Search_Staff.setItems(comboBoxSource);
-
-     	// データ取得
-     	fetchStaffMembers(comboBoxSource);
+    private void makeSarchComboBox_StaffMembers() {
+     	// データ取得・設定
+     	fetchStaffMembers();
     }
 
     /**
-     * コンボボックス(検索用):貸出可否　生成処理
+     * コンボボックス(検索用):貸出可否 データ設定処理
      * @brief 検索項目の[貸出可否]を設定する 
      */   
     private void makeSarchComboBox_LoanStatus() {
@@ -790,65 +772,53 @@ public class FormController  extends BaseFormPage {
      	comboBoxSource.addAll(
      			Stream.of(AppConst.LoanStatus.values()).
      			filter(e -> e.getState() != AppConst.LoanStatus.CHECKOUT_AND_UNKNOWN.getState()).
-     			map( (state) -> { return new keyValuePairItem<String>( state.getState(), state.getLabel()); }).
+     			map( (state) -> { return new keyValuePairItem<>( state.getState(), state.getLabel()); }).
      			collect(Collectors.toList()));
      	
-    	// データが存在する場合、先頭リストに空欄を生成する
-    	if (!(comboBoxSource == null || comboBoxSource.isEmpty()))
-    	{
-    		comboBoxSource.add(0, new keyValuePairItem<>(AppConst.UNSET_NUMBER_VALUE, ""));
-    	}
+     	cbo_Search_Status.setIsAddBlankRow(true);
+     	cbo_Search_Status.setDataSource_KvpList(comboBoxSource);
      	
-     	// リスト表示項目設定
-     	this.comboBoxKvpDisplayMember(cbo_Search_Status);
-     	
-     	cbo_Search_Status.setItems(comboBoxSource);
-
+    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
+    	cbo_Search_Status.getSelectionModel().selectFirst();
     }  
     
     /**
-     * データモデル(StockTypeMasterModel) kvpリスト変換処理
-     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
-     * メソッド参照: FXCollections::observableArrayList<br>
-     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
-     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
+     * コンボボックス(検索用):備品分類 データ設定処理
+     * @brief 検索項目の[備品分類]を設定する 
      */   
-    private void stockTypeMasterModelsConvertToKeyValuePairList( 
-    		List<StockTypeMasterModel> datas, 
-    		ObservableList<keyValuePairItem<String>> kvpItems) 
+    private void setupComboBox_SearchStockType( List<StockTypeMasterModel> datas ) 
     {
-    	super.modelsConvertToKeyValuePairList( datas, "stockTypeId", "stockTypeName", String.class, kvpItems ); 
+    	cbo_Search_Type.setIsAddBlankRow(true);
+    	cbo_Search_Type.setDataSource_ModelList( datas, "stockTypeId", "stockTypeName", String.class );
     	
-    	// データが存在する場合、先頭リストに空欄を生成する
-    	if (!(kvpItems == null || kvpItems.isEmpty()))
-    	{
-    		kvpItems.add(0, new keyValuePairItem<>(AppConst.UNSET_NUMBER_VALUE, ""));
-    		
-        	this.cbo_Search_Type.getSelectionModel().selectFirst();
-    	}
+    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
+    	cbo_Search_Type.getSelectionModel().selectFirst();
     }        
     
     /**
-     * データモデル(StaffMasterModel) kvpリスト変換処理
-     * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
-     * メソッド参照: FXCollections::observableArrayList<br>
-     * ⇒ ラムダ式: () -> FXCollections.<>observableArrayList()
-     * ⇒ Linq(あれば): () => new FXCollections.observableArrayList<>()
+     * コンボボックス(検索用):使用者 データ設定処理
+     * @brief 検索項目の[使用者]を設定する 
      */   
-    private void staffMasterModelsConvertToKeyValuePairList( 
-    		List<StaffMasterModel> datas, 
-    		ObservableList<keyValuePairItem<String>> kvpItems) 
+    private void setupComboBox_SearchStaff( List<StaffMasterModel> datas ) 
     {
-    	super.modelsConvertToKeyValuePairList( datas, "staffNo", "staffName", String.class, kvpItems ); 
-    	
-    	// データが存在する場合、先頭リストに空欄を生成する
-    	if (!(kvpItems == null || kvpItems.isEmpty()))
-    	{
-    		kvpItems.add(0, new keyValuePairItem<>(AppConst.UNSET_NUMBER_VALUE, ""));
-    		
-    		this.cbo_Search_Staff.getSelectionModel().selectFirst();
-    	}
+    	cbo_Search_Staff.setIsAddBlankRow(true);
+    	cbo_Search_Staff.setDataSource_ModelList( datas, "staffNo", "staffName", String.class );
+
+    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)    	
+    	cbo_Search_Staff.getSelectionModel().selectFirst();
     }    
+    
+    /**
+     * 備品データ取得クエリ 検索項目初期化
+     */
+    private void clearSearchValues() {
+		this.searchStockType = null;
+		this.searchSerialNo = null; 
+		this.searchRentStatus = null;
+		this.searchStaffNo = null;
+		this.searchLimitDate = null;
+		this.searchConfirmedDate = null;
+    }
     
     /**
      * 遷移元画面呼び出し
@@ -862,6 +832,31 @@ public class FormController  extends BaseFormPage {
     			MenuController(true));
     }
     
+
+    
+    /** テスト用　行選択処理 */
+    @SuppressWarnings("unused")
+	private void testSarchContrlSelectedValues() {
+    	try {
+        	LogManager.writeTrace("[検索項目　選択値]"); 
+        	LogManager.writeTrace("備品分類：[" + this.searchStockType.toString() + "]");
+        	LogManager.writeTrace("シリアルナンバー：[" + this.searchSerialNo + "]");
+        	LogManager.writeTrace("貸出可否：[" + this.searchRentStatus.toString() + "]");
+        	LogManager.writeTrace("使用者：[" + this.searchStaffNo.toString() + "]"); 
+        	LogManager.writeTrace("返却予定日：[" + Optional.
+        			                                 ofNullable(this.searchLimitDate).
+        			                                 map(LocalDate::toString).
+        			                                 orElse("NULL") + "]"); 
+        	LogManager.writeTrace("最終所在確認日：[" + Optional.
+        			                                     ofNullable(this.searchConfirmedDate).
+        			                                     map(LocalDate::toString).
+        			                                     orElse("NULL") + "]");
+        	
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： メニュー画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}   	
+    }
     
     /** テスト用　行選択処理 */
     @SuppressWarnings("unused")

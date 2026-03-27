@@ -2,6 +2,7 @@
 
 <?import application.java.manager.TableColumnManager?>
 <?import application.java.manager.TableViewManager?>
+<?import application.java.manager.customControl.CustomComboBoxControlManager?>
 <?import application.java.manager.customControl.CustomDatePickerControlManager?>
 <?import application.java.manager.customControl.CustomTextFieldControlManager?>
 <?import javafx.geometry.Insets?>
@@ -33,11 +34,11 @@
             <Label layoutX="799.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="最終所在確認日" />
             <HBox layoutY="40.0" prefHeight="25.0" prefWidth="950.0" spacing="15.0">
                <children>
-                  <ComboBox id="cboSearchType" fx:id="cbo_Search_Type" prefWidth="150.0" />
+                  <CustomComboBoxControlManager id="cboSearchType" fx:id="cbo_Search_Type" prefWidth="150.0" />
                   <CustomTextFieldControlManager id="txtSearchSerial" fx:id="txt_Search_Serial" prefHeight="25.0" prefWidth="150.0" />
-                  <ComboBox id="cboSearchLoanStatus" fx:id="cbo_Search_Status" prefWidth="120.0" />
-                  <ComboBox id="cboSearchStaff" fx:id="cbo_Search_Staff" prefWidth="150.0" />
-                  <DatePicker id="dpSearchReturn" prefHeight="25.0" prefWidth="139.0" />
+                  <CustomComboBoxControlManager id="cboSearchLoanStatus" fx:id="cbo_Search_Status" prefHeight="25.0" prefWidth="120.0" />
+                  <CustomComboBoxControlManager id="cboSearchStaff" fx:id="cbo_Search_Staff" prefWidth="150.0" />
+                  <DatePicker id="dpSearchLimit" fx:id="dp_Search_Limit" prefHeight="25.0" prefWidth="139.0" />
                   <CustomDatePickerControlManager id="dpSearchConfirmed" fx:id="dp_Search_Confirmed" prefHeight="25.0" prefWidth="139.0" />
                </children>
                <padding>

@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import application.java.base.BaseTableViewModel;
 import application.java.manager.LogManager;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 
@@ -44,15 +45,37 @@ public class CustomTextFieldTableCellManager<S extends BaseTableViewModel, T> ex
         }
 
         /* 常時表示モード */
-        // ComboBoxがフォーカスを得た＝ユーザーが操作しようとしている
+        // TextFieldがフォーカスを得た＝ユーザーが操作しようとしている
         this.InputText.focusedProperty().addListener(
-        		(obs, oldVal, newVal) -> {
-        			if (newVal) {
+        		(obs, oldVal, isFocused) -> {
+        			if (!isFocused) {
+        		        Platform.runLater(() -> {
+        		            if (isEditing()) {
+        		                // 入力値と元の値を比較
+        		                String currentInput = InputText.getText();
+        		                String modelValue = getItem() != null ? getItem().toString() : "";
+
+        		                // 値が変わっていない、あるいは特定のキャンセル条件なら戻す
+        		                if (Objects.equals(currentInput, modelValue)) {
+        		                    // 値が同じなら、編集モードを終了するだけでOK
+        		                	cancelEdit(); 
+        		                } else {
+        		                    // 値が変わっている場合のみ確定させる
+        		                    valueCommited(colId);
+        		                }
+        		            }
+        		        }); 
+        				return;
+        			} else {
         				LogManager.writeTrace("[CustomTextFeild][focusedProperty] Start");
         				
-        				// 親の TableView(TableCell)に対して、編集状態への移行(Enterが押下された)を通知
-        				getTableView().edit(getIndex(), getTableColumn());
-        			}});}
+        		        if (getTableView() != null) {
+        		        	// 親の TableView(TableCell)に対して、編集状態への移行(Enterが押下された)を通知
+        		        	getTableView().edit(getIndex(), getTableColumn());
+        		        }
+        			}
+        		});
+	}
 
     /**
      * セルが入力(編集)モードに移行する際に内部で呼び出されるメソッド(Enter/GotFocus Event)
@@ -98,12 +121,21 @@ public class CustomTextFieldTableCellManager<S extends BaseTableViewModel, T> ex
     	super.cancelEdit();
     	
     	LogManager.writeTrace("[CustomTextFeild][cancelEdit] Start");
-  
+        // モデルが持っている本来の値を取得して TextField に上書きする
+        String modelValue = getItem() != null ? getItem().toString() : null;
+        
+        isAdjusting = true;
+        try {
+            this.InputText.setText(modelValue);
+        } finally {
+            isAdjusting = false;
+        }
+
         if (!isAlwaysShow) {
     		/* 編集時のみ表示モード */
     		// 非編集モードへ遷移
             setGraphic(null);
-            setText(getItem() != null ? getItem().toString() : null);
+            setText(modelValue);
             return;
         }
     	
@@ -147,7 +179,11 @@ public class CustomTextFieldTableCellManager<S extends BaseTableViewModel, T> ex
         	// データが存在する場合の表示処理
         	if (isAlwaysShow) {
                 /* 常時表示モード */
-        		setGraphic(this.InputText);
+                // すでにセット済みなら何もしない（マウス入力対応）
+                if (getGraphic() != this.InputText ||
+                		!Objects.equals(item.toString(), this.InputText.getText())) {
+                    setGraphic(this.InputText);
+                }
                 setText(null);
 
         	} else {
@@ -192,31 +228,38 @@ public class CustomTextFieldTableCellManager<S extends BaseTableViewModel, T> ex
      * @brief 選択したItemをカラムのBINDソース[S]に反映<br>
 	 * カラムの[id]と[fx:id]は同一の前提
      */	
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "unused" })
 	private void onLeaveTextValue(String colId) {
 
         // 入力監視リスナー(Leave相当)
 		this.InputText.setOnAction(
         		(e) -> 
         		{
-        			if (isAdjusting) { return; }
-
         			LogManager.writeTrace("[CustomTextFeild][setOnAction] Start");
-  
-        			String editValue = this.InputText.getText();
- 
-        			if (!isEditing()) {
-        				getTableView().edit(getIndex(), getTableColumn());
-        			}               			
-        			
-    				// 値の確定(TableView側へ通知)
-    				this.commitEdit((T) editValue);
-        			
-        			// モデルへの値反映
-    				bindingModelProperty(colId, null, editValue); 
+         			valueCommited(colId);
         		});
 	}
 
+	@SuppressWarnings("unchecked")
+	private void valueCommited(String colId) {
+		
+		if (isAdjusting || !isEditing()) { return; }
+
+		isAdjusting = true;
+		try {
+			String editValue = this.InputText.getText();
+			
+			// 値の確定(TableView側へ通知)
+			this.commitEdit((T) editValue);
+			
+			// モデルへの値反映
+			bindingModelProperty(colId, null, editValue); 			
+		} finally {
+			isAdjusting = false;
+		}
+	}
+	
+	
     /**
      * モデルへの値反映
      * @param colId カラムのID(自身(カスタムコンボボックス)のカラムのID)

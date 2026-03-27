@@ -4,6 +4,10 @@ import application.java.common.AppUtil;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 
+/**
+ * カスタムControl：TextField
+ * @brief 入力制限・最大文字数設定を追加したカスタムTextField<br>
+ */
 public class CustomTextFieldControlManager extends TextField  {
 
     private String regex = "";
