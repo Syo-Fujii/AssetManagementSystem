@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 /** 画面生成基底クラス(Controller基底クラス) 
  *  画面設定(Controller)に対するクラス
  *  DB操作については、MySqlManagerの各メソッド・機能をstaticにて定義しているので
- *  継承[ extends]しない。
+ *  継承[extends]しない。
  */
 public abstract class BaseFormPage {
 	private Integer windowWidth = null;
@@ -202,6 +202,14 @@ public abstract class BaseFormPage {
 	public void loadParameter(Object[] params){
 	}
 
+	/**
+	 * (page)画面終了 
+     * @brief [page](BaseFormPage)の切替などので終了処理がある場合の内容を定義する<br>
+     * 別クラス(setPage)で呼出すため、publicとする。
+	 */
+	public void pageDispose() {}
+
+	
     /**
      * DB取得処理(非同期処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
@@ -348,7 +356,7 @@ public abstract class BaseFormPage {
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
 		return true;
     }
- 	
+	
 	/**
 	 * (stage)画面表示Shown(継承) 
 	 * 初回表示の際に設定する場合、使用する。
@@ -358,7 +366,7 @@ public abstract class BaseFormPage {
      * OSレベルでウィンドウが表示され、全コンポーネントのレイアウト計算や描画が完全に終わった状態での表示処理	 
 	 */
 	protected void stageShown(){}
-
+	
     /**
      * DBクエリ発行処理
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)

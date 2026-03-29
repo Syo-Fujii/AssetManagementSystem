@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -77,6 +78,25 @@
                         <ImageView fx:id="frontImage" fitHeight="459.0" fitWidth="499.0" mouseTransparent="true" opacity="0.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
+                  <AnchorPane id="paneMasterMaintenance" fx:id="masterPane" layoutX="140.0" managed="false" opacity="0.0" prefHeight="459.0" prefWidth="359.0" visible="false">
+                     <children>
+                        <VBox prefHeight="459.0" prefWidth="359.0">
+                           <children>
+                              <HBox prefHeight="50.0" prefWidth="359.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="133.0" text="Button" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
                   <VBox prefHeight="459.0" prefWidth="140.0" spacing="2.0" styleClass="side-bar" AnchorPane.topAnchor="0.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="カテゴリー" />
@@ -85,8 +105,16 @@
                               <ToggleGroup fx:id="sideMenuGroup" />
                            </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onVerifyLocationButtonClicked" styleClass="sidebar-button" text="棚卸業務" toggleGroup="$sideMenuGroup" />
-                        <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="マスタメンテナンス" toggleGroup="$sideMenuGroup" />
+                        <ToggleButton fx:id="verifyLocation_Button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onVerifyLocationButtonClicked" styleClass="sidebar-button" text="棚卸業務">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sideMenuGroup" />
+                           </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="masterMainte_Button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onMasterMainteButtonClicked" styleClass="sidebar-button" text="マスタメンテナンス">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sideMenuGroup" />
+                           </toggleGroup>
+                        </ToggleButton>
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />

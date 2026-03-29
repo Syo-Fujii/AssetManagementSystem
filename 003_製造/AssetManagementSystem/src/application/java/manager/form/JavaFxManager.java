@@ -63,8 +63,21 @@ public class JavaFxManager extends Application{
 	@SuppressWarnings("unused")
 	public void setPage(BaseFormPage cls, Object...params) throws Exception{
     	try {
+
+    		// 機能追加:既存画面(page)のDispose処理
+            if (stage != null && stage.getScene() != null) {
+            	Object shownCls = stage.getUserData(); 
+            	
+                if (shownCls != null && shownCls instanceof BaseFormPage) {
+                	BaseFormPage oldCtrl = (BaseFormPage) shownCls;
+                	oldCtrl.pageDispose();
+
+                	LogManager.writeInfo("呼出中[Page](" + oldCtrl.getPageTitle() +")の終了処理(dispose)を実行");
+                }
+            }
+
     		LogManager.writeInfo("画面展開 [setPage] ： 画面設定・表示処理 開始"); 
-    		
+            
     		// ウィンドウ枠を切替る場合、[stage]を再生成する
     		setWindowFrame(cls.getIsUseWindowFrame());
     		
@@ -89,7 +102,7 @@ public class JavaFxManager extends Application{
     			scene.getStylesheets().add(getClass().getResource(cls.getCssFile()).toExternalForm());
     		}
     		
-    		System.out.print(cls.getCssFile() + AppUtil.newLine());
+    		LogManager.writeInfo(cls.getCssFile() + AppUtil.newLine());
     		
     		/*
     		BaseFormPage page = (BaseFormPage)loader.getController();
@@ -132,6 +145,9 @@ public class JavaFxManager extends Application{
     			// 中身(scene)のサイズに合わせてウィンドウ枠をフィットさせる
     			stage.sizeToScene();
     		}
+
+            // 機能追加:既存画面(page)のDispose処理(既存画面の保持)
+            stage.setUserData(cls);
     		
     		LogManager.writeInfo("画面展開 [setPage] : " + cls.getPageTitle());
     		stage.show();

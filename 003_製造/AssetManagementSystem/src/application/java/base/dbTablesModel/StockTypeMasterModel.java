@@ -132,7 +132,7 @@ public class StockTypeMasterModel extends BaseTableViewModel {
 		this.del.set(isdeleted);
 	}	 
 
-	 /**
+	/**
     * コンストラクタ
     * @brief　引数なしコンストラクタがMyBatisの一覧(List)生成で用いられる。<br>
     * JavaFXの Property クラス（SimpleStringPropertyなど）は参照型で<br>

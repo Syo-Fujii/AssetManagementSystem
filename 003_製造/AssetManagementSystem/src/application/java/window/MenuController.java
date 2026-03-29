@@ -1,5 +1,8 @@
 package application.java.window;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import application.java.base.BaseFormPage;
 import application.java.common.AppConst;
 import application.java.common.AppUtil;
@@ -9,6 +12,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -21,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -40,13 +45,70 @@ import javafx.util.Duration;
  */
 public class MenuController extends BaseFormPage {
 
+    /**
+     * 内部クラス:背景画像(Image)保持クラス
+     */
+    private class ImageData {
+        @SuppressWarnings("unused")
+		private final int index;
+        private final String path;
+        private Image image;
+
+        /**
+         * コンストラクタ
+         * @param index int 配列のインデックス
+         * @param path String 画像が保存されているパス
+         * @param image javafx.scene.image.Image Image画像イメージ
+         */
+        public ImageData(int index, String path, Image image) {
+            this.index = index;
+            this.path = path;
+            this.image = image;
+        }
+        
+        /**
+         * [画像イメージ]設定
+         * @param image Image 設定する画像イメージ
+         */
+        public void setImage(Image image) {
+        	this.image = null;
+        	this.image = image;
+        }
+        
+    	/**
+    	* [画像イメージ]取得
+    	* @return image Image 設定する画像イメージ
+    	*/          
+        public Image getImage() { return image; }
+
+    	/**
+    	* [画像パス]取得
+    	* @return path 画像が保存されているパス
+    	*/          
+        public String getPath() { return path; }
+        
+        /**
+         * 画像イメージ保持判定
+         * @return Boolean 判定結果
+         * @brief 画像イメージを保持している場合、[真]
+         */
+        public Boolean isImageCached() { return (this.image != null) ? true : false; }
+    }	
+	
+	
 	private final String FORM_NAME = "備品管理システム メニュー画面";
 	private final Integer CLIP_RECT_ANGLE = 12;
 	private final String IMAGE_FORM_FOLDER = "menuWindow";
 	
 	private Boolean isBgImageCover = false;
 
-	private  String[] imagePaths = null;
+	private Timeline imageSlideShowTimeline = null;
+	private ChangeListener<Number> resizeHandler = null;
+	private FadeTransition imageFade = null;
+	private FadeTransition masterPaneFade = null;
+
+	private List<ImageData> imagesCache = null;
+	
 	private double xOffset = 0;
     private double yOffset = 0;
 	private int imageIndex = 0;
@@ -57,7 +119,11 @@ public class MenuController extends BaseFormPage {
     @FXML private AnchorPane imagePane;
     @FXML private ImageView backImage;
     @FXML private ImageView frontImage;
+
+    @FXML private AnchorPane masterPane;    
+    
     @FXML private ToggleButton loanlist_button;
+    @FXML private ToggleButton masterMainte_Button;
 
     
     // 閉じるボタンのアクション
@@ -100,7 +166,6 @@ public class MenuController extends BaseFormPage {
 	public MenuController(Boolean isImgCover)  throws Exception 
 	{
 		this();
-
 		this.isBgImageCover = isImgCover;
 	}
 	
@@ -119,8 +184,7 @@ public class MenuController extends BaseFormPage {
     	onTitleBarMousePressEvent();
 
         Platform.runLater(() -> {
-            if (imagePaths != null && imagePaths.length > 0) {
-            	//startBackgroundSlideShow(imagePane, 5);
+        	if (imagesCache != null && imagesCache.size() > 0) {
             	startBackgroundSlideShowFade(frontImage, backImage, 5);
             }
         });
@@ -161,6 +225,128 @@ public class MenuController extends BaseFormPage {
     		LogManager.showAndWriteError(title, ex);
     	}
     }      
+
+    /**
+     * [マスタメンテナンス]ボタン 押下イベント 
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
+     */
+    @SuppressWarnings("unused")
+	@FXML
+    public void onMasterMainteButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [マスタメンテナンス]ボタン押下"); 
+        	
+            FadeTransition fade = new FadeTransition(Duration.millis(300), masterPane);
+    		if (masterMainte_Button.isSelected()) {
+                // 表示する時
+            	masterPane.setManaged(true);
+            	masterPane.setVisible(true);
+
+            	fade.setFromValue(0.0);
+            	fade.setToValue(1.0);
+            } else {
+                // 隠す時
+            	fade.setFromValue(1.0);
+            	fade.setToValue(0.0);
+            	
+            	fade.setOnFinished( (e) ->
+            	{
+                	masterPane.setVisible(false);
+                	masterPane.setManaged(false);
+                });
+            }
+    		
+    		fade.play();
+    		this.masterPaneFade = fade;
+    		
+    	} catch (Exception ex) {
+    		String title = "[" + FORM_NAME + "] ： マスタメンテPage表示中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
+    	}
+    }    
+    
+    /**
+     * (page)画面終了 
+     * @brief スライドシューに関するオブジェクトを破棄する<br>
+     */
+    @Override
+    public void pageDispose() {
+    	if (isBgImageCover) {
+            imagePane.widthProperty().removeListener(resizeHandler);
+            imagePane.heightProperty().removeListener(resizeHandler);  
+    	}
+  
+        if (imageFade != null) {
+        	imageFade.stop();
+        	imageFade.setOnFinished(null);
+        	imageFade = null;
+        }
+        
+    	if (this.imageSlideShowTimeline != null) {
+        	this.imageSlideShowTimeline.stop();
+            this.imageSlideShowTimeline = null;
+            LogManager.writeInfo("スライドショーのTimelineを停止しました");
+        }
+
+        if (masterPaneFade != null) {
+        	masterPaneFade.stop();
+        	masterPaneFade.setOnFinished(null);
+        	masterPaneFade = null;
+        }
+        
+        for (ImageData data : imagesCache) { data.setImage(null); }
+        // リスト自体を空にする
+        imagesCache.clear();
+
+        frontImage.setImage(null);
+        backImage.setImage(null);
+    }        
+    
+    /**
+     * 背景画像(Image)取得
+     * @param index int 取得する画像インデックス
+     * @param targetWidth double 対象画像幅
+     * @param targetHeight double 対象画像高
+     * @param maxWidth double 最大画像幅
+     * @param maxHeight double 最大画像高
+     * @return 画像(Image)
+     */
+    private Image getBackGroundImage(String path, double targetWidth, double targetHeight, double maxWidth, double maxHeight) {
+        double w = (targetWidth <= 0) ? imagePane.getPrefWidth() : targetWidth;
+        double h = (targetHeight <= 0) ? imagePane.getPrefHeight() : targetHeight;
+        
+        // 高解像度化（1.5倍）
+        double loadW = w * 1.5;
+        double loadH = h * 1.5;
+         
+        loadW = (loadW > maxWidth) ? maxWidth : loadW;
+        loadH = (loadH > maxHeight) ? maxHeight : loadH;
+        
+    	return new Image(path, loadW, loadH, true, true, false); 
+    }    
+ 
+    /**
+     * キャッシュ画像(背景画像:Image)取得
+     * @param index int 取得する画像インデックス
+     * @param targetWidth double 対象画像幅
+     * @param targetHeight double 対象画像高
+     * @param maxWidth double 最大画像幅
+     * @param maxHeight double 最大画像高
+     * @return 背景画像(Image)
+     */
+    private Image getCachedImage(int index, double targetWidth, double targetHeight, double maxWidth, double maxHeight) {
+    	
+    	if (index < 0 || index >= this.imagesCache.size() ) { return null; }
+
+    	ImageData cacheData = this.imagesCache.get(index);
+
+    	if ( !cacheData.isImageCached() )
+    	{
+    		cacheData.setImage(getBackGroundImage(cacheData.getPath(), targetWidth, targetHeight, maxWidth, maxHeight));
+    	}
+    
+    	return cacheData.getImage();
+    }    
     
     /**
      * finder風タイトルバー用画面移動イベント
@@ -215,7 +401,6 @@ public class MenuController extends BaseFormPage {
      */
     @SuppressWarnings("unused")
 	private void startBackgroundSlideShow(AnchorPane node, int intervalSeconds) {
-
     	// 指定時間ごとに実行される処理を定義
         KeyFrame keyFrame = 
         		new KeyFrame(
@@ -223,20 +408,19 @@ public class MenuController extends BaseFormPage {
         				( event ) -> 
         				{
         					 // 次の画像へ
-        					imageIndex = (imageIndex + 1) % imagePaths.length;
+        					imageIndex = (imageIndex + 1) % imagesCache.size();
         					
         					// CSSを書き換えて画像を差し替え
-        					String imageUrl = getClass().getResource(imagePaths[imageIndex]).toExternalForm();
+        					String imageUrl = getClass().getResource(this.imagesCache.get(imageIndex).getPath()).toExternalForm();
         					node.setStyle("-fx-background-image: url('" + imageUrl + "'); " +
         					              "-fx-background-size: cover; " +
         							      "-fx-background-radius: 0 0 20 20;");
         				});
 
         // タイマー（Timeline）の設定
-        Timeline timeline = new Timeline(keyFrame);
-        
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+    	imageSlideShowTimeline = new Timeline(keyFrame);
+    	imageSlideShowTimeline.setCycleCount(Timeline.INDEFINITE);
+    	imageSlideShowTimeline.play();
     }
     
     /**
@@ -247,42 +431,47 @@ public class MenuController extends BaseFormPage {
      */
     @SuppressWarnings("unused")
 	private void startBackgroundSlideShowFade(ImageView frontNode, ImageView backNode, int intervalSeconds) {
+        // メインスクリーン(Stage)の情報を取得
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double maxWidth = screenBounds.getWidth();
+        double maxHeight = screenBounds.getHeight();    	
+ 
+        double paneW = imagePane.getWidth() > 0 ? imagePane.getWidth() : imagePane.getPrefWidth();
+        double paneH = imagePane.getHeight() > 0 ? imagePane.getHeight() : imagePane.getPrefHeight();
     	
     	if (isBgImageCover) {
-            // 親パネルのサイズが変わったら画像を切り抜く
-            imagePane.widthProperty().addListener(
-            		(obs, oldVal, newVal) ->
-            		{
-            			applyCenterCrop(backImage, newVal.doubleValue(), imagePane.getHeight());
-            		});
-            imagePane.heightProperty().addListener(
-            		(obs, oldVal, newVal) ->
-            		{
-            			applyCenterCrop(backImage, imagePane.getWidth(), newVal.doubleValue());
-            		});
+    		// 親パネルのサイズが変わったら画像を切り抜く
+            resizeHandler = (obs, old, val) -> {
+                double currW = imagePane.getWidth();
+                double currH = imagePane.getHeight();
+                
+                applyCenterCrop(backNode, currW, currH);
+                
+                if (frontNode.getOpacity() > 0) {
+                    applyCenterCrop(frontNode, currW, currH);
+                }
+            };
+            imagePane.widthProperty().addListener(resizeHandler);
+            imagePane.heightProperty().addListener(resizeHandler);  
     	}
-    	
-    	// 最初の画像
-        //Image firstImage = new Image(getClass().getResource(imagePaths[0]).toExternalForm());
-        Image firstImage = new Image(imagePaths[0]); 
         
-    	// 画像セット(Back)
-        backNode.setImage(firstImage);
+    	// 最初の画像セット(Back)
+        backNode.setImage( getCachedImage(0, paneW, paneH, maxWidth, maxHeight) );
         applyCenterCrop(backNode, imagePane.getWidth(), imagePane.getHeight());
-    	
+
     	KeyFrame keyFrame =
     			new KeyFrame(
     					Duration.seconds(intervalSeconds),
     					( event ) -> 
     					{
     						// 次の画像のインデックス
-    						imageIndex = (imageIndex + 1) % imagePaths.length;
-    						/*Image nextImage = 
-    								new Image( getClass().getResource(imagePaths[imageIndex]).toExternalForm() );*/
-    						Image nextImage = new Image(imagePaths[imageIndex]); 
+    						imageIndex = (imageIndex + 1) % imagesCache.size();
+    						Image nextImage = getCachedImage(imageIndex, paneW, paneH, maxWidth, maxHeight); 
 
     						// フェードアニメーションの実行
     						/* 上の画像に次のセットして、透明から不透明へ */
+    						// 既に設定している場合、解放する(GC対策:スリープ時等) 
+    						frontNode.setImage(null);     						
     						frontNode.setImage(nextImage);
     						
     						if (isBgImageCover) { applyCenterCrop(frontNode, imagePane.getWidth(), imagePane.getHeight()); }
@@ -296,6 +485,8 @@ public class MenuController extends BaseFormPage {
     						fadeIn.setOnFinished(
     								( e ) -> 
     								{
+    		    						// 既に設定している場合、解放する(GC対策:スリープ時等) 
+    									backNode.setImage(null);    
     									// アニメーション終了後、下の画像も更新して、上の画像は透明に戻す
     									backNode.setImage(nextImage);
     						            backNode.setViewport(frontNode.getViewport());
@@ -303,15 +494,18 @@ public class MenuController extends BaseFormPage {
     						            backNode.setFitHeight(frontNode.getFitHeight());
     									
     									frontNode.setOpacity(0);
+
+    								    fadeIn.setOnFinished(null);
+    								    fadeIn.stop();
     								});
     						
     						fadeIn.play();
-    					});
+    						this.imageFade = fadeIn;
+       					});
     	
-    	Timeline timeline = new Timeline(keyFrame);
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+    	imageSlideShowTimeline = new Timeline(keyFrame);
+    	imageSlideShowTimeline.setCycleCount(Timeline.INDEFINITE);
+    	imageSlideShowTimeline.play();
     }
     
     /**
@@ -320,7 +514,7 @@ public class MenuController extends BaseFormPage {
     private void applyCenterCrop(ImageView imageView, double containerWidth, double containerHeight) {
         Image image = imageView.getImage();
         
-        if (image == null || containerWidth <= 0 || containerHeight <= 0) return;
+        if (image == null || containerWidth <= 0 || containerHeight <= 0) { return; }
 
         // バインドを強制解除（念のため）
         imageView.fitWidthProperty().unbind();
@@ -357,10 +551,12 @@ public class MenuController extends BaseFormPage {
         // ImageView自体のサイズを親に合わせる
         imageView.setFitWidth(containerWidth);
         imageView.setFitHeight(containerHeight);
+        
+        image = null;
     }
 
     /**
-     * 背景画像一覧取得()
+     * 背景画像一覧取得
      * @throws Exception
      * @brief 指定フォルダより、対象ファイルのPATHをリストで取得する<br>
      */
@@ -368,16 +564,25 @@ public class MenuController extends BaseFormPage {
     	
 		// 背景画像一覧の取得
     	FileManager fileIo = new FileManager();
-    	
 		String path = fileIo.
 				resourcePathCombine( new String[] { 
 								AppConst.SOURCE_FULL_PATH, 
 								AppConst.IMAGE_FOLDER_PATH, 
 								IMAGE_FORM_FOLDER });
 
-		if (!fileIo.existsFolder(path)) { return; }
+		if ( !fileIo.existsFolder(path) ) { return; }
 
-		this.imagePaths = fileIo.
-				getResourceUrlFullPathList(path).toArray( String[]::new );   	
+		String[] imagePaths = fileIo.
+				getResourceUrlFullPathList(path).toArray( String[]::new );
+		
+		if( imagePaths == null || imagePaths.length < 1 ) { return; }
+
+		int cacheIdx = 0;
+		this.imagesCache = new ArrayList<>();
+		for (String imagePath : imagePaths) 
+		{
+			imagesCache.add(new ImageData(cacheIdx, imagePath, null));
+			cacheIdx++;
+		}
     }
 }
