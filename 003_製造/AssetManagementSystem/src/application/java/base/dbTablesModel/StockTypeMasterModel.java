@@ -146,5 +146,19 @@ public class StockTypeMasterModel extends BaseTableViewModel {
 		 this.stockCode = new SimpleStringProperty("");
 		 this.name = new SimpleStringProperty("");
 		 this.del = new SimpleBooleanProperty(false);
-	 }   
+	 }
+	 /**
+	 * コンストラクタ(コピー生成用)
+     * @brief　Object.Cloneを用いた場合、Exception処理を考慮する必要があるため<br>
+     * コピー用のコンストラクタを用意する
+     */
+	 public StockTypeMasterModel(StockTypeMasterModel source) {
+	     this();   
+		 
+	     this.setStockTypeId(source.getStockTypeId());
+		 this.setStockType(source.getStockType());
+		 this.setStockCode(source.getStockCode());
+		 this.setStockTypeName(source.getStockTypeName());
+		 this.setDelFlg(source.getDelFlg());
+	    }
 }

@@ -8,8 +8,25 @@
         SELECT * FROM stock_type_master
     </select>
 
+    <!-- 全件取得(マスタメンテナンス用)：idはメソッド名、resultTypeは戻り値のクラス -->
+    <select id="selectMaintenance">
+      SELECT 
+        STM.id AS stockTypeId,
+        STM.stock_type,
+        STM.stock_code,
+        STM.name AS stockTypeName,
+        STM.del AS delFlg
+      FROM 
+        stock_type_master STM
+      WHERE
+        1 = 1
+      ORDER BY
+        STM.stock_type,
+        STM.stock_code
+    </select>
+
     <!-- 1件取得：#{id} は引数の値が入る場所 -->
-    <select id="selectOnes">    
+    <select id="selectById">    
         SELECT * FROM stock_type_master WHERE id = #{id}
     </select>
 

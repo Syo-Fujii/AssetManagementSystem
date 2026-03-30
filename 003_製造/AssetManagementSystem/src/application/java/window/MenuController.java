@@ -224,7 +224,7 @@ public class MenuController extends BaseFormPage {
     		String title = "[" + FORM_NAME + "] ： 棚卸画面遷移中にエラーが発生しました";
     		LogManager.showAndWriteError(title, ex);
     	}
-    }      
+    }    
 
     /**
      * [マスタメンテナンス]ボタン 押下イベント 
@@ -264,7 +264,25 @@ public class MenuController extends BaseFormPage {
     		LogManager.showAndWriteError(title, ex);
     	}
     }    
-    
+
+    /**
+     * [備品分類マスタ メンテナンス]ボタン 押下イベント 
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
+     */
+    @FXML
+    public void onStockTypeMasterButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [備品分類マスタ メンテナンス]ボタン押下"); 
+    		
+        	// 備品分類マスタ メンテナンス画面に切替
+        	super.setPage(new application.java.window.masterMaintenance.stockTypeMaster.FormController());
+    		
+    	} catch (Exception ex) {
+    		String title = "[" + FORM_NAME + "] ： メンテナンス画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
+    	}
+    }    
+
     /**
      * (page)画面終了 
      * @brief スライドシューに関するオブジェクトを破棄する<br>

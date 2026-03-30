@@ -78,18 +78,18 @@
                         <ImageView fx:id="frontImage" fitHeight="459.0" fitWidth="499.0" mouseTransparent="true" opacity="0.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane id="paneMasterMaintenance" fx:id="masterPane" layoutX="140.0" managed="false" opacity="0.0" prefHeight="459.0" prefWidth="359.0" visible="false">
+                  <AnchorPane id="paneMasterMaintenance" fx:id="masterPane" layoutX="140.0" managed="false" opacity="0.0" prefHeight="459.0" prefWidth="359.0" styleClass="masterMainte-pane" visible="false">
                      <children>
-                        <VBox prefHeight="459.0" prefWidth="359.0">
+                        <VBox prefHeight="459.0" prefWidth="359.0" spacing="10.0">
                            <children>
-                              <HBox prefHeight="50.0" prefWidth="359.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="133.0" text="Button" />
-                                 </children>
-                                 <padding>
-                                    <Insets left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </HBox>
+                              <Button id="StockTypeMaster" fx:id="StockTypeMaster_Button" mnemonicParsing="false" onAction="#onStockTypeMasterButtonClicked" prefHeight="40.0" prefWidth="340.0" styleClass="mac-button" text="備品分類マスタ メンテナンス" textAlignment="CENTER">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
                            </children>
                            <padding>
                               <Insets top="10.0" />
