@@ -30,6 +30,21 @@
         SELECT * FROM stock_type_master WHERE id = #{id}
     </select>
 
+    <select id="existsStockType" resultType="boolean">
+      SELECT 
+         EXISTS 
+         (
+          SELECT 
+             1 
+          FROM
+            stock_type_master 
+          WHERE 
+            1 = 1
+          AND stock_type = #{stockType} 
+          AND stock_code = #{stockCode}
+         ) AS IS_EXISTS
+    </select>
+
     <!-- 新規登録 -->
     <insert id="newRecord"> 
         INSERT INTO stock_type_master (id) VALUES (#{id})

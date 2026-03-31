@@ -181,9 +181,9 @@ public class FormController extends BaseFormPage {
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(false);
-    	tableListView.onSelectedRowEvent(
-    			bef    -> { bef = null; },
-    			result -> { this.callbackTableSelectedRow( (InventoryListDataModel)result ); });
+       	tableListView.onSelectedRowLeaveEvent(result -> {
+    	    this.callbackTableSelectedRow((InventoryListDataModel) result);
+    	});
 
     	// TableView[列]文字設定 
     	col_itemName.getStyleClass().add("cell-itemname");

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -39,13 +40,16 @@ import javafx.scene.input.KeyEvent;
 public class TableViewManager<T extends BaseTableViewModel> extends TableView<T> {
 
 	private String cssSelector = "table-view";
+	private Boolean isReverting = false; // 再選択中かどうかのフラグ
+	private Boolean isFocusMoveing = false; //Focus遷移中かどうかのフラグ	
 	
 	private Boolean isColumnSettingCompleted = false;
 
 	private Boolean isMultiSelected = false;
 	private Boolean isCellSelected = false;
 	private Boolean isReorderabled = false;	
-	
+
+
 	/**
 	 * CSSセレクタ名(識別名)取得
 	 * @return cssSelector CSSセレクタ名
@@ -317,6 +321,66 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 		} else {
 			this.addSelectedRowEvent(lostCallback, selectedCallback);
 		}
+	}
+	
+	/**
+	 * 明細選択行イベント(Focus遷移)
+	 * @param cancelCheckCallback Focus遷移をキャンセルするかを判定するEvent <br>
+	 * 戻り値[Boolean：判定結果]・引数:継承元が[BaseTableViewModel]のデータクラス
+	 * @param selectedCallback 選択に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
+	 * @brief 明細行の選択を変更した場合(Focusを遷移した場合)のイベント<br> 
+	 * 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
+	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。
+	 */
+	public void onSelectedRowLeaveEvent(Predicate<T> cancelCheckCallback, Consumer<T> resultCallback) {
+		this.onSelectedRowEvent(
+			    bef -> {
+			    	isReverting = false;
+			    	
+			    	if ( isFocusMoveing ) { return; }
+			    	
+			    	if (bef != null ) {
+				    	try 
+			    		{
+			    			if ( cancelCheckCallback.test(bef)) {
+		                    	isReverting = true;			                
+			    				Platform.runLater(() -> {
+				                    try {
+				                    	isFocusMoveing = true;
+				    			    	this.getSelectionModel().select(bef);
+				                        this.getFocusModel().focus(this.getItems().indexOf(bef));
+				                    } finally {
+				                    	isFocusMoveing = false;
+				                    }});
+			    			}
+			    		} finally {
+	                    	isFocusMoveing = false;
+			    		}
+			    	}
+			    },
+			    result -> {
+			    	try {
+				    	if ( isFocusMoveing || isReverting ) { return; }		    		
+
+				    	Platform.runLater(() -> {
+		                    try {
+		    			    	resultCallback.accept(result);
+		                    } finally {
+		                    	isFocusMoveing = false;
+		                    }});			    		
+			    	} finally {
+                    	isFocusMoveing = false;
+                    	isReverting = false;
+			    	}
+			    });
+	}	
+	/**
+	 * 明細選択行イベント(Focus遷移)
+	 * @param selectedCallback 選択に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
+	 */
+	@SuppressWarnings("unused")
+	public void onSelectedRowLeaveEvent(Consumer<T> resultCallback) {
+	    this.onSelectedRowLeaveEvent(bef -> false, resultCallback);
 	}
 	
 	/**

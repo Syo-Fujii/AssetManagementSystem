@@ -1,18 +1,24 @@
 package application.java.window.masterMaintenance.stockTypeMaster;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.StockTypeMasterModel;
+import application.java.common.AppConst;
 import application.java.common.AppUtil;
+import application.java.common.MessageBox;
+import application.java.common.MessageBox.ShowButtonType;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
+import application.java.manager.customControl.CustomTextFieldControlManager;
 import application.resources.mapper.StockTypeMasterMapper;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -39,7 +45,8 @@ import javafx.scene.layout.AnchorPane;
 public class FormController extends BaseFormPage {
 	private final String FORM_NAME = "備品分類マスタ メンテナンス";
 	
-	private StockTypeMasterModel editMasterData = null; 
+	private StockTypeMasterModel editMasterData = null;
+	private Boolean isEditMode = false;
 	
 	@FXML private AnchorPane pane_form;
 	
@@ -51,11 +58,14 @@ public class FormController extends BaseFormPage {
 	@FXML private TableColumn<StockTypeMasterModel, String> col_name;
 	@FXML private TableColumnManager<StockTypeMasterModel, Boolean> col_del;
 	
-	@FXML private TextField  edit_Stock_Type;
-	@FXML private TextField  edit_Stock_Code;
-	@FXML private TextField  edit_Stock_Name;
-	@FXML private CheckBox  edit_Stock_DelFlg;
+	@FXML private Button new_button;
 	
+	@FXML private CustomTextFieldControlManager txt_Edit_Type;
+	@FXML private CustomTextFieldControlManager txt_Edit_Code;
+	@FXML private TextField txt_Edit_Name;
+	@FXML private CheckBox check_Edit_DelFlg;
+	
+	@FXML private Button insert_button;
 	@FXML private Button update_button;
 	@FXML private Button back_button;
 
@@ -100,9 +110,29 @@ public class FormController extends BaseFormPage {
 
 		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<StockTypeMasterModel>fillTableAsync();
-
     }
 
+    /**
+     * [新規]ボタン 押下イベント 
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
+     */
+    @FXML
+    public void onNewButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [新規]ボタン押下"); 
+    		
+    		if( isEditMode && isEditControlsChanged() && !showMessageEditControlsValue()) {
+    			return;
+    		}
+    		
+    		// 新規登録モード
+    		setupNewRecordMode();
+
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： [新規]ボタン押下にて、エラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
+    }    
     
     /**
      * [メニューに戻る]ボタン 押下イベント 
@@ -172,6 +202,43 @@ public class FormController extends BaseFormPage {
 		super.exceptionResult(exception);
     }
     
+	/**
+	 * 登録項目　値変更チェック処理
+	 * @return boolean 判定結果
+     * @brief 登録用の各Controlの値が、初期と違う(値を編集した)場合は[真]<br>
+	 */
+	private boolean isEditControlsChanged() {
+    	Integer type = this.editMasterData.getStockType();
+    	String code = this.editMasterData.getStockCode();
+    	String name = this.editMasterData.getStockTypeName();
+    	Boolean del = this.editMasterData.getDelFlg();
+    	
+    	String typeString = "";
+    	if ( !AppUtil.IsNull(type) && type > 0 ) { typeString = type.toString(); }
+		
+		if ( !Objects.equals(txt_Edit_Type.getText(), typeString) ) { return true; }
+		if ( !Objects.equals(txt_Edit_Code.getText(), code) ) { return true; }
+		if ( !Objects.equals(txt_Edit_Name.getText(), name) ) { return true; }	
+		
+		Boolean rowDataDelFlg = del != null ? del : false;
+		if ( !Objects.equals(check_Edit_DelFlg.isSelected(), rowDataDelFlg) ) { return true; }	
+
+		return false;
+	}
+
+	/**
+	 *登録項目編集中 更新確認Message
+	 * @return 確認結果
+	 */
+    private Boolean showMessageEditControlsValue() {
+    	return MessageBox.ShowConfirmation(
+    			ShowButtonType.YES_NO,
+    			"確認",
+    			null,
+    			"編集中の登録項目を破棄します。" + AppUtil.newLine() +
+    			"よろしいですか？");
+    }	
+	
     /**
      * TableView設定
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
@@ -193,9 +260,9 @@ public class FormController extends BaseFormPage {
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
     	tableListView.setIsCellSelected(false);
-    	tableListView.onSelectedRowEvent(
-    			bef    -> { bef = null; },
-    			result -> { this.callbackTableSelectedRow( (StockTypeMasterModel)result ); });
+    	tableListView.onSelectedRowLeaveEvent(
+    		    bef -> { return (isEditControlsChanged() && !showMessageEditControlsValue()); },
+    		    result -> { this.callbackTableSelectedRow(result); });
 
     	// TableView[列]文字設定 
     	col_type.getStyleClass().add("center-aligned");
@@ -234,14 +301,13 @@ public class FormController extends BaseFormPage {
     	
     	LogManager.writeTrace("選択行 id: [ " + row.getStockTypeId() + " ]");
 
+       	this.isEditMode = true;
+    	
     	this.editMasterData = new StockTypeMasterModel( row );
     	setupEditControls();
     	
-    	edit_Stock_Type.setDisable(true);
-    	edit_Stock_Code.setDisable(true);
-    	
-       	// 更新ボタン有効
-    	update_button.setDisable(false);   	
+    	// ボタン有効化制御(更新状態)
+    	setupEditModeButtonsEnabled(isEditMode);
     }    
  
     /**
@@ -251,15 +317,16 @@ public class FormController extends BaseFormPage {
     private void formInitialize()
     {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： 画面初期化処理");
-    	
-		// マスター登録用データ初期化
-		this.editMasterData = new StockTypeMasterModel();
-    	
+		
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
+ 
+    	// 登録項目 入力制限　設定
+    	this.txt_Edit_Type.setValidInput(AppConst.REGEX_NUMERIC, null);
+    	this.txt_Edit_Code.setValidInput(AppConst.REGEX_ALPHA_NUMERIC, 4);
     	
-    	// 更新ボタン初期化(無効)
-    	update_button.setDisable(true);
+		// 新規登録モード
+		setupNewRecordMode();
     }    
     
     /**
@@ -268,11 +335,50 @@ public class FormController extends BaseFormPage {
      */
     private void setupEditControls()
     {   
-    	edit_Stock_Type.setText(this.editMasterData.getStockType().toString());       
-    	edit_Stock_Code.setText(this.editMasterData.getStockCode()); 
-    	edit_Stock_Name.setText(this.editMasterData.getStockTypeName()); 
-    	edit_Stock_DelFlg.setSelected(this.editMasterData.getDelFlg());
+    	Integer type = this.editMasterData.getStockType();
+    	String code = this.editMasterData.getStockCode();
+    	String name = this.editMasterData.getStockTypeName();
+    	Boolean del = this.editMasterData.getDelFlg();
+    	
+    	String typeString = "";
+    	if ( !AppUtil.IsNull(type) && type > 0 ) { typeString = type.toString(); }
+
+    	txt_Edit_Type.setText( typeString );
+    	txt_Edit_Code.setText( !AppUtil.StringIsNullOrEmpty( code) ? code : "" ); 
+    	txt_Edit_Name.setText( !AppUtil.StringIsNullOrEmpty(name) ? name : "" ); 
+    	check_Edit_DelFlg.setSelected( del != null ? del : false );
     }       
+
+    /**
+     * 登録項目 有効化制御
+     * @param isEditMode Boolean 更新モード判定
+     * @brief [新規](登録)・[更新](明細行データの更新)に合わせて、各ボタンの有効化設定を行う<br>
+     */
+    private void setupEditModeButtonsEnabled(Boolean isEditMode) {
+    	txt_Edit_Type.setDisable( isEditMode );
+    	txt_Edit_Code.setDisable( isEditMode );
+    	
+       	// ボタン制御
+    	insert_button.setDisable( isEditMode );	
+    	update_button.setDisable( !isEditMode );
+    }
+    
+    /**
+     * 登録項目 新規モード設定
+     */
+    private void setupNewRecordMode()
+    {
+		this.isEditMode = false; 
+    	
+    	// マスター登録用データ初期化
+		this.editMasterData = new StockTypeMasterModel();
+    	setupEditControls();
+    	
+    	// ボタン有効化制御(新規状態)
+    	setupEditModeButtonsEnabled( isEditMode );
+    	
+    	Platform.runLater(() -> txt_Edit_Type.requestFocus());
+    }
 
     /**
      * 遷移元画面呼び出し

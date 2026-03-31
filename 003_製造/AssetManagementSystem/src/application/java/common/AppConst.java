@@ -213,6 +213,9 @@ public class AppConst {
 	/** 入力制限 正規表現(半角英数字) */
 	public static final String REGEX_ALPHA_NUMERIC = "^[a-zA-Z0-9]*$";
 	
+	/** 入力制限 正規表現(半角数字) */
+	public static final String REGEX_NUMERIC = "^[0-9]*$";	
+	
 	/** 各フォルダPATH */
 	// public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
 	public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\002_Repositories\\003_製造\\AssetManagementSystem\\src\\";

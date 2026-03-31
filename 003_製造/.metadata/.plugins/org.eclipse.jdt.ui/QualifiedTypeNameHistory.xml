@@ -19,4 +19,5 @@
     <fullyQualifiedTypeName name="application.java.common.AppConst.CellEnterFocus"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst"/>
     <fullyQualifiedTypeName name="application.java.common.AppUtil"/>
+    <fullyQualifiedTypeName name="java.util.Objects"/>
 </qualifiedTypeNameHistroy>
