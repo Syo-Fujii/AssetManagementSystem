@@ -343,6 +343,7 @@ public class FormController extends BaseFormPage {
     private Boolean showMessageUpdConfimedDate(String serialNo) {
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
+    			false,
     			"確認",
     			null,
     			"備品[シリアルNo: "+ serialNo + " ]の所在確認日を本日に更新します。" + AppUtil.newLine() +

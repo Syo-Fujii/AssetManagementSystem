@@ -586,6 +586,7 @@ public class FormController extends BaseFormPage {
 
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
+    			false,
     			"貸出確認",
     			"下記の備品の貸出を行います。よろしいですか？",
     			sb.toString());
@@ -599,6 +600,7 @@ public class FormController extends BaseFormPage {
     private Boolean showMessageConfimed(String message) {
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
+    			false,
     			"確認",
     			null,
     			message + "よろしいですか？");

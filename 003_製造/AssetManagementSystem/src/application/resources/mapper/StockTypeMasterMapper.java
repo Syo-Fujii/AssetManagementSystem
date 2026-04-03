@@ -23,6 +23,13 @@ public interface StockTypeMasterMapper {
 	 */
     List<StockTypeMasterModel> selectMaintenance();    
     
+    /**
+     * マスタ存在確認 
+     * @param data 備品分類マスタMODEL
+     * @return 確認結果
+     */
+    Boolean existsStockType(StockTypeMasterModel data);
+
 	/**
 	 * 対象データ取得(1件：一意Key)
 	 * @return　備品分類マスタのデータ
@@ -32,4 +39,18 @@ public interface StockTypeMasterMapper {
     
     // 新規登録
     void insertUser(StockTypeMasterModel user);
+
+    /**
+     * マスタ登録
+     * @param row 備品分類マスタMODEL
+     * @return 更新件数
+     */
+    Integer insStockTypeMasterOnes(StockTypeMasterModel row);     
+    
+    /**
+     * マスタ更新
+     * @param row 備品分類マスタMODEL
+     * @return 更新件数
+     */
+    Integer updStockTypeMasterOnes(StockTypeMasterModel row); 
 }

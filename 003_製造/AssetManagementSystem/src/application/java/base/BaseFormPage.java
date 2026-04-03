@@ -1,6 +1,8 @@
 package application.java.base;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -283,6 +285,44 @@ public abstract class BaseFormPage {
     			(status) -> {
     				excuteQueryResult(status);
     			},
+    			listData);
+    }
+
+    /**
+     * DB操作(登録・更新・削除・取得)処理(同期処理)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param executeCallback クエリを実行するメソッド(引数：SqlSession, T)
+     * @param data T クエリに渡すデータ 
+     * @return DB操作結果
+     * @brief controller内で用いるDB操作(INS・UPD・DEL)処理<br>
+     * 画面内にDBの操作(INS・UPD・DEL・SELECTなどの処理を行う操作)がある場合に用いる<br>
+     * DB操作完了まで画面処理(動作)を待機させため、同期処理にて行う<br>
+     * DB操作が複数必要な場合は子クラスで個別に用意する。
+     */
+	protected final <T extends BaseTableViewModel> 
+	   Boolean executeNonQuery( BiPredicate<SqlSession, T> executeCallback, T data) throws Exception
+    {
+    	return MySqlManager.ExecuteQuery( executeCallback, data );
+    }	
+	
+	/**
+     * DB操作(登録・更新・削除)処理(同期処理)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param listData List[T] DB操作の条件となるデータ(行データ:T のList)
+     * @return DB操作結果
+     * @brief controller内で用いるDB操作(INS・UPD・DEL)処理<br>
+     * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
+     * トランザクション内に複数のクエリを発行する場合は[excuteCudMapperFunction]内で複数のMapperを呼出す<br>
+     * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>
+     * DB操作が複数必要な場合は子クラスで個別に用意する。
+     */
+	protected final <T extends BaseTableViewModel> Boolean executeNonQueryUseTran(
+			BiFunction<SqlSession, List<T>, Boolean> executeCallback,
+			List<T> listData) throws Exception
+    {
+    	return MySqlManager.ExecuteQuery_UseTransaction(
+    			executeCallback,
+    			(status) -> { excuteQueryResult(status); },
     			listData);
     }	
 	

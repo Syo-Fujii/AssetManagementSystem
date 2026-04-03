@@ -350,6 +350,7 @@ public class FormController extends BaseFormPage {
 
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
+    			false,
     			"返却確認",
     			"下記の備品の返却を行います。よろしいですか？",
     			sb.toString());

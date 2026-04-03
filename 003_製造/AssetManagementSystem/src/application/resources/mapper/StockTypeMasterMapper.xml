@@ -30,7 +30,8 @@
         SELECT * FROM stock_type_master WHERE id = #{id}
     </select>
 
-    <select id="existsStockType" resultType="boolean">
+    <!-- マスタデータ存在確認 -->
+    <select id="existsStockType" resultType="boolean" parameterType="application.java.base.dbTablesModel.StockTypeMasterModel">
       SELECT 
          EXISTS 
          (
@@ -49,5 +50,31 @@
     <insert id="newRecord"> 
         INSERT INTO stock_type_master (id) VALUES (#{id})
     </insert>
+
+    <!-- 新規登録(マスタメンテナンス用) -->
+    <insert id="insStockTypeMasterOnes" parameterType="application.java.base.dbTablesModel.StockTypeMasterModel"> 
+        INSERT INTO stock_type_master
+        (
+          stock_type,
+          stock_code,
+          name,
+          del
+        ) VALUES (
+          #{stockType} ,
+          #{stockCode} ,
+          #{stockTypeName} ,
+          #{delFlg}
+        )
+    </insert>
+
+    <!-- マスタ更新 -->
+    <update id="updStockTypeMasterOnes" parameterType="application.java.base.dbTablesModel.StockTypeMasterModel">
+       UPDATE stock_type_master
+        SET
+          name = #{stockTypeName} ,
+          del = #{delFlg}
+       WHERE
+          id = #{stockTypeId}
+    </update>
 
 </mapper>

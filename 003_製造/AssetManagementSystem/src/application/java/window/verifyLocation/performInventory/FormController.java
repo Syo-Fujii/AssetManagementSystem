@@ -544,6 +544,7 @@ public class FormController  extends BaseFormPage {
 
        	return MessageBox.ShowConfirmation(
        			ShowButtonType.YES_NO,
+       			false,
        			"棚卸確認",
        			"下記の備品の棚卸を行います。よろしいですか？",
        			sb.toString());

@@ -49,13 +49,13 @@
                   </AnchorPane>
                   <HBox prefHeight="35.0" prefWidth="530.0" spacing="10.0">
                      <children>
-                        <CustomTextFieldControlManager fx:id="txt_Edit_Type" prefHeight="25.0" prefWidth="80.0" promptText="1234567890">
+                        <CustomTextFieldControlManager fx:id="txt_Edit_Type" prefHeight="25.0" prefWidth="80.0" styleClass="center-aligned" text="1234567890">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                         </CustomTextFieldControlManager>
-                        <CustomTextFieldControlManager fx:id="txt_Edit_Code" prefHeight="25.0" prefWidth="80.0" promptText="12345678" />
-                        <TextField fx:id="txt_Edit_Name" prefWidth="250.0" />
+                        <CustomTextFieldControlManager fx:id="txt_Edit_Code" prefHeight="25.0" prefWidth="80.0" styleClass="center-aligned" text="12345678" />
+                        <TextField fx:id="txt_Edit_Name" prefWidth="250.0" styleClass="text-aligned" />
                         <CheckBox fx:id="check_Edit_DelFlg" mnemonicParsing="false">
                            <font>
                               <Font size="16.0" />
@@ -74,8 +74,8 @@
                   </HBox>
                   <AnchorPane prefHeight="45.0" prefWidth="530.0">
                      <children>
-                        <Button id="insert" fx:id="insert_button" mnemonicParsing="false" prefHeight="20.0" prefWidth="130.0" text="登録" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="10.0" />
-                        <Button id="update" fx:id="update_button" layoutX="175.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="130.0" text="更新" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+                        <Button id="insert" fx:id="insert_button" mnemonicParsing="false" onAction="#onInsertButtonClicked" prefHeight="20.0" prefWidth="130.0" text="登録" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="10.0" />
+                        <Button id="update" fx:id="update_button" layoutX="175.0" mnemonicParsing="false" onAction="#onUpdateButtonClicked" prefHeight="20.0" prefWidth="130.0" text="更新" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
                      </children>
                      <VBox.margin>
                         <Insets />

@@ -15,6 +15,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MessageBox {
 
@@ -32,14 +34,17 @@ public class MessageBox {
 	/**
 	 * 選択(CONFIRMATION)MessageBox
 	 * @param buttonType ボタンの種類(SET enum ShowButtonType型)
+	 * @param isResizable MessageBoxのリサイズ許可判定
 	 * @param title メッセージBOXのタイトル
 	 * @param headerText　概要(タイトル)　※ 不要な場合はNULLを指定
 	 * @param message メッセージ内容
 	 * @return　真偽値([OK]の場合、TRUE, [Cancel]の場合、FALSE)
      * @brief ユーザーに確認（はい/いいえ等）を求める<br>
 	 */
+	@SuppressWarnings("unused")
 	public static Boolean ShowConfirmation(
 			ShowButtonType buttonType,
+			Boolean isResizable,
 			String title,
 			String headerText,
 			String message){
@@ -52,10 +57,10 @@ public class MessageBox {
     	alert.setHeaderText(headerText);
     	alert.setContentText(message);
 		
-    	// 1. ダイアログのサイズ変更を一時的に許可する
+    	// ダイアログのサイズ変更を一時的に許可する
     	alert.setResizable(true);
 
-    	// 2. メッセージを表示するLabelを取得し、折り返しを無効にする
+    	// メッセージを表示するLabelを取得し、折り返しを無効にする
     	// (文字数に応じて横に伸ばすため)
     	alert.getDialogPane().lookup(".content.label").setStyle("-fx-wrap-text: false;");    	
     	
@@ -74,13 +79,22 @@ public class MessageBox {
     	alert.getDialogPane().applyCss();
     	alert.getDialogPane().layout();
 
-    	// 4. 計算された「推奨サイズ」をウィンドウに反映
+    	// 計算された「推奨サイズ」をウィンドウに反映
     	double prefWidth = alert.getDialogPane().getPrefWidth();
     	alert.getDialogPane().setMinWidth(prefWidth); // 最小幅を推奨幅に固定
 
-    	// 5. それでも足りない場合や、特定の文字数を超えるなら三項演算子で補正
+    	// それでも足りない場合や、特定の文字数を超えるなら三項演算子で補正
     	alert.getDialogPane().setPrefWidth(message.length() > 30 ? 600 : Region.USE_COMPUTED_SIZE);
 
+    	if ( !isResizable )
+    	{
+    		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+    		stage.setResizable(false); 
+    		
+    		// タイトルバーをツールウィンドウ形式（閉じるボタンのみ）にする
+    		alert.initStyle(StageStyle.UTILITY);
+    	}
+    	
     	Optional<ButtonType> result =  alert.showAndWait();
 		
     	// [OK]に値するボタンの取得 

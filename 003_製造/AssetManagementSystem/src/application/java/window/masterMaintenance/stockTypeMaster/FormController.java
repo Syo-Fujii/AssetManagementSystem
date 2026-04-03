@@ -9,6 +9,7 @@ import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.common.AppConst;
+import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
@@ -96,8 +97,7 @@ public class FormController extends BaseFormPage {
      */
     @FXML
 	public void initialize() {
- 
-    	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize"); 
+     	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize"); 
     	
     	// 最初の画面起動として、[SQL Session]を生成・保持する。
 		MySqlManager.getSqlSessionFactory();
@@ -131,8 +131,83 @@ public class FormController extends BaseFormPage {
     	} catch ( Exception e) {
     		String title = "[" + FORM_NAME + "] ： [新規]ボタン押下にて、エラーが発生しました";
     		LogManager.showAndWriteError(title, e);
+    		setEditControlsAllDisabled();    	
     	}
-    }    
+    }
+
+    /**
+     * [登録]ボタン 押下イベント 
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
+     */
+    @FXML
+    public void onInsertButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [登録]ボタン押下"); 
+    		
+    		if( isEditMode || !isEditControlsChanged() ) { return; }
+    		
+    		getEditControlsValue();   		
+    		
+        	AppConst.rowCheckResultData checkResult = isMasterRowsCheck();
+        	if (!checkResult.result()) {
+        		if( checkResult.isShowMsgBox()) {
+        			this.showMessageInputError(checkResult.message());
+        		}
+        		setupErroeInputControlsFocus( checkResult.colNo() );
+        		return;
+        	}
+        	
+        	// 登録実行確認
+        	if( !showMessageIsInserting( this.editMasterData.getDelFlg()) ) { return; }
+    		
+        	// 登録処理(備品分類マスタ登録処理):データ操作のため垂直処理にて行う
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品分類マスタ登録処理");
+        	super.executeNonQueryUseTran( this::insMasterData, List.of(editMasterData) );  		   		
+
+    		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
+        	super.<StockTypeMasterModel>fillTableAsync(); 		
+
+    		// 新規登録モード
+    		setupNewRecordMode();
+
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： [登録]ボタン押下にて、エラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    		setEditControlsAllDisabled();    	
+    	}
+    }
+
+    /**
+     * [更新]ボタン 押下イベント 
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
+     */
+    @FXML
+    public void onUpdateButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [更新]ボタン押下"); 
+    		
+    		if( !isEditMode || 
+    			!isEditControlsChanged() ||
+    			!showMessageIsUpdating(check_Edit_DelFlg.isSelected()) ) { return; }
+
+    		getEditControlsValue();
+    		
+        	// 更新処理(備品分類マスタ更新処理):データ操作のため垂直処理にて行う
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品分類マスタ更新処理");
+        	super.executeCudQuery( List.of(editMasterData) );  		   		
+    		
+    		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
+        	super.<StockTypeMasterModel>fillTableAsync(); 		
+
+    		// 新規登録モード
+    		setupNewRecordMode();
+
+    	} catch ( Exception e) {
+    		String title = "[" + FORM_NAME + "] ： [更新]ボタン押下にて、エラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    		setEditControlsAllDisabled();    	
+    	}
+    }
     
     /**
      * [メニューに戻る]ボタン 押下イベント 
@@ -201,9 +276,95 @@ public class FormController extends BaseFormPage {
 		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品分類マスタ取得失敗");
 		super.exceptionResult(exception);
     }
-    
+
+    /**
+     * 備品分類マスタ更新クエリ発行
+     * クエリ発行処理(Mapper:トランザクション処理：executeCudQueryのMapper処理)
+     * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+     * @param session SQLセッション
+     * @param List<T> DB操作の条件となるデータ(行データ:T のList)
+     * @return DB操作結果
+     * @brief controller内で用いるクエリ(INS・UPD・DEL)発行処理<br>
+     * 画面内にDBの操作(INS・UPD・DELなどのトランザクション処理を行う操作)がある場合に用いる<br>
+     * 当該メソッド内がトランザクションの範囲とし、複数のクエリを発行する場合は、対応した複数のMapperを呼出す。<br>
+     * DB操作完了まで画面処理(動作)を待機させたいため、同期処理にて行う<br>    
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。<br>
+     * 例：<br>
+     *     // 連続更新<br>
+     *     mapper.updateA(data1);<br>
+     *     mapper.updateB(data2);<br>
+     */
+	@Override
+	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ更新処理");
+		
+		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+		
+		// 更新処理
+		Integer resultCount = mapper.updStockTypeMasterOnes( (StockTypeMasterModel) listData.getFirst() );
+
+		return resultCount == 1 ? true : false; 
+    }    	
+	
+    /**
+     * DBクエリ(CUD)発行結果に応じた処理(executeBulkQueryの処理結果)
+     * @param status ExcuteQueryResultStatus 実行結果のステータス
+     * @brief DBクエリを発行した際の結果処理<br>
+     * クエリの発行結果に対するメソッド(処理)がある場合に用いる。<br>
+     * Exceptionが発生している場合は、当該メソッドの後で、Exceptionがthrowされる。<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	@Override
+	protected void excuteQueryResult(ExcuteQueryResultStatus status){
+		// 更新件数が0件のクエリが存在していた場合、例外MSGを表示
+		if (status ==  ExcuteQueryResultStatus.NO_ROWS_AFFECTED) {
+			String title = "DB クエリ発行結果エラー";
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("更新(備品分類マスタ)処理にて、結果件数が0件のクエリが発行されました。").append(AppUtil.newLine());
+			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
+			sb.append("システム管理者に連絡してください。" );
+			
+			showMessageException(title, sb.toString());
+			
+    		setEditControlsAllDisabled();
+		}
+	}	
+
 	/**
-	 * 登録項目　値変更チェック処理
+	 * 備品分類マスタ存在確認用クエリ発行処理(Mapper)
+	 * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+	 * @param session 継承元より渡される[SQLSession]
+	 * @param data 発行するクエリの条件の値( 行データのクラス )
+	 * @return 存在確認の結果
+	 */
+	private <T extends BaseTableViewModel> Boolean isExistsMasterData(SqlSession session, T data) {
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ存在確認");
+		
+		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+		
+		// 存在確認
+		return  mapper.existsStockType( (StockTypeMasterModel) data );
+    }
+	
+	/**
+	 * 備品分類マスタ登録クエリ発行処理(Mapper)
+	 * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+	 * @param session 継承元より渡される[SQLSession]
+	 * @param dataList 発行するクエリの条件の値( 行データのクラス )
+	 * @return 登録処理の結果
+	 */
+	private <T extends BaseTableViewModel> Boolean insMasterData(SqlSession session, List<T> dataList) {
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ登録");
+		
+		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+		// 登録処理
+		Integer resultCount = mapper.insStockTypeMasterOnes( (StockTypeMasterModel) dataList.getFirst() ); 
+		return ( resultCount > 0 ) ? true : false;  
+    }
+
+	/**
+	 * 登録項目 値変更チェック処理
 	 * @return boolean 判定結果
      * @brief 登録用の各Controlの値が、初期と違う(値を編集した)場合は[真]<br>
 	 */
@@ -227,18 +388,99 @@ public class FormController extends BaseFormPage {
 	}
 
 	/**
-	 *登録項目編集中 更新確認Message
+	 *登録項目編集中 変更(破棄)確認Message
 	 * @return 確認結果
 	 */
     private Boolean showMessageEditControlsValue() {
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
+    			false,
     			"確認",
     			null,
     			"編集中の登録項目を破棄します。" + AppUtil.newLine() +
     			"よろしいですか？");
-    }	
-	
+    }
+
+	/**
+	 *登録確認Message
+	 * @return 確認結果
+	 */
+    private Boolean showMessageIsInserting(boolean delFlg) {
+    	Integer type = this.editMasterData.getStockType();
+    	String code = this.editMasterData.getStockCode();
+
+    	StringBuilder sb = new StringBuilder();
+		
+    	if ( delFlg ) 
+    	{
+    		sb.append("※ 削除フラグを有効にした場合、貸出業務を行うことはできません。");
+    		sb.append(AppUtil.newLine());
+    		sb.append("　 よろしいですか？");
+    		sb.append(AppUtil.newLine());
+    	}
+    	
+    	sb.append("備品分類 :[").append(type.toString()).append("] ");
+		sb.append("備品コード :[").append(code).append("] ");
+		sb.append(AppUtil.newLine());
+
+    	return MessageBox.ShowConfirmation(
+    			ShowButtonType.YES_NO,
+    			false,
+    			"登録確認",
+    			"下記の備品分類マスタの登録を行います。よろしいですか？",
+    			sb.toString());
+    }    
+    
+	/**
+	 *更新確認Message
+	 * @return 確認結果
+	 */
+    private Boolean showMessageIsUpdating(boolean delFlg) {
+    	Integer type = this.editMasterData.getStockType();
+    	String code = this.editMasterData.getStockCode();
+
+    	StringBuilder sb = new StringBuilder();
+		
+    	if ( delFlg ) 
+    	{
+    		sb.append("※ 削除フラグを有効にした場合、貸出業務の対象外となります。");
+    		sb.append(AppUtil.newLine());
+    		sb.append("   現在貸出中の備品も対象外となります。よろしいですか？");
+    		sb.append(AppUtil.newLine());
+    		sb.append(AppUtil.newLine());
+    	}
+    	
+    	sb.append("備品分類 :[").append(type.toString()).append("] ");
+		sb.append("備品コード :[").append(code).append("] ");
+		sb.append(AppUtil.newLine());
+
+    	return MessageBox.ShowConfirmation(
+    			ShowButtonType.YES_NO,
+    			false,
+    			"更新確認",
+    			"下記の備品分類マスタの更新を行います。よろしいですか？",
+    			sb.toString());
+    }
+
+    /**
+     * 例外Message：入力エラー
+     */
+    private void showMessageInputError(String message) {
+    	MessageBox.ShowErrorMessage("入力エラー", "", message);
+    }    
+    
+    /**
+     * 例外Message：例外エラー
+     * @param title String タイトル
+     * @param message String 表示する内容
+     */
+    private void showMessageException(String title, String message) {
+    	LogManager.writeError(title);
+    	LogManager.writeError(message);
+
+    	MessageBox.ShowErrorMessage("例外発生", title, message);
+    }           
+    
     /**
      * TableView設定
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
@@ -350,6 +592,23 @@ public class FormController extends BaseFormPage {
     }       
 
     /**
+     * 登録項目 値取得処理
+     * @brief [新規](登録)・[更新](明細行データの更新)に合わせて、各ボタンの有効化設定を行う<br>
+     */
+    private void getEditControlsValue() {
+    	
+    	if (!isEditMode) 
+    	{
+    		Integer type = AppUtil.parseInt( txt_Edit_Type.getText(), AppConst.UNSET_NUMBER_VALUE );
+    		this.editMasterData.setStockType( type );
+    		this.editMasterData.setStockCode( txt_Edit_Code.getText() );
+    	}
+    	
+    	this.editMasterData.setStockTypeName( txt_Edit_Name.getText() );
+    	this.editMasterData.setDelFlg( check_Edit_DelFlg.isSelected() );
+    }    
+    
+    /**
      * 登録項目 有効化制御
      * @param isEditMode Boolean 更新モード判定
      * @brief [新規](登録)・[更新](明細行データの更新)に合わせて、各ボタンの有効化設定を行う<br>
@@ -362,6 +621,22 @@ public class FormController extends BaseFormPage {
     	insert_button.setDisable( isEditMode );	
     	update_button.setDisable( !isEditMode );
     }
+ 
+    /**
+     * 登録項目 無効化処理
+     * @brief 登録項目の全コントロールを無効化を行う<br>
+     */
+    private void setEditControlsAllDisabled() {
+    	txt_Edit_Type.setDisable( true );	
+    	txt_Edit_Code.setDisable( true ); 
+    	txt_Edit_Name.setDisable( true ); 
+    	check_Edit_DelFlg.setDisable( true );
+    	
+       	// ボタン制御
+    	new_button.setDisable( true );
+    	insert_button.setDisable( true );	
+    	update_button.setDisable( true ); 	
+    }        
     
     /**
      * 登録項目 新規モード設定
@@ -369,7 +644,7 @@ public class FormController extends BaseFormPage {
     private void setupNewRecordMode()
     {
 		this.isEditMode = false; 
-    	
+
     	// マスター登録用データ初期化
 		this.editMasterData = new StockTypeMasterModel();
     	setupEditControls();
@@ -380,6 +655,65 @@ public class FormController extends BaseFormPage {
     	Platform.runLater(() -> txt_Edit_Type.requestFocus());
     }
 
+    /**
+     * 入力エラー項目 Focus指定処理
+     * @param colNo 対象Focus番号
+     * @brief 登録項目でエラーがあった場合、登録前チェック処理:isMasterRowsCheckで<br>
+     * 設定した項目番号(列番号)に一致するControlにFocusを遷移する。
+     */
+    private void setupErroeInputControlsFocus(Integer colNo)
+    {
+    	Platform.runLater(() -> 
+    	{ 
+    		switch (colNo)
+    		{
+    		 case 1:
+    	    	txt_Edit_Type.requestFocus();
+    	        break;
+    	     case 2:
+    	    	txt_Edit_Code.requestFocus();
+    	        break;
+    	     default:
+    	        break;
+    	    }
+    	});
+    }    
+    
+    /**
+     * 登録前チェック処理
+     * @return AppConst.rowCheckResultData チェック結果
+     */
+    private AppConst.rowCheckResultData isMasterRowsCheck() throws Exception {
+		StringBuilder sb = new StringBuilder();    	
+    	
+		// 必須確認：分類種別
+		if ( this.editMasterData.getStockType() < 1 ) {
+			sb.append("[分類種別]が入力されていません。");
+			return new AppConst.rowCheckResultData(false, true, -1, 1, sb.toString());
+		}	
+    	
+		// 必須確認：備品コード
+		if ( AppUtil.StringIsNullOrWhiteSpace(this.editMasterData.getStockCode()) ) {
+			sb.append("[分類コード]が入力されていません。");
+			return new AppConst.rowCheckResultData(false, true, -1, 2, sb.toString());
+		}	
+    	
+    	// 存在確認
+		if( super.executeNonQuery( this::isExistsMasterData, this.editMasterData)) {
+			sb.append("既に同じ備品分類が登録されています。");
+    		sb.append(AppUtil.newLine());
+    		sb.append("同一の備品分類は登録できません。");
+			return new AppConst.rowCheckResultData(false, true, -1, 1, sb.toString());
+		}
+
+    	return new AppConst.rowCheckResultData(
+    			true, 
+    			false, 
+    			AppConst.UNSET_NUMBER_VALUE,
+    			AppConst.UNSET_NUMBER_VALUE,
+    			"") ;
+    }    
+    
     /**
      * 遷移元画面呼び出し
      * @brief 遷移元画面(メニュー：Menu)を呼出す。<br>

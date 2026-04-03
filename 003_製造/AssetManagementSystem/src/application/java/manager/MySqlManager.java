@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -215,7 +216,7 @@ public class MySqlManager {
 	 * クエリ発行処理
 	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義)
 	 * @return Boolean 処理結果(呼び出し元にて定義)
-	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
+	 * @brief クエリ発行・処理をCallBackにて設定する。(引数なし、戻り値：Boolean)<br>
 	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
 	 */
 	public static Boolean ExecuteQuery(Function<SqlSession, Boolean> callback) {
@@ -230,6 +231,28 @@ public class MySqlManager {
         	return callback.apply(session);
 	    }		
 	}   
+	
+	/**
+	 * クエリ発行処理
+	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義)
+	 * @param data 条件とするデータの値(取得テーブルのMODE)
+	 * @return Boolean 処理結果(呼び出し元にて定義)
+	 * @brief クエリ発行・処理をCallBackにて設定する。(引数T(取得テーブルのMODE)、戻り値：Boolean)<br>
+	 *  ⇒ 呼び出し元にて、Mapperなどを用いてクエリ発行・処理を定義する。 
+	 */
+	public static <T extends BaseTableViewModel> Boolean 
+	ExecuteQuery(BiPredicate<SqlSession, T> callback, T data) {
+		
+		if(sqlSessionFactory == null)
+		{
+			return false;
+		}		
+		
+		LogManager.writeDebug("[SQL操作クラス] ： クエリ発行処理");
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+        	return callback.test(session, data);
+	    }		
+	}
     
 	/**
 	 * クエリ発行処理(並列実行)
@@ -283,7 +306,7 @@ public class MySqlManager {
 	 * @param <T> 取得テーブルのMODEL
 	 * @param callback クエリ発行・取得に関するメソッド(呼び出し元にて定義) 戻り値：Boolean
 	 * @param resultCallBack クエリ取得結果に関するメソッド(呼び出し元にて定義)
-	 * @param dataList 条件とするデータの値(取得テーブルのMODEのリスト)
+	 * @param data 条件とするデータの値(取得テーブルのMODE)
 	 * @return Boolean 処理結果
 	 * @throws Exception
 	 * @brief クエリ発行・処理をCallBackにて設定する。<br>
@@ -292,7 +315,7 @@ public class MySqlManager {
 	public static <T extends BaseTableViewModel> Boolean ExecuteQuery_UseTransaction(
 			BiFunction<SqlSession, List<T>, Boolean> callback,
 			Consumer<ExcuteQueryResultStatus> resultCallBack,
-			List<T> dataList)  throws Exception
+			List<T> dataList) throws Exception
 	{
 		ExcuteQueryResultStatus status = ExcuteQueryResultStatus.NONE; 
 		
@@ -306,9 +329,7 @@ public class MySqlManager {
 		// 自動コミットをOFF(openSession(false)) トランザクション処理
 		try (SqlSession session = sqlSessionFactory.openSession(false)) {
         	try {
-        		
-        		if( callback.apply(session, dataList)) {
-            		
+        		if( callback.apply(session, dataList) ) {
         			// コミット処理
             		session.commit();
             		status = ExcuteQueryResultStatus.SUCCESS;
