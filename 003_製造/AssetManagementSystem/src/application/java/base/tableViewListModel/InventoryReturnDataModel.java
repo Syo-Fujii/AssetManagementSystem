@@ -274,7 +274,7 @@ public class InventoryReturnDataModel extends BaseTableViewModel {
 	    this.isCheckIn = new SimpleBooleanProperty(false);
 	    this.stockDataId = new SimpleIntegerProperty();
 	    
-	    this.returnDate  = new SimpleObjectProperty<>();
-	    this.confirmedDate  = new SimpleObjectProperty<>();
+	    this.returnDate = new SimpleObjectProperty<>();
+	    this.confirmedDate = new SimpleObjectProperty<>();
 	}
 }

@@ -17,7 +17,7 @@
     <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.LoanStatus"/>
     <fullyQualifiedTypeName name="application.java.common.AppConst.CellEnterFocus"/>
-    <fullyQualifiedTypeName name="application.java.common.AppConst"/>
     <fullyQualifiedTypeName name="application.java.common.AppUtil"/>
     <fullyQualifiedTypeName name="java.util.Objects"/>
+    <fullyQualifiedTypeName name="application.java.common.AppConst"/>
 </qualifiedTypeNameHistroy>

@@ -207,7 +207,7 @@ public class PerformInventoryDataModel extends BaseTableViewModel {
 
 	/**
 	* [備考]項目取得
-	* @param leaseDate 設定する値
+	* @param remarks 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/		
@@ -306,6 +306,7 @@ public class PerformInventoryDataModel extends BaseTableViewModel {
 	* @return remarksMasterValue
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	* ※ DBとBINDする場合は取得時のカラム名を[remarksMasterValue]とする<br>
 	*/		
 	public String getRemarksMasterValue() {
 		return remarksMasterValue.get();
@@ -316,6 +317,7 @@ public class PerformInventoryDataModel extends BaseTableViewModel {
 	* @param remarksMasterValue 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
+	* ※ DBとBINDする場合は取得時のカラム名を[remarksMasterValue]とする<br>
 	*/
 	public void setRemarksMasterValue(String remarks) {
 		this.remarksMasterValue.set(remarks);
