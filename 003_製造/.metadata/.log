@@ -3069,3 +3069,149 @@ java.io.IOException: Could not find the language server binary
 
 !ENTRY org.eclipse.lsp4e 4 0 2026-04-03 18:08:56.450
 !MESSAGE 18:08:56.437 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - Closed: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/masterMaintenance/stockTypeMaster/FormController.java
+!SESSION 2026-04-06 09:04:42.079 -----------------------------------------------
+eclipse.buildId=4.38.0.20251204-0849
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ja_JP
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.ui 2 0 2026-04-06 09:05:02.421
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-04-06 09:05:02.421
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2026-04-06 09:05:03.066
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-04-06 09:05:03.066
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY com.microsoft.copilot.eclipse 4 0 2026-04-06 09:05:14.090
+!MESSAGE [エラー] Binary LSP agent start failed. Retrying with JS agent.
+!STACK 0
+java.io.IOException: Could not find the language server binary
+	at com.microsoft.copilot.eclipse.core.lsp.LsStreamConnectionProvider.findAndValidateBinary(LsStreamConnectionProvider.java:96)
+	at com.microsoft.copilot.eclipse.core.lsp.LsStreamConnectionProvider.getBinaryLspCommands(LsStreamConnectionProvider.java:87)
+	at com.microsoft.copilot.eclipse.core.lsp.LsStreamConnectionProvider.startBinaryLspAgent(LsStreamConnectionProvider.java:76)
+	at com.microsoft.copilot.eclipse.core.lsp.LsStreamConnectionProvider.start(LsStreamConnectionProvider.java:60)
+	at org.eclipse.lsp4e.LanguageServerWrapper.lambda$0(LanguageServerWrapper.java:429)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:05:15.081
+!MESSAGE 09:05:15.076 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - update settings of spring indexer - start
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:05:15.137
+!MESSAGE 09:05:15.090 [Simple-Language-Server main thread] INFO  o.s.i.v.b.j.l.v.SpringProcessConnectorRemote - updating settings for remote processses to track - start
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:05:15.908
+!MESSAGE 09:05:15.196 [pool-3-thread-3] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/masterMaintenance/stockTypeMaster/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:05:17.631
+!MESSAGE 09:05:17.630 [pool-5-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Parsed successfully CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/masterMaintenance/stockTypeMaster/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:06:39.021
+!MESSAGE 09:05:17.638 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: end work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/masterMaintenance/stockTypeMaster/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:17:10.307
+!MESSAGE 09:17:06.992 [pool-3-thread-6] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/masterMaintenance/stockTypeMaster/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:17:12.855
+!MESSAGE 09:17:12.854 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file created event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/logs/app_inventory.2026-04-03.log]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:17:22.465
+!MESSAGE 09:17:16.388 [pool-3-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/masterMaintenance/stockTypeMaster/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:17:42.754
+!MESSAGE 09:17:42.753 [pool-3-thread-7] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/masterMaintenance/stockTypeMaster/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:19:44.138
+!MESSAGE 09:19:44.003 [pool-3-thread-8] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/masterMaintenance/stockTypeMaster/FormController.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:19:51.046
+!MESSAGE 09:19:51.045 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change arrived: 1
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:19:51.237
+!MESSAGE 09:19:51.051 [pool-3-thread-9] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/common/AppConst.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:19:51.753
+!MESSAGE 09:19:51.564 [pool-5-thread-2] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/common/AppConst.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:20:39.490
+!MESSAGE 09:20:38.878 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file deleted event: [file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/window/testNextWindow/Form2.java]
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:21:49.777
+!MESSAGE 09:21:11.091 [pool-3-thread-9] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/application/java/common/AppConst.java
+
+!ENTRY org.eclipse.jdt.launching 4 120 2026-04-06 09:22:08.497
+!MESSAGE VM に接続できません
+!STACK 0
+java.net.SocketException: Socket closed
+	at java.base/sun.nio.ch.NioSocketImpl.endAccept(NioSocketImpl.java:682)
+	at java.base/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:755)
+	at java.base/java.net.ServerSocket.implAccept(ServerSocket.java:698)
+	at java.base/java.net.ServerSocket.platformImplAccept(ServerSocket.java:663)
+	at java.base/java.net.ServerSocket.implAccept(ServerSocket.java:639)
+	at java.base/java.net.ServerSocket.implAccept(ServerSocket.java:585)
+	at java.base/java.net.ServerSocket.accept(ServerSocket.java:543)
+	at org.eclipse.jdi.internal.connect.SocketTransportService.accept(SocketTransportService.java:91)
+	at org.eclipse.jdi.internal.connect.SocketTransportImpl.accept(SocketTransportImpl.java:63)
+	at org.eclipse.jdi.internal.connect.SocketListeningConnectorImpl.accept(SocketListeningConnectorImpl.java:167)
+	at org.eclipse.jdt.internal.launching.StandardVMDebugger$ConnectRunnable.run(StandardVMDebugger.java:113)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+!ENTRY org.eclipse.jdt.launching 4 120 2026-04-06 09:22:08.500
+!MESSAGE VM に接続できません
+!STACK 0
+java.net.SocketException: Socket closed
+	at java.base/sun.nio.ch.NioSocketImpl.endAccept(NioSocketImpl.java:682)
+	at java.base/sun.nio.ch.NioSocketImpl.accept(NioSocketImpl.java:755)
+	at java.base/java.net.ServerSocket.implAccept(ServerSocket.java:698)
+	at java.base/java.net.ServerSocket.platformImplAccept(ServerSocket.java:663)
+	at java.base/java.net.ServerSocket.implAccept(ServerSocket.java:639)
+	at java.base/java.net.ServerSocket.implAccept(ServerSocket.java:585)
+	at java.base/java.net.ServerSocket.accept(ServerSocket.java:543)
+	at org.eclipse.jdi.internal.connect.SocketTransportService.accept(SocketTransportService.java:91)
+	at org.eclipse.jdi.internal.connect.SocketTransportImpl.accept(SocketTransportImpl.java:63)
+	at org.eclipse.jdi.internal.connect.SocketListeningConnectorImpl.accept(SocketListeningConnectorImpl.java:167)
+	at org.eclipse.jdt.internal.launching.StandardVMDebugger$ConnectRunnable.run(StandardVMDebugger.java:113)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:00.439
+!MESSAGE 09:23:00.431 [pool-14-thread-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Invalidate AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:00.936
+!MESSAGE 09:23:00.935 [Reconciler-1] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:00.984
+!MESSAGE 09:23:00.984 [pool-5-thread-3] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Finished parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:12.708
+!MESSAGE 09:23:11.449 [pool-3-thread-10] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: work item submitted for doc file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:15.090
+!MESSAGE 09:23:15.050 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change message work done in 7ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:15.634
+!MESSAGE 09:23:15.402 [pool-14-thread-1] INFO  o.s.i.v.c.l.u.SimpleTextDocumentService - change message work done in 11ms
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:15.932
+!MESSAGE 09:23:15.915 [pool-5-thread-3] INFO  o.s.i.v.b.j.u.CompilationUnitCache - Started parsing CU for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:26.004
+!MESSAGE 09:23:25.922 [pool-3-thread-11] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [didSave event]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:26.169
+!MESSAGE 09:23:26.005 [Simple-Language-Server main thread] INFO  o.s.i.v.boot.app.SpringSymbolIndex - Update document [file changed]: file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:26.173
+!MESSAGE 09:23:26.170 [pool-3-thread-11] INFO  o.s.i.v.b.j.u.CompilationUnitCache - CU Cache: end work on AST for file:///C:/Users/User/Desktop/Works/002_Repositories/003_%E8%A3%BD%E9%80%A0/AssetManagementSystem/src/module-info.java
+
+!ENTRY org.eclipse.lsp4e 4 0 2026-04-06 09:23:41.428
+!MESSAGE 09:23:29.244 [Simple-Language-Server main thread] INFO  o.s.i.v.c.l.u.SimpleWorkspaceService - file changed event: 74
