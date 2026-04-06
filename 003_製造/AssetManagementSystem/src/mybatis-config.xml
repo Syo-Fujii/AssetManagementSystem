@@ -51,6 +51,7 @@
     <mapper class="application.resources.mapper.InventoryReturnMapper"/>
     <mapper class="application.resources.mapper.PerformInventoryMapper"/>
     <mapper class="application.resources.mapper.StockTypeMasterMapper"/>
+    <mapper class="application.resources.mapper.StaffMasterMapper"/>
   </mappers>
 
 </configuration>

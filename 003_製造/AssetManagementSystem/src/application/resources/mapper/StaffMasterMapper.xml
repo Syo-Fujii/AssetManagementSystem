@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.StaffMasterMapper">
+
+    <!-- 全件取得：idはメソッド名、resultTypeは戻り値のクラス -->
+    <select id="selectAll">
+        SELECT * FROM staff_master
+    </select>
+    
+    <!-- (ComboBox用)社員マスターの取得 -->
+    <select id="getStaffMasterData">
+      SELECT
+        SM.staff_no AS staffNo,
+        SM.name AS staffName
+       FROM
+         staff_master SM
+       WHERE
+         1 = 1
+       AND SM.del = FALSE
+       ORDER BY SM.staff_no
+    </select>    
+
+    <!-- 全件取得(マスタメンテナンス用)：idはメソッド名、resultTypeは戻り値のクラス -->
+    <select id="selectMaintenance">
+      SELECT 
+        SM.staff_no AS staffNo,
+        SM.name AS staffName,
+        SM.auth_no AS authNo,
+        SM.del AS delFlg
+      FROM 
+        staff_master SM
+      WHERE
+        1 = 1
+      ORDER BY
+        SM.staff_no
+    </select>
+
+    <!-- 1件取得：#{no} は引数の値が入る場所 -->
+    <select id="selectByNo">    
+        SELECT * FROM staff_master WHERE staff_no = #{no}
+    </select>
+
+    <!-- マスタデータ存在確認 -->
+    <select id="existsStaffNo" resultType="boolean" parameterType="application.java.base.dbTablesModel.StaffMasterModel">
+      SELECT 
+         EXISTS 
+         (
+          SELECT 
+             1 
+          FROM
+            staff_master 
+          WHERE 
+            1 = 1
+          AND staff_no = #{staffNo}
+         ) AS IS_EXISTS
+    </select>
+
+    <!-- 新規登録 -->
+    <insert id="newRecord"> 
+        INSERT INTO staff_master (staff_no) VALUES (#{no})
+    </insert>
+
+    <!-- 新規登録(マスタメンテナンス用) -->
+    <insert id="insStaffMasterOnes" parameterType="application.java.base.dbTablesModel.StaffMasterModel"> 
+        INSERT INTO staff_master
+        (
+          staff_no,
+          name,
+          auth_no,
+          del
+        ) VALUES (
+          #{staffNo} ,
+          #{staffName} ,
+          #{authNo} ,
+          #{delFlg}
+        )
+    </insert>
+
+    <!-- マスタ更新 -->
+    <update id="updStaffMasterOnes" parameterType="application.java.base.dbTablesModel.StaffMasterModel">
+       UPDATE staff_master
+        SET
+          name = #{staffName} ,
+          auth_no = #{authNo} ,
+          del = #{delFlg}
+       WHERE
+          staff_no = #{staffNo}
+    </update>
+
+</mapper>

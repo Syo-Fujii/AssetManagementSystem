@@ -1,4 +1,4 @@
-package application.java.window.masterMaintenance.stockTypeMaster;
+package application.java.window.masterMaintenance.staffMaster;
 
 import java.util.List;
 import java.util.Objects;
@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
-import application.java.base.dbTablesModel.StockTypeMasterModel;
+import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.AppUtil;
@@ -18,7 +18,7 @@ import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
 import application.java.manager.customControl.CustomTextFieldControlManager;
-import application.resources.mapper.StockTypeMasterMapper;
+import application.resources.mapper.StaffMasterMapper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,7 +31,7 @@ import javafx.scene.layout.AnchorPane;
 
 
 /**
- * 備品分類マスタ メンテナンス画面
+ * 社員マスタ メンテナンス画面
  * @brief [inventoryReturn]画面操作メソッド(Controller)<br>
  * <p>
  * TableViewを継承した[TableViewManager](カスタムControl)を用いる場合、
@@ -44,26 +44,26 @@ import javafx.scene.layout.AnchorPane;
  * ※ [TableViewManager]を用いても、Build・動作は正常におこなわれる。
  */
 public class FormController extends BaseFormPage {
-	private final String FORM_NAME = "備品分類マスタ メンテナンス";
+	private final String FORM_NAME = "社員マスタ メンテナンス";
 	
-	private StockTypeMasterModel editMasterData = null;
+	private StaffMasterModel editMasterData = null;
 	private Boolean isEditMode = false;
 	
 	@FXML private AnchorPane pane_form;
 	
 	@FXML private Label lbl_title;
 	
-	@FXML private TableViewManager<StockTypeMasterModel> tableListView;
-	@FXML private TableColumn<StockTypeMasterModel, Integer> col_type;
-	@FXML private TableColumn<StockTypeMasterModel, String> col_code;
-	@FXML private TableColumn<StockTypeMasterModel, String> col_name;
-	@FXML private TableColumnManager<StockTypeMasterModel, Boolean> col_del;
+	@FXML private TableViewManager<StaffMasterModel> tableListView;
+	@FXML private TableColumn<StaffMasterModel, Integer> col_no;
+	@FXML private TableColumn<StaffMasterModel, String> col_name;
+	@FXML private TableColumn<StaffMasterModel, Integer> col_auth;
+	@FXML private TableColumnManager<StaffMasterModel, Boolean> col_del;
 	
 	@FXML private Button new_button;
 	
-	@FXML private CustomTextFieldControlManager txt_Edit_Type;
-	@FXML private CustomTextFieldControlManager txt_Edit_Code;
+	@FXML private CustomTextFieldControlManager txt_Edit_No;
 	@FXML private TextField txt_Edit_Name;
+	@FXML private CustomTextFieldControlManager txt_Edit_Auth;
 	@FXML private CheckBox check_Edit_DelFlg;
 	
 	@FXML private Button insert_button;
@@ -81,8 +81,8 @@ public class FormController extends BaseFormPage {
 		
 		this.setWindowTitle("備品管理システム");
 
-		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("StockTypeMasterMaintenance"));
-		this.setCssFile(AppUtil.MakeCssFilePath("StockTypeMasterStyle"));
+		this.setfxmlFilePath(AppUtil.MakeFxmlFilePath("StaffMasterMaintenance"));
+		this.setCssFile(AppUtil.MakeCssFilePath("StaffMasterStyle"));
 		
 		this.setPageTitle(FORM_NAME);
 	}
@@ -109,7 +109,7 @@ public class FormController extends BaseFormPage {
 		this.formInitialize();
 
 		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
-    	super.<StockTypeMasterModel>fillTableAsync();
+    	super.<StaffMasterModel>fillTableAsync();
     }
 
     /**
@@ -160,12 +160,12 @@ public class FormController extends BaseFormPage {
         	// 登録実行確認
         	if( !showMessageIsInserting( this.editMasterData.getDelFlg()) ) { return; }
     		
-        	// 登録処理(備品分類マスタ登録処理):データ操作のため垂直処理にて行う
-        	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品分類マスタ登録処理");
+        	// 登録処理(社員マスタ登録処理):データ操作のため垂直処理にて行う
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： 社員マスタ登録処理");
         	super.executeNonQueryUseTran( this::insMasterData, List.of(editMasterData) );  		   		
 
     		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
-        	super.<StockTypeMasterModel>fillTableAsync(); 		
+        	super.<StaffMasterModel>fillTableAsync(); 		
 
     		// 新規登録モード
     		setupNewRecordMode();
@@ -192,12 +192,12 @@ public class FormController extends BaseFormPage {
 
     		getEditControlsValue();
     		
-        	// 更新処理(備品分類マスタ更新処理):データ操作のため垂直処理にて行う
-        	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品分類マスタ更新処理");
+        	// 更新処理(社員マスタ更新処理):データ操作のため垂直処理にて行う
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： 社員マスタ更新処理");
         	super.executeCudQuery( List.of(editMasterData) );  		   		
     		
     		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
-        	super.<StockTypeMasterModel>fillTableAsync(); 		
+        	super.<StaffMasterModel>fillTableAsync(); 		
 
     		// 新規登録モード
     		setupNewRecordMode();
@@ -237,11 +237,11 @@ public class FormController extends BaseFormPage {
     @SuppressWarnings("unchecked")
 	@Override
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
-    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ取得処理");
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ取得処理");
     	
-    	StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+    	StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
 	    
-	    // 備品分類マスタ データ取得
+	    // 社員マスタ データ取得
 	    return (List<T>) mapper.selectMaintenance();
     }
 
@@ -253,15 +253,15 @@ public class FormController extends BaseFormPage {
 	@Override
     protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
     	try {
-    		LogManager.writeTrace("[" + FORM_NAME + "] ： 備品分類マスタ連携(BIND)処理");
+    		LogManager.writeTrace("[" + FORM_NAME + "] ： 社員マスタ連携(BIND)処理");
     		
     		// データ設定(BIND・SELL設定値)を初期化
     		tableListView.dataSourceClear();        	
-    		List<StockTypeMasterModel> rows = (List<StockTypeMasterModel>) listData;
+    		List<StaffMasterModel> rows = (List<StaffMasterModel>) listData;
     		tableListView.setList( rows );
     	
     	} catch ( Exception e) {
-    		String title = "[" + FORM_NAME + "] ： 備品分類マスタの連携中にエラーが発生しました";
+    		String title = "[" + FORM_NAME + "] ： 社員マスタの連携中にエラーが発生しました";
     		LogManager.showAndWriteError(title, e);
     	}
     }
@@ -273,14 +273,14 @@ public class FormController extends BaseFormPage {
 	@Override
     protected void exceptionResult(Throwable exception)
     {
-		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品分類マスタ取得失敗");
+		LogManager.writeError("[" + FORM_NAME + "] ： DB 社員マスタ取得失敗");
 		setEditControlsAllDisabled();
 		
 		super.exceptionResult(exception);
     }
 
     /**
-     * 備品分類マスタ更新クエリ発行
+     * 社員マスタ更新クエリ発行
      * クエリ発行処理(Mapper:トランザクション処理：executeCudQueryのMapper処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session SQLセッション
@@ -298,12 +298,12 @@ public class FormController extends BaseFormPage {
      */
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
-		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ更新処理");
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ更新処理");
 		
-		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+		StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
 		
 		// 更新処理
-		Integer resultCount = mapper.updStockTypeMasterOnes( (StockTypeMasterModel) listData.getFirst() );
+		Integer resultCount = mapper.updStaffMasterOnes( (StaffMasterModel) listData.getFirst() );
 
 		return resultCount == 1 ? true : false; 
     }    	
@@ -334,23 +334,23 @@ public class FormController extends BaseFormPage {
 	}	
 
 	/**
-	 * 備品分類マスタ存在確認用クエリ発行処理(Mapper)
+	 * 社員マスタ存在確認用クエリ発行処理(Mapper)
 	 * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
 	 * @param session 継承元より渡される[SQLSession]
 	 * @param data 発行するクエリの条件の値( 行データのクラス )
 	 * @return 存在確認の結果
 	 */
 	private <T extends BaseTableViewModel> Boolean isExistsMasterData(SqlSession session, T data) {
-		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ存在確認");
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ存在確認");
 		
-		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+		StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
 		
 		// 存在確認
-		return  mapper.existsStockType( (StockTypeMasterModel) data );
+		return  mapper.existsStaffNo( (StaffMasterModel) data );
     }
 	
 	/**
-	 * 備品分類マスタ登録クエリ発行処理(Mapper)
+	 * 社員マスタ登録クエリ発行処理(Mapper)
 	 * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
 	 * @param session 継承元より渡される[SQLSession]
 	 * @param dataList 発行するクエリの条件の値( 行データのクラス )
@@ -359,9 +359,9 @@ public class FormController extends BaseFormPage {
 	private <T extends BaseTableViewModel> Boolean insMasterData(SqlSession session, List<T> dataList) {
 		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ登録");
 		
-		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+		StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
 		// 登録処理
-		Integer resultCount = mapper.insStockTypeMasterOnes( (StockTypeMasterModel) dataList.getFirst() ); 
+		Integer resultCount = mapper.insStaffMasterOnes( (StaffMasterModel) dataList.getFirst() ); 
 		return ( resultCount > 0 ) ? true : false;  
     }
 
@@ -371,17 +371,20 @@ public class FormController extends BaseFormPage {
      * @brief 登録用の各Controlの値が、初期と違う(値を編集した)場合は[真]<br>
 	 */
 	private boolean isEditControlsChanged() {
-    	Integer type = this.editMasterData.getStockType();
-    	String code = this.editMasterData.getStockCode();
-    	String name = this.editMasterData.getStockTypeName();
+    	Integer no = this.editMasterData.getStaffNo();
+    	String name = this.editMasterData.getStaffName();
+    	Integer auth = this.editMasterData.getAuthNo();
     	Boolean del = this.editMasterData.getDelFlg();
     	
-    	String typeString = "";
-    	if ( !AppUtil.IsNull(type) && type > 0 ) { typeString = type.toString(); }
-		
-		if ( !Objects.equals(txt_Edit_Type.getText(), typeString) ) { return true; }
-		if ( !Objects.equals(txt_Edit_Code.getText(), code) ) { return true; }
+    	String noString = "";
+    	if ( !AppUtil.IsNull(no) && no > 0 ) { noString = no.toString(); }
+		if ( !Objects.equals(txt_Edit_No.getText(), noString) ) { return true; }
+
 		if ( !Objects.equals(txt_Edit_Name.getText(), name) ) { return true; }	
+
+    	String authString = "";
+    	if ( !AppUtil.IsNull(auth) && auth > 0 ) { authString = auth.toString(); }		
+		if ( !Objects.equals(txt_Edit_Auth.getText(), authString) ) { return true; }
 		
 		Boolean rowDataDelFlg = del != null ? del : false;
 		if ( !Objects.equals(check_Edit_DelFlg.isSelected(), rowDataDelFlg) ) { return true; }	
@@ -408,8 +411,8 @@ public class FormController extends BaseFormPage {
 	 * @return 確認結果
 	 */
     private Boolean showMessageIsInserting(boolean delFlg) {
-    	Integer type = this.editMasterData.getStockType();
-    	String code = this.editMasterData.getStockCode();
+    	Integer no = this.editMasterData.getStaffNo();
+    	String name = this.editMasterData.getStaffName();
 
     	StringBuilder sb = new StringBuilder();
 		
@@ -421,15 +424,15 @@ public class FormController extends BaseFormPage {
     		sb.append(AppUtil.newLine());
     	}
     	
-    	sb.append("備品分類 :[").append(type.toString()).append("] ");
-		sb.append("備品コード :[").append(code).append("] ");
+    	sb.append("社員番号 :[").append(no.toString()).append("] ");
+		sb.append("氏名 :[").append(name).append("] ");
 		sb.append(AppUtil.newLine());
 
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
     			false,
     			"登録確認",
-    			"下記の備品分類マスタの登録を行います。よろしいですか？",
+    			"下記の社員マスタの登録を行います。よろしいですか？",
     			sb.toString());
     }    
     
@@ -438,8 +441,8 @@ public class FormController extends BaseFormPage {
 	 * @return 確認結果
 	 */
     private Boolean showMessageIsUpdating(boolean delFlg) {
-    	Integer type = this.editMasterData.getStockType();
-    	String code = this.editMasterData.getStockCode();
+    	Integer no = this.editMasterData.getStaffNo();
+    	String name = this.editMasterData.getStaffName();
 
     	StringBuilder sb = new StringBuilder();
 		
@@ -447,20 +450,20 @@ public class FormController extends BaseFormPage {
     	{
     		sb.append("※ 削除フラグを有効にした場合、貸出業務の対象外となります。");
     		sb.append(AppUtil.newLine());
-    		sb.append("   現在貸出中の備品も対象外となります。よろしいですか？");
+    		sb.append("   よろしいですか？");
     		sb.append(AppUtil.newLine());
     		sb.append(AppUtil.newLine());
     	}
     	
-    	sb.append("備品分類 :[").append(type.toString()).append("] ");
-		sb.append("備品コード :[").append(code).append("] ");
+    	sb.append("社員番号 :[").append(no.toString()).append("] ");
+		sb.append("氏名 :[").append(name).append("] ");
 		sb.append(AppUtil.newLine());
 
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
     			false,
     			"更新確認",
-    			"下記の備品分類マスタの更新を行います。よろしいですか？",
+    			"下記の社員マスタの更新を行います。よろしいですか？",
     			sb.toString());
     }
 
@@ -509,9 +512,9 @@ public class FormController extends BaseFormPage {
     		    result -> { this.callbackTableSelectedRow(result); });
 
     	// TableView[列]文字設定 
-    	col_type.getStyleClass().add("center-aligned");
-    	col_code.getStyleClass().add("center-aligned");
+    	col_no.getStyleClass().add("center-aligned");
     	col_name.getStyleClass().add("text-aligned");
+    	col_auth.getStyleClass().add("center-aligned");
     	
     	// 0件の場合のCaptionを削除(「データがありません」非表示)
     	tableListView.setPlaceholder(new Label(""));
@@ -531,23 +534,23 @@ public class FormController extends BaseFormPage {
     private void callbackBindTableColumnSource() {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： カラムBIND設定");
 
-    	col_type.setCellValueFactory( new PropertyValueFactory<>("stockType"));
-    	col_code.setCellValueFactory( new PropertyValueFactory<>("stockCode"));
-    	col_name.setCellValueFactory( new PropertyValueFactory<>("stockTypeName"));
+    	col_no.setCellValueFactory( new PropertyValueFactory<>("staffNo"));
+    	col_name.setCellValueFactory( new PropertyValueFactory<>("staffName"));
+    	col_auth.setCellValueFactory( new PropertyValueFactory<>("authNo"));
     	col_del.setCellValueFactory( new PropertyValueFactory<>("delFlg"));
     }    
 
     /**
      * TableView 行選択イベント
      */
-    private void callbackTableSelectedRow(StockTypeMasterModel row) {
+    private void callbackTableSelectedRow(StaffMasterModel row) {
     	if (row == null) { return; }
     	
-    	LogManager.writeTrace("選択行 id: [ " + row.getStockTypeId() + " ]");
+    	LogManager.writeTrace("選択行 no: [ " + row.getStaffNo() + " ]");
 
        	this.isEditMode = true;
     	
-    	this.editMasterData = new StockTypeMasterModel( row );
+    	this.editMasterData = new StaffMasterModel( row );
     	setupEditControls();
     	
     	// ボタン有効化制御(更新状態)
@@ -566,8 +569,8 @@ public class FormController extends BaseFormPage {
     	lbl_title.getStyleClass().add("titletext");
  
     	// 登録項目 入力制限　設定
-    	this.txt_Edit_Type.setValidInput(AppConst.REGEX_NUMERIC, null);
-    	this.txt_Edit_Code.setValidInput(AppConst.REGEX_ALPHA_NUMERIC, 4);
+    	this.txt_Edit_No.setValidInput(AppConst.REGEX_NUMERIC, null);
+    	this.txt_Edit_Auth.setValidInput(AppConst.REGEX_NUMERIC, null);
     	
 		// 新規登録モード
 		setupNewRecordMode();
@@ -575,21 +578,25 @@ public class FormController extends BaseFormPage {
     
     /**
      * 登録項目設定
-     * @brief 編集用 備品分類マスタMODELを各登録項目の値に設定する。<br>
+     * @brief 編集用 社員マスタMODELを各登録項目の値に設定する。<br>
      */
     private void setupEditControls()
     {   
-    	Integer type = this.editMasterData.getStockType();
-    	String code = this.editMasterData.getStockCode();
-    	String name = this.editMasterData.getStockTypeName();
+    	Integer no = this.editMasterData.getStaffNo();
+    	String name = this.editMasterData.getStaffName();
+    	Integer auth = this.editMasterData.getAuthNo();
     	Boolean del = this.editMasterData.getDelFlg();
     	
-    	String typeString = "";
-    	if ( !AppUtil.IsNull(type) && type > 0 ) { typeString = type.toString(); }
+    	String noString = "";
+    	if ( !AppUtil.IsNull(no) && no > 0 ) { noString = no.toString(); }
+    	txt_Edit_No.setText( noString );
 
-    	txt_Edit_Type.setText( typeString );
-    	txt_Edit_Code.setText( !AppUtil.StringIsNullOrEmpty( code) ? code : "" ); 
     	txt_Edit_Name.setText( !AppUtil.StringIsNullOrEmpty(name) ? name : "" ); 
+   	
+    	String authString = "";
+    	if ( !AppUtil.IsNull(auth) && auth > 0 ) { authString = auth.toString(); }
+    	txt_Edit_Auth.setText( authString );
+
     	check_Edit_DelFlg.setSelected( del != null ? del : false );
     }       
 
@@ -601,12 +608,15 @@ public class FormController extends BaseFormPage {
     	
     	if (!isEditMode) 
     	{
-    		Integer type = AppUtil.parseInt( txt_Edit_Type.getText(), AppConst.UNSET_NUMBER_VALUE );
-    		this.editMasterData.setStockType( type );
-    		this.editMasterData.setStockCode( txt_Edit_Code.getText() );
+    		Integer no = AppUtil.parseInt( txt_Edit_No.getText(), AppConst.UNSET_NUMBER_VALUE );
+    		this.editMasterData.setStaffNo( no );
     	}
     	
-    	this.editMasterData.setStockTypeName( txt_Edit_Name.getText() );
+    	this.editMasterData.setStaffName( txt_Edit_Name.getText() );
+    	
+		Integer auth = AppUtil.parseInt( txt_Edit_Auth.getText(), AppConst.UNSET_NUMBER_VALUE );
+		this.editMasterData.setAuthNo( auth );
+    	
     	this.editMasterData.setDelFlg( check_Edit_DelFlg.isSelected() );
     }    
     
@@ -616,8 +626,7 @@ public class FormController extends BaseFormPage {
      * @brief [新規](登録)・[更新](明細行データの更新)に合わせて、各ボタンの有効化設定を行う<br>
      */
     private void setupEditModeButtonsEnabled(Boolean isEditMode) {
-    	txt_Edit_Type.setDisable( isEditMode );
-    	txt_Edit_Code.setDisable( isEditMode );
+    	txt_Edit_No.setDisable( isEditMode );
     	
        	// ボタン制御
     	insert_button.setDisable( isEditMode );	
@@ -629,9 +638,9 @@ public class FormController extends BaseFormPage {
      * @brief 登録項目の全コントロールを無効化を行う<br>
      */
     private void setEditControlsAllDisabled() {
-    	txt_Edit_Type.setDisable( true );	
-    	txt_Edit_Code.setDisable( true ); 
+    	txt_Edit_No.setDisable( true );	
     	txt_Edit_Name.setDisable( true ); 
+    	txt_Edit_Auth.setDisable( true ); 
     	check_Edit_DelFlg.setDisable( true );
     	
        	// ボタン制御
@@ -648,13 +657,13 @@ public class FormController extends BaseFormPage {
 		this.isEditMode = false; 
 
     	// マスター登録用データ初期化
-		this.editMasterData = new StockTypeMasterModel();
+		this.editMasterData = new StaffMasterModel();
     	setupEditControls();
     	
     	// ボタン有効化制御(新規状態)
     	setupEditModeButtonsEnabled( isEditMode );
     	
-    	Platform.runLater(() -> txt_Edit_Type.requestFocus());
+    	Platform.runLater(() -> txt_Edit_No.requestFocus());
     }
 
     /**
@@ -670,10 +679,13 @@ public class FormController extends BaseFormPage {
     		switch (colNo)
     		{
     		 case 1:
-    	    	txt_Edit_Type.requestFocus();
+    	    	txt_Edit_No.requestFocus();
     	        break;
     	     case 2:
-    	    	txt_Edit_Code.requestFocus();
+    	    	txt_Edit_Name.requestFocus();
+    	        break;
+    	     case 3:
+    	    	txt_Edit_Auth.requestFocus();
     	        break;
     	     default:
     	        break;
@@ -688,23 +700,29 @@ public class FormController extends BaseFormPage {
     private AppConst.rowCheckResultData isMasterRowsCheck() throws Exception {
 		StringBuilder sb = new StringBuilder();    	
     	
-		// 必須確認：分類種別
-		if ( this.editMasterData.getStockType() < 1 ) {
-			sb.append("[分類種別]が入力されていません。");
+		// 必須確認：社員番号
+		if ( this.editMasterData.getStaffNo() < 1 ) {
+			sb.append("[社員番号]が入力されていません。");
 			return new AppConst.rowCheckResultData(false, true, -1, 1, sb.toString());
 		}	
     	
 		// 必須確認：備品コード
-		if ( AppUtil.StringIsNullOrWhiteSpace(this.editMasterData.getStockCode()) ) {
-			sb.append("[分類コード]が入力されていません。");
+		if ( AppUtil.StringIsNullOrWhiteSpace(this.editMasterData.getStaffName()) ) {
+			sb.append("[氏名]が入力されていません。");
 			return new AppConst.rowCheckResultData(false, true, -1, 2, sb.toString());
 		}	
-    	
+
+		// 必須確認：権限
+		if ( this.editMasterData.getAuthNo() < 1 ) {
+			sb.append("[権限]が入力されていません。");
+			return new AppConst.rowCheckResultData(false, true, -1, 3, sb.toString());
+		}	
+		
     	// 存在確認
 		if( super.executeNonQuery( this::isExistsMasterData, this.editMasterData)) {
-			sb.append("既に同じ備品分類が登録されています。");
+			sb.append("既に同じ社員番号が登録されています。");
     		sb.append(AppUtil.newLine());
-    		sb.append("同一の備品分類は登録できません。");
+    		sb.append("同一の社員番号は登録できません。");
 			return new AppConst.rowCheckResultData(false, true, -1, 1, sb.toString());
 		}
 
@@ -728,3 +746,4 @@ public class FormController extends BaseFormPage {
     			MenuController(true));
     }   
 }
+

@@ -160,5 +160,5 @@ public class StockTypeMasterModel extends BaseTableViewModel {
 		 this.setStockCode(source.getStockCode());
 		 this.setStockTypeName(source.getStockTypeName());
 		 this.setDelFlg(source.getDelFlg());
-	    }
+	 }
 }

@@ -98,7 +98,7 @@
                                     <Insets left="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button id="StockTypeMaster" fx:id="StockTypeMaster_Button11" mnemonicParsing="false" onAction="#onStockTypeMasterButtonClicked" prefHeight="40.0" prefWidth="340.0" styleClass="mac-button" text="社員マスタ メンテナンス" textAlignment="CENTER">
+                              <Button id="StockTypeMaster" fx:id="StockTypeMaster_Button11" mnemonicParsing="false" onAction="#onStaffMasterButtonClicked" prefHeight="40.0" prefWidth="340.0" styleClass="mac-button" text="社員マスタ メンテナンス" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>

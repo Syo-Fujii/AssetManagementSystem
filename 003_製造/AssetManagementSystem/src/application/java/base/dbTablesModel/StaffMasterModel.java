@@ -122,5 +122,18 @@ public class StaffMasterModel extends BaseTableViewModel {
 		 this.staffName = new SimpleStringProperty("");
 		 this.authNo = new SimpleIntegerProperty();
 		 this.del = new SimpleBooleanProperty(false);
-	 }   
+	 }
+	 /**
+	 * コンストラクタ(コピー生成用)
+     * @brief　Object.Cloneを用いた場合、Exception処理を考慮する必要があるため<br>
+     * コピー用のコンストラクタを用意する
+     */
+	 public StaffMasterModel(StaffMasterModel source) {
+	     this();   
+		 
+	     this.setStaffNo(source.getStaffNo());
+		 this.setStaffName(source.getStaffName());
+	     this.setAuthNo(source.getAuthNo());
+		 this.setDelFlg(source.getDelFlg());
+	 }	 
 }
