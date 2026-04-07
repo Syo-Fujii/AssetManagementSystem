@@ -304,13 +304,37 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
     	    }
     	});
 	}
+
+	/**
+	 * TableView Focusイベント
+	 * @param lostCallback Focusが抜けた項目に対するEvent 引数、戻り値なし
+	 * @param selectedCallback Focusされた場合に対するEvent 引数、戻り値なし
+	 * @brief 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
+	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。<br>
+	 *  呼出元イベント[focusedProperty().addListener]
+	 */	
+	@SuppressWarnings("unused")
+	public void onTableViewFocusEvent(Runnable lostCallback, Runnable selectedCallback) {
+    	this.focusedProperty().addListener((observable, oldValue, newValue) -> {
+    	    if (lostCallback != null && !newValue) {
+    	    	lostCallback.run();
+    	    	return;
+    	    }
+    	    
+    	    if (selectedCallback != null && newValue)
+    	    {
+    	    	selectedCallback.run();
+    	    }
+    	});		
+	}
 	
 	/**
 	 * 明細選択行イベント
 	 * @param lostCallback 選択が抜けた項目に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
 	 * @param selectedCallback 選択に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
 	 * @brief 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
-	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。
+	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。<br>
+	 *  呼出元イベント[getSelectionModel().selectedItemProperty().addListener]
 	 */
 	public void onSelectedRowEvent(Consumer<T> lostCallback, Consumer<T> selectedCallback) {
 
@@ -330,7 +354,8 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	 * @param selectedCallback 選択に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
 	 * @brief 明細行の選択を変更した場合(Focusを遷移した場合)のイベント<br> 
 	 * 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
-	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。
+	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。<br>
+	 *  呼出元イベント[getSelectionModel().selectedItemProperty().addListener]
 	 */
 	public void onSelectedRowLeaveEvent(Predicate<T> cancelCheckCallback, Consumer<T> resultCallback) {
 		this.onSelectedRowEvent(
@@ -377,6 +402,10 @@ public class TableViewManager<T extends BaseTableViewModel> extends TableView<T>
 	/**
 	 * 明細選択行イベント(Focus遷移)
 	 * @param selectedCallback 選択に対するEvent 戻り値なし・引数:継承元が[BaseTableViewModel]のデータクラス
+	 * @brief 明細行の選択を変更した場合(Focusを遷移した場合)のイベント<br> 
+	 * 同一画面内で複数のTableViewが配置される場合を考慮し、動作(Event)をCallBackにて設定する。<br>
+	 *  ⇒  動作に対するEventは配置したController(画面クラス)にて定義する。<br>
+	 *  呼出元イベント[getSelectionModel().selectedItemProperty().addListener]
 	 */
 	@SuppressWarnings("unused")
 	public void onSelectedRowLeaveEvent(Consumer<T> resultCallback) {

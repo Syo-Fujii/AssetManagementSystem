@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.StockMasterMapper">
+
+    <!-- 備品マスタ 明細用一覧の取得 -->
+    <select id="getTableStockMasterDetailRecords">
+     SELECT
+       STM.name AS typeName,
+       GCM_A.value_1 AS assetStatus,
+       GCM_P.value_1 AS paymentStatus,
+       VM.name AS vendorName,
+       IFNULL(DATE_FORMAT(SM.expiry_date, '%Y/%m/%d'), '-') AS expiryDateString,
+       CASE
+         WHEN SM.rent_flg
+           THEN '4'
+         ELSE
+           '1'
+       END AS rentStatus,
+
+       SM.serial_no AS serialNo,
+       SM.name AS stockName,
+       SM.model,
+       SM.maker,
+       SM.stock_type AS stockType,                   -- 分類種別
+       SM.stock_code AS stockCode,                   -- 分類コード
+       SM.rent_flg AS rentFlg,                       -- 貸出可否
+       SM.asset_type AS assetType,                   -- 資産区分
+       SM.vendor_code AS vendorCode,                 -- 貸出会社コード
+       SM.expiry_date AS expiryDate,                 -- 契約満了日
+       SM.pay_cycle AS payCycle,                     -- 支払区分
+       SM.price,                                     -- 料金
+       SM.remarks,                                   -- 備考
+       SM.del AS delFlg                              -- 削除フラグ
+     FROM
+       stock_master SM
+     LEFT JOIN
+       stock_type_master STM
+      ON SM.stock_type = STM.stock_type
+     AND SM.stock_code = STM.stock_code
+     LEFT JOIN 
+       vendor_master VM
+      ON SM.vendor_code = VM.code
+     LEFT JOIN
+       generic_code_master GCM_A
+      ON GCM_A.generic_key = 'ASSET_TYPE'
+     AND SM.asset_type = GCM_A.type_key
+     LEFT JOIN
+       generic_code_master GCM_P
+      ON GCM_P.generic_key = 'PAY_CYCLE'
+     AND SM.pay_cycle = GCM_P.type_key
+       <where>
+         <if test= "type != null and type > -1">
+             AND STM.id = #{type}
+         </if>
+
+         <if test= "serialNo != null and serialNo != ''">
+             AND SM.serial_no LIKE CONCAT('%', #{serialNo}, '%')
+         </if>
+
+         <if test= "name != null and name != ''">
+             AND SM.name LIKE CONCAT('%', #{name}, '%')
+         </if>
+
+         <if test= "model != null and model != ''">
+             AND SM.model LIKE CONCAT('%', #{model}, '%')
+         </if>
+
+         <if test= "status == true">
+             AND SM.rent_flg = TRUE
+         </if>
+
+         <if test= "del == true">
+             AND SM.del = TRUE
+         </if>
+       </where>
+     ORDER BY
+       SM.serial_no
+    </select>
+</mapper>

@@ -169,7 +169,6 @@ public class FormController  extends BaseFormPage {
     	} catch (Exception ex) {
     		// 棚卸ボタン無効化
     		inventory_button.setDisable(true);
-    		
     		String title = "[" + FORM_NAME + "] ： [検索]ボタン押下でエラーが発生しました";
     		LogManager.showAndWriteError(title, ex);
     	}
@@ -221,7 +220,6 @@ public class FormController  extends BaseFormPage {
     	} catch (Exception ex) {
     		// 棚卸ボタン無効化
     		inventory_button.setDisable(true);
-    		
     		String title = "[" + FORM_NAME + "] ： [棚卸]ボタン押下でエラーが発生しました";
     		LogManager.showAndWriteError(title, ex);
     	}
@@ -299,6 +297,7 @@ public class FormController  extends BaseFormPage {
         	tableListView.setFocusFirstCell(col_is_inventory);        	
 
     	} catch ( Exception e) {
+    		inventory_button.setDisable(true);
     		String title = "[" + FORM_NAME + "] ： 棚卸データの連携中にエラーが発生しました";
     		LogManager.showAndWriteError(title, e);
     	}
@@ -311,6 +310,7 @@ public class FormController  extends BaseFormPage {
 	@Override
     protected void exceptionResult(Throwable exception)
     {
+		inventory_button.setDisable(true);
 		LogManager.writeError("[" + FORM_NAME + "] ： DB 棚卸データ取得失敗");
 		super.exceptionResult(exception);
     }
@@ -367,6 +367,9 @@ public class FormController  extends BaseFormPage {
 	protected void excuteQueryResult(ExcuteQueryResultStatus status){
 		// 更新件数が0件のクエリが存在していた場合、例外MSGを表示
 		if (status ==  ExcuteQueryResultStatus.NO_ROWS_AFFECTED) {
+    		// 棚卸ボタン無効化
+			inventory_button.setDisable(true);
+			
 			String title = "DB クエリ発行結果エラー";
 			
 			StringBuilder sb = new StringBuilder();
@@ -375,9 +378,6 @@ public class FormController  extends BaseFormPage {
 			sb.append("システム管理者に連絡してください。" );
 			
 			showMessageException(title, sb.toString());
-			
-    		// 棚卸ボタン無効化
-			inventory_button.setDisable(true);
 		}
 	}
 

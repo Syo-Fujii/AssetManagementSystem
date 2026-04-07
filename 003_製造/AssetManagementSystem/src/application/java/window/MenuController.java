@@ -284,6 +284,24 @@ public class MenuController extends BaseFormPage {
     }
 
     /**
+     * [備品マスタ メンテナンス]ボタン 押下イベント 
+     * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
+     */
+    @FXML
+    public void onStockMasterButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [備品マスタ メンテナンス]ボタン押下"); 
+    		
+        	// 備品マスタ メンテナンス明細画面に切替
+        	super.setPage(new application.java.window.masterMaintenance.stockMaster.details.FormController());
+    		
+    	} catch (Exception ex) {
+    		String title = "[" + FORM_NAME + "] ： メンテナンス画面遷移中にエラーが発生しました";
+    		LogManager.showAndWriteError(title, ex);
+    	}
+    }         
+    
+    /**
      * [社員マスタ メンテナンス]ボタン 押下イベント 
      * エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br>
      */

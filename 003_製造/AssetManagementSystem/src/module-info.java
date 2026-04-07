@@ -39,6 +39,7 @@ module AssetManagementSystem {
 	opens application.java.window.inventoryLoans.inventoryReturn to javafx.fxml;
 	opens application.java.window.verifyLocation.performInventory to javafx.fxml;
 	opens application.java.window.masterMaintenance.stockTypeMaster to javafx.fxml;
+	opens application.java.window.masterMaintenance.stockMaster.details to javafx.fxml;
 	opens application.java.window.masterMaintenance.staffMaster to javafx.fxml;
 	opens application.resources.xml to org.mybatis;
 	opens application.resources.mapper to org.mybatis;

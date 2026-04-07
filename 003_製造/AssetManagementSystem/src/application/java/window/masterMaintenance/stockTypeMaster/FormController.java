@@ -32,7 +32,7 @@ import javafx.scene.layout.AnchorPane;
 
 /**
  * 備品分類マスタ メンテナンス画面
- * @brief [inventoryReturn]画面操作メソッド(Controller)<br>
+ * @brief [StockTypeMasterMaintenance]画面操作メソッド(Controller)<br>
  * <p>
  * TableViewを継承した[TableViewManager](カスタムControl)を用いる場合、
  * 画目デザイン(Screen Builder)では正しく操作できない。<br>
@@ -129,9 +129,9 @@ public class FormController extends BaseFormPage {
     		setupNewRecordMode();
 
     	} catch ( Exception e) {
+    		setEditControlsAllDisabled();
     		String title = "[" + FORM_NAME + "] ： [新規]ボタン押下にて、エラーが発生しました";
     		LogManager.showAndWriteError(title, e);
-    		setEditControlsAllDisabled();    	
     	}
     }
 
@@ -261,6 +261,7 @@ public class FormController extends BaseFormPage {
     		tableListView.setList( rows );
     	
     	} catch ( Exception e) {
+    		setEditControlsAllDisabled();
     		String title = "[" + FORM_NAME + "] ： 備品分類マスタの連携中にエラーが発生しました";
     		LogManager.showAndWriteError(title, e);
     	}
@@ -273,9 +274,8 @@ public class FormController extends BaseFormPage {
 	@Override
     protected void exceptionResult(Throwable exception)
     {
-		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品分類マスタ取得失敗");
 		setEditControlsAllDisabled();
-		
+		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品分類マスタ取得失敗");
 		super.exceptionResult(exception);
     }
 

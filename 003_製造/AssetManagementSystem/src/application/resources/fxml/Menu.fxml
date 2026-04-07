@@ -90,7 +90,7 @@
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Button>
-                              <Button id="StockMaster" fx:id="StockMaster_Button" mnemonicParsing="false" onAction="#onStockTypeMasterButtonClicked" prefHeight="40.0" prefWidth="340.0" styleClass="mac-button" text="備品マスタ メンテナンス" textAlignment="CENTER">
+                              <Button id="StockMaster" fx:id="StockMaster_Button" mnemonicParsing="false" onAction="#onStockMasterButtonClicked" prefHeight="40.0" prefWidth="340.0" styleClass="mac-button" text="備品マスタ メンテナンス" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -113,7 +113,7 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <VBox prefHeight="459.0" prefWidth="140.0" spacing="2.0" styleClass="side-bar" AnchorPane.topAnchor="0.0">
+                  <VBox id="sideBar" prefHeight="459.0" prefWidth="140.0" spacing="2.0" styleClass="side-bar" AnchorPane.topAnchor="0.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="カテゴリー" />
                         <ToggleButton fx:id="loanlist_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLoanListButtonClicked" styleClass="sidebar-button" text="貸出業務">

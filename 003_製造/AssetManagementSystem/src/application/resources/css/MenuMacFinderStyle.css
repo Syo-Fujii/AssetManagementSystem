@@ -222,8 +222,10 @@
 
 /* マウスホバー時（少しグレーにする） */
 .mac-button:hover {
-    -fx-background-color: rgba(0, 0, 0, 0.05); /* ほんのりグレー */
-    -fx-cursor: hand;
+    /*-fx-background-color: rgba(0, 0, 0, 0.05); /* ほんのりグレー */
+	-fx-background-color: #007AFF;   /* Macのアクセントカラー（青） */
+	-fx-text-fill: white;
+	-fx-cursor: hand;
 }
 
 /* クリック時（少し濃いグレーにする） */

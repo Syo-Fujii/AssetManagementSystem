@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import application.java.manager.TableColumnManager?>
+<?import application.java.manager.TableViewManager?>
+<?import application.java.manager.customControl.CustomComboBoxControlManager?>
+<?import application.java.manager.customControl.CustomTextFieldControlManager?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<!-- Java内でインスタンス化したクラスを設定する場合は、fxタグ:fx:controller="application.java.window.inventoryList.FormController"を指定しない -->
+
+<AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" stylesheets="@../css/PerformInventoryStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label id="title" fx:id="lbl_title" layoutX="25.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="1450.0" styleClass="titletext" text="タイトル" textAlignment="CENTER">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="25.0" layoutY="80.0" prefHeight="80.0" prefWidth="1050.0" styleClass="searchGroupBox">
+         <children>
+            <Label layoutX="15.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="備品分類" />
+            <Label layoutX="180.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="シリアルナンバー" />
+            <Label layoutX="675.0" layoutY="14.0" prefHeight="25.0" text="貸出可否" />
+            <Label layoutX="345.0" layoutY="14.0" prefHeight="25.0" text="備品名称" />
+            <Label layoutX="511.0" layoutY="14.0" prefHeight="25.0" prefWidth="89.0" text="モデル" />
+            <Label layoutX="821.0" layoutY="14.0" prefHeight="25.0" text="削除" />
+            <HBox layoutY="40.0" prefHeight="25.0" prefWidth="870.0" spacing="15.0">
+               <children>
+                  <CustomComboBoxControlManager id="cboSearchType" fx:id="cbo_search_type" prefWidth="150.0" />
+                  <CustomTextFieldControlManager id="txtSearchSerial" fx:id="txt_search_serial" prefHeight="25.0" prefWidth="150.0" />
+                  <CustomTextFieldControlManager id="txtSearchName" fx:id="txt_search_name" prefHeight="25.0" prefWidth="150.0" />
+                  <CustomTextFieldControlManager id="txtSearchModel" fx:id="txt_search_model" layoutX="355.0" layoutY="10.0" prefHeight="25.0" prefWidth="150.0" />
+                  <CustomComboBoxControlManager id="cboSearchLoanStatus" fx:id="cbo_Search_Status" prefHeight="25.0" prefWidth="120.0" />
+                  <CheckBox fx:id="chb_search_del" mnemonicParsing="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </CheckBox>
+               </children>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </HBox>
+            <Button id="search" fx:id="search_button" layoutX="750.0" layoutY="30.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" prefHeight="37.0" prefWidth="130.0" text="検索" AnchorPane.rightAnchor="15.0" />
+            <Label layoutX="30.0" layoutY="-15.0" prefHeight="30.0" prefWidth="115.0" styleClass="searchTitle" text="検索条件">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <TableViewManager id="details" fx:id="tableListView" layoutX="25.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="1350.0" snapToPixel="false" AnchorPane.leftAnchor="25.0">
+        <columns>
+           <TableColumn id="serial" fx:id="col_serial" editable="false" maxWidth="300.0" minWidth="150.0" prefWidth="150.0" styleClass="text-aligned" text="シリアルナンバー" />
+           <TableColumn id="typeName" fx:id="col_type_name" editable="false" maxWidth="1500.0" minWidth="150.0" prefWidth="150.0" styleClass="text-aligned" text="備品分類名称" />
+           <TableColumn id="stockName" fx:id="col_name" editable="false" maxWidth="1500.0" minWidth="150.0" prefWidth="150.0" styleClass="text-aligned" text="備品名" />
+           <TableColumn id="model" fx:id="col_model" editable="false" maxWidth="1500.0" minWidth="150.0" prefWidth="150.0" styleClass="text-aligned" text="製品名" />
+           <TableColumn id="maker" fx:id="col_maker" editable="false" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" styleClass="center-aligned" text="メーカー" />
+           <TableColumn id="assetStatus" fx:id="col_asset" editable="false" maxWidth="80.0" minWidth="-Infinity" resizable="false" styleClass="center-aligned" text="分類" />
+           <TableColumn id="payCycle" fx:id="col_type" editable="false" maxWidth="110.0" minWidth="-Infinity" prefWidth="110.0" resizable="false" styleClass="center-aligned" text="支払" />
+           <TableColumn id="remarks" fx:id="col_remarks" editable="false" maxWidth="259.0" minWidth="245.0" prefWidth="245.0" styleClass="text-aligned" text="備考" />
+           <TableColumn id="rentStatus" fx:id="col_rent" editable="false" maxWidth="70.0" minWidth="0.0" prefWidth="70.0" resizable="false" styleClass="center-aligned" text="貸出可否" />
+           <TableColumnManager id="delFlg" fx:id="col_del" editable="false" maxWidth="70.0" minWidth="-Infinity" prefWidth="70.0" resizable="false" styleClass="center-aligned" text="削除" />
+        </columns>
+      </TableViewManager>
+      <Button id="insert" fx:id="insert_button" layoutX="945.0" layoutY="635.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="130.0" text="登録" AnchorPane.rightAnchor="490.0" />
+      <Button id="copyAndNew" fx:id="copy_insert_button" layoutX="1100.0" layoutY="635.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="130.0" text="コピーして登録" AnchorPane.rightAnchor="335.0" />
+      <Button id="update" fx:id="update_button" layoutX="1000.0" layoutY="635.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="130.0" text="更新" AnchorPane.rightAnchor="180.0" />
+      <Button id="back" fx:id="back_button" layoutX="1155.0" layoutY="635.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="37.0" prefWidth="130.0" text="メニューに戻る" AnchorPane.rightAnchor="25.0" />
+   </children>
+</AnchorPane>

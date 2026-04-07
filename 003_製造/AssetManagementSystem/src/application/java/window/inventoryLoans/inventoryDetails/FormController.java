@@ -167,6 +167,7 @@ public class FormController extends BaseFormPage {
         	} 
     		
     	} catch (Exception ex) {
+    		setButtonControlsAllDisabled();
     		String title = "[" + FORM_NAME + "] ： [所在確認]ボタン押下でエラーが発生しました";
     		LogManager.showAndWriteError(title, ex);
     	}
@@ -190,6 +191,7 @@ public class FormController extends BaseFormPage {
         			FormController(this.stockType, this.stockCode, this.windowSizeType));
     		
     	} catch (Exception ex) {
+    		setButtonControlsAllDisabled();
     		String title = "[" + FORM_NAME + "] ： 貸出画面遷移中にエラーが発生しました";
     		LogManager.showAndWriteError(title, ex);
     	}
@@ -213,6 +215,7 @@ public class FormController extends BaseFormPage {
         			FormController(this.stockType, this.stockCode, this.windowSizeType));		
     	
     	} catch ( Exception e) {
+    		setButtonControlsAllDisabled();
     		String title = "[" + FORM_NAME + "] ： 返却画面遷移中にエラーが発生しました";
     		LogManager.showAndWriteError(title, e);
     	}
@@ -286,6 +289,7 @@ public class FormController extends BaseFormPage {
     						      r.getRentValue() == AppConst.LoanStatus.CHECKOUT_AND_UNKNOWN.getState()));	
     	
     	} catch ( Exception e) {
+    		setButtonControlsAllDisabled();
     		String title = "[" + FORM_NAME + "] ： 備品詳細データの連携中にエラーが発生しました";
     		LogManager.showAndWriteError(title, e);
     	}
@@ -298,6 +302,7 @@ public class FormController extends BaseFormPage {
 	@Override
     protected void exceptionResult(Throwable exception)
     {
+		setButtonControlsAllDisabled();
 		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品詳細データ取得失敗");
 		super.exceptionResult(exception);
     }
@@ -520,6 +525,18 @@ public class FormController extends BaseFormPage {
 		row.setConfirmedDate(LocalDate.now().toString());
     }
 
+    /**
+     * ボタン項目 無効化処理
+     * @brief ボタンの全コントロールを無効化を行う<br>
+     */
+    private void setButtonControlsAllDisabled() {
+     	
+       	// ボタン制御
+    	inventoryCounting_button.setDisable( true );
+    	loan_button.setDisable( true );	
+    	return_button.setDisable( true ); 	
+    }      
+    
     /**
      * 遷移元画面呼び出し
      * @brief 遷移元画面(備品一覧：inventoryList)を呼出す。<br>
