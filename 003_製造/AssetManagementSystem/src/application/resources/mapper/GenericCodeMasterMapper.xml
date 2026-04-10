@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.GenericCodeMasterMapper">
+
+    <!-- 全件取得：idはメソッド名、resultTypeは戻り値のクラス -->
+    <select id="selectAll">
+      SELECT
+        * 
+      FROM 
+        generic_code_master 
+      ORDER BY
+          generic_key
+        , sort_order
+    </select>
+
+    <!-- 汎用マスターの取得(ComboBox用) -->
+    <select id="genericCodeMasterData">
+      SELECT
+        GCM.generic_key AS genericKey,
+        GCM.key_comment AS keyComment,
+        GCM.type_key AS typeKey,
+        GCM.type_comment AS typeComment,
+        GCM.code,
+        GCM.code_comment AS codeComment,
+        GCM.value_1 AS value1,
+        GCM.is_active AS isActive
+      FROM
+        generic_code_master GCM
+      <where>
+        <if test= "genericKey != null and genericKey != ''">
+            AND GCM.generic_key = #{genericKey}
+        </if>
+
+        <if test= "type != null and type != ''">
+            AND GCM.type_key = #{type}
+        </if>
+
+        <if test= "code != null and code != ''">
+            AND GCM.code = #{code}
+        </if>
+
+        <if test= "isActive != null ">
+            AND GCM.is_active = #{isActive}
+        </if>
+     </where>
+     ORDER BY
+          GCM.generic_key
+        , GCM.sort_order
+    </select>
+
+</mapper>

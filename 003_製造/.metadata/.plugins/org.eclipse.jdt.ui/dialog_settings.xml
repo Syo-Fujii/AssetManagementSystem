@@ -50,7 +50,7 @@
 		<item key="SaveActions.slowWarningDialog" value="false"/>
 	</section>
 	<section name="NewClassWizardPage">
-		<item key="create_constructor" value="true"/>
+		<item key="create_constructor" value="false"/>
 		<item key="create_unimplemented" value="true"/>
 	</section>
 	<section name="NewClassCreationWizard.dialogBounds">
@@ -58,7 +58,7 @@
 		<item key="DIALOG_Y_ORIGIN" value="222"/>
 		<item key="DIALOG_WIDTH" value="674"/>
 		<item key="DIALOG_HEIGHT" value="652"/>
-		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
+		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|5|0|Yu Gothic UI"/>
 	</section>
 	<section name="SourceActionDialog.methods">
 		<item key="VisibilityModifier" value="1"/>
@@ -75,8 +75,8 @@
 		<item key="DIALOG_X_ORIGIN" value="1022"/>
 		<item key="DIALOG_Y_ORIGIN" value="88"/>
 		<item key="DIALOG_WIDTH" value="538"/>
-		<item key="DIALOG_HEIGHT" value="692"/>
-		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
+		<item key="DIALOG_HEIGHT" value="696"/>
+		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|5|0|Yu Gothic UI"/>
 	</section>
 	<section name="JarPackageWizard">
 		<item key="JarPackageWizardPage.EXPORT_CLASS_FILES" value="true"/>
@@ -98,10 +98,10 @@
 		<item key="JarManifestWizardPage.MANIFEST_LOCATION" value=""/>
 		<item key="JarManifestWizardPage.SEAL_JAR" value="false"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\CustomControllers.jar"/>
 			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\CustomTableView.jar"/>
 			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\CustomTableColumns.jar"/>
 			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\CustomTableCells.jar"/>
-			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\CustomControllers.jar"/>
 			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\System.jar"/>
 			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\Manager.jar"/>
 			<item value="C:\Users\User\Desktop\Works\002_Repositories\003_製造\Jarファイル\Common.jar"/>
@@ -120,7 +120,7 @@
 			<item key="DIALOG_Y_ORIGIN" value="187"/>
 			<item key="DIALOG_WIDTH" value="563"/>
 			<item key="DIALOG_HEIGHT" value="660"/>
-			<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
+			<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|5|0|Yu Gothic UI"/>
 		</section>
 	</section>
 	<section name="NewInterfaceCreationWizard.dialogBounds">

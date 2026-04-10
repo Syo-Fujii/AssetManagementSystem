@@ -25,10 +25,10 @@
       <AnchorPane layoutX="25.0" layoutY="80.0" prefHeight="80.0" prefWidth="1050.0" styleClass="searchGroupBox">
          <children>
             <Label layoutX="15.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="備品分類" />
-            <Label layoutX="180.0" layoutY="15.0" prefHeight="25.0" prefWidth="89.0" text="シリアルナンバー" />
+            <Label layoutX="180.0" layoutY="15.0" prefHeight="25.0" text="シリアルナンバー(部分一致)" />
             <Label layoutX="675.0" layoutY="14.0" prefHeight="25.0" text="貸出可否" />
-            <Label layoutX="345.0" layoutY="14.0" prefHeight="25.0" text="備品名称" />
-            <Label layoutX="511.0" layoutY="14.0" prefHeight="25.0" prefWidth="89.0" text="モデル" />
+            <Label layoutX="345.0" layoutY="14.0" prefHeight="25.0" text="備品名称(部分一致)" />
+            <Label layoutX="511.0" layoutY="14.0" prefHeight="25.0" text="製品名(部分一致)" />
             <Label layoutX="821.0" layoutY="14.0" prefHeight="25.0" text="削除" />
             <HBox layoutY="40.0" prefHeight="25.0" prefWidth="870.0" spacing="15.0">
                <children>
@@ -36,7 +36,7 @@
                   <CustomTextFieldControlManager id="txtSearchSerial" fx:id="txt_search_serial" prefHeight="25.0" prefWidth="150.0" />
                   <CustomTextFieldControlManager id="txtSearchName" fx:id="txt_search_name" prefHeight="25.0" prefWidth="150.0" />
                   <CustomTextFieldControlManager id="txtSearchModel" fx:id="txt_search_model" layoutX="355.0" layoutY="10.0" prefHeight="25.0" prefWidth="150.0" />
-                  <CustomComboBoxControlManager id="cboSearchLoanStatus" fx:id="cbo_Search_Status" prefHeight="25.0" prefWidth="120.0" />
+                  <CustomComboBoxControlManager id="cboSearchLoanStatus" fx:id="cbo_search_status" prefHeight="25.0" prefWidth="120.0" />
                   <CheckBox fx:id="chb_search_del" mnemonicParsing="false">
                      <font>
                         <Font size="18.0" />
@@ -72,9 +72,9 @@
            <TableColumnManager id="delFlg" fx:id="col_del" editable="false" maxWidth="70.0" minWidth="-Infinity" prefWidth="70.0" resizable="false" styleClass="center-aligned" text="削除" />
         </columns>
       </TableViewManager>
-      <Button id="insert" fx:id="insert_button" layoutX="945.0" layoutY="635.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="130.0" text="登録" AnchorPane.rightAnchor="490.0" />
-      <Button id="copyAndNew" fx:id="copy_insert_button" layoutX="1100.0" layoutY="635.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="130.0" text="コピーして登録" AnchorPane.rightAnchor="335.0" />
-      <Button id="update" fx:id="update_button" layoutX="1000.0" layoutY="635.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="130.0" text="更新" AnchorPane.rightAnchor="180.0" />
+      <Button id="insert" fx:id="insert_button" layoutX="945.0" layoutY="635.0" mnemonicParsing="false" onAction="#onInsertButtonClicked" prefHeight="37.0" prefWidth="130.0" text="登録" AnchorPane.rightAnchor="490.0" />
+      <Button id="copyAndNew" fx:id="copy_insert_button" layoutX="1100.0" layoutY="635.0" mnemonicParsing="false" onAction="#onCopyInsertButtonClicked" prefHeight="37.0" prefWidth="130.0" text="コピーして登録" AnchorPane.rightAnchor="335.0" />
+      <Button id="update" fx:id="update_button" layoutX="1000.0" layoutY="635.0" mnemonicParsing="false" onAction="#onUpdateButtonClicked" prefHeight="37.0" prefWidth="130.0" text="更新" AnchorPane.rightAnchor="180.0" />
       <Button id="back" fx:id="back_button" layoutX="1155.0" layoutY="635.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="37.0" prefWidth="130.0" text="メニューに戻る" AnchorPane.rightAnchor="25.0" />
    </children>
 </AnchorPane>

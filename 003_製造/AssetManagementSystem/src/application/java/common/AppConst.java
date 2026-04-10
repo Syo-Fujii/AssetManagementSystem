@@ -81,6 +81,40 @@ public class AppConst {
 	}	
 
 	/**
+	 * Enum 汎用マスタ 分類KEY
+	 */
+	public static enum GenericKey {
+		ASSET_TYPE("ASSET_TYPE", "資産区分"),
+		PAY_CYCLE("PAY_CYCLE", "支払区分"),
+		PAYMENT_TYPE("PAYMENT_TYPE", "支払方法"),
+		WINDOW_SIZE("WINDOW_SIZE","画面サイズ設定");
+
+	    private final String key;
+	    private final String comment;
+
+	    /** コンストラクタ */
+	    GenericKey(String key, String comment) {
+	        this.key = key;
+	        this.comment = comment;
+	    }
+
+	    public String getKey() { return key; }
+	    public String getComment() { return comment; }
+
+	    /**
+	     * 数値(引数)から一致するEnum要素を返す
+	     * @param state
+	     * @return 一致するEnum要素
+	     */
+	    public static GenericKey fromKey(String key) {
+	        return Arrays.stream(GenericKey.values())
+	                 .filter(s -> s.getKey().equals(key))
+	                 .findFirst()  // 最初に見つかったものを取得
+	                 .orElse(null); // 見つからなければ null を返す
+	    }	
+	}	
+	
+	/**
 	 * Window(ウィンドウ枠)スタイル
 	 */
 	public static enum WindowStyle {
@@ -211,10 +245,10 @@ public class AppConst {
 	public static final int UNSET_NUMBER_VALUE = -1;
 
 	/** 入力制限 正規表現(半角英数字) */
-	public static final String REGEX_ALPHA_NUMERIC = "^[a-zA-Z0-9]*$";
+	public static final String REGEX_ALPHA_NUMERIC = "^[a-zA-Z0-9 ]*$";
 	
 	/** 入力制限 正規表現(半角数字) */
-	public static final String REGEX_NUMERIC = "^[0-9]*$";	
+	public static final String REGEX_NUMERIC = "^[0-9 ]*$";	
 	
 	/** 各フォルダPATH */
 	// public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";

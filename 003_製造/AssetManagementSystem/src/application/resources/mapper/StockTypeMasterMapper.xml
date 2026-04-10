@@ -5,7 +5,32 @@
 
     <!-- 全件取得：idはメソッド名、resultTypeは戻り値のクラス -->
     <select id="selectAll">
-        SELECT * FROM stock_type_master
+      SELECT
+        STM.id AS stockTypeId,
+        STM.stock_type AS stockType,
+        STM.stock_code AS stockCode,
+        STM.name AS stockTypeName,
+        STM.del AS delFlg
+      FROM 
+        stock_type_master STM
+      ORDER BY
+          STM.stock_type
+        , STM.stock_code
+    </select>
+
+    <!-- 備品分類マスターの取得(ComboBox用) : 削除されたデータは取得しない -->
+    <select id="getStockTypeMasterData">
+      SELECT
+        STM.id AS stockTypeId,
+        STM.name AS stockTypeName
+      FROM
+        stock_type_master STM
+      WHERE
+        1 = 1
+      AND STM.del = FALSE
+      ORDER BY
+          STM.stock_type
+        , STM.stock_code
     </select>
 
     <!-- 全件取得(マスタメンテナンス用)：idはメソッド名、resultTypeは戻り値のクラス -->
@@ -27,7 +52,7 @@
 
     <!-- 1件取得：#{id} は引数の値が入る場所 -->
     <select id="selectById">    
-        SELECT * FROM stock_type_master WHERE id = #{id}
+      SELECT * FROM stock_type_master WHERE id = #{id}
     </select>
 
     <!-- マスタデータ存在確認 -->
@@ -53,28 +78,28 @@
 
     <!-- 新規登録(マスタメンテナンス用) -->
     <insert id="insStockTypeMasterOnes" parameterType="application.java.base.dbTablesModel.StockTypeMasterModel"> 
-        INSERT INTO stock_type_master
-        (
-          stock_type,
-          stock_code,
-          name,
-          del
-        ) VALUES (
-          #{stockType} ,
-          #{stockCode} ,
-          #{stockTypeName} ,
-          #{delFlg}
-        )
+      INSERT INTO stock_type_master
+      (
+        stock_type,
+        stock_code,
+        name,
+        del
+      ) VALUES (
+        #{stockType} ,
+        #{stockCode} ,
+        #{stockTypeName} ,
+        #{delFlg}
+      )
     </insert>
 
     <!-- マスタ更新 -->
     <update id="updStockTypeMasterOnes" parameterType="application.java.base.dbTablesModel.StockTypeMasterModel">
-       UPDATE stock_type_master
-        SET
-          name = #{stockTypeName} ,
-          del = #{delFlg}
-       WHERE
-          id = #{stockTypeId}
+      UPDATE stock_type_master
+       SET
+        name = #{stockTypeName} ,
+        del = #{delFlg}
+      WHERE
+       id = #{stockTypeId}
     </update>
 
 </mapper>

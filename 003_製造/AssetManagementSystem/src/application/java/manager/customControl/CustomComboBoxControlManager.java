@@ -1,6 +1,7 @@
 package application.java.manager.customControl;
 
 import java.util.List;
+import java.util.Objects;
 
 import application.java.base.BaseFormPage.keyValuePairItem;
 import application.java.base.BaseTableViewModel;
@@ -8,6 +9,8 @@ import application.java.common.AppConst;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 
 /**
@@ -17,7 +20,8 @@ import javafx.util.StringConverter;
 public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V>> {
 
 	ObservableList<keyValuePairItem<V>> comboBoxSource = FXCollections.observableArrayList(); 
-	
+	private List<? extends BaseTableViewModel> modelDataSource = null;
+
 	private Boolean isAddBlankRow = false;  
 
     /**
@@ -40,21 +44,24 @@ public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V
 		this.isAddBlankRow = isAddBlankRow;
 	}
 
+	
+    /**
+     * データ取得 (データSourceの取得:KeyValuePairのリスト)	
+     * @return ObservableList[keyValuePairItem[V]] Kvpのリスト(valueの型は指定なし)
+     */
+	public ObservableList<keyValuePairItem<V>> getDataSource_KvpList()
+	{
+		return this.comboBoxSource;
+	}
+	
 	/**
-     * コンボボックス(Kvp)の選択Key取得処理
-     */   
-	public Integer getSelectedKey() 
+     * データ取得 (データSourceの取得:DB MODELのリスト)	
+     * @param <T> (Table Source / Subject): 行データのクラス(BaseTableViewModelを継承したクラス)
+     * @return datas List[T] Modelのリスト
+     */
+	public List<? extends BaseTableViewModel> getDataSource_ModelList()
 	{
-		return this.getValue() != null ? this.getValue().key() : AppConst.UNSET_NUMBER_VALUE;
-	}		
-
-	/**	
-    * コンボボックス(Kvp)の選択Value取得処理
-    */   
-	public String getSelectedValue() 
-	{
-		V value = this.getValue() != null ? this.getValue().value() : null;
-		return (value != null) ? value.toString() : "";
+		return this.modelDataSource;
 	}	
 	
 	/**
@@ -94,6 +101,8 @@ public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V
     	
         if (datas == null || datas.isEmpty()) { return; }
 
+        this.modelDataSource = datas;
+        
         datas.
         stream().
         map(( model ) -> new keyValuePairItem<V>(
@@ -109,6 +118,68 @@ public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V
     	}
 	}
 
+	/**
+     * コンボボックス(Kvp)の選択Key取得処理
+     */   
+	public Integer getSelectedKey() 
+	{
+		return this.getValue() != null ? this.getValue().key() : AppConst.UNSET_NUMBER_VALUE;
+	}		
+
+	/**	
+    * コンボボックス(Kvp)の選択Value取得処理
+    */   
+	public String getSelectedValue() 
+	{
+		V value = this.getValue() != null ? this.getValue().value() : null;
+		return (value != null) ? value.toString() : "";
+	}	
+
+	/**
+     * コンボボックス(Kvp)の選択設定処理
+     */   
+	public void setSelectedItem(Integer key) 
+	{
+		keyValuePairItem<V> selectedItem = 
+				this.getItems().
+				stream().
+				filter(kvp -> Objects.equals(kvp.key(), key)).
+				findFirst().
+				orElseGet(() -> this.getItems().isEmpty() ? null : this.getItems().get(0));
+		
+		this.setValue(selectedItem);
+	}		
+
+	/**
+     * コンボボックス(Kvp)の選択設定処理
+     */   
+	public void setSelectedValue(V value) 
+	{
+		keyValuePairItem<V> selectedItem = 
+				this.getItems().
+				stream().
+				filter(kvp -> Objects.equals(kvp.value(), value)).
+				findFirst().
+				orElseGet(() -> this.getItems().isEmpty() ? null : this.getItems().get(0));
+		
+		this.setValue(selectedItem);
+	}	
+
+    /**
+     * [Enter]Keyを次に遷移とするか
+     * @param isEnabled 遷移判定
+     * @brief [真]とした場合、[Enter]・[RIGHT]Key押下で下のControlへ遷移(TAB)。<br>
+     * [LEFT]Key押下で上のControlへ遷移(Shift + TAB)。<br>
+     */
+    public void isKeyPressToNext(Boolean isEnabled) {
+    	if (isEnabled) {
+    		onEnterKeyNextFocus();
+    		return;
+    	}
+    	
+    	this.setOnKeyPressed(null);
+    }	
+	
 	
     /**
      * FXML用デフォルトコンストラクタ
@@ -155,5 +226,41 @@ public class CustomComboBoxControlManager<V> extends ComboBox<keyValuePairItem<V
     	        return null; 
     	    }
     	});
-	}		
+	}
+	
+    /**
+     * Key押下で次のControlに遷移する(TAB押下EVENTと同等)
+     * @brief [Enter]・[RIGHT]Key押下で下のControlへ遷移(TAB)。<br>
+     *         [Enter] + SHIFT・[LEFT]Key押下で上のControlへ遷移(Shift + TAB)。<br>
+     */
+	private void onEnterKeyNextFocus() {
+		this.setOnKeyPressed(
+				event -> 
+				{
+				    // リストが閉じている時だけ、特殊なフォーカス移動を有効にする
+				    if (!this.isShowing()) {
+						Boolean isMoveUp = event.getCode() == KeyCode.LEFT ||
+								          (event.getCode() == KeyCode.ENTER && event.isShiftDown()) ;
+						
+						if (event.getCode() == KeyCode.ENTER || 
+							event.getCode() == KeyCode.RIGHT || 
+							isMoveUp)
+						{
+							this.fireEvent(
+					        		new KeyEvent(
+					        				KeyEvent.KEY_PRESSED, 
+					        				"", 
+					        				"", 
+					        				KeyCode.TAB,
+					        				isMoveUp, 
+					        				false, 
+					        				false, 
+					        				false)
+					        		);
+					            
+					        event.consume(); 
+						}
+				}});
+	}	
+	
 }

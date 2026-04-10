@@ -15,7 +15,7 @@ import application.java.common.AppUtil;
 
 
 /**
- * 
+ * ファイル操作クラス
  */
 public class FileManager {
 
@@ -110,9 +110,9 @@ public class FileManager {
 	}	
 
 	/**
-	 * 
-	 * @param targetDirectory
-	 * @return
+	 * フォルダ存在確認
+	 * @param targetDirectory String 対象ディレクトリ
+	 * @return 存在判定
 	 */
 	public Boolean existsFolder(String targetDirectory) {
 		
@@ -120,18 +120,24 @@ public class FileManager {
 		
 		return (Files.exists(path) && Files.isDirectory(path));
 	}
+	/**
+	 * フォルダ存在確認
+	 * @param targetDirectory Path 対象パス
+	 * @return 存在判定
+	 */
 	public Boolean existsFolder(Path path) {
 		
 		return (Files.exists(path) && Files.isDirectory(path));
 	}	
 	
 	/**
-	 * 
-	 * @return
+	 * ファイル名 一覧取得
+	 * @param path String resourcesフォルダからの対象パス(フォルダ：PATHの文字列)
+	 * @return ファイル名の一覧
 	 * @throws Exception
+     * @brief resourcesフォルダ内の対象フォルダにあるファイルを名称として一覧で取得する<br>
 	 */
 	public List<String> getFilesNameList(String path) throws Exception {
-		
 		try{
 	        // resources フォルダ内のURLを取得
 	        URL url = getClass().getResource(path);
@@ -153,9 +159,12 @@ public class FileManager {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * ファイル(リソースURI) 一覧取得
+	 * @param targetDirectory String 対象ディレクトリ(フォルダ：PATHの文字列)
+	 * @return リソースURIの一覧
 	 * @throws Exception
+     * @brief 対象フォルダにあるファイルをリソース形式として一覧で取得する<br>
+     * [file:///C: ～]形式
 	 */
 	public List<String> getResourceUrlFullPathList(String targetDirectory) throws Exception {
 		
@@ -174,9 +183,11 @@ public class FileManager {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * ファイル名 一覧取得
+	 * @param path String 対象ディレクトリ(フォルダ：PATHの文字列)
+	 * @return ファイル名の一覧
 	 * @throws Exception
+     * @brief 対象フォルダにあるファイルを名称として一覧で取得する<br>
 	 */
 	public List<String> getFilesFullPathList(String targetDirectory) throws Exception {
 		

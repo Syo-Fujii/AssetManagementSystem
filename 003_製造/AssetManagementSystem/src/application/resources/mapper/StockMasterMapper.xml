@@ -66,11 +66,11 @@
              AND SM.model LIKE CONCAT('%', #{model}, '%')
          </if>
 
-         <if test= "status == true">
-             AND SM.rent_flg = TRUE
+         <if test= "status != null ">
+             AND SM.rent_flg = #{status}
          </if>
 
-         <if test= "del == true">
+         <if test= "del != null and del == true">
              AND SM.del = TRUE
          </if>
        </where>

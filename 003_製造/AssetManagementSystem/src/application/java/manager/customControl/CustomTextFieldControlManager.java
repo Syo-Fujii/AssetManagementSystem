@@ -1,8 +1,15 @@
 package application.java.manager.customControl;
 
+import java.text.DecimalFormat;
+import java.util.function.UnaryOperator;
+
+import application.java.common.AppConst;
 import application.java.common.AppUtil;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.util.StringConverter;
 
 /**
  * カスタムControl：TextField
@@ -44,6 +51,14 @@ public class CustomTextFieldControlManager extends TextField  {
 	public void setMaxLength(Integer maxLength) {
 		this.maxLength = maxLength;
 	}	
+
+	/**
+	 * 値の取得(数値型：LONG)
+	 * @return 設定されている値(LONG)
+	 */
+	public Long getValue() {
+        return (Long) this.getTextFormatter().getValue();
+    }
 	
 	/**
 	 * テキスト入力の入力制限 設定
@@ -61,6 +76,38 @@ public class CustomTextFieldControlManager extends TextField  {
     	this.setupTextValidation();
     }       
   
+    /**
+     * [Enter]Keyを次に遷移とするか
+     * @param isEnabled 遷移判定
+     * @brief [真]とした場合、[Enter]・[DOWN]Key押下で下のControlへ遷移(TAB)。<br>
+     * [UP]Key押下で上のControlへ遷移(Shift + TAB)。<br>
+     */
+    public void isKeyPressToNext(Boolean isEnabled) {
+    	if (isEnabled) 
+    	{
+    		onEnterKeyNextFocus();
+    		return;
+    	}
+    	
+    	this.setOnKeyPressed(null);
+    }
+    
+    /**
+     * 通貨型のControlとするか
+     * @param isEnabled
+     * @brief [真]とした場合、値をカンマ区切りの通貨型で表示する。<br>
+     */
+    public void isCurrency(Boolean isEnabled) {
+    	if (isEnabled) 
+    	{ 
+        	this.regex = AppConst.REGEX_NUMERIC;
+        	setupCurrencyControl();
+
+    		return; 
+    	}
+    	
+    	this.setTextFormatter(null);
+    }
     
     /**
      * FXML用デフォルトコンストラクタ
@@ -84,6 +131,39 @@ public class CustomTextFieldControlManager extends TextField  {
 		this.setValidInput(regexPattern, length);
 	}		
 
+    /**
+     * Key押下で次のControlに遷移する(TAB押下EVENTと同等)
+     * @brief [Enter]・[DOWN]Key押下で下のControlへ遷移(TAB)。<br>
+     *         [Enter] + SHIFT・[UP]Key押下で上のControlへ遷移(Shift + TAB)。<br>
+     */
+	private void onEnterKeyNextFocus() {
+		this.setOnKeyPressed(
+				event -> 
+				{
+					Boolean isMoveUp = event.getCode() == KeyCode.UP || 
+							          (event.getCode() == KeyCode.ENTER && event.isShiftDown());
+					
+					if (event.getCode() == KeyCode.ENTER || 
+						event.getCode() == KeyCode.DOWN || 
+						isMoveUp)
+					{
+						this.fireEvent(
+				        		new KeyEvent(
+				        				KeyEvent.KEY_PRESSED, 
+				        				"", 
+				        				"", 
+				        				KeyCode.TAB,
+				        				isMoveUp, 
+				        				false, 
+				        				false, 
+				        				false)
+				        		);
+				            
+				        event.consume(); 
+					}
+				});
+	}
+	
 	/**
 	 * 正規表現　最大文字数を用いた入力制限
 	 */
@@ -105,5 +185,52 @@ public class CustomTextFieldControlManager extends TextField  {
 
 		    return change;
 		}));
+	}
+	
+	/**
+	 * 通貨型Control設定処理
+	 */
+	private void setupCurrencyControl() {
+	    // カンマ区切りへの変換器 (StringConverter)
+	    DecimalFormat df = new DecimalFormat("#,###");
+	    
+	    StringConverter<Long> converter = new StringConverter<>() 
+	    {
+	    	
+	        @Override
+	        public String toString(Long value) {
+	            return (value == null) ? "" : df.format(value);
+	        }
+	        
+	        @Override
+	        public Long fromString(String string) {
+	            try {
+	                if (string == null || string.isEmpty()) return null;
+	                // カンマを除去してからパース
+	                return df.parse(string.replace(",", "")).longValue();
+	            } catch (Exception e) {
+	                return null;
+	            }
+	        }
+	    };	
+		
+	    // 入力制限 (Filter)
+	    UnaryOperator<TextFormatter.Change> filter = change -> {
+	        String newText = change.getControlNewText();
+	        
+	        // カンマを除去した状態で正規表現・文字数チェックを通す（数値としての妥当性チェック）
+	        String plainText = newText.replace(",", "");
+
+	        if (!AppUtil.StringIsNullOrWhiteSpace(regex) && !plainText.matches(regex)) {
+	            return null;
+	        }
+	        if (maxLength != null && plainText.length() > maxLength) {
+	            return null;
+	        }
+
+	        return change;
+	    };		
+		
+	    this.setTextFormatter(new TextFormatter<>(converter, null, filter));		
 	}
 }

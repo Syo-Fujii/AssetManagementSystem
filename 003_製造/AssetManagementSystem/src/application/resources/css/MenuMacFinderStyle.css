@@ -125,7 +125,8 @@
 	-fx-background-radius: 0 0 12 0;	
 }
 
-/* メニューバー全体 */
+
+/* ----------- メニューのスタイル ----------- */
 .menu-bar {
     -fx-background-color: #F6F6F6; /* 薄いグレー */
     -fx-border-color: #DCDCDC;
@@ -175,13 +176,16 @@
     -fx-text-fill: white;
 }
 
+
+/* ----------- サイドバーのスタイル ----------- */
 /* HBox(4段目)[SideBar] */
 .side-bar {
     -fx-background-color: rgba(246, 246, 246, 0.8); /* 薄いグレー */
 	-fx-background-radius: 0 0 0 12;
 }
 
-/* サイドバーボタンの基本設定 */
+
+/* ----------- サイドバー：ボタンのスタイル ----------- */
 .sidebar-button {
     -fx-background-color: transparent; /* 通常時は背景なし */
     -fx-background-radius: 6;         /* Mac標準の角丸 */
@@ -210,7 +214,7 @@
 }
 
 
-/* ボタンの基本スタイル */
+/* ----------- ボタンのスタイル ----------- */
 .mac-button {
     -fx-background-color: rgba(246, 246, 246, 0.8); /* 通常時は透明 */
     -fx-background-radius: 6;         /* 緩やかな角丸 */

@@ -98,7 +98,7 @@ public class StockMasterModel extends BaseTableViewModel {
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/
 	public void setModel(String model) {
-		this.model.set(model);;
+		this.model.set(model);
 	}
 
 	/**

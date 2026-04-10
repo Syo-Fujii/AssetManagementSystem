@@ -89,6 +89,58 @@ public class CustomComboBoxKvpSourceManager<S  extends BaseTableViewModel, K, V>
 				orElse(null);
 	}	
 
+	/**
+     * コンボボックス(Kvp)の選択Key取得処理
+     */   
+	public Integer getSelectedKey() 
+	{
+		return (this.comboBox.getValue() != null) ? 
+				this.comboBox.getValue().key() : 
+					AppConst.UNSET_NUMBER_VALUE;
+	}		
+
+	/**	
+    * コンボボックス(Kvp)の選択Value取得処理
+    */   
+	public String getSelectedValue() 
+	{
+		String value = ( this.comboBox.getValue() != null ) ? 
+				       this.comboBox.getValue().value() : 
+				       null;
+		
+		return (value != null) ? value : "";
+	}	
+
+	/**
+     * コンボボックス(Kvp)の選択設定処理
+     */   
+	public void setSelectedItem(Integer key) 
+	{
+		colKeyValuePairItem<Integer, String> selectedItem = 
+				this.comboBox.getItems().
+				stream().
+				filter(kvp -> Objects.equals(kvp.key(), key)).
+				findFirst().
+				orElseGet(() -> this.comboBox.getItems().isEmpty() ? null : this.comboBox.getItems().get(0));
+		
+		this.comboBox.setValue(selectedItem);
+	}		
+
+	/**
+     * コンボボックス(Kvp)の選択設定処理
+     */   
+	public void setSelectedValue(String value) 
+	{
+		colKeyValuePairItem<Integer, String> selectedItem = 
+				this.comboBox.getItems().
+				stream().
+				filter(kvp -> Objects.equals(kvp.value(), value)).
+				findFirst().
+				orElseGet(() -> this.comboBox.getItems().isEmpty() ? null : this.comboBox.getItems().get(0));
+		
+		this.comboBox.setValue(selectedItem);
+	}
+	
 	
     /**
      * コンストラクタ

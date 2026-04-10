@@ -1,0 +1,288 @@
+/*
+EclipseのCSSエディタで -fx-background-color などのプロパティに黄色の波線（警告）が出るのは、
+Eclipseが標準のCSS規格（W3C）に従ってバリデーション（検証）を行っているためです。
+JavaFX独自のプロパティ（-fx- で始まるもの）は標準CSSには存在しないため、
+Eclipseが「こんなプロパティは知らないよ！」と親切に警告してくれています。
+  解決方法：警告を無視するか設定を変える
+  この警告が出ていても、プログラムの実行には全く影響ありません。
+  もし目障りな場合は、以下の手順でEclipseの設定を変更して警告を消すことができます。
+    1 設定画面を開く
+     1-1 ウィンドウ (Window) ＞ 設定 (Preferences) を開きます。
+    2 CSSの検証設定を探す
+     2-1 左側のメニューから Web ＞ CSS ファイル (CSS Files) ＞ 検証 (Validation) を選択します。
+    3 不明なプロパティのレベルを下げる
+     3-1 リストの中から 「不明なプロパティ (Unknown property)」を探し、
+	     右側のドロップダウンを 警告 (Warning) から 無視 (Ignore) に変更します。
+    4 適用して閉じる
+     4-1 適用して閉じる (Apply and Close) を押すと、波線が消えます。
+ 
+ 特定のTableViewだけに適用したい場合は、
+ Javaコードで tableView.getStyleClass().add("my-table"); とした上で、
+ CSSのセレクタを .my-table に変更して個別に管理する。
+*/
+
+.region:focused {
+    -fx-border-color: #007AFF; /* Macの青 */
+    -fx-border-radius: 15px;
+    -fx-border-width: 2px;
+}
+
+
+/* [AnchorPane](2段目) */
+.base-anchor { 
+	-fx-background-color: rgba(246, 246, 246, 0.95); /* わずかに透過 */
+	/* -fx-background-color: #F6F6F6; /* Mac標準の薄いグレー */
+    -fx-background-radius: 12;
+	/* 枠の影(AnchorPaneの余白部分に表示) */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 5);
+	-fx-border-radius: 12;
+	-fx-border-color: #D1D1D1;    /* 繊細な外枠の線 */
+	-fx-border-width: 0.5;
+}
+
+.titletext {
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+	-fx-font-family: "Helvetica", "Arial", sans-serif;
+    -fx-text-fill: #4A4A4A;           /* 少し柔らかい黒 */
+	-fx-font-size: 22px;
+}
+
+.titletext-sub {
+    -fx-alignment: CENTER;
+	-fx-font-family: "Helvetica", "Arial", sans-serif;
+    -fx-text-fill: #4A4A4A;           /* 少し柔らかい黒 */
+	-fx-font-size: 14px;
+}
+
+/* [AnchorPane] 登録項目 */
+.contents-Area-radius-all {
+    -fx-background-color: #3C3C3C20; /* Mac標準の薄いグレー */
+	-fx-background-radius: 4;
+}
+
+.contents-Area-radius-top {
+    -fx-background-color: #3C3C3C20; /* Mac標準の薄いグレー */
+	-fx-background-radius: 4 4 0 0;
+}
+
+.contents-Area-nonradius {
+    -fx-background-color: #3C3C3C20; /* Mac標準の薄いグレー */
+}
+
+.contents-Area-radius-bottom {
+    -fx-background-color: #3C3C3C20; /* Mac標準の薄いグレー */
+	-fx-background-radius: 0 0 4 4;
+}
+
+.contents-label-text {
+    -fx-alignment: CENTER-RIGHT;
+}
+
+.contents-label-text-top {
+    -fx-alignment: TOP-RIGHT;
+}
+
+.contents-label-text-top-center {
+    -fx-alignment: TOP-CENTER;
+}
+
+.contents-text:focused {
+    -fx-border-color: #007AFF;
+    -fx-border-width: 2px;
+    -fx-background-insets: 0, 1;
+}
+
+.text-aligned {
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 0 0 0 10;
+}
+
+.center-aligned {
+    -fx-alignment: CENTER;
+}
+
+.currency-aligned {
+    -fx-alignment: CENTER-RIGHT;
+    -fx-padding: 0 10 0 0;
+}
+
+
+/* ----------- [戻る]ボタン"<"のスタイル ----------- */
+.back-button {
+    /* ボタン自体のサイズと色 */
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1); /* ホバー時の円形背景 */
+    -fx-background-radius: 12;
+}
+
+.back-button .graphic {
+    /* SVGパスで「<」の形を描画 */
+    -fx-shape: "M15.5 5.5l-6 6 6 6"; 
+    -fx-scale-shape: false;
+    -fx-border-color: #007AFF; /* Mac標準のアクセントカラー（青） */
+    -fx-border-width: 2.5px;
+    -fx-border-cap: round;
+    -fx-border-join: round;
+    -fx-padding: 8;
+}
+
+
+/* ----------- トグルのスタイル ----------- */
+.mac-toggle {
+    -fx-min-width: 50px;
+    -fx-min-height: 26px;
+    -fx-background-radius: 13px; /* カプセル型 */
+    -fx-background-color: #D1D1D6; /* オフ時のグレー */
+    -fx-cursor: hand;
+    /* スイッチの「丸」を背景の線として表現 */
+    -fx-background-insets: 0, 2;
+}
+
+/* ボタン部分：より実用的な「丸」の表現：グラデーションを利用 */
+.mac-toggle {
+    -fx-background-color: #D1D1D6, white;
+    -fx-background-insets: 0, 3 150 3 3; /* 左側に丸を配置 ⇒ 枠外に移動することでサイズを縮小 */
+    -fx-background-radius: 13, 10;
+}
+
+/* ボタン部分：ON（Selected）時の色と丸の移動 */
+.mac-toggle:selected {
+    -fx-background-color: #30D158, white; /* Mac風の緑 */
+    -fx-background-insets: 0, 3 3 3 150; /* 右側に丸を移動 ⇒ 枠外に移動することでサイズを縮小 */
+}
+
+/* クリック時の青い枠線（以前の質問の「選択時の青枠」） */
+.mac-toggle:focused {
+    -fx-border-color: #007AFF; /* Macの青 */
+    -fx-border-radius: 15px;
+    -fx-border-width: 2px;
+}
+
+
+/* ----------- ボタンのスタイル ----------- */
+.mac-button {
+    -fx-background-color: rgba(246, 246, 246, 0.9);
+    -fx-background-radius: 6;         /* 緩やかな角丸 */
+	-fx-border-color: #D1D1D1;    /* 繊細な外枠の線 */
+	-fx-border-width: 1.5;
+
+    -fx-text-fill: #333333;           /* 文字色 */
+    -fx-font-family: "SF Pro Text", "Helvetica Neue", "System"; /* Mac標準フォントを意識 */
+    -fx-padding: 5 12 5 12;
+    -fx-transition: 0.2s;             /* ふんわり変化させる（JavaFXでは標準外だが意識） */
+}
+
+/* マウスホバー時（少しグレーにする） */
+.mac-button:hover {
+    /*-fx-background-color: rgba(0, 0, 0, 0.05); /* ほんのりグレー */
+	-fx-background-color: #007AFF;   /* Macのアクセントカラー（青） */
+	-fx-text-fill: white;
+	-fx-cursor: hand;
+}
+
+/* クリック時（少し濃いグレーにする） */
+.mac-button:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* アクティブ（選択中）なボタンの強調 */
+.mac-button:selected, 
+.mac-button.active {
+    -fx-background-color: #007AFF;   /* Macのアクセントカラー（青） */
+    -fx-text-fill: white;
+}
+
+
+/* ----------- DatePickerのスタイル ----------- */
+/* すべての DatePicker の入力テキストを中央寄せにする */
+.date-picker > .text-field {
+    -fx-alignment: CENTER;
+}
+
+/* カレンダーの背景色 */
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: #3f51b5;
+}
+
+/* 日付部分の背景色 */
+.date-picker-popup > .calendar-grid {
+    -fx-background-color: #ffffff;
+}
+
+.date-picker-popup .label {
+    -fx-text-fill: white;
+}
+
+/* 月・年の切り替えボタン（矢印）の色 */
+.date-picker-popup .left-arrow,
+.date-picker-popup .right-arrow {
+    -fx-background-color: white;
+}
+
+/* 通常の日付 */
+.date-picker-popup .day-cell {
+    -fx-text-fill: #333333;
+}
+
+/* マウスホバー時 */
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #e3f2fd;
+}
+
+/* 「今日」の日付 */
+.date-picker-popup .today {
+    -fx-background-color: #99FF99;
+    -fx-text-fill: #FF66CC;
+    -fx-font-weight: bold;
+}
+
+/* 選択された日付 */
+.date-picker-popup .selected {
+    -fx-background-color: #3f51b5;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .day-cell:disabled {
+    -fx-opacity: 0.3;
+    -fx-background-color: #f4f4f4;
+    -fx-text-fill: #bbbbbb;
+}
+
+.date-picker-popup .day-name-cell {
+    -fx-text-fill: #757575;
+    -fx-font-size: 0.9em;
+}
+
+/* --- 曜日ヘッダー（月火水...）の色変更 --- */
+/* 土曜日 (index 5) */
+.date-picker-popup> .day-name-cell:nth-child(6) {
+    -fx-text-fill: blue !important;
+}
+/* 日曜日 (index 6) */
+.date-picker-popup .day-name-cell:nth-child(7) {
+    -fx-text-fill: red !important;
+}
+
+/* --- 日付数字（1, 2, 3...）の色変更 --- */
+/* 土曜日列 */
+.date-picker-popup .day-cell:nth-child(7n+6) {
+    -fx-text-fill: blue;
+}
+/* 日曜日列 */
+.date-picker-popup .day-cell:nth-child(7n) {
+    -fx-text-fill: red;
+}
+
+/* 選択中や今日の日付と重なった時の色を維持したい場合 */
+.date-picker-popup .day-cell:nth-child(7n).today,
+.date-picker-popup .day-cell:nth-child(7n).selected {
+    -fx-text-fill: red;
+}
+

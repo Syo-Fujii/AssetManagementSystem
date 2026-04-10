@@ -27,6 +27,7 @@ import application.java.manager.customControl.CustomComboBoxControlManager;
 import application.java.manager.customControl.CustomDatePickerControlManager;
 import application.java.manager.customControl.CustomTextFieldControlManager;
 import application.resources.mapper.PerformInventoryMapper;
+import application.resources.mapper.StockTypeMasterMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -87,7 +88,7 @@ public class FormController  extends BaseFormPage {
 	private Integer searchRentStatus = null;
 	private Integer searchStaffNo = null;
 	private LocalDate searchLimitDate = null;
-	private LocalDate searchConfirmedDate = null;	
+	private LocalDate searchConfirmedDate = null;
 	
 	
 	/** 
@@ -160,8 +161,7 @@ public class FormController  extends BaseFormPage {
     		this.searchStaffNo = this.cbo_Search_Staff.getSelectedKey();
     		this.searchLimitDate = this.dp_Search_Limit.getValue();
     		this.searchConfirmedDate = this.dp_Search_Confirmed.getValue();
-    		
-    		testSarchContrlSelectedValues();
+    		logWriteSarchValues();
     		
     		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト検索表示処理");
         	super.<PerformInventoryDataModel>fillTableAsync();
@@ -440,7 +440,7 @@ public class FormController  extends BaseFormPage {
     {
     	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ取得処理");
     	try {
-    		PerformInventoryMapper mapper = session.getMapper(PerformInventoryMapper.class);
+    		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
     	    
     	    // 備品分類マスター取得
     	    return mapper.getStockTypeMasterData();
@@ -760,6 +760,32 @@ public class FormController  extends BaseFormPage {
      	// データ取得・設定
      	fetchStaffMembers();
     }
+    
+    /**
+     * コンボボックス(検索用):備品分類 データ設定処理
+     * @brief 検索項目の[備品分類]を設定する 
+     */   
+    private void setupComboBox_SearchStockType( List<StockTypeMasterModel> datas ) 
+    {
+    	cbo_Search_Type.setIsAddBlankRow(true);
+    	cbo_Search_Type.setDataSource_ModelList( datas, "stockTypeId", "stockTypeName", String.class );
+    	
+    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
+    	cbo_Search_Type.getSelectionModel().selectFirst();
+    }
+    
+    /**
+     * コンボボックス(検索用):使用者 データ設定処理
+     * @brief 検索項目の[使用者]を設定する 
+     */   
+    private void setupComboBox_SearchStaff( List<StaffMasterModel> datas ) 
+    {
+    	cbo_Search_Staff.setIsAddBlankRow(true);
+    	cbo_Search_Staff.setDataSource_ModelList( datas, "staffNo", "staffName", String.class );
+
+    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)    	
+    	cbo_Search_Staff.getSelectionModel().selectFirst();
+    }    
 
     /**
      * コンボボックス(検索用):貸出可否 データ設定処理
@@ -781,33 +807,7 @@ public class FormController  extends BaseFormPage {
      	
     	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
     	cbo_Search_Status.getSelectionModel().selectFirst();
-    }  
-    
-    /**
-     * コンボボックス(検索用):備品分類 データ設定処理
-     * @brief 検索項目の[備品分類]を設定する 
-     */   
-    private void setupComboBox_SearchStockType( List<StockTypeMasterModel> datas ) 
-    {
-    	cbo_Search_Type.setIsAddBlankRow(true);
-    	cbo_Search_Type.setDataSource_ModelList( datas, "stockTypeId", "stockTypeName", String.class );
-    	
-    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
-    	cbo_Search_Type.getSelectionModel().selectFirst();
-    }        
-    
-    /**
-     * コンボボックス(検索用):使用者 データ設定処理
-     * @brief 検索項目の[使用者]を設定する 
-     */   
-    private void setupComboBox_SearchStaff( List<StaffMasterModel> datas ) 
-    {
-    	cbo_Search_Staff.setIsAddBlankRow(true);
-    	cbo_Search_Staff.setDataSource_ModelList( datas, "staffNo", "staffName", String.class );
-
-    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)    	
-    	cbo_Search_Staff.getSelectionModel().selectFirst();
-    }    
+    }      
     
     /**
      * 備品データ取得クエリ 検索項目初期化
@@ -819,6 +819,26 @@ public class FormController  extends BaseFormPage {
 		this.searchStaffNo = null;
 		this.searchLimitDate = null;
 		this.searchConfirmedDate = null;
+    }
+    
+    /**
+     * 検索条件LOG出力
+     * @brief 検索時の画面条件値をLOG(Trace)に出力する。<br>
+     */
+	private void logWriteSarchValues() {
+    	LogManager.writeTrace("[検索項目　選択値]"); 
+    	LogManager.writeTrace("備品分類：[" + this.searchStockType.toString() + "]");
+    	LogManager.writeTrace("シリアルナンバー：[" + this.searchSerialNo + "]");
+    	LogManager.writeTrace("貸出可否：[" + this.searchRentStatus.toString() + "]");
+    	LogManager.writeTrace("使用者：[" + this.searchStaffNo.toString() + "]"); 
+    	LogManager.writeTrace("返却予定日：[" + Optional.
+    			                                 ofNullable(this.searchLimitDate).
+    			                                 map(LocalDate::toString).
+    			                                 orElse("NULL") + "]"); 
+    	LogManager.writeTrace("最終所在確認日：[" + Optional.
+    			                                     ofNullable(this.searchConfirmedDate).
+    			                                     map(LocalDate::toString).
+    			                                     orElse("NULL") + "]");
     }
     
     /**
@@ -834,30 +854,8 @@ public class FormController  extends BaseFormPage {
     }
     
 
+
     
-    /** テスト用　行選択処理 */
-    @SuppressWarnings("unused")
-	private void testSarchContrlSelectedValues() {
-    	try {
-        	LogManager.writeTrace("[検索項目　選択値]"); 
-        	LogManager.writeTrace("備品分類：[" + this.searchStockType.toString() + "]");
-        	LogManager.writeTrace("シリアルナンバー：[" + this.searchSerialNo + "]");
-        	LogManager.writeTrace("貸出可否：[" + this.searchRentStatus.toString() + "]");
-        	LogManager.writeTrace("使用者：[" + this.searchStaffNo.toString() + "]"); 
-        	LogManager.writeTrace("返却予定日：[" + Optional.
-        			                                 ofNullable(this.searchLimitDate).
-        			                                 map(LocalDate::toString).
-        			                                 orElse("NULL") + "]"); 
-        	LogManager.writeTrace("最終所在確認日：[" + Optional.
-        			                                     ofNullable(this.searchConfirmedDate).
-        			                                     map(LocalDate::toString).
-        			                                     orElse("NULL") + "]");
-        	
-    	} catch ( Exception e) {
-    		String title = "[" + FORM_NAME + "] ： メニュー画面遷移中にエラーが発生しました";
-    		LogManager.showAndWriteError(title, e);
-    	}   	
-    }
     
     /** テスト用　行選択処理 */
     @SuppressWarnings("unused")

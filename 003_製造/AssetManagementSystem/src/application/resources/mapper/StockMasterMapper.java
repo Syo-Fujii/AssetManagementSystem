@@ -12,8 +12,8 @@ import application.java.base.tableViewListModel.StockMasterDataModel;
 public interface StockMasterMapper {
 
 	/**
-	 * 棚卸(備品データ)取得(テーブルより取得)
-	 * @return 備品データ(棚卸に表示するデータ)
+	 * 備品マスタ 明細用一覧の取得(テーブルより取得)
+	 * @return 備品マスタ(明細に表示するデータ)
 	 */
     List<StockMasterDataModel> getTableStockMasterDetailRecords(
     		@Param("type") Integer type,

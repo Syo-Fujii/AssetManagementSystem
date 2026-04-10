@@ -128,21 +128,6 @@
        , S.serialNo
      </select>
 
-    <!-- 備品分類マスターの取得 -->
-    <select id="getStockTypeMasterData">
-       SELECT
-         STM.id AS stockTypeId,
-         STM.name AS stockTypeName
-       FROM
-         stock_type_master STM
-       WHERE
-         1 = 1
-       AND STM.del = FALSE
-      ORDER BY
-           STM.stock_type
-         , STM.stock_code
-    </select>
-
     <!-- 社員マスターの取得 -->
     <select id="getStaffMasterData">
      <![CDATA[
@@ -175,7 +160,6 @@
        WHERE
           serial_no = #{serialNo}
     </update>
-
 
     <!-- Viwew[equip_detail_view]から全データの取得 -->
     <select id="getViewAllRecords">

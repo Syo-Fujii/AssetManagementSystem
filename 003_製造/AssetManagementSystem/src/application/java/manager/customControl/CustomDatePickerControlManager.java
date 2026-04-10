@@ -11,6 +11,8 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.InputMethodRequests;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 
 /**
@@ -157,7 +159,22 @@ public class CustomDatePickerControlManager extends DatePicker {
     	
     	this.setupTextValidation();
     }       
-  
+
+    /**
+     * [Enter]Keyを次に遷移とするか
+     * @param isEnabled 遷移判定
+     * @brief [真]とした場合、[Enter]Key押下で下のControlへ遷移(TAB)。<br>
+     * [Enter] + SHIFT Key押下で上のControlへ遷移(Shift + TAB)。<br>
+     */
+    public void isKeyPressToNext(Boolean isEnabled) {
+    	if (isEnabled) {
+    		onEnterKeyNextFocus();
+    		return;
+    	}
+    	
+    	this.setOnKeyPressed(null);
+    }    
+
     
     /**
      * FXML用デフォルトコンストラクタ
@@ -374,4 +391,34 @@ public class CustomDatePickerControlManager extends DatePicker {
 		
 		return (isBeforeLower || isAfterUpper);
 	}
+	
+    /**
+     * Key押下で次のControlに遷移する(TAB押下EVENTと同等)
+     * @brief [Enter]Key押下で下のControlへ遷移(TAB)。<br>
+     *         [Enter] + SHIFT Key押下で上のControlへ遷移(Shift + TAB)。<br>
+     */
+	private void onEnterKeyNextFocus() {
+		this.setOnKeyPressed(
+				event -> 
+				{
+					Boolean isMoveUp = event.getCode() == KeyCode.ENTER && event.isShiftDown();
+					
+					if (event.getCode() == KeyCode.ENTER || isMoveUp)
+					{
+						this.fireEvent(
+				        		new KeyEvent(
+				        				KeyEvent.KEY_PRESSED, 
+				        				"", 
+				        				"", 
+				        				KeyCode.TAB,
+				        				isMoveUp, 
+				        				false, 
+				        				false, 
+				        				false)
+				        		);
+				            
+				        event.consume(); 
+					}
+				});
+	}	
 }

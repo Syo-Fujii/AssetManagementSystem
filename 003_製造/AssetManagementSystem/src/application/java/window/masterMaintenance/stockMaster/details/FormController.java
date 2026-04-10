@@ -1,12 +1,17 @@
 package application.java.window.masterMaintenance.stockMaster.details;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.StockMasterModel;
+import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.base.tableViewListModel.StockMasterDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppUtil;
@@ -17,7 +22,10 @@ import application.java.manager.TableViewManager;
 import application.java.manager.customControl.CustomComboBoxControlManager;
 import application.java.manager.customControl.CustomTextFieldControlManager;
 import application.resources.mapper.StockMasterMapper;
+import application.resources.mapper.StockTypeMasterMapper;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -54,7 +62,7 @@ public class FormController extends BaseFormPage {
 	@FXML private CustomTextFieldControlManager txt_search_serial;
 	@FXML private CustomTextFieldControlManager txt_search_name;
 	@FXML private CustomTextFieldControlManager txt_search_model;
-	@FXML private CustomComboBoxControlManager<String> cbo_search_Status;
+	@FXML private CustomComboBoxControlManager<String> cbo_search_status;
 	@FXML private CheckBox chb_search_del;
 	
 	@FXML private Button search_button;
@@ -77,6 +85,14 @@ public class FormController extends BaseFormPage {
 	@FXML private Button copy_insert_button;
 	@FXML private Button update_button;
 	@FXML private Button back_button;
+
+
+	private Integer searchStockType = null;
+	private String searchSerialNo = null;
+	private String searchName = null;
+	private String searchModel = null;
+	private Boolean searchRentStatus = null;
+	private Boolean searchDelFlg = null;
 
 	
 	/** 
@@ -112,6 +128,12 @@ public class FormController extends BaseFormPage {
 
 		// TableView起動設定
 		this.tableViewSettings();
+
+		// 検索コンボボックスの生成(DB)
+		makeSarchComboBox_StockTypes();
+
+		// 検索コンボボックスの生成(ENUM)
+		makeSarchComboBox_LoanStatus();				
 		
 		// 画面起動設定
 		this.formInitialize();
@@ -119,7 +141,6 @@ public class FormController extends BaseFormPage {
 		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<StockMasterDataModel>fillTableAsync();
     }	
-	
 	
 
     /**
@@ -132,29 +153,124 @@ public class FormController extends BaseFormPage {
     		LogManager.writeInfo("[" + FORM_NAME + "] ： [検索]ボタン押下");
 
     		// 検索条件初期化
-    		/*clearSearchValues();
+    		clearSearchValues();
     		
-    		this.searchStockType = this.cbo_Search_Type.getSelectedKey();
-    		this.searchSerialNo = Optional.ofNullable(this.txt_Search_Serial.getText()).orElse(""); 
-    		this.searchRentStatus = this.cbo_Search_Status.getSelectedKey();
-    		this.searchStaffNo = this.cbo_Search_Staff.getSelectedKey();
-    		this.searchLimitDate = this.dp_Search_Limit.getValue();
-    		this.searchConfirmedDate = this.dp_Search_Confirmed.getValue();
+    		this.searchStockType = this.cbo_search_type.getSelectedKey();
+    		this.searchSerialNo = Optional.ofNullable( this.txt_search_serial.getText() ).orElse(""); 
+    		this.searchName = Optional.ofNullable( this.txt_search_name.getText() ).orElse("");
+    		this.searchModel = Optional.ofNullable( this.txt_search_model.getText() ).orElse("");
+
+        	Integer status = this.cbo_search_status.getSelectedKey();
+        	if( status != AppConst.UNSET_NUMBER_VALUE)
+        	{
+        		this.searchRentStatus = (status == AppConst.LoanStatus.UNAVAILABLE.getState() ? true : false);
+        	}    		
     		
-    		testSarchContrlSelectedValues();
+        	if ( this.chb_search_del.isSelected())
+        	{
+        		this.searchDelFlg = true;
+        	}
+    		logWriteSarchValues();
     		
     		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト検索表示処理");
-        	super.<PerformInventoryDataModel>fillTableAsync();*/
+        	super.<StockMasterDataModel>fillTableAsync();
 
     	} catch (Exception ex) {
-    		// 棚卸ボタン無効化
-    		/*inventory_button.setDisable(true);*/
-    		
+    		setButtonControlsAllDisabled();
     		String title = "[" + FORM_NAME + "] ： [検索]ボタン押下でエラーが発生しました";
     		LogManager.showAndWriteError(title, ex);
     	}
     }    	
-	
+
+    /**
+     * [登録]ボタン 押下イベント 
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
+     */
+    @FXML
+    public void onInsertButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [登録]ボタン押下"); 
+    		
+        	// 備品マスタメンテナンス画面に切替
+        	super.setPage(new application.
+        			java.
+        			window.
+        			masterMaintenance.
+        			stockMaster.
+        			maintenance.
+        			FormController(false, new StockMasterModel()));
+    	
+    	} catch ( Exception e) {
+    		setButtonControlsAllDisabled();
+    		String title = "[" + FORM_NAME + "] ： [登録]ボタン押下にて、エラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
+    }    
+    
+    /**
+     * [コピーして登録]ボタン 押下イベント 
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
+     */
+    @FXML
+    public void onCopyInsertButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [コピーして登録]ボタン押下"); 
+    		
+    		if( !isEditMode || 
+    			tableListView.getSelectedRowNumber() < 0 || 
+    			this.editMasterData == null ||
+    			AppUtil.StringIsNullOrWhiteSpace( this.editMasterData.getSerialNo() )) { return; }
+
+    		//　新規登録用に設定
+    		isEditMode = false;
+    		this.editMasterData.setSerialNo("");
+    		
+        	// 備品マスタメンテナンス画面に切替
+        	super.setPage(new application.
+        			java.
+        			window.
+        			masterMaintenance.
+        			stockMaster.
+        			maintenance.
+        			FormController(this.isEditMode, this.editMasterData));
+    	
+    	} catch ( Exception e) {
+    		setButtonControlsAllDisabled();
+    		String title = "[" + FORM_NAME + "] ： [コピーして登録]ボタン押下にて、エラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
+    }
+    
+    /**
+     * [更新]ボタン 押下イベント 
+     * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
+     */
+    @FXML
+    public void onUpdateButtonClicked() {
+    	try {
+    		LogManager.writeInfo("[" + FORM_NAME + "] ： [更新]ボタン押下"); 
+    		
+    		if( !isEditMode || 
+    			tableListView.getSelectedRowNumber() < 0 || 
+    			this.editMasterData == null ||
+    			AppUtil.StringIsNullOrWhiteSpace( this.editMasterData.getSerialNo() )) { return; }
+
+        	// 備品マスタメンテナンス画面に切替
+        	super.setPage(new application.
+        			java.
+        			window.
+        			masterMaintenance.
+        			stockMaster.
+        			maintenance.
+        			FormController(this.isEditMode, this.editMasterData));
+    	
+    	} catch ( Exception e) {
+    		setButtonControlsAllDisabled();
+    		String title = "[" + FORM_NAME + "] ： [更新]ボタン押下にて、エラーが発生しました";
+    		LogManager.showAndWriteError(title, e);
+    	}
+    }
+    
     /**
      * [メニューに戻る]ボタン 押下イベント 
      * @brief エラーハンドリングは[JavaFX の UIスレッド（Event Dispatch Thread）]となる。<br> 
@@ -173,7 +289,6 @@ public class FormController extends BaseFormPage {
     	}
     }	
 
-
 	/**
      * クエリ発行処理(Mapper)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
@@ -189,7 +304,14 @@ public class FormController extends BaseFormPage {
     	StockMasterMapper mapper = session.getMapper(StockMasterMapper.class);
 	    
 	    // 備品マスタ明細(一覧) データ取得
-	    return (List<T>) mapper.getTableStockMasterDetailRecords(null,null,null,null,null,null);
+	    return (List<T>) mapper.getTableStockMasterDetailRecords(
+	    		searchStockType,
+	    		searchSerialNo,
+	    		searchName,
+	    		searchModel,
+	    		searchRentStatus,
+	    		searchDelFlg
+	    		);
     }
 
 	/**
@@ -225,7 +347,51 @@ public class FormController extends BaseFormPage {
 		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品マスタ明細(一覧)取得失敗");
 		super.exceptionResult(exception);
     }    
-    
+
+    /**
+     * 検索条件：備品分類ComboBox 選択リスト取得処理
+     */
+	private void fetchStockTypes()
+    {
+		LogManager.writeTrace("検索・備品分類(ComboBox) 選択リスト取得処理");
+    	
+    	MySqlManager.<StockTypeMasterModel>FillOnParallel(
+    			(SqlSession session) -> {
+					try {
+						return this.getStockTypeMasterData(session);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				},
+    			listData -> { 
+    				setupComboBox_SearchStockType( listData ); },
+    			exception -> {
+    				LogManager.writeError("検索・備品分類(ComboBox)  選択リスト取得失敗");
+    				super.exceptionResult(exception);
+    			}
+    	); 
+    }	
+
+	/**
+     * 備品分類一覧の取得
+     * @param session
+     * @throws Exception
+     * @return List<StockTypeMasterModel> 取得結果(行データ:StockTypeMasterModel のList)
+     */
+    private List<StockTypeMasterModel> getStockTypeMasterData(SqlSession session) throws Exception
+    {
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ取得処理");
+    	try {
+    		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
+    	    
+    	    // 備品分類マスター取得
+    	    return mapper.getStockTypeMasterData();
+
+    	} catch(Exception e){
+    		throw new Exception(e);
+    	}
+    }	
+	
     /**
      * TableView設定
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
@@ -251,8 +417,9 @@ public class FormController extends BaseFormPage {
     	tableListView.onTableViewFocusEvent(
     			() -> 
     			{
-                   	this.isEditMode = false;
-                   	setupEditModeButtonsEnabled(isEditMode);  				
+    				if ( !copy_insert_button.isFocused() && 
+    					 !update_button.isFocused()) { this.isEditMode = false; }
+    				setupEditModeButtonsEnabled(isEditMode);  				
     			},
     			null);
     	
@@ -334,8 +501,58 @@ public class FormController extends BaseFormPage {
     	
 		// 新規登録モード
 		setupNewRecordMode();
+
+		// 検索条件初期化
+		clearSearchValues();		
     }        
 
+    /**
+     * コンボボックス(検索用):備品分類　生成処理
+     * @brief 検索項目の[備品分類]を設定する 
+     */   
+    private void makeSarchComboBox_StockTypes() {
+     	// データ取得
+     	fetchStockTypes();
+    }    
+
+    /**
+     * コンボボックス(検索用):備品分類 データ設定処理
+     * @brief 検索項目の[備品分類]を設定する 
+     */   
+    private void setupComboBox_SearchStockType( List<StockTypeMasterModel> datas ) 
+    {
+    	cbo_search_type.setIsAddBlankRow(true);
+    	cbo_search_type.setDataSource_ModelList( datas, "stockTypeId", "stockTypeName", String.class );
+    	
+    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
+    	cbo_search_type.getSelectionModel().selectFirst();
+    }
+
+    /**
+     * コンボボックス(検索用):貸出可否 データ設定処理
+     * @brief 検索項目の[貸出可否]を設定する 
+     */   
+    private void makeSarchComboBox_LoanStatus() {
+    	// 選択肢のリスト(空データ)
+     	ObservableList<keyValuePairItem<String>> comboBoxSource = FXCollections.observableArrayList();    	
+
+     	comboBoxSource.addAll(
+     			Stream.of(AppConst.LoanStatus.values()).
+     			filter(e -> 
+     			{ 
+     				return ( Objects.equals(e.getState(), AppConst.LoanStatus.AVAILABLE.getState()) || 
+     						 Objects.equals(e.getState(), AppConst.LoanStatus.UNAVAILABLE.getState()) );
+     			}).
+     			map( (state) -> { return new keyValuePairItem<>( state.getState(), state.getLabel()); }).
+     			collect(Collectors.toList()));
+     	
+     	cbo_search_status.setIsAddBlankRow(true);
+     	cbo_search_status.setDataSource_KvpList(comboBoxSource);
+     	
+    	// 検索コンボボックスの初期位置(先頭 ≒ 空欄)
+    	cbo_search_status.getSelectionModel().selectFirst();
+    }      
+    
     /**
      * 各ボタン 有効化制御
      * @param isEditMode Boolean 更新モード判定
@@ -343,17 +560,15 @@ public class FormController extends BaseFormPage {
      */
     private void setupEditModeButtonsEnabled(Boolean isEditMode) {
        	// ボタン制御
-     	copy_insert_button.setDisable( !isEditMode );
-    	update_button.setDisable( !isEditMode );
+     	if ( !copy_insert_button.isFocused() ) { copy_insert_button.setDisable( !isEditMode ); }
+     	if ( !update_button.isFocused() ) { update_button.setDisable( !isEditMode ); }
     }    
-
 
     /**
      * ボタン項目 無効化処理
      * @brief ボタンの全コントロールを無効化を行う<br>
      */
     private void setButtonControlsAllDisabled() {
-     	
        	// ボタン制御
     	insert_button.setDisable( true );
     	copy_insert_button.setDisable( true );	
@@ -375,6 +590,39 @@ public class FormController extends BaseFormPage {
     	
     	Platform.runLater(() -> insert_button.requestFocus());
     }    
+ 
+    /**
+     * 備品マスタ取得クエリ 検索項目初期化
+     */
+    private void clearSearchValues() {
+		this.searchStockType = null;
+		this.searchSerialNo = null; 
+		this.searchName = null;
+		this.searchModel = null;
+		this.searchRentStatus = null;
+		this.searchDelFlg = null;
+    }    
+
+    /**
+     * 検索条件LOG出力
+     * @brief 検索時の画面条件値をLOG(Trace)に出力する。<br>
+     */
+	private void logWriteSarchValues() {
+		LogManager.writeTrace("[検索項目　選択値]"); 
+    	LogManager.writeTrace("備品分類：[" + this.searchStockType.toString() + "]");
+    	LogManager.writeTrace("シリアルナンバー：[" + this.searchSerialNo + "]");
+    	LogManager.writeTrace("備品名称：[" + this.searchName.toString() + "]"); 
+    	LogManager.writeTrace("モデル名：[" + this.searchModel.toString() + "]"); 
+    	LogManager.writeTrace("貸出可否：[" + 
+    	                       Optional.
+    	                       ofNullable(this.searchRentStatus).
+    	                       map(state -> state.toString()).
+    	                       orElse("NULL") +
+    	                       "]"); 
+    	LogManager.writeTrace("削除：[" + 
+    	                       ( this.searchDelFlg != null && this.searchDelFlg ? "TRUE" : "NULL OR FALSE") + 
+    	                       "]"); 
+    }
     
     /**
      * 遷移元画面呼び出し
@@ -386,5 +634,5 @@ public class FormController extends BaseFormPage {
     			java.
     			window.
     			MenuController(true));
-    }       
+    }
 }

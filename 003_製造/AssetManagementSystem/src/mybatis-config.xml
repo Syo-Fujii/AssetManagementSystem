@@ -53,6 +53,7 @@
     <mapper class="application.resources.mapper.StockTypeMasterMapper"/>
     <mapper class="application.resources.mapper.StockMasterMapper"/>
     <mapper class="application.resources.mapper.StaffMasterMapper"/>
+    <mapper class="application.resources.mapper.GenericCodeMasterMapper"/>
   </mappers>
 
 </configuration>

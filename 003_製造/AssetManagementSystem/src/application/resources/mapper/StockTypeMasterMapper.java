@@ -17,6 +17,13 @@ public interface StockTypeMasterMapper {
     List<StockTypeMasterModel> selectAll();
   
 	/**
+	 * 備品分類マスターの取得(ComboBox用)
+	 * @return 備品分類マスターの一覧
+	 * @brief 論理削除している備品分類データは取得しない
+	 */
+    List<StockTypeMasterModel> getStockTypeMasterData();
+    
+	/**
 	 * 全件取得
 	 * @return　備品分類マスタ(マスタメンテナンス用)
 	 * @brief マスタメンテナンス画面での一覧取得に用いるデータ<br>

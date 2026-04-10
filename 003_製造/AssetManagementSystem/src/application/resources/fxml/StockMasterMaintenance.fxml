@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import application.java.manager.customControl.CustomComboBoxControlManager?>
+<?import application.java.manager.customControl.CustomDatePickerControlManager?>
+<?import application.java.manager.customControl.CustomTextAreaManager?>
+<?import application.java.manager.customControl.CustomTextFieldControlManager?>
+<?import application.java.manager.customControl.CustomToggleButtonManager?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" styleClass="base-anchor" stylesheets="@../css/StockMasterMaintenanceStyle.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Button id="back" fx:id="back_button" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="44.0" styleClass="back-button" text="〈" />
+            <Label fx:id="lbl_title" styleClass="titletext" text="画面タイトル" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_sub_title" styleClass="titletext-sub" text="画面種別(新規・更新)" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+            <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+               <children>
+                  <AnchorPane prefHeight="25.0" prefWidth="200.0" styleClass="contents-Area-radius-all">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="シリアルナンバー" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding></Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomTextFieldControlManager fx:id="txt_serial_no" layoutX="229.0" layoutY="5.0" maxHeight="28.0" minHeight="28.0" prefHeight="28.0" styleClass="text-aligned" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </CustomTextFieldControlManager>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="35.0" prefWidth="200.0" styleClass="contents-Area-radius-top">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="備品分類" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomComboBoxControlManager fx:id="cbo_type" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="25.0" prefWidth="200.0" styleClass="contents-Area-nonradius">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="備品名称" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomTextFieldControlManager fx:id="txt_name" minHeight="28.0" styleClass="text-aligned" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </CustomTextFieldControlManager>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="25.0" prefWidth="200.0" styleClass="contents-Area-nonradius">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="型番(Model名)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomTextFieldControlManager fx:id="txt_model" minHeight="28.0" styleClass="text-aligned" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </CustomTextFieldControlManager>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="25.0" prefWidth="200.0" styleClass="contents-Area-nonradius">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="メーカー" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomTextFieldControlManager fx:id="txt_maker" minHeight="28.0" styleClass="text-aligned" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </CustomTextFieldControlManager>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane layoutX="20.0" layoutY="131.0" minHeight="120.0" prefHeight="100.0" prefWidth="200.0" styleClass="contents-Area-radius-bottom">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text-top" text="備考" textAlignment="RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" top="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" styleClass="contents-label-text-top-center" text="：" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                        <CustomTextAreaManager fx:id="txt_remarks" minHeight="110.0" prefColumnCount="12" prefHeight="200.0" prefWidth="200.0" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane layoutX="20.0" layoutY="92.0" prefHeight="35.0" prefWidth="200.0" styleClass="contents-Area-radius-all">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="貸出可否" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomToggleButtonManager fx:id="tgb_rent" mnemonicParsing="false" styleClass="mac-toggle" text="ONの場合は「貸出可」とする" textFill="#838383" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </CustomToggleButtonManager>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane layoutX="20.0" layoutY="348.0" prefHeight="35.0" prefWidth="200.0" styleClass="contents-Area-radius-all">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="削除" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomToggleButtonManager fx:id="tgb_del" mnemonicParsing="false" styleClass="mac-toggle" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </CustomToggleButtonManager>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane layoutX="20.0" layoutY="57.0" prefHeight="35.0" prefWidth="200.0" styleClass="contents-Area-radius-top">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="資産区分" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomComboBoxControlManager fx:id="cbo_asset" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="20.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane layoutX="20.0" layoutY="166.0" prefHeight="25.0" prefWidth="200.0" styleClass="contents-Area-nonradius">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="貸出会社" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomTextFieldControlManager fx:id="txt_vendor_code" minHeight="28.0" styleClass="text-aligned" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </CustomTextFieldControlManager>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane layoutX="20.0" layoutY="468.0" prefHeight="25.0" prefWidth="200.0" styleClass="contents-Area-nonradius">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="契約満了日" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomDatePickerControlManager fx:id="dp_expiry_date" prefWidth="150.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane layoutX="20.0" layoutY="433.0" prefHeight="35.0" prefWidth="200.0" styleClass="contents-Area-nonradius">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="支払区分" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomComboBoxControlManager fx:id="cbo_pay_cycle" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane layoutX="20.0" layoutY="542.0" prefHeight="25.0" prefWidth="200.0" styleClass="contents-Area-radius-bottom">
+                     <children>
+                        <Label prefWidth="150.0" styleClass="contents-label-text" text="料金" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Label layoutX="170.0" prefWidth="20.0" text="：" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <CustomTextFieldControlManager fx:id="txt_price" minHeight="28.0" styleClass="currency-aligned" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </CustomTextFieldControlManager>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <Button id="submitButton" fx:id="submit_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="35.0" styleClass="mac-button" text="Button">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="20.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
