@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import application.java.base.dbTablesModel.StockMasterModel;
 import application.java.base.tableViewListModel.StockMasterDataModel;
 
 /**
@@ -21,5 +22,27 @@ public interface StockMasterMapper {
     		@Param("name") String name,
     		@Param("model") String model,
     		@Param("status") Boolean status,
-    		@Param("del") Boolean del);	
+    		@Param("del") Boolean del);
+
+    /**
+     * マスタ存在確認 
+     * @param data 備品マスタMODEL
+     * @return 確認結果
+     */
+    Boolean existsStockMaster(StockMasterModel data);    
+    
+    /**
+     * マスタ登録
+     * @param row 備品マスタMODEL
+     * @return 更新件数
+     */
+    Integer insStockMasterOnes(StockMasterModel row);     
+    
+    /**
+     * マスタ更新
+     * @param row 備品マスタMODEL
+     * @return 更新件数
+     */
+    Integer updStockMasterOnes(StockMasterModel row);    
+    
 }

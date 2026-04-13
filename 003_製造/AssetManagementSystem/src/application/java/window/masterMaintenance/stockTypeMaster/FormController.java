@@ -162,7 +162,7 @@ public class FormController extends BaseFormPage {
     		
         	// 登録処理(備品分類マスタ登録処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品分類マスタ登録処理");
-        	super.executeNonQueryUseTran( this::insMasterData, List.of(editMasterData) );  		   		
+        	super.executeCudQuery( List.of(editMasterData) );  		   		
 
     		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
         	super.<StockTypeMasterModel>fillTableAsync(); 		
@@ -275,12 +275,12 @@ public class FormController extends BaseFormPage {
     protected void exceptionResult(Throwable exception)
     {
 		setEditControlsAllDisabled();
-		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品分類マスタ取得失敗");
+		LogManager.writeError("[" + FORM_NAME + "] ： DB 備品分類マスタ 操作失敗");
 		super.exceptionResult(exception);
     }
 
     /**
-     * 備品分類マスタ更新クエリ発行
+     * 備品分類マスタ登録・更新クエリ発行
      * クエリ発行処理(Mapper:トランザクション処理：executeCudQueryのMapper処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session SQLセッション
@@ -298,12 +298,20 @@ public class FormController extends BaseFormPage {
      */
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
-		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ更新処理");
+		String ExecuteTitle = this.isEditMode ? "更新" : "登録";
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ" + ExecuteTitle + "処理");
 		
 		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
-		
-		// 更新処理
-		Integer resultCount = mapper.updStockTypeMasterOnes( (StockTypeMasterModel) listData.getFirst() );
+
+		Integer resultCount = -1;
+		if (this.isEditMode)
+		{
+			// 更新処理
+			resultCount = mapper.updStockTypeMasterOnes( (StockTypeMasterModel) listData.getFirst() );
+		} else {
+			// 登録処理
+			resultCount = mapper.insStockTypeMasterOnes( (StockTypeMasterModel) listData.getFirst() );
+		}
 
 		return resultCount == 1 ? true : false; 
     }    	
@@ -318,12 +326,14 @@ public class FormController extends BaseFormPage {
      */
 	@Override
 	protected void excuteQueryResult(ExcuteQueryResultStatus status){
+
 		// 更新件数が0件のクエリが存在していた場合、例外MSGを表示
 		if (status ==  ExcuteQueryResultStatus.NO_ROWS_AFFECTED) {
 			String title = "DB クエリ発行結果エラー";
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append("更新(備品分類マスタ)処理にて、結果件数が0件のクエリが発行されました。").append(AppUtil.newLine());
+			sb.append(this.isEditMode ? "更新" : "登録");
+			sb.append("(備品分類マスタ)処理にて、結果件数が0件のクエリが発行されました。").append(AppUtil.newLine());
 			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
 			sb.append("システム管理者に連絡してください。" );
 			
@@ -347,22 +357,6 @@ public class FormController extends BaseFormPage {
 		
 		// 存在確認
 		return  mapper.existsStockType( (StockTypeMasterModel) data );
-    }
-	
-	/**
-	 * 備品分類マスタ登録クエリ発行処理(Mapper)
-	 * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
-	 * @param session 継承元より渡される[SQLSession]
-	 * @param dataList 発行するクエリの条件の値( 行データのクラス )
-	 * @return 登録処理の結果
-	 */
-	private <T extends BaseTableViewModel> Boolean insMasterData(SqlSession session, List<T> dataList) {
-		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ登録");
-		
-		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
-		// 登録処理
-		Integer resultCount = mapper.insStockTypeMasterOnes( (StockTypeMasterModel) dataList.getFirst() ); 
-		return ( resultCount > 0 ) ? true : false;  
     }
 
 	/**

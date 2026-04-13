@@ -77,4 +77,166 @@
      ORDER BY
        SM.serial_no
     </select>
+
+    <!-- マスタデータ存在確認 -->
+    <select id="existsStockMaster" resultType="boolean" parameterType="application.java.base.dbTablesModel.StockMasterModel">
+      SELECT 
+         EXISTS 
+         (
+          SELECT 
+             1 
+          FROM
+            stock_master 
+          WHERE 
+            1 = 1
+          AND serial_no = #{serialNo} 
+         ) AS IS_EXISTS
+    </select>
+
+    <!-- 新規登録(マスタメンテナンス用) -->
+    <insert id="insStockMasterOnes" parameterType="application.java.base.dbTablesModel.StockMasterModel"> 
+      INSERT INTO stock_master
+      (
+        serial_no,
+        name,
+        model,
+        maker,
+        stock_type,
+        stock_code,
+        rent_flg,
+        asset_type,
+        vendor_code,
+        expiry_date,
+        pay_cycle,
+        price,
+        remarks,
+        del
+      ) VALUES (
+        #{serialNo},
+        #{stockName},
+        #{model},
+        #{maker},
+        #{stockType},
+        #{stockCode},
+
+        <if test="rentFlg != null">
+          #{rentFlg},
+        </if>
+        <if test="rentFlg == null">
+          FALSE,
+        </if>
+
+        <choose>
+          <when test="assetType != null and assetType > -1">
+            #{assetType},
+          </when>
+          <when test="assetType == -1">
+            NULL,
+          </when>
+          <otherwise>NULL,</otherwise>
+        </choose>
+
+        #{vendorCode},
+
+        <choose>
+          <when test="expiryDate != null">
+            #{expiryDate},
+          </when>
+          <otherwise>NULL,</otherwise>
+        </choose>
+
+        <choose>
+          <when test="payCycle != null and payCycle > -1">
+            #{payCycle},
+          </when>
+          <when test="payCycle == -1">
+            NULL,
+          </when>
+          <otherwise>NULL,</otherwise>
+        </choose>
+
+        <choose>
+          <when test="price != null">
+            #{price},
+          </when>
+          <otherwise>NULL,</otherwise>
+        </choose>
+
+        #{remarks},
+
+        <if test="delFlg != null">
+          #{delFlg}
+        </if>
+        <if test="delFlg == null">
+          FALSE
+        </if>
+      )
+    </insert>
+
+    <!-- マスタ更新 -->
+    <update id="updStockMasterOnes" parameterType="application.java.base.dbTablesModel.StockMasterModel">
+      UPDATE stock_master
+      <set>
+        stock_type = #{stockType},
+        stock_code = #{stockCode},
+        
+        name = #{stockName},
+        model = #{model},
+        maker = #{maker},
+        vendor_code = #{vendorCode},
+        remarks = #{remarks},
+
+        <if test="rentFlg != null">
+          rent_flg = #{rentFlg},
+        </if>
+        <if test="rentFlg == null">
+          rent_flg = FALSE,
+        </if>
+        
+        <choose>
+          <when test="assetType != null and assetType > -1">
+            asset_type = #{assetType},
+          </when>
+          <when test="assetType == -1">
+            asset_type = NULL,
+          </when>
+          <otherwise>asset_type = NULL,</otherwise>
+        </choose>
+
+        <choose>
+          <when test="expiryDate != null">
+            expiry_date = #{expiryDate},
+          </when>
+          <otherwise>expiry_date = NULL,</otherwise>
+        </choose>
+
+        <choose>
+          <when test="payCycle != null and payCycle > -1">
+            pay_Cycle = #{payCycle},
+          </when>
+          <when test="assetType == -1">
+            pay_Cycle = NULL,
+          </when>
+          <otherwise>pay_Cycle = NULL,</otherwise>
+        </choose>
+
+        <choose>
+          <when test="price != null">
+            price = #{price},
+          </when>
+          <otherwise>price = NULL,</otherwise>
+        </choose>
+
+        <if test="delFlg != null">
+          del = #{delFlg},
+        </if>
+        <if test="delFlg == null">
+          del = FALSE,
+        </if>
+
+      </set>
+      WHERE
+       serial_no = #{serialNo}
+    </update>
+
 </mapper>

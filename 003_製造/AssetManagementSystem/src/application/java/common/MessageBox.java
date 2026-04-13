@@ -109,6 +109,30 @@ public class MessageBox {
 	}
 
 	/**
+	 * 情報(INFORMATION)MessageBox
+	 * @param title メッセージBOXのタイトル
+	 * @param headerText　概要(タイトル)　※ 不要な場合はNULLを指定
+	 * @param message メッセージ内容
+     * @brief 情報を促す
+	 */
+	@SuppressWarnings("unused")
+	public static void ShowInformation(
+			String title,
+			String headerText,
+			String message){
+		
+    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+     	
+    	alert.setTitle(title);
+    	alert.setHeaderText(headerText);
+    	alert.setContentText(message);
+		
+    	alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+    	
+    	Optional<ButtonType> result =  alert.showAndWait();
+	}		
+	
+	/**
 	 * 警告(WARNING)MessageBox
 	 * @param title メッセージBOXのタイトル
 	 * @param headerText　概要(タイトル)　※ 不要な場合はNULLを指定

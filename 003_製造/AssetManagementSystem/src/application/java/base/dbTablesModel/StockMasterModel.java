@@ -6,11 +6,9 @@ import application.java.base.BaseTableViewModel;
 import application.java.common.AppConst;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -34,7 +32,7 @@ public class StockMasterModel extends BaseTableViewModel {
 	private StringProperty vendorCode;
 	private ObjectProperty<LocalDate> expiryDate;
 	private IntegerProperty payCycle;
-	private LongProperty price;
+	private ObjectProperty<Long> price;
     private StringProperty remarks;
 	private BooleanProperty del;
 
@@ -51,7 +49,7 @@ public class StockMasterModel extends BaseTableViewModel {
 
 	/**
 	* [シリアルNo]項目設定
-	* @param type 設定する値
+	* @param serialNo 設定する値
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/    
@@ -348,7 +346,7 @@ public class StockMasterModel extends BaseTableViewModel {
 		 this.vendorCode = new SimpleStringProperty("");
 		 this.expiryDate  = new SimpleObjectProperty<>();
 		 this.payCycle = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
-		 this.price = new SimpleLongProperty();
+		 this.price = new SimpleObjectProperty<>();
 		 this.remarks = new SimpleStringProperty("");
 		 this.del = new SimpleBooleanProperty(false);		 
 	 }

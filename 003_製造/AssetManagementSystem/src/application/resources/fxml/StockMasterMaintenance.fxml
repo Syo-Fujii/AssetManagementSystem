@@ -290,7 +290,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </AnchorPane>
-                  <Button id="submitButton" fx:id="submit_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="35.0" styleClass="mac-button" text="Button">
+                  <Button id="submitButton" fx:id="submit_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSubmitButtonClicked" prefHeight="35.0" styleClass="mac-button" text="Button">
                      <VBox.margin>
                         <Insets left="10.0" right="10.0" top="20.0" />
                      </VBox.margin>
