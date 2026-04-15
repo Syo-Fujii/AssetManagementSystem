@@ -153,16 +153,16 @@ public class FormController extends BaseFormPage {
         		if( checkResult.isShowMsgBox()) {
         			this.showMessageInputError(checkResult.message());
         		}
-        		setupErroeInputControlsFocus( checkResult.colNo() );
+        		setupErrorInputControlsFocus( checkResult.colNo() );
         		return;
         	}
         	
         	// 登録実行確認
-        	if( !showMessageIsInserting( this.editMasterData.getDelFlg()) ) { return; }
+        	if( !!showMessageIsExecuting("登録", this.editMasterData.getDelFlg()) ) { return; }
     		
         	// 登録処理(社員マスタ登録処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 社員マスタ登録処理");
-        	super.executeNonQueryUseTran( this::insMasterData, List.of(editMasterData) );  		   		
+        	super.executeCudQuery( List.of(editMasterData) ); 		   		
 
     		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
         	super.<StaffMasterModel>fillTableAsync(); 		
@@ -188,7 +188,7 @@ public class FormController extends BaseFormPage {
     		
     		if( !isEditMode || 
     			!isEditControlsChanged() ||
-    			!showMessageIsUpdating(check_Edit_DelFlg.isSelected()) ) { return; }
+    			!showMessageIsExecuting("更新", check_Edit_DelFlg.isSelected()) ) { return; }
 
     		getEditControlsValue();
     		
@@ -280,7 +280,7 @@ public class FormController extends BaseFormPage {
     }
 
     /**
-     * 社員マスタ更新クエリ発行
+     * 社員マスタ登録・更新クエリ発行
      * クエリ発行処理(Mapper:トランザクション処理：executeCudQueryのMapper処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @param session SQLセッション
@@ -298,14 +298,24 @@ public class FormController extends BaseFormPage {
      */
 	@Override
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
-		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ更新処理");
+		String ExecuteTitle = this.isEditMode ? "更新" : "登録";
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ" + ExecuteTitle + "処理");
 		
 		StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
-		
-		// 更新処理
-		Integer resultCount = mapper.updStaffMasterOnes( (StaffMasterModel) listData.getFirst() );
 
-		return resultCount == 1 ? true : false; 
+		Integer resultCount = AppConst.UNSET_NUMBER_VALUE;
+		StaffMasterModel data = (StaffMasterModel) listData.getFirst();
+		
+		if (this.isEditMode)
+		{
+			// 更新処理
+			resultCount = mapper.updStaffMasterOnes( data );
+		} else {
+			// 登録処理
+			resultCount = mapper.insStaffMasterOnes( data ); 
+		}
+
+		return ( resultCount == AppConst.DB_EXECUTE_ONES ); 		
     }    	
 	
     /**
@@ -348,22 +358,6 @@ public class FormController extends BaseFormPage {
 		// 存在確認
 		return  mapper.existsStaffNo( (StaffMasterModel) data );
     }
-	
-	/**
-	 * 社員マスタ登録クエリ発行処理(Mapper)
-	 * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
-	 * @param session 継承元より渡される[SQLSession]
-	 * @param dataList 発行するクエリの条件の値( 行データのクラス )
-	 * @return 登録処理の結果
-	 */
-	private <T extends BaseTableViewModel> Boolean insMasterData(SqlSession session, List<T> dataList) {
-		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品分類マスタ登録");
-		
-		StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
-		// 登録処理
-		Integer resultCount = mapper.insStaffMasterOnes( (StaffMasterModel) dataList.getFirst() ); 
-		return ( resultCount > 0 ) ? true : false;  
-    }
 
 	/**
 	 * 登録項目 値変更チェック処理
@@ -405,42 +399,12 @@ public class FormController extends BaseFormPage {
     			"編集中の登録項目を破棄します。" + AppUtil.newLine() +
     			"よろしいですか？");
     }
-
-	/**
-	 *登録確認Message
-	 * @return 確認結果
-	 */
-    private Boolean showMessageIsInserting(boolean delFlg) {
-    	Integer no = this.editMasterData.getStaffNo();
-    	String name = this.editMasterData.getStaffName();
-
-    	StringBuilder sb = new StringBuilder();
-		
-    	if ( delFlg ) 
-    	{
-    		sb.append("※ 削除フラグを有効にした場合、貸出業務を行うことはできません。");
-    		sb.append(AppUtil.newLine());
-    		sb.append("　 よろしいですか？");
-    		sb.append(AppUtil.newLine());
-    	}
-    	
-    	sb.append("社員番号 :[").append(no.toString()).append("] ");
-		sb.append("氏名 :[").append(name).append("] ");
-		sb.append(AppUtil.newLine());
-
-    	return MessageBox.ShowConfirmation(
-    			ShowButtonType.YES_NO,
-    			false,
-    			"登録確認",
-    			"下記の社員マスタの登録を行います。よろしいですか？",
-    			sb.toString());
-    }    
     
 	/**
-	 *更新確認Message
+	 * DB処理確認Message
 	 * @return 確認結果
 	 */
-    private Boolean showMessageIsUpdating(boolean delFlg) {
+    private Boolean showMessageIsExecuting(String execute, boolean delFlg) {
     	Integer no = this.editMasterData.getStaffNo();
     	String name = this.editMasterData.getStaffName();
 
@@ -462,8 +426,8 @@ public class FormController extends BaseFormPage {
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
     			false,
-    			"更新確認",
-    			"下記の社員マスタの更新を行います。よろしいですか？",
+    			execute + "確認",
+    			"下記の社員マスタの" + execute + "を行います。よろしいですか？",
     			sb.toString());
     }
 
@@ -672,7 +636,7 @@ public class FormController extends BaseFormPage {
      * @brief 登録項目でエラーがあった場合、登録前チェック処理:isMasterRowsCheckで<br>
      * 設定した項目番号(列番号)に一致するControlにFocusを遷移する。
      */
-    private void setupErroeInputControlsFocus(Integer colNo)
+    private void setupErrorInputControlsFocus(Integer colNo)
     {
     	Platform.runLater(() -> 
     	{ 
@@ -706,7 +670,7 @@ public class FormController extends BaseFormPage {
 			return new AppConst.rowCheckResultData(false, true, -1, 1, sb.toString());
 		}	
     	
-		// 必須確認：備品コード
+		// 必須確認：氏名
 		if ( AppUtil.StringIsNullOrWhiteSpace(this.editMasterData.getStaffName()) ) {
 			sb.append("[氏名]が入力されていません。");
 			return new AppConst.rowCheckResultData(false, true, -1, 2, sb.toString());

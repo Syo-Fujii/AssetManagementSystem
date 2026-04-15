@@ -244,6 +244,9 @@ public class AppConst {
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;
 
+	/** DB処理 対象件数１件 */
+	public static final int DB_EXECUTE_ONES = 1;	
+	
 	/** 入力制限 正規表現(半角英数字) */
 	public static final String REGEX_ALPHA_NUMERIC = "^[a-zA-Z0-9 ]*$";
 	

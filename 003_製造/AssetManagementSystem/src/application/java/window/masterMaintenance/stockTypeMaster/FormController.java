@@ -153,12 +153,12 @@ public class FormController extends BaseFormPage {
         		if( checkResult.isShowMsgBox()) {
         			this.showMessageInputError(checkResult.message());
         		}
-        		setupErroeInputControlsFocus( checkResult.colNo() );
+        		setupErrorInputControlsFocus( checkResult.colNo() );
         		return;
         	}
         	
         	// 登録実行確認
-        	if( !showMessageIsInserting( this.editMasterData.getDelFlg()) ) { return; }
+        	if( !showMessageIsExecuting( "登録", this.editMasterData.getDelFlg()) ) { return; }
     		
         	// 登録処理(備品分類マスタ登録処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品分類マスタ登録処理");
@@ -188,7 +188,7 @@ public class FormController extends BaseFormPage {
     		
     		if( !isEditMode || 
     			!isEditControlsChanged() ||
-    			!showMessageIsUpdating(check_Edit_DelFlg.isSelected()) ) { return; }
+    			!showMessageIsExecuting("更新", check_Edit_DelFlg.isSelected()) ) { return; }
 
     		getEditControlsValue();
     		
@@ -303,17 +303,19 @@ public class FormController extends BaseFormPage {
 		
 		StockTypeMasterMapper mapper = session.getMapper(StockTypeMasterMapper.class);
 
-		Integer resultCount = -1;
+		Integer resultCount = AppConst.UNSET_NUMBER_VALUE;
+		StockTypeMasterModel data = (StockTypeMasterModel) listData.getFirst();
+		
 		if (this.isEditMode)
 		{
 			// 更新処理
-			resultCount = mapper.updStockTypeMasterOnes( (StockTypeMasterModel) listData.getFirst() );
+			resultCount = mapper.updStockTypeMasterOnes( data );
 		} else {
 			// 登録処理
-			resultCount = mapper.insStockTypeMasterOnes( (StockTypeMasterModel) listData.getFirst() );
+			resultCount = mapper.insStockTypeMasterOnes( data );
 		}
 
-		return resultCount == 1 ? true : false; 
+		return ( resultCount == AppConst.DB_EXECUTE_ONES ); 
     }    	
 	
     /**
@@ -398,40 +400,10 @@ public class FormController extends BaseFormPage {
     }
 
 	/**
-	 *登録確認Message
+	 *DB処理確認Message
 	 * @return 確認結果
 	 */
-    private Boolean showMessageIsInserting(boolean delFlg) {
-    	Integer type = this.editMasterData.getStockType();
-    	String code = this.editMasterData.getStockCode();
-
-    	StringBuilder sb = new StringBuilder();
-		
-    	if ( delFlg ) 
-    	{
-    		sb.append("※ 削除フラグを有効にした場合、貸出業務を行うことはできません。");
-    		sb.append(AppUtil.newLine());
-    		sb.append("　 よろしいですか？");
-    		sb.append(AppUtil.newLine());
-    	}
-    	
-    	sb.append("備品分類 :[").append(type.toString()).append("] ");
-		sb.append("備品コード :[").append(code).append("] ");
-		sb.append(AppUtil.newLine());
-
-    	return MessageBox.ShowConfirmation(
-    			ShowButtonType.YES_NO,
-    			false,
-    			"登録確認",
-    			"下記の備品分類マスタの登録を行います。よろしいですか？",
-    			sb.toString());
-    }    
-    
-	/**
-	 *更新確認Message
-	 * @return 確認結果
-	 */
-    private Boolean showMessageIsUpdating(boolean delFlg) {
+    private Boolean showMessageIsExecuting(String execute, boolean delFlg) {
     	Integer type = this.editMasterData.getStockType();
     	String code = this.editMasterData.getStockCode();
 
@@ -453,8 +425,8 @@ public class FormController extends BaseFormPage {
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
     			false,
-    			"更新確認",
-    			"下記の備品分類マスタの更新を行います。よろしいですか？",
+    			execute + "確認",
+    			"下記の備品分類マスタの" + execute + "を行います。よろしいですか？",
     			sb.toString());
     }
 
@@ -657,7 +629,7 @@ public class FormController extends BaseFormPage {
      * @brief 登録項目でエラーがあった場合、登録前チェック処理:isMasterRowsCheckで<br>
      * 設定した項目番号(列番号)に一致するControlにFocusを遷移する。
      */
-    private void setupErroeInputControlsFocus(Integer colNo)
+    private void setupErrorInputControlsFocus(Integer colNo)
     {
     	Platform.runLater(() -> 
     	{ 

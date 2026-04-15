@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.GenericCodeMasterModel;
+import application.java.base.dbTablesModel.StockDataModel;
 import application.java.base.dbTablesModel.StockMasterModel;
 import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.common.AppConst;
@@ -25,6 +26,7 @@ import application.java.manager.customControl.CustomTextAreaManager;
 import application.java.manager.customControl.CustomTextFieldControlManager;
 import application.java.manager.customControl.CustomToggleButtonManager;
 import application.resources.mapper.GenericCodeMasterMapper;
+import application.resources.mapper.StockDataMapper;
 import application.resources.mapper.StockMasterMapper;
 import application.resources.mapper.StockTypeMasterMapper;
 import javafx.application.Platform;
@@ -147,47 +149,45 @@ public class FormController extends BaseFormPage {
     	try {
     		LogManager.writeInfo("[" + FORM_NAME + "] ： [" + this.submit_button.getText() + "]ボタン押下"); 
     		
+    		String execute = this.isEditMode ? "更新" : "登録" ;
+    		
     		if ( isEditMode ) 
     		{
     			// 更新処理
-        		if( !isEditControlsChanged() ||	!showMessageIsUpdating(tgb_del.isSelected()) ) { return; }    			
+        		if( !isEditControlsChanged() ) { return; }    			
     			
         		getEditControlsValue();
         		
-            	// 更新処理(備品マスタ更新処理):データ操作のため垂直処理にて行う
-            	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品マスタ更新処理");
-            	if (super.executeCudQuery( List.of(editMasterData) )) {
-            		showMessageUpdated();
-            	} else {
-            		this.submit_button.setDisable( true );
-            	}
+    		} else {
+        		// 登録処理
+        		getEditControlsValue();   		
         		
-            	// 更新時の終了処理はなにもしない
-    			return;
+            	AppConst.rowCheckResultData checkResult = isMasterRowsCheck();
+            	if (!checkResult.result()) {
+            		if( checkResult.isShowMsgBox()) {
+            			this.showMessageInputError(checkResult.message());
+            		}
+            		setupErrorInputControlsFocus( checkResult.colNo() );
+            		return;
+            	}
     		}
     		
-    		// 登録処理
-    		getEditControlsValue();   		
-    		
-        	AppConst.rowCheckResultData checkResult = isMasterRowsCheck();
-        	if (!checkResult.result()) {
-        		if( checkResult.isShowMsgBox()) {
-        			this.showMessageInputError(checkResult.message());
-        		}
-        		setupErroeInputControlsFocus( checkResult.colNo() );
-        		return;
-        	}
-        	
-        	// 登録実行確認
-        	if( !showMessageIsInserting( this.editMasterData.getDelFlg()) ) { return; }
-    		
-        	// 登録処理(備品マスタ登録処理):データ操作のため垂直処理にて行う
-        	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品マスタ / 備品データ 登録処理");
-        	super.executeCudQuery( List.of(editMasterData) );  		   		
+        	// 実行確認
+        	if( !showMessageIsExecuting( execute, this.editMasterData.getDelFlg()) ) { return; }
 
-    		// 新規登録モード
-    		setupNewRecordMode();   		
-    	
+        	// DB処理(備品マスタ登録 / 更新処理):データ操作のため垂直処理にて行う
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： 備品マスタ" + 
+        	                       (!this.isEditMode ? "/ 備品データ ": " ") + execute + "処理");
+           	if ( super.executeCudQuery( List.of(editMasterData)) ) {
+
+           		showMessageDbExecuted( execute );
+
+           		if ( !this.isEditMode ) { setupNewRecordMode(); } 
+        	
+           	} else {
+        		this.submit_button.setDisable( true );
+        	}
+
     	} catch ( Exception e) {
     		this.submit_button.setDisable( true );
     		String title = "[" + FORM_NAME + "] ： [" + this.submit_button.getText() + "]処理中にエラーが発生しました";
@@ -231,17 +231,20 @@ public class FormController extends BaseFormPage {
 		StockMasterMapper mapper = session.getMapper(StockMasterMapper.class);
 		
 		Integer resultCount = -1;
+		StockMasterModel data = (StockMasterModel) listData.getFirst();
+		
 		if (this.isEditMode)
 		{
 			// 更新処理
-			resultCount = mapper.updStockMasterOnes( (StockMasterModel) listData.getFirst() );
+			resultCount = mapper.updStockMasterOnes( data );
 		} else {
 			// 登録処理
-			resultCount = mapper.insStockMasterOnes( (StockMasterModel) listData.getFirst() );
+			resultCount = mapper.insStockMasterOnes( data );
 			
 			if (resultCount == 1) {
-				
-				
+				// 備品データ 新規登録
+				StockDataMapper mapper_data = session.getMapper(StockDataMapper.class);
+				resultCount = mapper_data.insStockDataOnes( new StockDataModel( data ) );
 			} 
 		}
 
@@ -427,7 +430,7 @@ public class FormController extends BaseFormPage {
     	String maker = this.editMasterData.getMaker();
     	String remarks = this.editMasterData.getRemarks();
     	
-    	Boolean rent = this.editMasterData.getRentFlg();
+    	Boolean rent = !this.editMasterData.getRentFlg();
     	Boolean del = this.editMasterData.getDelFlg();
     	
     	Integer asset = this.editMasterData.getAssetType();
@@ -457,40 +460,12 @@ public class FormController extends BaseFormPage {
 
 		return false;
 	}    
-
-	/**
-	 *登録確認Message
-	 * @return 確認結果
-	 */
-    private Boolean showMessageIsInserting(boolean delFlg) {
-    	String serialNo = this.editMasterData.getSerialNo();
-
-    	StringBuilder sb = new StringBuilder();
-		
-    	if ( delFlg ) 
-    	{
-    		sb.append("※ 削除フラグを有効にした場合、貸出業務を行うことはできません。");
-    		sb.append(AppUtil.newLine());
-    		sb.append("　 よろしいですか？");
-    		sb.append(AppUtil.newLine());
-    	}
-    	
-    	sb.append("シリアルナンバー :[").append(serialNo).append("] ");
-    	sb.append(AppUtil.newLine());
-
-    	return MessageBox.ShowConfirmation(
-    			ShowButtonType.YES_NO,
-    			false,
-    			"登録確認",
-    			"下記の備品マスタの登録を行います。よろしいですか？",
-    			sb.toString());
-    } 	
 	
 	/**
-	 *更新確認Message
+	 *DB処理確認Message
 	 * @return 確認結果
 	 */
-    private Boolean showMessageIsUpdating(boolean delFlg) {
+    private Boolean showMessageIsExecuting(String execute, boolean delFlg) {
     	String serialNo = this.editMasterData.getSerialNo();
 
     	StringBuilder sb = new StringBuilder();
@@ -510,24 +485,24 @@ public class FormController extends BaseFormPage {
     	return MessageBox.ShowConfirmation(
     			ShowButtonType.YES_NO,
     			false,
-    			"更新確認",
-    			"下記の備品マスタの更新を行います。よろしいですか？",
+    			execute + "確認",
+    			"下記の備品マスタ" + 
+    			 (!this.isEditMode ? "/備品データ": "") + 
+    			 "の" + 
+    			 execute + 
+    			 "を行います。よろしいですか？",
     			sb.toString());
     }	
 
 	/**
-	 *更新完了Message
-	 * @return 確認結果
+	 *DB処理完了Message
 	 */
-    private void showMessageUpdated() {
-    	String serialNo = this.editMasterData.getSerialNo();
-
+    private void showMessageDbExecuted(String execute) {
     	StringBuilder sb = new StringBuilder();
-    	
-		sb.append("シリアルナンバー :[").append(serialNo).append("] ");
+ 		sb.append("シリアルナンバー :[").append(this.editMasterData.getSerialNo()).append("] ");
 		sb.append(AppUtil.newLine());
 
-    	MessageBox.ShowInformation("更新", "更新しました。", sb.toString());
+    	MessageBox.ShowInformation(execute, execute + "しました。", sb.toString());
     }	    
 
     /**
@@ -575,8 +550,9 @@ public class FormController extends BaseFormPage {
     	this.cbo_type.isKeyPressToNext(true);
     	this.txt_name.isKeyPressToNext(true);
     	this.txt_model.isKeyPressToNext(true);
-    	// TextAreaの遷移は[Shift] + [Enter]とする 
     	this.txt_maker.isKeyPressToNext(true);
+
+    	// TextAreaの遷移は[Shift] + [Enter]とする     	
     	this.txt_remarks.setNextControl( this.tgb_rent );
     	this.txt_remarks.isKeyPressToNext(true);
     	
@@ -589,10 +565,9 @@ public class FormController extends BaseFormPage {
     	this.cbo_pay_cycle.isKeyPressToNext(true);
     	this.txt_price.isKeyPressToNext(true);
     	
-    	
     	if (this.isEditMode) 
     	{
-    		this.lbl_sub_title.setText("マスタデータ更新画面");
+    		this.lbl_sub_title.setText("マスタ更新画面");
     		this.txt_serial_no.setDisable(true);
     		this.submit_button.setText("更新");
 
@@ -600,7 +575,7 @@ public class FormController extends BaseFormPage {
     	}
     	else
     	{
-    		this.lbl_sub_title.setText("新規登録画面");
+    		this.lbl_sub_title.setText("マスタ新規登録画面");
     		this.submit_button.setText("登録");
  
     		Platform.runLater(() -> txt_serial_no.requestFocus());
@@ -662,6 +637,20 @@ public class FormController extends BaseFormPage {
     	// コンボボックスの初期位置(先頭 ≒ 空欄)
     	cbo.getSelectionModel().selectFirst();
     }        
+
+    /**
+     * 登録項目 新規モード設定
+     */
+    private void setupNewRecordMode()
+    {
+		this.isEditMode = false; 
+
+    	// マスター登録用データ初期化
+		this.editMasterData = new StockMasterModel();
+		setupControlsValue();
+    	
+    	Platform.runLater(() -> txt_serial_no.requestFocus());
+    }    
     
     /**
      * 登録項目設定
@@ -671,6 +660,9 @@ public class FormController extends BaseFormPage {
     private void setupControlsValue ()
     {   
     	this.txt_serial_no.setText( editMasterData.getSerialNo() );
+    	
+    	this.cbo_type.setSelectedItem( AppConst.UNSET_NUMBER_VALUE );
+    	
     	this.txt_name.setText( editMasterData.getStockName() );
     	this.txt_model.setText( editMasterData.getModel() );
     	this.txt_maker.setText( editMasterData.getMaker() );
@@ -678,9 +670,14 @@ public class FormController extends BaseFormPage {
 
     	this.tgb_rent.setSelected( !editMasterData.getRentFlg() );
     	this.tgb_del.setSelected( editMasterData.getDelFlg() );
+
+    	this.cbo_asset.setSelectedItem( AppConst.UNSET_NUMBER_VALUE );
     	
     	this.txt_vendor_code.setText( editMasterData.getVendorCode() );
     	this.dp_expiry_date.setValue( editMasterData.getExpiryDate() );
+
+    	this.cbo_pay_cycle.setSelectedItem( AppConst.UNSET_NUMBER_VALUE );
+
     	Long price = editMasterData.getPrice();
     	this.txt_price.setText( price != null ? price.toString() : "" );
     }
@@ -705,7 +702,7 @@ public class FormController extends BaseFormPage {
     	this.editMasterData.setMaker( txt_maker.getText());
     	this.editMasterData.setRemarks( txt_remarks.getText());
     	
-    	this.editMasterData.setRentFlg( tgb_rent.isSelected() );
+    	this.editMasterData.setRentFlg( !tgb_rent.isSelected() );
     	this.editMasterData.setDelFlg( tgb_del.isSelected() );
     	
     	this.editMasterData.setAssetType( cbo_asset.getSelectedKey() );
@@ -755,26 +752,12 @@ public class FormController extends BaseFormPage {
     }    
 
     /**
-     * 登録項目 新規モード設定
-     */
-    private void setupNewRecordMode()
-    {
-		this.isEditMode = false; 
-
-    	// マスター登録用データ初期化
-		this.editMasterData = new StockMasterModel();
-		setupControlsValue();
-    	
-    	Platform.runLater(() -> txt_serial_no.requestFocus());
-    }
-    
-    /**
      * 入力エラー項目 Focus指定処理
      * @param colNo 対象Focus番号
      * @brief 登録項目でエラーがあった場合、登録前チェック処理:isMasterRowsCheckで<br>
      * 設定した項目番号(列番号)に一致するControlにFocusを遷移する。
      */
-    private void setupErroeInputControlsFocus(Integer colNo)
+    private void setupErrorInputControlsFocus(Integer colNo)
     {
     	Platform.runLater(() -> 
     	{ 
@@ -783,7 +766,10 @@ public class FormController extends BaseFormPage {
     		 case 1:
     	    	txt_serial_no.requestFocus();
     	        break;
-    	     default:
+    		 case 2:
+    			 cbo_type.requestFocus();
+     	        break;
+    		 default:
     	        break;
     	    }
     	});
@@ -802,7 +788,15 @@ public class FormController extends BaseFormPage {
 			return new AppConst.rowCheckResultData(false, true, -1, 1, sb.toString());
 		}	
     	
-    	// 存在確認
+		/* -- 選択肢の空欄を除外(非選択はない)したためコメントアウト -- 
+		// 必須確認：備品分類
+		if ( this.cbo_type.getSelectedKey() < 1) {
+			sb.append("[部品分類]が選択されていません。");
+			return new AppConst.rowCheckResultData(false, true, -1, 2, sb.toString());
+		}*/	
+
+		
+		// 存在確認
 		if( super.executeNonQuery( this::isExistsMasterData, this.editMasterData)) {
 			sb.append("既にシリアルナンバーが登録されています。");
     		sb.append(AppUtil.newLine());

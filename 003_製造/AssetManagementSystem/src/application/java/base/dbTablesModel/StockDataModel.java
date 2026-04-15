@@ -38,7 +38,7 @@ public class StockDataModel {
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
 	 * ※ DBとBINDする場合は取得時のカラム名を[stockTypeId]とする<br>
 	 */
-	public Integer getStockId() {
+	public Integer getId() {
 		return id.get();
 	}
 
@@ -49,7 +49,7 @@ public class StockDataModel {
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
 	 * ※ DBとBINDする場合は取得時のカラム名を[stockTypeId]とする<br>
 	 */
-	public void setStockId(Integer id) {
+	public void setId(Integer id) {
 		this.id.set(id);
 	}		
 	
@@ -206,7 +206,7 @@ public class StockDataModel {
 		return del.get();
 	}
 
-	 /**
+	/**
 	 * [削除フラグ]項目設定
 	 * @param del 設定する値
 	 * @brief [javafx.beans.property] 
@@ -218,28 +218,35 @@ public class StockDataModel {
 	}	 	
 
 	/**
-	    * コンストラクタ
-	    * @brief　引数なしコンストラクタがMyBatisの一覧(List)生成で用いられる。<br>
-	    * JavaFXの Property クラス（SimpleStringPropertyなど）は参照型で<br>
-	    * private StringProperty itemName; と宣言しただけでは null のままで<br>
-	    * MyBatisが値を入れようとしても「入れ物」が存在しないためエラーになる為<br>
-	    * コンストラクタで、全プロパティの初期化を行う。
-	    */
-		 public StockMasterModel(){
-			 this.serialNo = new SimpleStringProperty("");
-			 this.name = new SimpleStringProperty("");
-			 this.model = new SimpleStringProperty("");
-			 this.maker = new SimpleStringProperty("");
-			 this.stockType = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
-			 this.stockCode = new SimpleStringProperty("");
-			 this.rentFlg = new SimpleBooleanProperty(false);
-			 this.assetType = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
-			 this.vendorCode = new SimpleStringProperty("");
-			 this.expiryDate  = new SimpleObjectProperty<>();
-			 this.payCycle = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
-			 this.price = new SimpleObjectProperty<>();
-			 this.remarks = new SimpleStringProperty("");
-			 this.del = new SimpleBooleanProperty(false);		 
-		 }
-	
+     * コンストラクタ
+     * @brief　引数なしコンストラクタがMyBatisの一覧(List)生成で用いられる。<br>
+     * JavaFXの Property クラス（SimpleStringPropertyなど）は参照型で<br>
+     * private StringProperty itemName; と宣言しただけでは null のままで<br>
+     * MyBatisが値を入れようとしても「入れ物」が存在しないためエラーになる為<br>
+     * コンストラクタで、全プロパティの初期化を行う。
+     */
+	 public StockDataModel(){
+		 this.id = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
+		 this.serialNo = new SimpleStringProperty("");
+		 this.parentStockCode = new SimpleStringProperty("");
+		 this.staffNo = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
+		 this.startDate  = new SimpleObjectProperty<>();
+		 this.limitDate  = new SimpleObjectProperty<>();
+		 this.confirmedDate  = new SimpleObjectProperty<>();
+		 this.del = new SimpleBooleanProperty(false);		 
+	 }
+	 /**
+	  * コンストラクタ(コピー生成用)
+	  * @param source StockMasterModel 備品マスタMODEL
+      * @brief　Object.Cloneを用いた場合、Exception処理を考慮する必要があるため<br>
+      * コピー用のコンストラクタを用意する。<br>
+      * 備品マスターMODELから、該当する[備品データ]を生成する。
+      */
+	 public StockDataModel(StockMasterModel source) {
+		 this();   
+				 
+		 this.setSerialNo( source.getSerialNo( ));
+		 this.setConfirmedDate( LocalDate.now() );
+		 this.setDelFlg( source.getDelFlg() );
+	 }		 
 }
