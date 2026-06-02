@@ -1,11 +1,28 @@
 ﻿@using AssetManagementPassKeyLogIn.Components.Account.Shared
-<Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+@using Microsoft.AspNetCore.Components.Authorization
+@using AssetManagementPassKeyLogIn.Components.Layout
+
+@* Web画面(Page)探索 / セキュリティ *@
+<Router AppAssembly="@typeof(Program).Assembly">
+    
+    @* Web画面(Page)が存在する場合 *@
     <Found Context="routeData">
-        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
             <NotAuthorized>
+                @* 認証されていないユーザーは自動でQRログイン画面へ強制リダイレクト *@
                 <RedirectToLogin />
             </NotAuthorized>
         </AuthorizeRouteView>
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
+    
+    @* 404エラー（ページ未発見）の場合 *@
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div class="p-4 text-center">
+                <p role="alert">申し訳ありません。指定されたアドレスのページは見つかりませんでした。</p>
+            </div>
+        </LayoutView>
+    </NotFound>
 </Router>

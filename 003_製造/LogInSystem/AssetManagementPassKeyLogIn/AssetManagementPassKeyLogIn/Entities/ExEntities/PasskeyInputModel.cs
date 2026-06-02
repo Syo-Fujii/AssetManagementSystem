@@ -1,4 +1,4 @@
-namespace AssetManagementPassKeyLogIn.Components.Account
+namespace AssetManagementPassKeyLogIn.Entities.ExEntities
 {
     public class PasskeyInputModel
     {

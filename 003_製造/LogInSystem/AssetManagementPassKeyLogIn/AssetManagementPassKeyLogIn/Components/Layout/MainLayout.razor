@@ -1,7 +1,16 @@
-﻿@inherits LayoutComponentBase
+﻿<!-- 画面共通レイアウト(画面枠) -->
 
-@Body
+@inherits LayoutComponentBase
 
+
+<!-- 💡 画面全体をBootstrapのコンテナで包む ⇒ ログイン画面の中央配置 -->
+<div class="container-fluid p-0">
+    <main role="main">
+        @Body
+    </main>
+</div>
+
+<!-- エラー通知UI -->
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>

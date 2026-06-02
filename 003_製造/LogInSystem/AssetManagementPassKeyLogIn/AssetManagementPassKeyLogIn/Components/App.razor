@@ -14,9 +14,9 @@
 
 <body>
     <Routes />
-    <ReconnectModal />
+    <component type="typeof(Microsoft.AspNetCore.Components.Web.ReconnectModal)" render-mode="ServerPrerendered" />
     <script src="@Assets["_framework/blazor.web.js"]"></script>
-    <script src="@Assets["Components/Account/Shared/PasskeySubmit.razor.js"]" type="module"></script>
+    <script src="js/webauthn.js" type="module"></script>
 </body>
 
 </html>

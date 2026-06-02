@@ -1,4 +1,11 @@
-﻿@inject NavigationManager NavigationManager
+﻿@* 再描画(リダイレクト) *@
+@*  ユーザーが本来アクセスしようとしたページのURL（NavigationManager.Uri）を保存し、
+    ログイン完了後にそのページへ戻れるようにする
+    forceLoad: true を指定 ⇒
+             Blazor（Interactive Server）が保持しているメモリ状態を一度安全にリセットし、
+             QRコードの初期化処理（OnAfterRenderAsync）を100%確実に一から引き起こす *@
+@inject NavigationManager NavigationManager
+
 
 @code {
     protected override void OnInitialized()
@@ -6,3 +13,4 @@
         NavigationManager.NavigateTo($"Account/Login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}", forceLoad: true);
     }
 }
+S

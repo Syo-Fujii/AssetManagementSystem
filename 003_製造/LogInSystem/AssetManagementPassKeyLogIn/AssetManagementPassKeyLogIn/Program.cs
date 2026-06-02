@@ -1,9 +1,14 @@
 using AssetManagementPassKeyLogIn.Components;
 using AssetManagementPassKeyLogIn.Components.Account;
 using AssetManagementPassKeyLogIn.Data;
+using AssetManagementPassKeyLogIn.Services;
+using Fido2NetLib;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
+
 
 /* アプリエントリーポイント (個別での認証を有効にする) */
 var builder = WebApplication.CreateBuilder(args);
@@ -25,22 +30,54 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 // DB設定
-// -- MS SQL --
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>( options => options.UseSqlServer(connectionString) );
+// -- MS SQL --
+// builder.Services.AddDbContext<ApplicationDbContext>( options => options.UseSqlServer(connectionString) );
+
+// -- MySQL --
+var serverVersion = ServerVersion.AutoDetect(connectionString);
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseMySql(connectionString, serverVersion));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // 認証ルール(内容)定義
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
-        options.SignIn.RequireConfirmedAccount = true;                   // メール認証（アカウント確認）が完了したユーザーだけがログインできる
-        options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;  // NET 8 以前のデータ構造
+        options.SignIn.RequireConfirmedAccount = false;
+        /*
+        options.SignIn.RequireConfirmedAccount = true;                   // MS-SQL:メール認証（アカウント確認）が完了したユーザーだけがログインできる
+        options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;  // MS-SQL:NET 8 以前のデータ構造
+        */
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()                    // 各認証用の情報はDB経由で参照・格納
     .AddSignInManager()                                                  // SignInManagerの有効化
     .AddDefaultTokenProviders();                                         // 「パスワードリセット」や「二要素認証（2FA）」などの機能で使われる「使い捨ての確認コード（トークン）」を発行・管理する機能を有効にする
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>(); // メール送信を行わない ⇒ ダミー設定
+// メール送信を行わない ⇒ ダミー設定
+builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+// パスキー (FIDO2) 設定
+builder.Services.AddFido2((Fido2Configuration options) =>
+{
+    // サーバーのドメイン（開発時は localhost）
+    options.ServerDomain = "localhost";
+    options.ServerName = "備品管理システム";
+    // ブラウザがアクセスを許可するオリジン（BlazorのURL）
+    options.Origins = new HashSet<string> { "https://localhost:7193", "http://localhost:5249" };
+    options.TimestampDriftTolerance = 300000; // 5分間の許容誤差
+});
+
+builder.Services.AddScoped<PasskeyService>();
+
+// セッション（チャレンジの一時保存用）を有効にする
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(2); // チャレンジの有効期限(2分)
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+});
 
 var app = builder.Build();
 
@@ -62,6 +99,9 @@ else
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
 
+// セッションミドルウェアを有効化
+app.UseSession();
+
 // 「アンチフォージェリ（偽造防止）」機能有効
 app.UseAntiforgery();
 
@@ -72,6 +112,27 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 // 認証関連の標準機能を使用 : Add additional endpoints required by the Identity /Account Razor components.
-app.MapAdditionalIdentityEndpoints();
+// ログアウト用の軽量API（Minimal API）
+app.MapPost("/Account/Logout", 
+    async (
+        SignInManager<ApplicationUser> signInManager,
+        [FromForm] string returnUrl) =>
+        {
+            await signInManager.SignOutAsync();
+            
+            return Results.LocalRedirect($"~/{returnUrl ?? ""}");
+        });
 
 app.Run();
+
+
+/// <summary>
+/// メールクラス(ダミー)
+/// </summary>
+/// <remarks> 内容が未定義のメソッド = なにもしない </remarks>
+public class IdentityNoOpEmailSender : IEmailSender<ApplicationUser>
+{
+    public Task SendConfirmationLinkAsync(ApplicationUser user, string email, string confirmationLink) => Task.CompletedTask;
+    public Task SendPasswordResetLinkAsync(ApplicationUser user, string email, string resetLink) => Task.CompletedTask;
+    public Task SendPasswordResetCodeAsync(ApplicationUser user, string email, string resetCode) => Task.CompletedTask;
+}
