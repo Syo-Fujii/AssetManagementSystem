@@ -1,13 +1,36 @@
 ﻿/* ログイン画面全体のレイアウト */
-.login-container {
-    min-height: 80vh;
+::deep .login-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+
+    justify-content: center !important;      /* 左右中央寄せ */
+    align-items: center !important;          /* 上下中央寄せ */
+    margin: 0 auto !important;
+}
+/* 最背面[全体領域] */
+.login-screen-wrapper {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex !important;
+
+    justify-content: center !important;      /* 左右中央 */
+    align-items: center !important;          /* 上下中央 */
+    background-color: #f8f9fa;
+    z-index: 9999 !important;                /* 他の共通要素（サイドバーなど）より前面に出す */
 }
 
-/* カード全体のデザイン */
-.login-card {
-    max-width: 450px;
+/* コンテンツ領域 */
+::deep .login-card {
+    max-width: 80%; /* 文字を広げるための設定 */
     width: 100%;
     border-radius: 15px;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    /* 左右の余白を自動で均等（中央寄せ）にする */
+    margin: 0 auto;
 }
 
 /* QRコードを囲む点線のコンテナ */
@@ -22,10 +45,66 @@
     height: 240px;
 }
 
-/* 下部の注意書きエリア */
-.notice-box {
-    font-size: 0.85rem;
+/* タイトル文字(領域) */
+::deep .card-title {
+    /* 標準のh3（1.75rem）より拡大 */
+    font-size: 2.5rem !important;
+
+    font-weight: bold;
+    color: #0d6efd; /* Bootstrapのprimaryカラー */
+    text-align: center !important; /* 👈 文字を真ん中に */
+    width: 100% !important;
+    margin-bottom: 24px;
 }
+
+/* 説明文(領域) */
+::deep .card-content {
+    max-width: 60%; /* 文字を広げるための設定 */
+    width: 100%;
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: none !important;
+    /* 左右の余白を自動で均等（中央寄せ）にする */
+    margin: 0 auto;
+}
+
+/* 下部の注意書きエリア */
+::deep .notice-box {
+    font-size: 0.85rem;
+    max-width: 40%; /* 文字を広げるための設定 */
+    width: 100%;
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: none !important;
+    /*box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;*/
+    /* 左右の余白を自動で均等（中央寄せ）にする */
+    margin: 0 auto;
+}
+
+::deep .register-link-container {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important; /* 左右中央寄せ */
+    margin-top: 30px !important; /* QRコードエリアとの間隔 */
+    margin-bottom: 10px !important;
+}
+
+::deep .btn-register-link {
+    font-size: 0.95rem !important;
+    color: #6c757d !important; /* 控えめなグレー文字 */
+    text-decoration: none !important; /* 下線を消す */
+    font-weight: bold !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    transition: all 0.2s ease;
+}
+
+/* マウスを乗せたときの動き（ホバー効果） */
+::deep .btn-register-link:hover {
+    color: #198754 !important; /* 登録画面のテーマ色（緑）に変化 */
+    background-color: rgba(25, 135, 84, 0.08) !important; /* うっすら緑の背景 */
+}
+
 
 /* スマートフォン接続待機中のアニメーション */
 .animate-pulse {

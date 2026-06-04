@@ -8,7 +8,7 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Pages
     public partial class Login
     {
         /* 各サービス呼出(インスタンス化したクラスの呼出) */
-        // (web)Page遷移
+        // (web)Page遷移機能[Blazor標準機能:Microsoft.AspNetCore.Components]
         [Inject] private NavigationManager Navigation { get; set; } = default!;
 
 
@@ -18,7 +18,7 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Pages
         /// <param name="authenticatedStaffCode"> 社員コード </param>
         private void HandleLoginSuccess(int authenticatedStaffCode)
         {
-            // 子コンポーネントから「社員番号」が送られてくるので、セッション等に記録してダッシュボードへ移動！
+            // ページ全体を強制リロード（再読み込み）して[dashboard]へ遷移
             Navigation.NavigateTo("/dashboard", forceLoad: true);
         }
 

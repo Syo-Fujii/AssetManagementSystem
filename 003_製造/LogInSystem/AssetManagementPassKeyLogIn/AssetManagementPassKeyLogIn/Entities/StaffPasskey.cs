@@ -55,8 +55,8 @@ namespace AssetManagementPassKeyLogIn.Entities
         /// ASP.NET Core Identity (ApplicationUser) と安全に紐付けるためのUserId
         /// </summary>
         /// <remarks> ナビゲーションプロパティ（必要に応じて）</remarks>
-        [Column("user_id")]
-        [Required]
-        public string UserId { get; set; } = string.Empty;
+        //[Column("user_id")]
+        //[Required]
+        //public string UserId { get; set; } = string.Empty;
     }
 }

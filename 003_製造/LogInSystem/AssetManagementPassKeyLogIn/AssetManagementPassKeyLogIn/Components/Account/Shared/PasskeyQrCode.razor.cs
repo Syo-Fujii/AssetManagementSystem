@@ -23,6 +23,15 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
         [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
 
+        /// <summary>
+        /// 認証待ち時間(初期値：無制限)
+        /// </summary>
+        public int? TimeOutSecondsInterval { get; set; } = null;
+
+        /// <summary>
+        /// 画面描画時に実行するか
+        /// </summary>
+        public bool IsAfterRenderExecute { get; set; } = false;
 
         /// <summary>
         /// 認証成功イベント
@@ -55,7 +64,7 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
 
 
         /// <summary>
-        /// 画面描画処理
+        /// 画面描画処理(継承:画面が描画された後で呼び出されるメソッド)
         /// </summary>
         /// <param name="firstRender"> 画面が初めて開いた瞬間判定 </param>
         /// <remarks> 
@@ -64,16 +73,29 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
         /// </remarks>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
+            if (this.IsAfterRenderExecute && firstRender)
             {
-                await InitializeQrCodeAndAuthWaiting();
+                await InitializeQrCodeAndAuthWaiting("getAssertionConditional");
             }
         }
 
         /// <summary>
+        /// QR生成 + 認証待ち処理(ボタン等で呼び出す場合に用いる)
+        /// </summary>
+        /// <remarks>
+        /// webauthn.jsを呼び出す
+        /// </remarks>
+        public async Task StartPasskeyAuth()
+        {
+            await InitializeQrCodeAndAuthWaiting("getAssertion");
+        }
+
+
+        /// <summary>
         /// QR生成 + 認証待ち処理
         /// </summary>
-        private async Task InitializeQrCodeAndAuthWaiting()
+        /// <param name="callBackJsMethod"> Js(webauthn.js)呼出メソッド(文字列) </param>
+        private async Task InitializeQrCodeAndAuthWaiting(string callBackJsMethod)
         {
             this.ErrorMessage = string.Empty;
             this.IsProcessing = true; //処理中(フラグON)
@@ -82,6 +104,13 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
 
             try
             {
+                /* タイムアウト待ち時間設定 */
+                var timeSpan = Timeout.InfiniteTimeSpan;
+                if (this.TimeOutSecondsInterval is not null) { timeSpan = TimeSpan.FromSeconds((int)this.TimeOutSecondsInterval);  } 
+
+                // タイムアウトを有効にするためのCancellationTokenソースを生成
+                using var cts = new CancellationTokenSource(timeSpan);
+
                 var assertionOptions = PasskeyOp.GetAssertionOptionsForQrCode();
                 if (assertionOptions is null)
                 {
@@ -89,13 +118,20 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
                     return;
                 }
 
+                /* 
+                 * QRコードを表示してこの画面で「スマホのBluetooth接続」を待機
+                 * QRコードの中身は何でもよい
+                 */
                 string targetUrl = $"{Navigation.BaseUri}account/login?auth_state=active";
-
                 GenerateQrCode(targetUrl);
 
                 var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/webauthn.js");
-                var credentialJson = await module.InvokeAsync<JsonElement>("getAssertionConditional", assertionOptions);
+                var credentialJson = await module.InvokeAsync<JsonElement>(
+                    callBackJsMethod,
+                    cts.Token,
+                    assertionOptions);
 
+                // moduleの結果[credentialJson]を待つ
                 this.TargetStaffCode = await PasskeyOp.VerifyAssertionAsync(credentialJson, assertionOptions);
 
                 if (this.TargetStaffCode.Equals(-1))
@@ -119,9 +155,14 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
                     Navigation.NavigateTo("/dashboard", forceLoad: true);
                 }
             }
+            catch (OperationCanceledException)
+            {
+                var timeOutSsconds = this.TimeOutSecondsInterval.HasValue ? $"({this.TimeOutSecondsInterval}秒)" : string.Empty;
+                this.ErrorMessage = $"認証の有効期限{timeOutSsconds}が切れました。ページを再読み込みしてください。";
+            }
             catch (Exception)
             {
-                ErrorMessage = $"認証がキャンセルされたか、エラーが発生しました。";
+                this.ErrorMessage = $"認証がキャンセルされたか、エラーが発生しました。";
             }
             finally
             {

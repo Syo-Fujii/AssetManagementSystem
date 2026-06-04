@@ -1,0 +1,154 @@
+﻿::deep .login-screen-wrapper {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+    max-width: 850px !important;
+    padding: 20px !important;
+    z-index: 9999 !important;
+    box-sizing: border-box;
+}
+
+/* カード本体：背景を透明にし、内側に余白を確保 */
+::deep .login-card {
+    width: 100% !important;
+    border-radius: 15px !important;
+    padding: 50px !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* タイトル：文字を「左右中央」かつ「大きく」 */
+::deep .login-title {
+    font-size: 2.5rem !important;
+    font-weight: bold;
+    color: #198754; /* 登録画面と分かるようにBootstrapの「Success(緑)」に変更 */
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 30px;
+}
+
+/* 入力フォームエリアの調整 */
+::deep .register-form-area {
+    max-width: 400px;         /* フォームの横幅をスリムにして中央に集めます */
+    margin: 0 auto;           /* フォーム自体を完全に画面中央へ配置 */
+    text-align: left;         /* ラベルや文字の開始位置を左に揃える */
+}
+
+/* フォームの各項目（行全体）を縦並びにする設定 */
+::deep .form-group {
+    display: flex;
+    flex-direction: column;   /* ラベルの下に入力欄が来るように縦並びにする */
+    align-items: flex-start;  /* 行頭を綺麗に揃える */
+    width: 100%;
+    margin-bottom: 20px;      /* 項目間の隙間 */
+}
+
+::deep .form-group label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 6px;
+}
+
+::deep .form-group input {
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* 説明文(領域) */
+::deep .login-text-content {
+    max-width: 60%; /* 文字を広げるための設定 */
+    width: 100%;
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: none !important;
+    /* 左右の余白を自動で均等（中央寄せ）にする */
+    margin: 0 auto;
+}
+
+/* 説明文：左側に20pxの余白を設ける */
+::deep .login-text {
+    color: #6c757d;
+    text-align: center !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+::deep .login-text.text-center {
+    text-align: center !important;
+    padding-left: 0 !important;
+}
+
+/* 注意書きボックス */
+::deep .notice-box {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: 8px;
+    margin: 24px auto;
+    max-width: 500px;
+    font-size: 0.85rem;
+}
+
+/* ボタンの共通コンテナ */
+::deep .login-btn-container {
+    width: 100% !important;
+    display: block !important;
+    justify-content: center !important;
+    margin-top: 30px !important;
+    margin-bottom: 20px !important;
+}
+
+/* ボタン自体の基本デザイン */
+::deep .custom-login-btn,
+::deep .login-btn-container button {
+    display: block !important;          /* ブロック要素に変更 */
+    width: 100% !important;             /* これで入力欄と同じ幅までピシッと広がります */
+    font-size: 1.3rem !important;
+    font-weight: bold !important;
+    padding: 14px 20px !important;      /* 上下のパディングを確保し、左右は自動に委ねる */
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 30px !important;     /* 綺麗な丸角 */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #198754 !important;
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3) !important;
+    text-align: center !important;
+    white-space: nowrap !important;     /* 絶対に文字を改行させない */
+}
+
+/* パスキー登録ボタンは緑色に */
+::deep .custom-login-btn.success-color {
+    background-color: #198754 !important;
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3) !important;
+}
+
+::deep .custom-login-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px) !important;
+}
+
+/* ステータス・エラー表示領域（高さを固定してガタつき防止） */
+::deep .status-error-container {
+    width: 100% !important;
+    min-height: 80px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 20px !important;
+    text-align: center !important;
+}
+
+::deep .status-error-container .alert {
+    width: 100% !important;
+    max-width: 500px;
+}

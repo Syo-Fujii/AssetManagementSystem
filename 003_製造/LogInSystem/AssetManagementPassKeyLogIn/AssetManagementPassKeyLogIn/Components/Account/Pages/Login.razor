@@ -10,26 +10,42 @@
 
 
 <PageTitle>QRコードログイン - 備品管理システム</PageTitle>
+<div class="login-screen-wrapper">
+    <div class="login-card">
+        <div class="card-body w-100">
 
-<div class="container d-flex justify-content-center align-items-center login-container">
-    <div class="card shadow-lg p-4 text-center login-card">
-        <div class="card-body">
-            <h3 class="card-title mb-3 fw-bold text-primary">備品管理システム</h3>
-            <p class="card-text text-muted mb-4">
-                スマートフォンの標準カメラで以下のQRコードを読み取り、生体認証（指紋・顔）を行ってログインしてください。
-            </p>
+            <!-- タイトル -->
+            <h3 class="card-title">備品管理システム LOG-IN</h3>
 
-            <!-- 💡 作成した子コンポーネントを呼び出す。認証成功時の受け皿（HandleLoginSuccess）を指定する -->
-            <PasskeyQrCode OnAuthSuccess="HandleLoginSuccess" />
+            <!-- 説明文 -->
+            <div class="card-content">
+                <h3 class="card-text text-muted mb-3 text-start">
+                    スマートフォンの標準カメラでQRコードを読み取り、サインイン(認証：生体(指紋・顔）/ Pass) を行ってログインしてください。
+                </h3>
+            </div>
 
-            <!-- 注意書き -->
-            <div class="mt-4 p-3 bg-light text-start rounded notice-box" >
+            <!-- 注意書きボックス -->
+            <div class="notice-box">
                 <ul class="mb-0 text-muted ps-3">
                     <li>PCとスマートフォンの <b>Bluetooth</b> を有効にしてください。</li>
                     <li>同一のWi-Fiネットワーク環境を推奨します。</li>
+                    <li>[iPhone]の場合、 <b>コントロールセンター</b> のコード読取機能を用いた読取を推奨します。</li>
                 </ul>
+            </div>
+
+            <!-- QRコードコンポーネント(PasskeyQrCode呼出) -->
+            <div class="mt-4 w-100 d-flex justify-content-center">
+                <PasskeyQrCode OnAuthSuccess="HandleLoginSuccess" />
+            </div>
+
+            <!-- パスキー登録画面へのリンクボタン -->
+            <div class="register-link-container">
+                <a href="/Account/PassKeyRegister" class="btn-register-link">
+                    ⚙️ 初めての方・パスキーの新規登録はこちら
+                </a>
             </div>
 
         </div>
     </div>
+
 </div>

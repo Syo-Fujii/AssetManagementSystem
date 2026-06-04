@@ -1,0 +1,45 @@
+﻿@page "/Account/TestPassKeyRegister"
+
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.WebUtilities
+@using AssetManagementPassKeyLogIn.Data
+@using Fido2NetLib
+@using System.Text.Json
+
+@rendermode InteractiveServer
+
+<PageTitle>テスト用パスキー登録</PageTitle>
+
+<div class="container mt-5 text-center" style="max-width: 500px;">
+    <div class="card shadow p-4">
+        <h3 class="text-primary mb-3">テスト用パスキー初回登録</h3>
+        <p class="text-muted small">まずMySQLに1件目の鍵データを登録して、ログイン画面のエラーを解消します。</p>
+
+        <div class="form-floating mb-3">
+            <input type="number" @bind="StaffNo" class="form-control" id="staffNoInput" placeholder="1">
+            <label for="staffNoInput">登録する社員番号（例: 1）</label>
+        </div>
+
+        <button class="btn btn-success btn-lg w-100" @onclick="CreateNewPasskey" disabled="@IsProcessing">
+            @if (IsProcessing)
+            {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                <span>登録処理中...</span>
+            }
+            else
+            {
+                <span>パスキーを端末に登録する</span>
+            }
+        </button>
+
+        @if (!string.IsNullOrEmpty(Message))
+        {
+            <div class="alert @(IsSuccess ? "alert-success" : "alert-danger") mt-3 small">
+                @Message
+            </div>
+        }
+    </div>
+</div>

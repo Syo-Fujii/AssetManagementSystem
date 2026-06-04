@@ -1,4 +1,5 @@
 ﻿using AssetManagementPassKeyLogIn.Data;
+using AssetManagementPassKeyLogIn.Entities;
 using Fido2NetLib;
 using Fido2NetLib.Objects;
 using Microsoft.EntityFrameworkCore;
@@ -69,14 +70,25 @@ namespace AssetManagementPassKeyLogIn.Services
         /// </remarks>
         public AssertionOptions GetAssertionOptionsForQrCode()
         {
+            // 💡 テスト対策：MySQLにある「すべての登録済みパスキー」を一旦取得してブラウザに教えてあげる
+            // （スマホが読み取られた際、このリストの中にある鍵であればどれでもログインが成功します）
+            var allExistingCredentials = mySqlDbContext.StaffPasskeys
+                .Select(p => new PublicKeyCredentialDescriptor(p.CredentialId))
+                .ToList(); // 同期処理なので ToList()
+
+
+
             // QRコード待ち受け時は、誰が来るか分からないため AllowedCredentials は指定しません
             var authParams = new GetAssertionOptionsParams
             {
-                UserVerification = UserVerificationRequirement.Preferred
+                AllowedCredentials = allExistingCredentials,
+                // UserVerification = UserVerificationRequirement.Preferred
+                UserVerification = UserVerificationRequirement.Required
             };
 
             // fido2-net-lib が自動的に「誰でもウェルカム」な認証オプションを作ってくれます
             return fido2Interface.GetAssertionOptions(authParams);
+
         }
 
         /// <summary>
@@ -182,6 +194,90 @@ namespace AssetManagementPassKeyLogIn.Services
                 return -1;
             }
         }
+
+
+        /// <summary>
+        /// パキー新規登録開始：登録用オプションの生成
+        /// </summary>
+        public async Task<CredentialCreateOptions> GetRegisterOptionsAsync(int staffNo)
+        {
+            var user = new Fido2User
+            {
+                DisplayName = $"社員 {staffNo}",
+                Name = $"staff_{staffNo}",
+                Id = System.Text.Encoding.UTF8.GetBytes($"STAFF_{staffNo}") // 一意のバイト配列
+            };
+
+            // 過去に同じ社員が登録した鍵があれば除外リストに入れる（今回は空でOK）
+            var existingCredentials = new List<PublicKeyCredentialDescriptor>();
+
+            var registerParams = new RequestNewCredentialParams
+            {
+                User = user,
+                ExcludeCredentials = existingCredentials,
+                AuthenticatorSelection = new AuthenticatorSelection
+                {
+                    UserVerification = UserVerificationRequirement.Preferred,
+                    ResidentKey = ResidentKeyRequirement.Preferred
+                }
+            };
+
+            return fido2Interface.RequestNewCredential(registerParams);
+        }
+
+        /// <summary>
+        /// パスキー新規登録完了：届いた公開鍵を検証してMySQLに保存する
+        /// </summary>
+        public async Task<string> VerifyAndSaveRegisterAsync(JsonElement rawResponseJson, CredentialCreateOptions options, int staffNo)
+        {
+            try
+            {
+                var rawResponse = rawResponseJson.Deserialize<AuthenticatorAttestationRawResponse>();
+                //if (rawResponse is null) return false;
+                if (rawResponse is null)
+                {
+                    return "エラー位置1：ブラウザからのデータ（JSON）のデシリアライズに失敗しました。";
+                }
+
+
+                var registerParams = new MakeNewCredentialParams
+                {
+                    AttestationResponse = rawResponse, // スマホから戻ってきた生データ
+                    OriginalOptions = options,        // サーバーが発行した登録オプション
+
+                    // 「この鍵IDは他の誰にも使われていないか？」をチェックする設定（必須）
+                    // テスト用なので常に true（ユニークであるとみなす）を返すラムダ式を書きます
+                    IsCredentialIdUniqueToUserCallback = async (args, cancellationToken) => true
+                };
+
+                // 💡 引数にまとめたオブジェクトを1つだけ渡して検証を呼び出します
+                var registerResult = await fido2Interface.MakeNewCredentialAsync(registerParams);
+
+                if (registerResult is not null)
+                {
+                    // ⭕ MySQLのエンティティクラスの構造に合わせて新しくレコードを作成
+                    // ※プロパティ名は実際のお使いの「StaffPasskey」クラスに書き換えてください
+                    var newKey = new StaffPasskey // ← あなたのEntity名
+                    {
+                        StaffNo = staffNo,
+                        CredentialId = registerResult.Id,
+                        PublicKey = registerResult.PublicKey,
+                        SignatureCount = (int)registerResult.SignCount,
+                        // 必要に応じて他のカラム（登録日時など）があればセット
+                    };
+
+                    await mySqlDbContext.AddAsync(newKey);
+                    await mySqlDbContext.SaveChangesAsync();
+                    return "SUCCESS";
+                }
+                return "エラー位置2：FIDO2ライブラリでの暗号検証（MakeNewCredentialAsync）に失敗しました。";
+            }
+            catch (Exception ex)
+            {
+                return $"エラー位置3（例外発生）: {ex.Message} (内訳: {ex.InnerException?.Message})";
+            }
+        }
+
 
     }
 }

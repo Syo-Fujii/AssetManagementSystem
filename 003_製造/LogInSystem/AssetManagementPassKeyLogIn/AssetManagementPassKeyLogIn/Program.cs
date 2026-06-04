@@ -58,13 +58,20 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 // パスキー (FIDO2) 設定
+// builder.Services.AddFido2(builder.Configuration.GetSection("fido2"));
 builder.Services.AddFido2((Fido2Configuration options) =>
 {
     // サーバーのドメイン（開発時は localhost）
     options.ServerDomain = "localhost";
     options.ServerName = "備品管理システム";
     // ブラウザがアクセスを許可するオリジン（BlazorのURL）
-    options.Origins = new HashSet<string> { "https://localhost:7193", "http://localhost:5249" };
+    options.Origins = new HashSet<string> 
+    {
+        "https://localhost:7215",
+        "https://localhost:7193", 
+        "http://localhost:5249" 
+    };
+    
     options.TimestampDriftTolerance = 300000; // 5分間の許容誤差
 });
 

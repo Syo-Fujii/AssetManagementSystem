@@ -1,0 +1,49 @@
+﻿::deep .login-btn-container {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;     /* 左右中央に寄せる */
+    margin-top: 40px !important;            /* 上（注意書き）との間隔を開けて下側に配置 */
+    margin-bottom: 50px !important;         /* 下のQRコードとの間隔 */
+}
+
+/* ボタン自体のデザイン */
+::deep .custom-login-btn,
+::deep .login-btn-container button {
+    font-size: 1.25rem !important;          /* 文字を大きくする */
+    font-weight: bold !important;
+    padding: 12px 36px !important;          /* ボタン自体を大きく（上下12px、左右36pxの余白） */
+    color: #ffffff !important;              /* 文字色（白） */
+    background-color: #0d6efd !important;   /* ボタンの色（Bootstrapの青） */
+    border: none !important;
+    border-radius: 30px !important;         /* 角を丸く */
+    /* うっすら青い影を付ける */
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3) !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ボタンにマウスを乗せたと（ホバー効果） */
+::deep .custom-login-btn:hover,
+::deep .login-btn-container button:hover {
+    background-color: #0b5ed7 !important;   /* 少し濃い青に */
+    transform: translateY(-2px) !important; /* ほんの少し上に浮き上がらせる */
+}
+
+/* ステータス・エラー表示(領域) */
+.status-error-container {
+    width: 100% !important;
+    min-height: 80px;                       /* 高さを80px確保 */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;         /* 左右中央に配置 */
+    justify-content: center !important;     /* 上下も中央に配置 */
+    margin-top: 20px !important;            /* ボタンとの間の余白 */
+    text-align: center !important;          /* 文字自体も中央揃え */
+}
+
+/* エラーの警告ボックス（出た時も幅を制限して中央に置く） */
+.status-error-container .alert {
+    width: 100% !important;
+    max-width: 500px;                       /* アラートが広がりすぎないように制限 */
+    margin-top: 0 !important;               /* 余白の重複を防ぐ */
+}

@@ -6,7 +6,22 @@
 
 <!-- QRコード認証[PassKey認証]クラス -->
 <div class="passkey-qr-component text-center">
-    <!-- QRコード表示エリア -->
+    <!-- ログインボタン -->
+    <div class="login-btn-container">
+        <button class="custom-login-btn" @onclick="StartPasskeyAuth" disabled="@IsProcessing">
+            @if (IsProcessing)
+            {
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                <span>認証中...</span>
+            }
+            else
+            {
+                <span>パスキーでログインを開始</span>
+            }
+        </button>
+    </div>
+    
+    @* <!-- QRコード表示エリア -->
     <div class="qr-container p-3 my-3 bg-light rounded d-inline-block qr-dashed-box">
         @if (!string.IsNullOrEmpty(QrCodeImageSrc))
         {
@@ -19,10 +34,10 @@
                 <span class="text-muted small">QRコードを生成中...</span>
             </div>
         }
-    </div>
+    </div> *@
 
     <!-- ステータス・エラー表示 -->
-    <div class="mt-3">
+    <div class="status-error-container">
         @if (IsProcessing)
         {
             <div class="text-success small fw-bold animate-pulse">
