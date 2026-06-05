@@ -50,13 +50,5 @@ namespace AssetManagementPassKeyLogIn.Entities
         /// </summary>
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        /// <summary>
-        /// ASP.NET Core Identity (ApplicationUser) と安全に紐付けるためのUserId
-        /// </summary>
-        /// <remarks> ナビゲーションプロパティ（必要に応じて）</remarks>
-        //[Column("user_id")]
-        //[Required]
-        //public string UserId { get; set; } = string.Empty;
     }
 }

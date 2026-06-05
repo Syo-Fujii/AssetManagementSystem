@@ -40,6 +40,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseMySql(connectionString, serverVersion));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+// DB操作クラス読込
+builder.Services.AddScoped<MySqlService>();
 
 // 認証ルール(内容)定義
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
