@@ -9,9 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
+// exeが置いてある実際のフォルダパスをカレントディレクトリに強制設定する
+//Directory.SetCurrentDirectory(AppContext.BaseDirectory);
 
 /* アプリエントリーポイント (個別での認証を有効にする) */
 var builder = WebApplication.CreateBuilder(args);
+
+// builder.WebHost.UseUrls("https://localhost:7215", "http://localhost:5058");
 
 // Razorコンポーネントの追加(Blazorサービス)
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();

@@ -33,9 +33,14 @@
         <property name="username" value="user"/>
         <property name="password" value="user_1234"/>
 
-        <!-- 並列処理用のHikariCPプロパティを直接書ける -->
+        <!-- 並列処理用のHikariCPプロパティ -->
         <property name="maximumPoolSize" value="20"/>
         <property name="connectionTimeout" value="30000"/>
+        
+        <!-- PassKey認証サーバーの設定 -->
+        <property name="authServerUrl" value="https://localhost:7215"/>
+        <!-- JavaFXアプリ側（受信用ローカルサーバー）のポート番号（任意。重複回避のため8888など） -->
+        <property name="authCallbackPort" value="8888"/>
       </dataSource>
     </environment>
   </environments>

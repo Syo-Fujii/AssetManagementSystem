@@ -1,251 +1,893 @@
-2026-04-18 11:09:52 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14h50m47s700ms459µs800ns).
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@405ea6db is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@42ebca86 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@8f75d7c is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2aeb0795 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@163ace0 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1d1cfbb2 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1580f055 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5dec4d3a is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@6993f267 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@11811395 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@e98e79d is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@6202ceb9 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1cd14701 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@230d0bdb is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1f555457 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1dd01b75 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@380cccbe is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@49575379 is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@31eeb5b is alive
-2026-04-18 11:09:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@26a98e2b is alive
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@26a98e2b: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@6993f267: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (7d9a34f6-1c83-4291-827c-6b2d1f0f3b97)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@1cd14701: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@49575379: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@1f555457: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@5dec4d3a: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@163ace0: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@405ea6db: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@1dd01b75: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@e98e79d: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@230d0bdb: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (7d9a34f6-1c83-4291-827c-6b2d1f0f3b97)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@58a382e2
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@42ebca86: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@1580f055: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@8f75d7c: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@1d1cfbb2: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@6202ceb9: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@2aeb0795: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@380cccbe: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@31eeb5b: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@11811395: (connection has passed maxLifetime)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (c2702ffc-77a5-4699-855e-2d0b2940de2e)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (c2702ffc-77a5-4699-855e-2d0b2940de2e)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@199e88d9
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (ee40dc06-65cd-4748-a84e-edac4e1be22f)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (ee40dc06-65cd-4748-a84e-edac4e1be22f)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@284df0c5
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (c7c64abf-d625-4e23-b726-114275b93b1b)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (c7c64abf-d625-4e23-b726-114275b93b1b)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@79b17796
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (f7a2311f-9a07-474a-9f62-e46542978f20)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (f7a2311f-9a07-474a-9f62-e46542978f20)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3c5b5bae
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (c0daeb18-f264-4b5e-ba5b-01447049b54a)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (c0daeb18-f264-4b5e-ba5b-01447049b54a)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7dff6a8e
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (f836c53d-e516-4e5f-8f37-68bfa57f815e)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (f836c53d-e516-4e5f-8f37-68bfa57f815e)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5ab739e8
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (1f1e6418-345e-4529-bd80-368229c9b821)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (1f1e6418-345e-4529-bd80-368229c9b821)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5619d95a
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (8919f5d7-d0f6-4d35-ad3e-242cbbd81643)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (8919f5d7-d0f6-4d35-ad3e-242cbbd81643)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@35caab0e
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (c42cbc52-c513-4d0f-899f-729f2b3860e9)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (c42cbc52-c513-4d0f-899f-729f2b3860e9)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5e50ef5d
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (6f9fb1d7-9eb1-43bd-92be-4fb4b597bc49)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (6f9fb1d7-9eb1-43bd-92be-4fb4b597bc49)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@65aae624
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (0dd3941e-8210-4cf9-955e-4e1d923d1691)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (0dd3941e-8210-4cf9-955e-4e1d923d1691)
-2026-04-18 11:09:54 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@23b3788b
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (a4a3a996-e833-46ea-afe8-a33c795a8e4b)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (a4a3a996-e833-46ea-afe8-a33c795a8e4b)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5178e040
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (eed27f81-6e92-4e2e-8e3f-96708d66036e)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (eed27f81-6e92-4e2e-8e3f-96708d66036e)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@11dbbefd
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (e3af7579-abfa-4b33-bcb0-0100acfd1fdd)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (e3af7579-abfa-4b33-bcb0-0100acfd1fdd)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@690697b2
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (c58a513c-9105-4f74-abe2-44e30fb73825)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (c58a513c-9105-4f74-abe2-44e30fb73825)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2b9fc77e
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (b9d7b09b-0bc2-43c6-9879-80d111772c09)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (b9d7b09b-0bc2-43c6-9879-80d111772c09)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@592bf9a4
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (6e10d28a-03dc-4df5-b15a-3e737b2830dd)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (6e10d28a-03dc-4df5-b15a-3e737b2830dd)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@16b6eefb
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (3e04d52f-69d8-407c-ab14-a588646c66d6)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (3e04d52f-69d8-407c-ab14-a588646c66d6)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7e59b84a
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (04c57e95-6935-40cb-b4b6-a275c87a9edb)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (04c57e95-6935-40cb-b4b6-a275c87a9edb)
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@27288cfa
-2026-04-18 11:09:55 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection not added, stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:10:24 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:10:24 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:10:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:10:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:11:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:11:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:11:35 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@65aae624 is alive
-2026-04-18 11:11:35 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2b9fc77e is alive
-2026-04-18 11:11:36 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@199e88d9 is alive
-2026-04-18 11:11:37 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@23b3788b is alive
-2026-04-18 11:11:39 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7dff6a8e is alive
-2026-04-18 11:11:43 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@11dbbefd is alive
-2026-04-18 11:11:44 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@79b17796 is alive
-2026-04-18 11:11:44 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5e50ef5d is alive
-2026-04-18 11:11:46 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@27288cfa is alive
-2026-04-18 11:11:47 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5619d95a is alive
-2026-04-18 11:11:47 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@58a382e2 is alive
-2026-04-18 11:11:49 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5ab739e8 is alive
-2026-04-18 11:11:52 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@35caab0e is alive
-2026-04-18 11:11:53 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@284df0c5 is alive
-2026-04-18 11:11:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@16b6eefb is alive
-2026-04-18 11:11:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7e59b84a is alive
-2026-04-18 11:11:56 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@592bf9a4 is alive
-2026-04-18 11:11:56 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5178e040 is alive
-2026-04-18 11:11:56 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@3c5b5bae is alive
-2026-04-18 11:11:56 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@690697b2 is alive
-2026-04-18 11:11:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:11:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:12:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:12:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:12:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:12:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:13:11 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@65aae624 is alive
-2026-04-18 11:13:13 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2b9fc77e is alive
-2026-04-18 11:13:14 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@199e88d9 is alive
-2026-04-18 11:13:16 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@23b3788b is alive
-2026-04-18 11:13:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7dff6a8e is alive
-2026-04-18 11:13:27 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@11dbbefd is alive
-2026-04-18 11:13:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:13:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:13:30 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@79b17796 is alive
-2026-04-18 11:13:30 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5e50ef5d is alive
-2026-04-18 11:13:33 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@27288cfa is alive
-2026-04-18 11:13:36 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5619d95a is alive
-2026-04-18 11:13:37 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@58a382e2 is alive
-2026-04-18 11:13:41 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5ab739e8 is alive
-2026-04-18 11:13:46 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@35caab0e is alive
-2026-04-18 11:13:49 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@284df0c5 is alive
-2026-04-18 11:13:49 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@16b6eefb is alive
-2026-04-18 11:13:51 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7e59b84a is alive
-2026-04-18 11:13:53 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@592bf9a4 is alive
-2026-04-18 11:13:53 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5178e040 is alive
-2026-04-18 11:13:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@3c5b5bae is alive
-2026-04-18 11:13:54 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@690697b2 is alive
-2026-04-18 11:13:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:13:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:14:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:14:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:14:47 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@65aae624 is alive
-2026-04-18 11:14:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2b9fc77e is alive
-2026-04-18 11:14:52 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@199e88d9 is alive
-2026-04-18 11:14:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@23b3788b is alive
-2026-04-18 11:14:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:14:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:15:01 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7dff6a8e is alive
-2026-04-18 11:15:11 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@11dbbefd is alive
-2026-04-18 11:15:16 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@79b17796 is alive
-2026-04-18 11:15:16 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5e50ef5d is alive
-2026-04-18 11:15:21 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@27288cfa is alive
-2026-04-18 11:15:24 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5619d95a is alive
-2026-04-18 11:15:27 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@58a382e2 is alive
-2026-04-18 11:15:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:15:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:15:32 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5ab739e8 is alive
-2026-04-18 11:15:40 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@35caab0e is alive
-2026-04-18 11:15:44 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@284df0c5 is alive
-2026-04-18 11:15:44 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@16b6eefb is alive
-2026-04-18 11:15:48 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7e59b84a is alive
-2026-04-18 11:15:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@592bf9a4 is alive
-2026-04-18 11:15:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5178e040 is alive
-2026-04-18 11:15:51 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@3c5b5bae is alive
-2026-04-18 11:15:52 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@690697b2 is alive
-2026-04-18 11:15:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:15:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:16:23 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@65aae624 is alive
-2026-04-18 11:16:27 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2b9fc77e is alive
-2026-04-18 11:16:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:16:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:16:30 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@199e88d9 is alive
-2026-04-18 11:16:34 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@23b3788b is alive
-2026-04-18 11:16:42 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7dff6a8e is alive
-2026-04-18 11:16:56 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@11dbbefd is alive
-2026-04-18 11:16:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:16:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:17:02 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@79b17796 is alive
-2026-04-18 11:17:03 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5e50ef5d is alive
-2026-04-18 11:17:08 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@27288cfa is alive
-2026-04-18 11:17:13 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5619d95a is alive
-2026-04-18 11:17:16 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@58a382e2 is alive
-2026-04-18 11:17:24 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5ab739e8 is alive
-2026-04-18 11:17:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:17:28 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:17:34 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@35caab0e is alive
-2026-04-18 11:17:40 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@16b6eefb is alive
-2026-04-18 11:17:40 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@284df0c5 is alive
-2026-04-18 11:17:44 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7e59b84a is alive
-2026-04-18 11:17:47 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@592bf9a4 is alive
-2026-04-18 11:17:48 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5178e040 is alive
-2026-04-18 11:17:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： [メニューに戻る]ボタン押下
-2026-04-18 11:17:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
-2026-04-18 11:17:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品マスタ メンテナンス 明細(一覧))の終了処理(dispose)を実行
-2026-04-18 11:17:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
-2026-04-18 11:17:49 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
-2026-04-18 11:17:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+2026-06-07 00:35:42 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 00:35:42 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 00:35:42 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 00:55:32 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 00:55:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 00:55:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 00:55:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 00:55:32 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 00:55:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 00:55:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 00:55:32 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 00:55:32 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 00:55:32 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 00:55:32 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 00:55:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
 
-2026-04-18 11:17:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
-2026-04-18 11:17:49 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@3c5b5bae is alive
-2026-04-18 11:17:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@690697b2 is alive
-2026-04-18 11:17:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:17:58 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
-2026-04-18 11:17:59 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
-2026-04-18 11:17:59 [JavaFX Application Thread] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2026-04-18 11:17:59 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Before shutdown stats (total=20/20, idle=20/20, active=0, waiting=0)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@58a382e2: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@199e88d9: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@284df0c5: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@79b17796: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@3c5b5bae: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@7dff6a8e: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@5ab739e8: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@5619d95a: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@35caab0e: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@5e50ef5d: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@65aae624: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@23b3788b: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@5178e040: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@11dbbefd: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@690697b2: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@2b9fc77e: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@592bf9a4: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@16b6eefb: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@7e59b84a: (connection evicted)
-2026-04-18 11:17:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@27288cfa: (connection evicted)
-2026-04-18 11:17:59 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After  shutdown stats (total=0/20, idle=0/20, active=0, waiting=0)
-2026-04-18 11:17:59 [JavaFX Application Thread] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2026-04-18 11:17:59 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
-2026-04-18 11:17:59 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 00:55:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 00:55:41 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 00:56:06 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 00:56:06 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 00:56:06 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 00:56:06 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 00:56:06 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 00:56:06 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 00:56:06 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 00:56:06 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 00:56:06 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 00:56:06 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 00:56:06 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 00:56:06 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 00:56:06 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 00:56:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-07 00:56:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-07 00:56:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-07 00:56:09 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-07 00:56:43 [HTTP-Dispatcher] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 認証サーバーからデータを受信しました
+2026-06-07 00:56:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： ログイン(PassKey)成功
+2026-06-07 00:56:44 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 受信したトークン情報: staffCode=0
+2026-06-07 00:56:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： メニュー画面へ切替
+2026-06-07 00:56:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-07 00:56:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](ログイン画面)の終了処理(dispose)を実行
+2026-06-07 00:56:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 00:56:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-07 00:56:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-07 00:57:00 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 00:57:00 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 00:57:00 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:00:29 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:00:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:00:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:00:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:00:29 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:00:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:00:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 01:00:29 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 01:00:29 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:00:29 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:00:29 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 01:00:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 01:00:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 01:00:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 01:00:32 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:00:32 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 01:00:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:08:07 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:08:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:08:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:08:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:08:07 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:08:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:08:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 01:08:07 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 01:08:07 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:08:07 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:08:07 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 01:08:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 01:08:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 01:08:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-07 01:08:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-07 01:08:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-07 01:08:10 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-07 01:08:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 01:08:34 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:08:34 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 01:08:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:09:32 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:09:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:09:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:09:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:09:32 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:09:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:09:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 01:09:32 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 01:09:32 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:09:32 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:09:32 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 01:09:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 01:09:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 01:09:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-07 01:09:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-07 01:09:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-07 01:09:34 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-07 01:10:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 01:10:01 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:10:01 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 01:10:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:27:10 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:27:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:27:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:27:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:27:10 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:27:11 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:27:11 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 01:27:11 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 01:27:11 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:27:11 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:27:11 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 01:27:11 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 01:27:11 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 01:27:14 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-07 01:27:14 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-07 01:27:14 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-07 01:27:14 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-07 01:35:50 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 01:35:50 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:35:50 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 01:35:50 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:42:28 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:42:28 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:42:28 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:42:28 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:42:28 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:42:28 [JavaFX Application Thread] ERROR application.java.manager.LogManager - 画面展開 [setPage] : 画面展開中にエラーが発生しました
+2026-06-07 01:42:28 [JavaFX Application Thread] ERROR application.java.manager.LogManager - 
+unknown path:18
+
+javafx.fxml.LoadException: 
+unknown path:18
+
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2692)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2670)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2516)
+	at AssetManagementSystem/application.java.manager.form.JavaFxManager.setPage(JavaFxManager.java:88)
+	at AssetManagementSystem/application.Main.start(Main.java:45)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$4(LauncherImpl.java:845)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$0(PlatformImpl.java:449)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.PlatformImpl.lambda$runLater$0(PlatformImpl.java:424)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:173)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.HBox field application.java.window.LoginController.titleBar to javafx.scene.layout.VBox
+	at java.base/jdk.internal.reflect.FieldAccessorImpl.throwSetIllegalArgumentException(FieldAccessorImpl.java:223)
+	at java.base/jdk.internal.reflect.FieldAccessorImpl.throwSetIllegalArgumentException(FieldAccessorImpl.java:227)
+	at java.base/jdk.internal.reflect.MethodHandleObjectFieldAccessorImpl.set(MethodHandleObjectFieldAccessorImpl.java:115)
+	at java.base/java.lang.reflect.Field.set(Field.java:832)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.injectFields(FXMLLoader.java:1167)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$ValueElement.processValue(FXMLLoader.java:857)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$ValueElement.processStartElement(FXMLLoader.java:751)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2823)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2619)
+	... 10 common frames omitted
+2026-06-07 01:42:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:42:36 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:42:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:43:40 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:43:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:43:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:43:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:43:40 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:43:40 [JavaFX Application Thread] ERROR application.java.manager.LogManager - 画面展開 [setPage] : 画面展開中にエラーが発生しました
+2026-06-07 01:43:40 [JavaFX Application Thread] ERROR application.java.manager.LogManager - Error resolving onAction='#handleIdPassLogin', either the event handler is not in the Namespace or there is an error in the script.
+unknown path:33
+
+javafx.fxml.LoadException: Error resolving onAction='#handleIdPassLogin', either the event handler is not in the Namespace or there is an error in the script.
+unknown path:33
+
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2688)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$Element.processEventHandlerAttributes(FXMLLoader.java:610)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$ValueElement.processEndElement(FXMLLoader.java:770)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.processEndElement(FXMLLoader.java:2939)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2624)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2516)
+	at AssetManagementSystem/application.java.manager.form.JavaFxManager.setPage(JavaFxManager.java:88)
+	at AssetManagementSystem/application.Main.start(Main.java:45)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$4(LauncherImpl.java:845)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$0(PlatformImpl.java:449)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.PlatformImpl.lambda$runLater$0(PlatformImpl.java:424)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:173)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-07 01:43:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:43:49 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:43:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:47:22 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:47:22 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:47:22 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:47:22 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:47:22 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:47:22 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:47:22 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 01:47:22 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 01:47:22 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:47:22 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:47:22 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 01:47:22 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 01:47:22 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 01:47:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-07 01:47:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-07 01:47:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-07 01:47:33 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-07 01:47:33 [JavaFX Application Thread] ERROR application.java.manager.LogManager - 例外発生: [LoginController].[lambda$2](行番号: 235)
+2026-06-07 01:47:33 [JavaFX Application Thread] ERROR application.java.manager.LogManager - Cannot invoke "javafx.scene.control.Button.setDisable(boolean)" because "this.passkeyAuth_Button" is null
+java.lang.NullPointerException: Cannot invoke "javafx.scene.control.Button.setDisable(boolean)" because "this.passkeyAuth_Button" is null
+	at AssetManagementSystem/application.java.window.LoginController.lambda$2(LoginController.java:235)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.PlatformImpl.lambda$runLater$0(PlatformImpl.java:424)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:173)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-07 01:47:49 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:47:49 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 01:49:07 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:49:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:49:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:49:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:49:07 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:49:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:49:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 01:49:07 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 01:49:07 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:49:07 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:49:07 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 01:49:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 01:49:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 01:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-07 01:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-07 01:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-07 01:49:09 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-07 01:49:14 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 01:49:14 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:49:14 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 01:49:14 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:50:53 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:50:53 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:50:53 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:50:53 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:50:53 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:50:53 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:50:53 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 01:50:53 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 01:50:53 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:50:53 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:50:53 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 01:50:53 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 01:50:53 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 01:51:23 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 01:51:23 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 01:51:23 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 01:51:23 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 01:53:25 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 01:53:25 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 01:53:25 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 01:53:25 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 01:53:25 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 01:53:25 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 01:53:25 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 01:53:25 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 01:53:25 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:53:25 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 01:53:25 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 01:53:26 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 01:53:26 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 02:46:16 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 02:46:16 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 02:46:16 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 02:46:16 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 02:46:16 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 02:46:16 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 02:46:16 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 02:46:16 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 02:46:16 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 02:46:16 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 02:46:16 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 02:46:16 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 02:46:16 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 02:46:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 02:46:35 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 02:46:35 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 02:46:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 02:49:09 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 02:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 02:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 02:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 02:49:09 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 02:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 02:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 02:49:09 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 02:49:09 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 02:49:09 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 02:49:09 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 02:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 02:49:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 02:49:14 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-07 02:49:14 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-07 02:49:14 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-07 02:49:14 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-07 02:50:00 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [システム終了]ボタン押下により、アプリを終了します
+2026-06-07 02:50:00 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 02:50:00 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 02:50:00 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-07 10:30:02 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-07 10:30:02 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-07 10:30:02 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-07 10:30:02 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:30:02 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 10:30:02 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-07 10:30:02 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-07 10:30:02 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-07 10:30:02 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 10:30:02 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-07 10:30:02 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-07 10:30:02 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-07 10:30:02 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-07 10:31:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-07 10:31:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-07 10:31:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-07 10:31:08 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-07 10:31:36 [HTTP-Dispatcher] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 認証サーバーからデータを受信しました
+2026-06-07 10:31:37 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： ログイン(PassKey)成功
+2026-06-07 10:31:37 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 受信したトークン情報: staffCode=0
+2026-06-07 10:31:37 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： メニュー画面へ切替
+2026-06-07 10:31:37 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-07 10:31:37 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](ログイン画面)の終了処理(dispose)を実行
+2026-06-07 10:31:37 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:31:37 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-07 10:31:38 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-07 10:44:24 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： [棚卸業務]ボタン押下
+2026-06-07 10:44:24 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [棚卸画面] ： 初期化処理
+2026-06-07 10:44:24 [JavaFX Application Thread] INFO  application.java.manager.LogManager - スライドショーのTimelineを停止しました
+2026-06-07 10:44:24 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品管理システム メニュー画面)の終了処理(dispose)を実行
+2026-06-07 10:44:24 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:44:24 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : DECORATED(標準)
+2026-06-07 10:44:24 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:44:24 [Thread-5] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:44:24 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:44:24 [Thread-6] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:44:24 [Thread-6] DEBUG application.java.manager.LogManager - [棚卸画面] ： DB 社員マスタ取得処理
+2026-06-07 10:44:24 [Thread-5] DEBUG application.java.manager.LogManager - [棚卸画面] ： DB 備品分類マスタ取得処理
+2026-06-07 10:44:24 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [棚卸画面] ： リスト表示処理
+2026-06-07 10:44:24 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:44:24 [Thread-7] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:44:24 [Thread-7] DEBUG application.java.manager.LogManager - [棚卸画面] ： DB 棚卸データ取得処理
+2026-06-07 10:44:24 [Thread-6] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:44:24 [Thread-5] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - HikariPool-1 - configuration:
+2026-06-07 10:44:24 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/PerformInventoryStyle.css
+
+2026-06-07 10:44:24 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 棚卸画面
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - allowPoolSuspension.............false
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - autoCommit......................true
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - catalog.........................none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - connectionInitSql...............none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - connectionTestQuery.............none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - connectionTimeout...............30000
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - credentials.....................com.zaxxer.hikari.util.Credentials@5503b352
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - credentialsProvider.............none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - credentialsProviderClassName....none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - dataSource......................none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - dataSourceClassName.............none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - dataSourceJNDI..................none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - dataSourceProperties............{password=<masked>}
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - driverClassName................."com.mysql.cj.jdbc.Driver"
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - exceptionOverride...............none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - exceptionOverrideClassName......none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - healthCheckProperties...........{}
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - healthCheckRegistry.............none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - idleTimeout.....................600000
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - initializationFailTimeout.......1
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - isolateInternalQueries..........false
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - jdbcUrl.........................jdbc:mysql://localhost:3306/java_learning?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B9&useSSL=false&allowPublicKeyRetrieval=true&useCursorFetch=true
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - keepaliveTime...................120000
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - leakDetectionThreshold..........0
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - maxLifetime.....................1800000
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - maximumPoolSize.................20
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - metricRegistry..................none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - metricsTrackerFactory...........none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - minimumIdle.....................20
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - password........................<masked>
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - poolName........................"HikariPool-1"
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - readOnly........................false
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - registerMbeans..................false
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - scheduledExecutor...............none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - schema..........................none
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - threadFactory...................internal
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - transactionIsolation............default
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - username........................"user"
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.HikariConfig - validationTimeout...............5000
+2026-06-07 10:44:24 [Thread-6] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-07 10:44:24 [Thread-7] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (edb54ab1-0f1e-41c8-a319-47eb3918f2fa)
+2026-06-07 10:44:24 [Thread-6] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (edb54ab1-0f1e-41c8-a319-47eb3918f2fa)
+2026-06-07 10:44:24 [Thread-6] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6270ab85
+2026-06-07 10:44:24 [Thread-6] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-07 10:44:24 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (5dfefbba-9aa6-41f7-980d-513b1321ca90)
+2026-06-07 10:44:24 [Thread-6] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@209184782 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:24 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (5dfefbba-9aa6-41f7-980d-513b1321ca90)
+2026-06-07 10:44:24 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@ecfea57
+2026-06-07 10:44:24 [Thread-5] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@918527470 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:44:24 [Thread-5] DEBUG a.r.m.S.getStockTypeMasterData - ==>  Preparing: SELECT STM.id AS stockTypeId, STM.name AS stockTypeName FROM stock_type_master STM WHERE 1 = 1 AND STM.del = FALSE ORDER BY STM.stock_type , STM.stock_code
+2026-06-07 10:44:24 [Thread-6] DEBUG a.r.m.P.getStaffMasterData - ==>  Preparing: SELECT SM.staff_no AS staffNo, SM.name AS staffName FROM staff_master SM WHERE 1 = 1 /* 棚卸のため削除フラグを考慮しない */ ORDER BY SM.staff_no
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (3d095a74-e5ee-4c51-bb17-04fc912174af)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (3d095a74-e5ee-4c51-bb17-04fc912174af)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c
+2026-06-07 10:44:25 [Thread-7] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@202999314 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:44:25 [Thread-7] DEBUG a.r.m.P.getTableInventoryRecords - ==>  Preparing: WITH BASE_TABLE AS ( SELECT DISTINCT SM.serial_no , SD.id FROM stock_type_master STM /* 参照権限を考慮する場合に用いる INNER JOIN stock_type_data STD ON STM.stock_type = STD.stock_type AND STM.stock_code = STD.stock_code*/ INNER JOIN stock_master SM ON STM.stock_type = SM.stock_type AND STM.stock_code = SM.stock_code AND STM.del = FALSE AND SM.del = FALSE /* 棚卸のため、INNER JOINとする */ INNER JOIN stock_data SD ON SM.serial_no = SD.serial_no /* 返却済データの除去 ≒ 最新の備品データを取得 */ AND SD.return_date IS NULL AND SD.del = FALSE WHERE 1 = 1 ) , SOURCE_RECORDS AS ( SELECT SM.serial_no AS serialNo , STM.name AS type_name , IFNULL(SM.name, '') AS model , CASE WHEN SM.rent_flg THEN '4' -- 不可 / 貸出可否(TRUEの場合、貸出不可) WHEN SD.confirmed_date < DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR) THEN '3' -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする) WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN '2' -- 貸出中 WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN '1' -- 可 ELSE '4' -- 不可 / 備品データが未登録の場合など、異常なデータ END AS rentFlg , IFNULL(STF.name, '') AS staffName -- 貸出先ユーザー , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '-') AS startDate , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '-') AS limitDate , IFNULL(DATE_FORMAT(SD.confirmed_date, '%Y/%m/%d'), '-') AS confirmedDate , SM.remarks AS remarks , ? AS inventoryDate -- 初期値の設定(画面側との整合性を保つため、保持した値を用いる) , SM.remarks AS remarksMasterValue -- 更新比較用に現在の「備考」の値を取得ー , SD.id AS stockDataId , STM.id AS stockTypeId , STM.stock_type AS stockTypeType , STM.stock_code AS stockTypeCode , SD.limit_date AS returnDate , SD.confirmed_date AS confDate , STF.staff_no AS staffNo FROM BASE_TABLE B INNER JOIN stock_master SM ON B.serial_no = SM.serial_no INNER JOIN stock_type_master STM ON SM.stock_type = STM.stock_type AND SM.stock_code = STM.stock_code /* 棚卸のため、INNER JOINとする */ INNER JOIN stock_data SD ON B.id = SD.id /* 未登録データを考慮しLEFT JOINとする 棚卸のため削除フラグを考慮しない */ LEFT JOIN staff_master STF ON SD.staff_no = STF.staff_no WHERE 1 = 1 ) SELECT S.* FROM SOURCE_RECORDS S ORDER BY S.stockTypeType , S.stockTypeCode , S.serialNo
+2026-06-07 10:44:25 [Thread-6] DEBUG a.r.m.P.getStaffMasterData - ==> Parameters: 
+2026-06-07 10:44:25 [Thread-5] DEBUG a.r.m.S.getStockTypeMasterData - ==> Parameters: 
+2026-06-07 10:44:25 [Thread-7] DEBUG a.r.m.P.getTableInventoryRecords - ==> Parameters: 2026/06/07(String)
+2026-06-07 10:44:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=3/20, idle=0/20, active=3, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (2aee374a-c22d-4cd9-9102-98a5b9bbe743)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (2aee374a-c22d-4cd9-9102-98a5b9bbe743)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7ef72a66
+2026-06-07 10:44:25 [Thread-5] DEBUG a.r.m.S.getStockTypeMasterData - <==      Total: 16
+2026-06-07 10:44:25 [Thread-6] DEBUG a.r.m.P.getStaffMasterData - <==      Total: 5
+2026-06-07 10:44:25 [Thread-5] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@918527470 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:44:25 [Thread-6] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@209184782 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:25 [Thread-5] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@918527470 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:44:25 [Thread-6] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@209184782 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:25 [Thread-7] DEBUG a.r.m.P.getTableInventoryRecords - <==      Total: 46
+2026-06-07 10:44:25 [Thread-7] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@202999314 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:44:25 [Thread-7] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@202999314 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=4/20, idle=4/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (ef6d91d6-46c2-4262-b593-bc1bac0ad207)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (ef6d91d6-46c2-4262-b593-bc1bac0ad207)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2fdd1f23
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=5/20, idle=5/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (2841e4ef-b4af-4cee-adac-889b44f0fdf6)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (2841e4ef-b4af-4cee-adac-889b44f0fdf6)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@38d1e036
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=6/20, idle=6/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (0a507b1d-ca2f-48c7-92fd-94d1840e936a)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (0a507b1d-ca2f-48c7-92fd-94d1840e936a)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2b93c44f
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=7/20, idle=7/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (988df42c-34c2-4f36-ae26-3be445e9405c)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (988df42c-34c2-4f36-ae26-3be445e9405c)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7126570e
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=8/20, idle=8/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (0322c54e-a0b7-4ce1-86f6-1988a2cbce40)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (0322c54e-a0b7-4ce1-86f6-1988a2cbce40)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2f6ea223
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=9/20, idle=9/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (9a570a3f-8eab-4422-ae97-a0198c56bfa6)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (9a570a3f-8eab-4422-ae97-a0198c56bfa6)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@24c771eb
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=10/20, idle=10/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (c0ef6fac-63a6-4d83-b04c-db02026d7229)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (c0ef6fac-63a6-4d83-b04c-db02026d7229)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@31a37753
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=11/20, idle=11/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (78e4efa1-f32a-4719-ac0e-a8919b90d999)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (78e4efa1-f32a-4719-ac0e-a8919b90d999)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1f7ef74d
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=12/20, idle=12/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (bcee3f64-a6a6-4c4f-906c-6183c03b4775)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (bcee3f64-a6a6-4c4f-906c-6183c03b4775)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6be89ef0
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=13/20, idle=13/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (c278066a-aef9-454f-9ea9-a0fcbcd2f4b8)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (c278066a-aef9-454f-9ea9-a0fcbcd2f4b8)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4f1597f4
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=14/20, idle=14/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (5a6fef3f-1bdd-49ae-b2f1-ad1ba721357b)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (5a6fef3f-1bdd-49ae-b2f1-ad1ba721357b)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7ae7056d
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=15/20, idle=15/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (a44933fc-1f61-498d-b764-1b0ac512064a)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (a44933fc-1f61-498d-b764-1b0ac512064a)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@70b83a9d
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=16/20, idle=16/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (ba7324bc-b115-4834-85f5-79ebf226fcf7)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (ba7324bc-b115-4834-85f5-79ebf226fcf7)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5ffd66db
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=17/20, idle=17/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (07a92a1c-d1d7-4343-a352-aa0e5c5e570e)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (07a92a1c-d1d7-4343-a352-aa0e5c5e570e)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@70e6b659
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=18/20, idle=18/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (98aa9ce4-433f-405c-865c-10ffb842fd23)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (98aa9ce4-433f-405c-865c-10ffb842fd23)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@474aefdf
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=19/20, idle=19/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (fbf32559-19dd-4aca-9d8a-ae144962f2aa)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (fbf32559-19dd-4aca-9d8a-ae144962f2aa)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1b786475
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After adding stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection not added, stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection not added, stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:44:25 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection not added, stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:44:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [棚卸画面] ： [メニューに戻る]ボタン押下
+2026-06-07 10:44:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-07 10:44:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](棚卸画面)の終了処理(dispose)を実行
+2026-06-07 10:44:32 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:44:32 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 10:44:33 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-07 10:44:33 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-07 10:44:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： [貸出業務]ボタン押下
+2026-06-07 10:44:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品一覧画面] ： 初期化処理
+2026-06-07 10:44:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - スライドショーのTimelineを停止しました
+2026-06-07 10:44:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品管理システム メニュー画面)の終了処理(dispose)を実行
+2026-06-07 10:44:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:44:36 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : DECORATED(標準)
+2026-06-07 10:44:36 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [備品一覧画面] ： リスト表示処理
+2026-06-07 10:44:36 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:44:36 [Thread-8] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:44:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/InventoryListStyle.css
+
+2026-06-07 10:44:36 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品一覧画面
+2026-06-07 10:44:36 [Thread-8] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:44:36 [Thread-8] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@2141120157 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:36 [Thread-8] DEBUG a.r.m.I.getTableRecords - ==>  Preparing: WITH SUB_TOTAL AS ( SELECT ST.stock_type , ST.stock_code , SUM(CASE WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN 1 ELSE 0 END) AS lending_count -- 貸出備品の数 , SUM(CASE /* 在庫 = [staff_no]：貸出先ユーザーの社員番号 が未設定(NULL) 且つ [return_date]：返却日が未設定(NULL) 且つ [confirmed_date]：最終所在確認日 が１年以内 */ WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN 1 ELSE 0 END) AS stock_count -- 在庫備品の数 , SUM(CASE /* 不明 = [return_date]：返却日が未設定(NULL) 且つ [confirmed_date]：最終所在確認日 が１年前以前 ※ 貸出中・在庫を問わず１年前以前のデータを不明とする */ WHEN (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 ) THEN 1 ELSE 0 END) AS unknown_count -- 不明備品の数 FROM (SELECT stock_type , stock_code FROM stock_type_master WHERE 1 = 1 AND del = FALSE) ST INNER JOIN stock_master SM ON ST.stock_type = SM.stock_type AND ST.stock_code = SM.stock_code AND SM.del = FALSE /* 未登録データを考慮しLEFT JOINとする */ LEFT JOIN stock_data SD ON SM.serial_no = SD.serial_no /* 返却済データの除去 */ AND SD.return_date IS NULL AND SD.del = FALSE WHERE 1 = 1 GROUP BY ST.stock_type , ST.stock_code ) SELECT ST.stock_type AS type, ST.stock_code AS code, ST.name AS itemName, IFNULL(S.lending_count, 0) AS loanCount, IFNULL(S.stock_count, 0) AS returnCount, IFNULL(S.unknown_count, 0) AS unknownCount, IFNULL(S.lending_count + S.stock_count, 0) AS totalCount /* 追加項目：遷移先画面サイズ */ , IFNULL( GCM.value_1, '1') AS windowSize FROM stock_type_master ST INNER JOIN SUB_TOTAL S ON ST.stock_type = S.stock_type AND ST.stock_code = S.stock_code /* 追加項目 遷移先画面サイズ */ LEFT JOIN generic_code_master GCM ON CAST(ST.stock_type AS CHAR) = GCM.type_key AND ST.stock_code = GCM.code AND GCM.generic_key = 'WINDOW_SIZE' WHERE 1 = 1 ORDER BY ST.stock_type , St.stock_code
+2026-06-07 10:44:36 [Thread-8] DEBUG a.r.m.I.getTableRecords - ==> Parameters: 
+2026-06-07 10:44:36 [Thread-8] DEBUG a.r.m.I.getTableRecords - <==      Total: 16
+2026-06-07 10:44:36 [Thread-8] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@2141120157 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:36 [Thread-8] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@2141120157 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品一覧画面] ： [メニューに戻る]ボタン押下
+2026-06-07 10:44:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-07 10:44:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品一覧画面)の終了処理(dispose)を実行
+2026-06-07 10:44:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:44:46 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 10:44:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-07 10:44:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-07 10:44:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： [マスタメンテナンス]ボタン押下
+2026-06-07 10:44:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： [社員マスタ メンテナンス]ボタン押下
+2026-06-07 10:44:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [社員マスタ メンテナンス] ： 初期化処理
+2026-06-07 10:44:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - スライドショーのTimelineを停止しました
+2026-06-07 10:44:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品管理システム メニュー画面)の終了処理(dispose)を実行
+2026-06-07 10:44:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:44:52 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : DECORATED(標準)
+2026-06-07 10:44:52 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [社員マスタ メンテナンス] ： リスト表示処理
+2026-06-07 10:44:52 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:44:52 [Thread-9] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:44:52 [Thread-9] DEBUG application.java.manager.LogManager - [社員マスタ メンテナンス] ： DB 社員マスタ取得処理
+2026-06-07 10:44:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/StaffMasterStyle.css
+
+2026-06-07 10:44:52 [Thread-9] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:44:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 社員マスタ メンテナンス
+2026-06-07 10:44:52 [Thread-9] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1640189029 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:52 [Thread-9] DEBUG a.r.m.S.selectMaintenance - ==>  Preparing: SELECT SM.staff_no AS staffNo, SM.name AS staffName, SM.auth_no AS authNo, SM.del AS delFlg FROM staff_master SM WHERE 1 = 1 ORDER BY SM.staff_no
+2026-06-07 10:44:52 [Thread-9] DEBUG a.r.m.S.selectMaintenance - ==> Parameters: 
+2026-06-07 10:44:52 [Thread-9] DEBUG a.r.m.S.selectMaintenance - <==      Total: 5
+2026-06-07 10:44:52 [Thread-9] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1640189029 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:52 [Thread-9] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1640189029 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:44:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:44:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-06-07 10:45:21 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [社員マスタ メンテナンス] ： [メニューに戻る]ボタン押下
+2026-06-07 10:45:21 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-07 10:45:21 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](社員マスタ メンテナンス)の終了処理(dispose)を実行
+2026-06-07 10:45:21 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:45:21 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 10:45:21 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-07 10:45:21 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-07 10:45:23 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： [マスタメンテナンス]ボタン押下
+2026-06-07 10:45:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:45:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-06-07 10:45:27 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： [備品マスタ メンテナンス]ボタン押下
+2026-06-07 10:45:27 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： 初期化処理
+2026-06-07 10:45:27 [JavaFX Application Thread] INFO  application.java.manager.LogManager - スライドショーのTimelineを停止しました
+2026-06-07 10:45:27 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品管理システム メニュー画面)の終了処理(dispose)を実行
+2026-06-07 10:45:27 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:45:27 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : DECORATED(標準)
+2026-06-07 10:45:27 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:45:27 [Thread-10] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:45:27 [Thread-10] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： DB 備品分類マスタ取得処理
+2026-06-07 10:45:27 [Thread-10] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:45:27 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： リスト表示処理
+2026-06-07 10:45:27 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:45:27 [Thread-10] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1724767900 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:45:27 [Thread-10] DEBUG a.r.m.S.getStockTypeMasterData - ==>  Preparing: SELECT STM.id AS stockTypeId, STM.name AS stockTypeName FROM stock_type_master STM WHERE 1 = 1 AND STM.del = FALSE ORDER BY STM.stock_type , STM.stock_code
+2026-06-07 10:45:27 [Thread-11] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:45:27 [Thread-11] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： DB 備品マスタ明細(一覧)取得処理
+2026-06-07 10:45:27 [Thread-10] DEBUG a.r.m.S.getStockTypeMasterData - ==> Parameters: 
+2026-06-07 10:45:27 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/StockMasterMaintenanceDetalisStyle.css
+
+2026-06-07 10:45:27 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品マスタ メンテナンス 明細(一覧)
+2026-06-07 10:45:27 [Thread-10] DEBUG a.r.m.S.getStockTypeMasterData - <==      Total: 16
+2026-06-07 10:45:27 [Thread-11] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:45:27 [Thread-10] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1724767900 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:45:27 [Thread-11] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1557902853 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:45:27 [Thread-10] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1724767900 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:45:27 [Thread-11] DEBUG a.r.m.S.getTableStockMasterDetailRecords - ==>  Preparing: SELECT STM.name AS typeName, GCM_A.value_1 AS assetStatus, GCM_P.value_1 AS paymentStatus, VM.name AS vendorName, IFNULL(DATE_FORMAT(SM.expiry_date, '%Y/%m/%d'), '-') AS expiryDateString, CASE WHEN SM.rent_flg THEN '4' ELSE '1' END AS rentStatus, SM.serial_no AS serialNo, SM.name AS stockName, SM.model, SM.maker, SM.stock_type AS stockType, -- 分類種別 SM.stock_code AS stockCode, -- 分類コード SM.rent_flg AS rentFlg, -- 貸出可否 SM.asset_type AS assetType, -- 資産区分 SM.vendor_code AS vendorCode, -- 貸出会社コード SM.expiry_date AS expiryDate, -- 契約満了日 SM.pay_cycle AS payCycle, -- 支払区分 SM.price, -- 料金 SM.remarks, -- 備考 SM.del AS delFlg -- 削除フラグ FROM stock_master SM LEFT JOIN stock_type_master STM ON SM.stock_type = STM.stock_type AND SM.stock_code = STM.stock_code LEFT JOIN vendor_master VM ON SM.vendor_code = VM.code LEFT JOIN generic_code_master GCM_A ON GCM_A.generic_key = 'ASSET_TYPE' AND SM.asset_type = GCM_A.type_key LEFT JOIN generic_code_master GCM_P ON GCM_P.generic_key = 'PAY_CYCLE' AND SM.pay_cycle = GCM_P.type_key ORDER BY SM.serial_no
+2026-06-07 10:45:27 [Thread-11] DEBUG a.r.m.S.getTableStockMasterDetailRecords - ==> Parameters: 
+2026-06-07 10:45:27 [Thread-11] DEBUG a.r.m.S.getTableStockMasterDetailRecords - <==      Total: 50
+2026-06-07 10:45:27 [Thread-11] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1557902853 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:45:27 [Thread-11] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1557902853 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:45:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： [登録]ボタン押下
+2026-06-07 10:45:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタメンテナンス] ： 初期化処理
+2026-06-07 10:45:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品マスタ メンテナンス 明細(一覧))の終了処理(dispose)を実行
+2026-06-07 10:45:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:45:34 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:45:34 [Thread-12] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:45:34 [Thread-12] DEBUG application.java.manager.LogManager - [備品マスタメンテナンス] ： DB 備品分類マスタ取得処理
+2026-06-07 10:45:34 [Thread-12] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:45:34 [Thread-12] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@51294252 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:45:34 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:45:34 [Thread-12] DEBUG a.r.m.S.selectAll - ==>  Preparing: SELECT STM.id AS stockTypeId, STM.stock_type AS stockType, STM.stock_code AS stockCode, STM.name AS stockTypeName, STM.del AS delFlg FROM stock_type_master STM ORDER BY STM.stock_type , STM.stock_code
+2026-06-07 10:45:34 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:45:34 [Thread-12] DEBUG a.r.m.S.selectAll - ==> Parameters: 
+2026-06-07 10:45:34 [Thread-13] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:45:34 [Thread-13] DEBUG application.java.manager.LogManager - [備品マスタメンテナンス] ： DB 備品分類マスタ取得処理
+2026-06-07 10:45:34 [Thread-14] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:45:34 [Thread-14] DEBUG application.java.manager.LogManager - [備品マスタメンテナンス] ： DB 備品分類マスタ取得処理
+2026-06-07 10:45:34 [Thread-12] DEBUG a.r.m.S.selectAll - <==      Total: 17
+2026-06-07 10:45:34 [Thread-14] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:45:34 [Thread-13] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:45:34 [Thread-12] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@51294252 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:45:34 [Thread-14] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@988214699 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:45:34 [Thread-13] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1769273942 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:45:34 [Thread-12] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@51294252 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:45:34 [Thread-14] DEBUG a.r.m.G.genericCodeMasterData - ==>  Preparing: SELECT GCM.generic_key AS genericKey, GCM.key_comment AS keyComment, GCM.type_key AS typeKey, GCM.type_comment AS typeComment, GCM.code, GCM.code_comment AS codeComment, GCM.value_1 AS value1, GCM.is_active AS isActive FROM generic_code_master GCM WHERE GCM.generic_key = ? ORDER BY GCM.generic_key , GCM.sort_order
+2026-06-07 10:45:34 [Thread-13] DEBUG a.r.m.G.genericCodeMasterData - ==>  Preparing: SELECT GCM.generic_key AS genericKey, GCM.key_comment AS keyComment, GCM.type_key AS typeKey, GCM.type_comment AS typeComment, GCM.code, GCM.code_comment AS codeComment, GCM.value_1 AS value1, GCM.is_active AS isActive FROM generic_code_master GCM WHERE GCM.generic_key = ? ORDER BY GCM.generic_key , GCM.sort_order
+2026-06-07 10:45:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/StockMasterMaintenanceStyle.css
+
+2026-06-07 10:45:34 [Thread-14] DEBUG a.r.m.G.genericCodeMasterData - ==> Parameters: PAY_CYCLE(String)
+2026-06-07 10:45:34 [Thread-13] DEBUG a.r.m.G.genericCodeMasterData - ==> Parameters: ASSET_TYPE(String)
+2026-06-07 10:45:34 [Thread-14] DEBUG a.r.m.G.genericCodeMasterData - <==      Total: 2
+2026-06-07 10:45:34 [Thread-13] DEBUG a.r.m.G.genericCodeMasterData - <==      Total: 3
+2026-06-07 10:45:34 [Thread-14] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@988214699 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:45:34 [Thread-13] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1769273942 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:45:34 [Thread-14] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@988214699 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:45:34 [Thread-13] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1769273942 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:45:34 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品マスタメンテナンス
+2026-06-07 10:45:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:45:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-06-07 10:46:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタメンテナンス] ： [備品マスタ明細に戻る]ボタン押下
+2026-06-07 10:46:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： 初期化処理
+2026-06-07 10:46:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品マスタメンテナンス)の終了処理(dispose)を実行
+2026-06-07 10:46:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:46:01 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:46:01 [Thread-15] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:46:01 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： リスト表示処理
+2026-06-07 10:46:01 [Thread-15] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： DB 備品分類マスタ取得処理
+2026-06-07 10:46:01 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:46:01 [Thread-15] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:46:01 [Thread-15] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1510788784 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:01 [Thread-16] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:46:01 [Thread-16] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： DB 備品マスタ明細(一覧)取得処理
+2026-06-07 10:46:01 [Thread-16] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:46:01 [Thread-15] DEBUG a.r.m.S.getStockTypeMasterData - ==>  Preparing: SELECT STM.id AS stockTypeId, STM.name AS stockTypeName FROM stock_type_master STM WHERE 1 = 1 AND STM.del = FALSE ORDER BY STM.stock_type , STM.stock_code
+2026-06-07 10:46:01 [Thread-16] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1643513583 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:01 [Thread-16] DEBUG a.r.m.S.getTableStockMasterDetailRecords - ==>  Preparing: SELECT STM.name AS typeName, GCM_A.value_1 AS assetStatus, GCM_P.value_1 AS paymentStatus, VM.name AS vendorName, IFNULL(DATE_FORMAT(SM.expiry_date, '%Y/%m/%d'), '-') AS expiryDateString, CASE WHEN SM.rent_flg THEN '4' ELSE '1' END AS rentStatus, SM.serial_no AS serialNo, SM.name AS stockName, SM.model, SM.maker, SM.stock_type AS stockType, -- 分類種別 SM.stock_code AS stockCode, -- 分類コード SM.rent_flg AS rentFlg, -- 貸出可否 SM.asset_type AS assetType, -- 資産区分 SM.vendor_code AS vendorCode, -- 貸出会社コード SM.expiry_date AS expiryDate, -- 契約満了日 SM.pay_cycle AS payCycle, -- 支払区分 SM.price, -- 料金 SM.remarks, -- 備考 SM.del AS delFlg -- 削除フラグ FROM stock_master SM LEFT JOIN stock_type_master STM ON SM.stock_type = STM.stock_type AND SM.stock_code = STM.stock_code LEFT JOIN vendor_master VM ON SM.vendor_code = VM.code LEFT JOIN generic_code_master GCM_A ON GCM_A.generic_key = 'ASSET_TYPE' AND SM.asset_type = GCM_A.type_key LEFT JOIN generic_code_master GCM_P ON GCM_P.generic_key = 'PAY_CYCLE' AND SM.pay_cycle = GCM_P.type_key ORDER BY SM.serial_no
+2026-06-07 10:46:01 [Thread-15] DEBUG a.r.m.S.getStockTypeMasterData - ==> Parameters: 
+2026-06-07 10:46:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/StockMasterMaintenanceDetalisStyle.css
+
+2026-06-07 10:46:01 [Thread-16] DEBUG a.r.m.S.getTableStockMasterDetailRecords - ==> Parameters: 
+2026-06-07 10:46:01 [Thread-15] DEBUG a.r.m.S.getStockTypeMasterData - <==      Total: 16
+2026-06-07 10:46:01 [Thread-15] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1510788784 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:01 [Thread-15] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1510788784 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:01 [Thread-16] DEBUG a.r.m.S.getTableStockMasterDetailRecords - <==      Total: 50
+2026-06-07 10:46:01 [Thread-16] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1643513583 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:01 [Thread-16] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1643513583 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品マスタ メンテナンス 明細(一覧)
+2026-06-07 10:46:02 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7ae7056d is alive
+2026-06-07 10:46:02 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7ef72a66 is alive
+2026-06-07 10:46:03 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2b93c44f is alive
+2026-06-07 10:46:04 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7126570e is alive
+2026-06-07 10:46:04 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@38d1e036 is alive
+2026-06-07 10:46:07 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@70b83a9d is alive
+2026-06-07 10:46:07 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1b786475 is alive
+2026-06-07 10:46:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： [更新]ボタン押下
+2026-06-07 10:46:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタメンテナンス] ： 初期化処理
+2026-06-07 10:46:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品マスタ メンテナンス 明細(一覧))の終了処理(dispose)を実行
+2026-06-07 10:46:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:46:09 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@6be89ef0 is alive
+2026-06-07 10:46:09 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:46:09 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:46:09 [Thread-5] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:46:09 [Thread-5] DEBUG application.java.manager.LogManager - [備品マスタメンテナンス] ： DB 備品分類マスタ取得処理
+2026-06-07 10:46:09 [Thread-6] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:46:09 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:46:09 [Thread-5] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:46:09 [Thread-6] DEBUG application.java.manager.LogManager - [備品マスタメンテナンス] ： DB 備品分類マスタ取得処理
+2026-06-07 10:46:09 [Thread-7] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:46:09 [Thread-7] DEBUG application.java.manager.LogManager - [備品マスタメンテナンス] ： DB 備品分類マスタ取得処理
+2026-06-07 10:46:09 [Thread-6] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:46:09 [Thread-7] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:46:09 [Thread-5] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1457432168 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:09 [Thread-7] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@2007925482 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:46:09 [Thread-6] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1695734143 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:09 [Thread-7] DEBUG a.r.m.G.genericCodeMasterData - ==>  Preparing: SELECT GCM.generic_key AS genericKey, GCM.key_comment AS keyComment, GCM.type_key AS typeKey, GCM.type_comment AS typeComment, GCM.code, GCM.code_comment AS codeComment, GCM.value_1 AS value1, GCM.is_active AS isActive FROM generic_code_master GCM WHERE GCM.generic_key = ? ORDER BY GCM.generic_key , GCM.sort_order
+2026-06-07 10:46:09 [Thread-5] DEBUG a.r.m.S.selectAll - ==>  Preparing: SELECT STM.id AS stockTypeId, STM.stock_type AS stockType, STM.stock_code AS stockCode, STM.name AS stockTypeName, STM.del AS delFlg FROM stock_type_master STM ORDER BY STM.stock_type , STM.stock_code
+2026-06-07 10:46:09 [Thread-6] DEBUG a.r.m.G.genericCodeMasterData - ==>  Preparing: SELECT GCM.generic_key AS genericKey, GCM.key_comment AS keyComment, GCM.type_key AS typeKey, GCM.type_comment AS typeComment, GCM.code, GCM.code_comment AS codeComment, GCM.value_1 AS value1, GCM.is_active AS isActive FROM generic_code_master GCM WHERE GCM.generic_key = ? ORDER BY GCM.generic_key , GCM.sort_order
+2026-06-07 10:46:09 [Thread-5] DEBUG a.r.m.S.selectAll - ==> Parameters: 
+2026-06-07 10:46:09 [Thread-7] DEBUG a.r.m.G.genericCodeMasterData - ==> Parameters: PAY_CYCLE(String)
+2026-06-07 10:46:09 [Thread-6] DEBUG a.r.m.G.genericCodeMasterData - ==> Parameters: ASSET_TYPE(String)
+2026-06-07 10:46:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/StockMasterMaintenanceStyle.css
+
+2026-06-07 10:46:09 [Thread-7] DEBUG a.r.m.G.genericCodeMasterData - <==      Total: 2
+2026-06-07 10:46:09 [Thread-7] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@2007925482 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:46:09 [Thread-6] DEBUG a.r.m.G.genericCodeMasterData - <==      Total: 3
+2026-06-07 10:46:09 [Thread-6] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1695734143 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:09 [Thread-7] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@2007925482 wrapping com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c]
+2026-06-07 10:46:09 [Thread-6] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1695734143 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:09 [Thread-5] DEBUG a.r.m.S.selectAll - <==      Total: 17
+2026-06-07 10:46:09 [Thread-5] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1457432168 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:09 [Thread-5] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1457432168 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品マスタメンテナンス
+2026-06-07 10:46:10 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@70e6b659 is alive
+2026-06-07 10:46:11 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@31a37753 is alive
+2026-06-07 10:46:12 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@ecfea57 is alive
+2026-06-07 10:46:12 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5ffd66db is alive
+2026-06-07 10:46:13 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2fdd1f23 is alive
+2026-06-07 10:46:13 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c is alive
+2026-06-07 10:46:18 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@4f1597f4 is alive
+2026-06-07 10:46:19 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1f7ef74d is alive
+2026-06-07 10:46:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタメンテナンス] ： [備品マスタ明細に戻る]ボタン押下
+2026-06-07 10:46:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： 初期化処理
+2026-06-07 10:46:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品マスタメンテナンス)の終了処理(dispose)を実行
+2026-06-07 10:46:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:46:20 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:46:20 [Thread-8] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:46:20 [Thread-8] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： DB 備品分類マスタ取得処理
+2026-06-07 10:46:20 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： リスト表示処理
+2026-06-07 10:46:20 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:46:20 [Thread-8] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:46:20 [Thread-9] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:46:20 [Thread-9] DEBUG application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： DB 備品マスタ明細(一覧)取得処理
+2026-06-07 10:46:20 [Thread-9] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:46:20 [Thread-8] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@505735312 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:20 [Thread-9] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1156460918 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:20 [Thread-8] DEBUG a.r.m.S.getStockTypeMasterData - ==>  Preparing: SELECT STM.id AS stockTypeId, STM.name AS stockTypeName FROM stock_type_master STM WHERE 1 = 1 AND STM.del = FALSE ORDER BY STM.stock_type , STM.stock_code
+2026-06-07 10:46:20 [Thread-9] DEBUG a.r.m.S.getTableStockMasterDetailRecords - ==>  Preparing: SELECT STM.name AS typeName, GCM_A.value_1 AS assetStatus, GCM_P.value_1 AS paymentStatus, VM.name AS vendorName, IFNULL(DATE_FORMAT(SM.expiry_date, '%Y/%m/%d'), '-') AS expiryDateString, CASE WHEN SM.rent_flg THEN '4' ELSE '1' END AS rentStatus, SM.serial_no AS serialNo, SM.name AS stockName, SM.model, SM.maker, SM.stock_type AS stockType, -- 分類種別 SM.stock_code AS stockCode, -- 分類コード SM.rent_flg AS rentFlg, -- 貸出可否 SM.asset_type AS assetType, -- 資産区分 SM.vendor_code AS vendorCode, -- 貸出会社コード SM.expiry_date AS expiryDate, -- 契約満了日 SM.pay_cycle AS payCycle, -- 支払区分 SM.price, -- 料金 SM.remarks, -- 備考 SM.del AS delFlg -- 削除フラグ FROM stock_master SM LEFT JOIN stock_type_master STM ON SM.stock_type = STM.stock_type AND SM.stock_code = STM.stock_code LEFT JOIN vendor_master VM ON SM.vendor_code = VM.code LEFT JOIN generic_code_master GCM_A ON GCM_A.generic_key = 'ASSET_TYPE' AND SM.asset_type = GCM_A.type_key LEFT JOIN generic_code_master GCM_P ON GCM_P.generic_key = 'PAY_CYCLE' AND SM.pay_cycle = GCM_P.type_key ORDER BY SM.serial_no
+2026-06-07 10:46:20 [Thread-8] DEBUG a.r.m.S.getStockTypeMasterData - ==> Parameters: 
+2026-06-07 10:46:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/StockMasterMaintenanceDetalisStyle.css
+
+2026-06-07 10:46:20 [Thread-9] DEBUG a.r.m.S.getTableStockMasterDetailRecords - ==> Parameters: 
+2026-06-07 10:46:20 [Thread-8] DEBUG a.r.m.S.getStockTypeMasterData - <==      Total: 16
+2026-06-07 10:46:20 [Thread-8] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@505735312 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:20 [Thread-8] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@505735312 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:46:20 [Thread-9] DEBUG a.r.m.S.getTableStockMasterDetailRecords - <==      Total: 50
+2026-06-07 10:46:20 [Thread-9] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1156460918 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:20 [Thread-9] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1156460918 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:46:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品マスタ メンテナンス 明細(一覧)
+2026-06-07 10:46:21 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@474aefdf is alive
+2026-06-07 10:46:21 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@24c771eb is alive
+2026-06-07 10:46:22 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@6270ab85 is alive
+2026-06-07 10:46:23 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2f6ea223 is alive
+2026-06-07 10:46:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:46:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-06-07 10:46:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:46:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-06-07 10:47:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:47:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-06-07 10:47:31 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品マスタ メンテナンス 明細(一覧)] ： [メニューに戻る]ボタン押下
+2026-06-07 10:47:31 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-07 10:47:31 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品マスタ メンテナンス 明細(一覧))の終了処理(dispose)を実行
+2026-06-07 10:47:31 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:47:31 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 10:47:31 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-07 10:47:31 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-07 10:47:38 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： [貸出業務]ボタン押下
+2026-06-07 10:47:38 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品一覧画面] ： 初期化処理
+2026-06-07 10:47:38 [JavaFX Application Thread] INFO  application.java.manager.LogManager - スライドショーのTimelineを停止しました
+2026-06-07 10:47:38 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品管理システム メニュー画面)の終了処理(dispose)を実行
+2026-06-07 10:47:38 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:47:38 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : DECORATED(標準)
+2026-06-07 10:47:38 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [備品一覧画面] ： リスト表示処理
+2026-06-07 10:47:38 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:47:38 [Thread-10] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:47:38 [Thread-10] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:47:38 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/InventoryListStyle.css
+
+2026-06-07 10:47:38 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品一覧画面
+2026-06-07 10:47:38 [Thread-10] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@514646257 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:47:38 [Thread-10] DEBUG a.r.m.I.getTableRecords - ==>  Preparing: WITH SUB_TOTAL AS ( SELECT ST.stock_type , ST.stock_code , SUM(CASE WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN 1 ELSE 0 END) AS lending_count -- 貸出備品の数 , SUM(CASE /* 在庫 = [staff_no]：貸出先ユーザーの社員番号 が未設定(NULL) 且つ [return_date]：返却日が未設定(NULL) 且つ [confirmed_date]：最終所在確認日 が１年以内 */ WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN 1 ELSE 0 END) AS stock_count -- 在庫備品の数 , SUM(CASE /* 不明 = [return_date]：返却日が未設定(NULL) 且つ [confirmed_date]：最終所在確認日 が１年前以前 ※ 貸出中・在庫を問わず１年前以前のデータを不明とする */ WHEN (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 ) THEN 1 ELSE 0 END) AS unknown_count -- 不明備品の数 FROM (SELECT stock_type , stock_code FROM stock_type_master WHERE 1 = 1 AND del = FALSE) ST INNER JOIN stock_master SM ON ST.stock_type = SM.stock_type AND ST.stock_code = SM.stock_code AND SM.del = FALSE /* 未登録データを考慮しLEFT JOINとする */ LEFT JOIN stock_data SD ON SM.serial_no = SD.serial_no /* 返却済データの除去 */ AND SD.return_date IS NULL AND SD.del = FALSE WHERE 1 = 1 GROUP BY ST.stock_type , ST.stock_code ) SELECT ST.stock_type AS type, ST.stock_code AS code, ST.name AS itemName, IFNULL(S.lending_count, 0) AS loanCount, IFNULL(S.stock_count, 0) AS returnCount, IFNULL(S.unknown_count, 0) AS unknownCount, IFNULL(S.lending_count + S.stock_count, 0) AS totalCount /* 追加項目：遷移先画面サイズ */ , IFNULL( GCM.value_1, '1') AS windowSize FROM stock_type_master ST INNER JOIN SUB_TOTAL S ON ST.stock_type = S.stock_type AND ST.stock_code = S.stock_code /* 追加項目 遷移先画面サイズ */ LEFT JOIN generic_code_master GCM ON CAST(ST.stock_type AS CHAR) = GCM.type_key AND ST.stock_code = GCM.code AND GCM.generic_key = 'WINDOW_SIZE' WHERE 1 = 1 ORDER BY ST.stock_type , St.stock_code
+2026-06-07 10:47:38 [Thread-10] DEBUG a.r.m.I.getTableRecords - ==> Parameters: 
+2026-06-07 10:47:38 [Thread-10] DEBUG a.r.m.I.getTableRecords - <==      Total: 16
+2026-06-07 10:47:38 [Thread-10] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@514646257 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:47:38 [Thread-10] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@514646257 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:47:39 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7ae7056d is alive
+2026-06-07 10:47:40 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7ef72a66 is alive
+2026-06-07 10:47:42 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2b93c44f is alive
+2026-06-07 10:47:43 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@7126570e is alive
+2026-06-07 10:47:44 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@38d1e036 is alive
+2026-06-07 10:47:46 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [備品一覧画面] ： 選択行 分類種別: 8 分類コード: 2 遷移先画面サイズ : [3]
+2026-06-07 10:47:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品詳細画面] ： 初期化処理
+2026-06-07 10:47:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品一覧画面)の終了処理(dispose)を実行
+2026-06-07 10:47:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:47:46 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [備品詳細画面] ： リスト表示処理
+2026-06-07 10:47:46 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:47:46 [Thread-11] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:47:46 [Thread-11] DEBUG application.java.manager.LogManager - [備品詳細画面] ： DB 備品詳細データ取得処理
+2026-06-07 10:47:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/InventoryDetailsStyle.css
+
+2026-06-07 10:47:46 [Thread-11] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:47:46 [Thread-11] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@1036729749 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:47:46 [Thread-11] DEBUG a.r.m.I.getTableDetailRecords - ==>  Preparing: WITH BASE_TABLE AS ( SELECT DISTINCT SM.serial_no , SD.id FROM stock_type_master STM /* 参照権限を考慮する場合に用いる INNER JOIN stock_type_data STD ON STM.stock_type = STD.stock_type AND STM.stock_code = STD.stock_code*/ INNER JOIN stock_master SM ON STM.stock_type = SM.stock_type AND STM.stock_code = SM.stock_code AND STM.del = FALSE AND SM.del = FALSE /* 未登録データを考慮しLEFT JOINとする */ LEFT JOIN stock_data SD ON SM.serial_no = SD.serial_no /* 返却済データの除去 ≒ 最新の備品データを取得 */ AND SD.return_date IS NULL AND SD.del = FALSE WHERE 1 = 1 AND STM.stock_type = ? AND STM.stock_code = ? ) SELECT STM.name AS type_name , SM.serial_no AS serialNo , IFNULL(STF.name, '') AS staffName -- 貸出先ユーザー /* DataViewとの整合性を考慮しString型とする */ , CASE WHEN SM.rent_flg THEN '4' -- 不可 / 貸出可否(TRUEの場合、貸出不可) /* 返却処理に含めるため、[貸出中]で[不明]のデータを分ける */ WHEN SD.staff_no IS NOT NULL AND DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 THEN '5' -- 不明 / 可否表示は不明だがデータの種別は分ける [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする) WHEN DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 THEN '3' -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする) WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN '2' -- 貸出中 WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN '1' -- 可 ELSE '4' -- 不可 / 備品データが未登録の場合など、異常なデータ END AS rentFlg , IFNULL(DATE_FORMAT(SD.start_date, '%Y/%m/%d'), '-') AS startDate , IFNULL(DATE_FORMAT(SD.limit_date, '%Y/%m/%d'), '-') AS limitDate , IFNULL(DATE_FORMAT(SD.confirmed_date, '%Y/%m/%d'), '-') AS confirmedDate , SM.name AS model , SM.maker AS maker , IFNULL(SD.parent_stock_code, '-') AS destinationSerialNo -- 親シリアルナンバー , GCM.value_1 AS type , IFNULL(DATE_FORMAT(SM.expiry_date, '%Y/%m/%d'), '-') AS leaseDate , SM.remarks AS remarks , SM.stock_type , SM.stock_code , SD.id AS stockDataId , SD.staff_no AS staff_no FROM BASE_TABLE B INNER JOIN stock_master SM ON B.serial_no = SM.serial_no INNER JOIN stock_type_master STM ON SM.stock_type = STM.stock_type AND SM.stock_code = STM.stock_code /* 未登録データを考慮しLEFT JOINとする */ LEFT JOIN stock_data SD ON B.id = SD.id /* 未登録データを考慮しLEFT JOINとする */ LEFT JOIN staff_master STF ON SD.staff_no = STF.staff_no /* 未登録データを考慮しLEFT JOINとする */ LEFT JOIN generic_code_master GCM ON SM.asset_type = GCM.type_key AND GCM.generic_key = 'ASSET_TYPE' WHERE 1 = 1 ORDER BY SM.serial_no
+2026-06-07 10:47:46 [Thread-11] DEBUG a.r.m.I.getTableDetailRecords - ==> Parameters: 8(Integer), 2(String)
+2026-06-07 10:47:46 [Thread-11] DEBUG a.r.m.I.getTableDetailRecords - <==      Total: 3
+2026-06-07 10:47:46 [Thread-11] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@1036729749 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:47:46 [Thread-11] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@1036729749 wrapping com.mysql.cj.jdbc.ConnectionImpl@ecfea57]
+2026-06-07 10:47:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品詳細画面
+2026-06-07 10:47:49 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@70b83a9d is alive
+2026-06-07 10:47:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1b786475 is alive
+2026-06-07 10:47:52 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@6be89ef0 is alive
+2026-06-07 10:47:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:47:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-06-07 10:47:55 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@70e6b659 is alive
+2026-06-07 10:47:57 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@31a37753 is alive
+2026-06-07 10:47:59 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@ecfea57 is alive
+2026-06-07 10:48:00 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@5ffd66db is alive
+2026-06-07 10:48:01 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2fdd1f23 is alive
+2026-06-07 10:48:02 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c is alive
+2026-06-07 10:48:11 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@4f1597f4 is alive
+2026-06-07 10:48:14 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@1f7ef74d is alive
+2026-06-07 10:48:15 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品詳細画面] ： [一覧に戻る]ボタン押下
+2026-06-07 10:48:15 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品一覧画面] ： 初期化処理
+2026-06-07 10:48:15 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品詳細画面)の終了処理(dispose)を実行
+2026-06-07 10:48:15 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:48:15 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [備品一覧画面] ： リスト表示処理
+2026-06-07 10:48:15 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 SELECT句発行
+2026-06-07 10:48:15 [Thread-12] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： SELECT句発行
+2026-06-07 10:48:15 [Thread-12] DEBUG o.a.i.t.jdbc.JdbcTransaction - Opening JDBC Connection
+2026-06-07 10:48:15 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/InventoryListStyle.css
+
+2026-06-07 10:48:15 [Thread-12] DEBUG o.a.i.t.jdbc.JdbcTransaction - Setting autocommit to false on JDBC Connection [HikariProxyConnection@96629715 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:48:15 [Thread-12] DEBUG a.r.m.I.getTableRecords - ==>  Preparing: WITH SUB_TOTAL AS ( SELECT ST.stock_type , ST.stock_code , SUM(CASE WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN 1 ELSE 0 END) AS lending_count -- 貸出備品の数 , SUM(CASE /* 在庫 = [staff_no]：貸出先ユーザーの社員番号 が未設定(NULL) 且つ [return_date]：返却日が未設定(NULL) 且つ [confirmed_date]：最終所在確認日 が１年以内 */ WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 ) THEN 1 ELSE 0 END) AS stock_count -- 在庫備品の数 , SUM(CASE /* 不明 = [return_date]：返却日が未設定(NULL) 且つ [confirmed_date]：最終所在確認日 が１年前以前 ※ 貸出中・在庫を問わず１年前以前のデータを不明とする */ WHEN (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 ) THEN 1 ELSE 0 END) AS unknown_count -- 不明備品の数 FROM (SELECT stock_type , stock_code FROM stock_type_master WHERE 1 = 1 AND del = FALSE) ST INNER JOIN stock_master SM ON ST.stock_type = SM.stock_type AND ST.stock_code = SM.stock_code AND SM.del = FALSE /* 未登録データを考慮しLEFT JOINとする */ LEFT JOIN stock_data SD ON SM.serial_no = SD.serial_no /* 返却済データの除去 */ AND SD.return_date IS NULL AND SD.del = FALSE WHERE 1 = 1 GROUP BY ST.stock_type , ST.stock_code ) SELECT ST.stock_type AS type, ST.stock_code AS code, ST.name AS itemName, IFNULL(S.lending_count, 0) AS loanCount, IFNULL(S.stock_count, 0) AS returnCount, IFNULL(S.unknown_count, 0) AS unknownCount, IFNULL(S.lending_count + S.stock_count, 0) AS totalCount /* 追加項目：遷移先画面サイズ */ , IFNULL( GCM.value_1, '1') AS windowSize FROM stock_type_master ST INNER JOIN SUB_TOTAL S ON ST.stock_type = S.stock_type AND ST.stock_code = S.stock_code /* 追加項目 遷移先画面サイズ */ LEFT JOIN generic_code_master GCM ON CAST(ST.stock_type AS CHAR) = GCM.type_key AND ST.stock_code = GCM.code AND GCM.generic_key = 'WINDOW_SIZE' WHERE 1 = 1 ORDER BY ST.stock_type , St.stock_code
+2026-06-07 10:48:15 [Thread-12] DEBUG a.r.m.I.getTableRecords - ==> Parameters: 
+2026-06-07 10:48:15 [Thread-12] DEBUG a.r.m.I.getTableRecords - <==      Total: 16
+2026-06-07 10:48:15 [Thread-12] DEBUG o.a.i.t.jdbc.JdbcTransaction - Resetting autocommit to true on JDBC Connection [HikariProxyConnection@96629715 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:48:15 [Thread-12] DEBUG o.a.i.t.jdbc.JdbcTransaction - Closing JDBC Connection [HikariProxyConnection@96629715 wrapping com.mysql.cj.jdbc.ConnectionImpl@6270ab85]
+2026-06-07 10:48:15 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品一覧画面
+2026-06-07 10:48:17 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品一覧画面] ： [メニューに戻る]ボタン押下
+2026-06-07 10:48:17 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-07 10:48:17 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](備品一覧画面)の終了処理(dispose)を実行
+2026-06-07 10:48:17 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-07 10:48:17 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-07 10:48:17 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-07 10:48:17 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-07 10:48:17 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@474aefdf is alive
+2026-06-07 10:48:18 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@24c771eb is alive
+2026-06-07 10:48:19 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@6270ab85 is alive
+2026-06-07 10:48:21 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection com.mysql.cj.jdbc.ConnectionImpl@2f6ea223 is alive
+2026-06-07 10:48:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Pool stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:48:25 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-06-07 10:48:25 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-07 10:48:25 [JavaFX Application Thread] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-07 10:48:25 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Before shutdown stats (total=20/20, idle=20/20, active=0, waiting=0)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@6270ab85: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@ecfea57: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@4ff2e06c: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@7ef72a66: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@2fdd1f23: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@38d1e036: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@2b93c44f: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@7126570e: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@2f6ea223: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@24c771eb: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@31a37753: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@1f7ef74d: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@6be89ef0: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@4f1597f4: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@7ae7056d: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@70b83a9d: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@5ffd66db: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@70e6b659: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@474aefdf: (connection evicted)
+2026-06-07 10:48:25 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection com.mysql.cj.jdbc.ConnectionImpl@1b786475: (connection evicted)
+2026-06-07 10:48:25 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After  shutdown stats (total=0/20, idle=0/20, active=0, waiting=0)
+2026-06-07 10:48:25 [JavaFX Application Thread] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-07 10:48:25 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-07 10:48:25 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了

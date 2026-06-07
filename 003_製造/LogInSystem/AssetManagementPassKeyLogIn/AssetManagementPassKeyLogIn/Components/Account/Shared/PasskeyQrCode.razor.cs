@@ -140,6 +140,38 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
                     return;
                 }
 
+                // ✨【修正】JavaFX側がポート8888（localhost）で待ち受けている受信用サーバーへデータを送信
+                try
+                {
+                    // JavaFXが指定した callback ポート（デフォルト 8888）
+                    int callbackPort = 8888;
+
+                    // JavaFX側の受信用ローカルサーバーのURLを構築
+                    // パラメータ名（"staffCode"など）は、既存のJavaFX側の受信解析ロジック（WebServiceManager等）の仕様に合わせて調整してください
+                    string callbackUrl = $"http://localhost:{callbackPort}/callback?staffCode={this.TargetStaffCode}";
+
+                    // HttpClientを使ってJavaFX側へ結果を通知（Fire and Forget / もしくは非同期待機）
+                    using (var client = new HttpClient())
+                    {
+                        // タイムアウトを短めに設定（ローカル通信のため5秒もあれば十分です）
+                        client.Timeout = TimeSpan.FromSeconds(5);
+
+                        // JavaFXのローカルサーバーを叩く（GETリクエスト）
+                        var response = await client.GetAsync(callbackUrl);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            Console.WriteLine($"[Blazor] JavaFX(localhost:{callbackPort})への認証成功通知に成功しました。");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 開発中の通常ブラウザ単体テスト時などでJavaFXが起動していない場合のフォールバック
+                    ErrorMessage = $"[Blazor] JavaFX受信用サーバーへの通信中にエラーが発生しました:exMessage: {ex.Message}";
+                    return;
+                }
+
                 // 認証成功：
                 var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
 

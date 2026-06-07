@@ -3,7 +3,7 @@ package application;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
-import application.java.window.MenuController;
+import application.java.window.LoginController;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
@@ -41,9 +41,10 @@ public final class Main extends JavaFxManager {
 	    	super.start(primaryStage);
 			
 	    	// 最初に表示する画面を設定
-	    	//this.setPage(new FormController());
-	    	this.setPage(new MenuController(true));
+	    	// this.setPage(new MenuController(true));
+	    	this.setPage(new LoginController());
 
+	    	
 	    } catch (Exception e) {
 	    	// システム(JavaFx)にExceptionを通知する
 	        throw e;

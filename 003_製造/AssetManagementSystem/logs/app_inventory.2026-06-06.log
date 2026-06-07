@@ -1,0 +1,579 @@
+2026-06-06 02:55:48 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 02:55:48 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 02:55:48 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-06 02:55:48 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 02:55:48 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 02:55:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-06 02:55:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-06 02:55:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 02:55:55 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 02:55:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-06 04:25:43 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 04:25:43 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 04:25:43 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-06 04:25:43 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 04:25:43 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 04:25:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-06 04:25:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-06 04:25:54 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 04:25:54 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 04:25:54 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-06 20:24:10 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 20:24:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 20:24:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 20:24:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 20:24:10 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 20:24:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 20:24:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 20:24:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 20:24:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 20:24:20 [JavaFX Application Thread] ERROR application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバーの開始に失敗
+java.lang.IllegalStateException: mybatis-config.xml 内に authServerUrl が定義されていません。
+	at AssetManagementSystem/application.java.manager.WebServiceManager.startLocalServer(WebServiceManager.java:67)
+	at AssetManagementSystem/application.java.window.LoginController.onPassKeyAuthButtonClicked(LoginController.java:111)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:65)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at javafx.base@25.0.2/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:112)
+	at javafx.fxml@25.0.2/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:78)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$MethodHandler.invoke(FXMLLoader.java:1847)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1718)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.base@25.0.2/javafx.event.Event.fireEvent(Event.java:199)
+	at javafx.graphics@25.0.2/javafx.scene.Node.fireEvent(Node.java:9067)
+	at javafx.controls@25.0.2/javafx.scene.control.Button.fire(Button.java:203)
+	at javafx.controls@25.0.2/com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:207)
+	at javafx.controls@25.0.2/com.sun.javafx.scene.control.inputmap.InputMap.handle(InputMap.java:274)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:247)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@25.0.2/javafx.event.Event.fireEvent(Event.java:199)
+	at javafx.graphics@25.0.2/javafx.scene.Scene$MouseHandler.process(Scene.java:4061)
+	at javafx.graphics@25.0.2/javafx.scene.Scene.processMouseEvent(Scene.java:1947)
+	at javafx.graphics@25.0.2/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2784)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.get(GlassViewEventHandler.java:353)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.get(GlassViewEventHandler.java:255)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:387)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.View.handleMouseEvent(View.java:573)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.View.notifyMouse(View.java:975)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:173)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-06 20:24:20 [JavaFX Application Thread] ERROR application.java.manager.LogManager - 例外発生: [FXMLLoader$MethodHandler].[invoke](行番号: 1850)
+2026-06-06 20:24:20 [JavaFX Application Thread] ERROR application.java.manager.LogManager - java.lang.reflect.InvocationTargetException
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$MethodHandler.invoke(FXMLLoader.java:1850)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1718)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.base@25.0.2/javafx.event.Event.fireEvent(Event.java:199)
+	at javafx.graphics@25.0.2/javafx.scene.Node.fireEvent(Node.java:9067)
+	at javafx.controls@25.0.2/javafx.scene.control.Button.fire(Button.java:203)
+	at javafx.controls@25.0.2/com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:207)
+	at javafx.controls@25.0.2/com.sun.javafx.scene.control.inputmap.InputMap.handle(InputMap.java:274)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:247)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@25.0.2/javafx.event.Event.fireEvent(Event.java:199)
+	at javafx.graphics@25.0.2/javafx.scene.Scene$MouseHandler.process(Scene.java:4061)
+	at javafx.graphics@25.0.2/javafx.scene.Scene.processMouseEvent(Scene.java:1947)
+	at javafx.graphics@25.0.2/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2784)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.get(GlassViewEventHandler.java:353)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.get(GlassViewEventHandler.java:255)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:387)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.View.handleMouseEvent(View.java:573)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.View.notifyMouse(View.java:975)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:173)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.lang.reflect.InvocationTargetException: null
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:119)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:65)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at javafx.base@25.0.2/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:112)
+	at javafx.fxml@25.0.2/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:78)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$MethodHandler.invoke(FXMLLoader.java:1847)
+	... 44 common frames omitted
+Caused by: java.lang.ExceptionInInitializerError: null
+	at AssetManagementSystem/application.java.manager.WebServiceManager.startLocalServer(WebServiceManager.java:89)
+	at AssetManagementSystem/application.java.window.LoginController.onPassKeyAuthButtonClicked(LoginController.java:111)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	... 51 common frames omitted
+Caused by: java.lang.IllegalStateException: mybatis-config.xml 内に authServerUrl が定義されていません。
+	at AssetManagementSystem/application.java.manager.WebServiceManager.startLocalServer(WebServiceManager.java:67)
+	... 53 common frames omitted
+2026-06-06 20:24:24 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 20:24:24 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 20:31:13 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 20:31:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 20:31:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 20:31:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 20:31:13 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 20:31:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 20:31:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 20:31:13 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 20:31:13 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 20:31:13 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 20:31:13 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 20:31:13 [JavaFX Application Thread] ERROR application.java.manager.LogManager - [ログイン画面] ： WebView2の初期化中にエラーが発生しました
+2026-06-06 20:31:13 [JavaFX Application Thread] ERROR application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成失敗
+java.lang.RuntimeException: [SQL操作クラス] ： SQL Session生成失敗
+	at AssetManagementSystem/application.java.manager.MySqlManager.SqlSessionSettings(MySqlManager.java:662)
+	at AssetManagementSystem/application.java.manager.MySqlManager.getSqlSessionFactory(MySqlManager.java:182)
+	at AssetManagementSystem/application.java.window.LoginController.initialize(LoginController.java:90)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:65)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at javafx.base@25.0.2/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:112)
+	at javafx.fxml@25.0.2/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:78)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2658)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2516)
+	at AssetManagementSystem/application.java.manager.form.JavaFxManager.setPage(JavaFxManager.java:88)
+	at AssetManagementSystem/application.Main.start(Main.java:45)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$4(LauncherImpl.java:845)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$0(PlatformImpl.java:449)
+	at javafx.graphics@25.0.2/com.sun.javafx.application.PlatformImpl.lambda$runLater$0(PlatformImpl.java:424)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:173)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.apache.ibatis.exceptions.PersistenceException: 
+### Error building SqlSession.
+### The error may exist in SQL Mapper Configuration
+### Cause: org.apache.ibatis.builder.BuilderException: Error parsing SQL Mapper Configuration. Cause: org.apache.ibatis.datasource.DataSourceException: Unknown DataSource property: authServerUrl
+	at org.mybatis@3.5.17/org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+	at org.mybatis@3.5.17/org.apache.ibatis.session.SqlSessionFactoryBuilder.build(SqlSessionFactoryBuilder.java:82)
+	at org.mybatis@3.5.17/org.apache.ibatis.session.SqlSessionFactoryBuilder.build(SqlSessionFactoryBuilder.java:66)
+	at AssetManagementSystem/application.java.manager.MySqlManager.BuildSqlSession(MySqlManager.java:695)
+	at AssetManagementSystem/application.java.manager.MySqlManager.SqlSessionSettings(MySqlManager.java:659)
+	... 20 common frames omitted
+Caused by: org.apache.ibatis.builder.BuilderException: Error parsing SQL Mapper Configuration. Cause: org.apache.ibatis.datasource.DataSourceException: Unknown DataSource property: authServerUrl
+	at org.mybatis@3.5.17/org.apache.ibatis.builder.xml.XMLConfigBuilder.parseConfiguration(XMLConfigBuilder.java:133)
+	at org.mybatis@3.5.17/org.apache.ibatis.builder.xml.XMLConfigBuilder.parse(XMLConfigBuilder.java:110)
+	at org.mybatis@3.5.17/org.apache.ibatis.session.SqlSessionFactoryBuilder.build(SqlSessionFactoryBuilder.java:80)
+	... 23 common frames omitted
+Caused by: org.apache.ibatis.datasource.DataSourceException: Unknown DataSource property: authServerUrl
+	at org.mybatis@3.5.17/org.apache.ibatis.datasource.unpooled.UnpooledDataSourceFactory.setProperties(UnpooledDataSourceFactory.java:55)
+	at org.mybatis@3.5.17/org.apache.ibatis.builder.xml.XMLConfigBuilder.dataSourceElement(XMLConfigBuilder.java:354)
+	at org.mybatis@3.5.17/org.apache.ibatis.builder.xml.XMLConfigBuilder.environmentsElement(XMLConfigBuilder.java:308)
+	at org.mybatis@3.5.17/org.apache.ibatis.builder.xml.XMLConfigBuilder.parseConfiguration(XMLConfigBuilder.java:128)
+	... 25 common frames omitted
+2026-06-06 20:31:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 20:31:20 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 20:37:51 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 20:37:51 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 20:37:51 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 20:37:51 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 20:37:51 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 20:37:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 20:37:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 20:37:52 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 20:37:52 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 20:37:52 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 20:37:52 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 20:37:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 20:37:52 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 20:37:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 20:37:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 20:37:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 20:37:56 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 20:38:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 20:38:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 20:38:09 [JavaFX Application Thread] ERROR application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバーの開始に失敗
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:522)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297)
+	at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:80)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl.<init>(ServerImpl.java:145)
+	at jdk.httpserver/sun.net.httpserver.HttpServerImpl.<init>(HttpServerImpl.java:45)
+	at jdk.httpserver/sun.net.httpserver.DefaultHttpServerProvider.createHttpServer(DefaultHttpServerProvider.java:35)
+	at jdk.httpserver/com.sun.net.httpserver.HttpServer.create(HttpServer.java:152)
+	at AssetManagementSystem/application.java.manager.WebServiceManager.startLocalServer(WebServiceManager.java:70)
+	at AssetManagementSystem/application.java.window.LoginController.onPassKeyAuthButtonClicked(LoginController.java:115)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:65)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at javafx.base@25.0.2/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:112)
+	at javafx.fxml@25.0.2/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:78)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$MethodHandler.invoke(FXMLLoader.java:1847)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1718)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.base@25.0.2/javafx.event.Event.fireEvent(Event.java:199)
+	at javafx.graphics@25.0.2/javafx.scene.Node.fireEvent(Node.java:9067)
+	at javafx.controls@25.0.2/javafx.scene.control.Button.fire(Button.java:203)
+	at javafx.controls@25.0.2/com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:207)
+	at javafx.controls@25.0.2/com.sun.javafx.scene.control.inputmap.InputMap.handle(InputMap.java:274)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:247)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@25.0.2/javafx.event.Event.fireEvent(Event.java:199)
+	at javafx.graphics@25.0.2/javafx.scene.Scene$MouseHandler.process(Scene.java:4061)
+	at javafx.graphics@25.0.2/javafx.scene.Scene.processMouseEvent(Scene.java:1947)
+	at javafx.graphics@25.0.2/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2784)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.get(GlassViewEventHandler.java:353)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.get(GlassViewEventHandler.java:255)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:387)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.View.handleMouseEvent(View.java:573)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.View.notifyMouse(View.java:975)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:173)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-06 20:38:09 [JavaFX Application Thread] ERROR application.java.manager.LogManager - 例外発生: [FXMLLoader$MethodHandler].[invoke](行番号: 1850)
+2026-06-06 20:38:09 [JavaFX Application Thread] ERROR application.java.manager.LogManager - java.lang.reflect.InvocationTargetException
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$MethodHandler.invoke(FXMLLoader.java:1850)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1718)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.base@25.0.2/javafx.event.Event.fireEvent(Event.java:199)
+	at javafx.graphics@25.0.2/javafx.scene.Node.fireEvent(Node.java:9067)
+	at javafx.controls@25.0.2/javafx.scene.control.Button.fire(Button.java:203)
+	at javafx.controls@25.0.2/com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:207)
+	at javafx.controls@25.0.2/com.sun.javafx.scene.control.inputmap.InputMap.handle(InputMap.java:274)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:247)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@25.0.2/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@25.0.2/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@25.0.2/javafx.event.Event.fireEvent(Event.java:199)
+	at javafx.graphics@25.0.2/javafx.scene.Scene$MouseHandler.process(Scene.java:4061)
+	at javafx.graphics@25.0.2/javafx.scene.Scene.processMouseEvent(Scene.java:1947)
+	at javafx.graphics@25.0.2/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2784)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.get(GlassViewEventHandler.java:353)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.get(GlassViewEventHandler.java:255)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
+	at javafx.graphics@25.0.2/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:387)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.View.handleMouseEvent(View.java:573)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.View.notifyMouse(View.java:975)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@25.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:173)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.lang.reflect.InvocationTargetException: null
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:119)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:65)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at javafx.base@25.0.2/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:112)
+	at javafx.fxml@25.0.2/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:78)
+	at javafx.fxml@25.0.2/javafx.fxml.FXMLLoader$MethodHandler.invoke(FXMLLoader.java:1847)
+	... 44 common frames omitted
+Caused by: java.lang.ExceptionInInitializerError: null
+	at AssetManagementSystem/application.java.manager.WebServiceManager.startLocalServer(WebServiceManager.java:89)
+	at AssetManagementSystem/application.java.window.LoginController.onPassKeyAuthButtonClicked(LoginController.java:115)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	... 51 common frames omitted
+Caused by: java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:522)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297)
+	at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:80)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl.<init>(ServerImpl.java:145)
+	at jdk.httpserver/sun.net.httpserver.HttpServerImpl.<init>(HttpServerImpl.java:45)
+	at jdk.httpserver/sun.net.httpserver.DefaultHttpServerProvider.createHttpServer(DefaultHttpServerProvider.java:35)
+	at jdk.httpserver/com.sun.net.httpserver.HttpServer.create(HttpServer.java:152)
+	at AssetManagementSystem/application.java.manager.WebServiceManager.startLocalServer(WebServiceManager.java:70)
+	... 53 common frames omitted
+2026-06-06 20:38:11 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 20:38:11 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-06 20:38:46 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 20:38:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 20:38:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 20:38:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 20:38:46 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 20:38:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 20:38:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 20:38:46 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 20:38:46 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 20:38:46 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 20:38:46 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 20:38:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 20:38:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 20:38:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 20:38:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 20:38:49 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 20:38:49 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 20:40:47 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 20:40:47 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-06 20:40:47 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-06 21:03:08 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 21:03:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 21:03:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 21:03:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:03:08 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 21:03:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 21:03:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 21:03:08 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 21:03:08 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:03:08 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:03:08 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 21:03:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 21:03:09 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 21:03:11 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 21:03:11 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 21:03:11 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 21:03:11 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 21:11:45 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 21:11:45 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-06 21:11:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-06 21:17:44 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 21:17:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 21:17:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 21:17:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:17:44 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 21:17:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 21:17:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 21:17:44 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 21:17:44 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:17:44 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:17:44 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 21:17:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 21:17:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 21:17:47 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 21:17:47 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 21:17:47 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 21:17:48 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 21:32:35 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 21:32:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 21:32:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 21:32:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:32:35 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 21:32:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 21:32:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 21:32:35 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 21:32:35 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:32:35 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:32:35 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 21:32:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 21:32:35 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 21:32:59 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 21:32:59 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 21:32:59 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 21:32:59 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 21:33:42 [HTTP-Dispatcher] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 認証サーバーからデータを受信しました
+2026-06-06 21:33:42 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： ログイン(PassKey)成功
+2026-06-06 21:33:42 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 受信したトークン情報: staffCode=0
+2026-06-06 21:33:42 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： メニュー画面へ切替
+2026-06-06 21:33:42 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-06 21:33:42 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](ログイン画面)の終了処理(dispose)を実行
+2026-06-06 21:33:42 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:33:42 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-06 21:33:42 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-06 21:34:22 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 21:34:22 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-06 21:34:22 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-06 21:34:45 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 21:34:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 21:34:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 21:34:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:34:45 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 21:34:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 21:34:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 21:34:45 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 21:34:45 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:34:45 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:34:45 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 21:34:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 21:34:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 21:34:48 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 21:34:48 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 21:34:48 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 21:34:48 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 21:35:45 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 21:35:45 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-06 21:35:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-06 21:36:44 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 21:36:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 21:36:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 21:36:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:36:44 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 21:36:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 21:36:44 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 21:36:44 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 21:36:45 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:36:45 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:36:45 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 21:36:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 21:36:45 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 21:36:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 21:36:46 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 21:36:47 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 21:36:47 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 21:37:13 [HTTP-Dispatcher] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 認証サーバーからデータを受信しました
+2026-06-06 21:37:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： ログイン(PassKey)成功
+2026-06-06 21:37:13 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 受信したトークン情報: staffCode=0
+2026-06-06 21:37:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： メニュー画面へ切替
+2026-06-06 21:37:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-06 21:37:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](ログイン画面)の終了処理(dispose)を実行
+2026-06-06 21:37:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:37:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-06 21:37:13 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-06 21:37:50 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 21:37:50 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-06 21:37:50 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-06 21:38:55 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 21:38:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 21:38:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 21:38:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:38:55 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 21:38:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 21:38:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 21:38:55 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 21:38:55 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:38:55 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:38:55 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 21:38:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 21:38:55 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 21:39:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 21:39:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 21:39:01 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 21:39:01 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 21:39:29 [HTTP-Dispatcher] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 認証サーバーからデータを受信しました
+2026-06-06 21:39:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： ログイン(PassKey)成功
+2026-06-06 21:39:29 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 受信したトークン情報: staffCode=0
+2026-06-06 21:39:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： メニュー画面へ切替
+2026-06-06 21:39:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-06 21:39:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](ログイン画面)の終了処理(dispose)を実行
+2026-06-06 21:39:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:39:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-06 21:39:29 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面
+2026-06-06 21:47:39 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール解放
+2026-06-06 21:47:39 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： コネクションプール(HikariCP) Closeing
+2026-06-06 21:47:39 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 終了処理 : 完了
+2026-06-06 21:49:07 [main] INFO  application.java.manager.LogManager - 備品管理システム : 起動
+2026-06-06 21:49:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 開始処理 : 画面ウィンドウ枠生成
+2026-06-06 21:49:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 初期化処理
+2026-06-06 21:49:07 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:49:07 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - Window切替 [setWindowFrame] : TRANSPARENT(透明枠・背景色透明)
+2026-06-06 21:49:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： 非同期処理 スレッドプール作成
+2026-06-06 21:49:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [SQL操作クラス] ： SQL Session生成
+2026-06-06 21:49:08 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [SQL操作クラス] ： mybatis有効化
+2026-06-06 21:49:08 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:49:08 [JavaFX Application Thread] DEBUG o.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2026-06-06 21:49:08 [JavaFX Application Thread] DEBUG com.zaxxer.hikari.util.UtilityElf - Class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7699a589
+2026-06-06 21:49:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/LoginStyle.css
+
+2026-06-06 21:49:08 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : ログイン画面
+2026-06-06 21:49:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： [QRコード認証]ボタン押下
+2026-06-06 21:49:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 受信サーバー設定(LocalHost)
+2026-06-06 21:49:10 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： 認証サーバーexeを起動します。
+2026-06-06 21:49:10 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 標準ブラウザを起動します URL: https://localhost:7215?redirect_uri=http://localhost:8888/callback
+2026-06-06 21:49:38 [HTTP-Dispatcher] INFO  application.java.manager.LogManager - [Webサーバー操作クラス] ： 認証サーバーからデータを受信しました
+2026-06-06 21:49:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： ログイン(PassKey)成功
+2026-06-06 21:49:40 [JavaFX Application Thread] DEBUG application.java.manager.LogManager - [ログイン画面] ： 受信したトークン情報: staffCode=0
+2026-06-06 21:49:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [ログイン画面] ： メニュー画面へ切替
+2026-06-06 21:49:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - [備品管理システム メニュー画面] ： 初期化処理
+2026-06-06 21:49:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 呼出中[Page](ログイン画面)の終了処理(dispose)を実行
+2026-06-06 21:49:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] ： 画面設定・表示処理 開始
+2026-06-06 21:49:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - /application/resources/css/MenuMacFinderStyle.css
+
+2026-06-06 21:49:40 [JavaFX Application Thread] INFO  application.java.manager.LogManager - 画面展開 [setPage] : 備品管理システム メニュー画面

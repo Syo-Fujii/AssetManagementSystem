@@ -1,0 +1,353 @@
+/* /Components/Account/Pages/Login.razor.rz.scp.css */
+/* ログイン画面全体のレイアウト */
+[b-izn8z2fjdw] .login-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+
+    justify-content: center !important;      /* 左右中央寄せ */
+    align-items: center !important;          /* 上下中央寄せ */
+    margin: 0 auto !important;
+}
+/* 最背面[全体領域] */
+.login-screen-wrapper[b-izn8z2fjdw] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex !important;
+
+    justify-content: center !important;      /* 左右中央 */
+    align-items: center !important;          /* 上下中央 */
+    background-color: #f8f9fa;
+    z-index: 9999 !important;                /* 他の共通要素（サイドバーなど）より前面に出す */
+}
+
+/* コンテンツ領域 */
+[b-izn8z2fjdw] .login-card {
+    max-width: 80%; /* 文字を広げるための設定 */
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    /* 左右の余白を自動で均等（中央寄せ）にする */
+    margin: 0 auto;
+}
+
+/* QRコードを囲む点線のコンテナ */
+.qr-dashed-box[b-izn8z2fjdw] {
+    border: 2px dashed #0d6efd;
+    transition: border-color 0.3s ease;
+}
+
+/* QRコード画像やローディング領域の固定サイズ */
+.qr-display-area[b-izn8z2fjdw] {
+    width: 240px;
+    height: 240px;
+}
+
+/* タイトル文字(領域) */
+[b-izn8z2fjdw] .card-title {
+    /* 標準のh3（1.75rem）より拡大 */
+    font-size: 2.5rem !important;
+
+    font-weight: bold;
+    color: #0d6efd; /* Bootstrapのprimaryカラー */
+    text-align: center !important; /* 👈 文字を真ん中に */
+    width: 100% !important;
+    margin-bottom: 24px;
+}
+
+/* 説明文(領域) */
+[b-izn8z2fjdw] .card-content {
+    max-width: 60%; /* 文字を広げるための設定 */
+    width: 100%;
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: none !important;
+    /* 左右の余白を自動で均等（中央寄せ）にする */
+    margin: 0 auto;
+}
+
+/* 下部の注意書きエリア */
+[b-izn8z2fjdw] .notice-box {
+    font-size: 0.85rem;
+    max-width: 40%; /* 文字を広げるための設定 */
+    width: 100%;
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: none !important;
+    /*box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;*/
+    /* 左右の余白を自動で均等（中央寄せ）にする */
+    margin: 0 auto;
+}
+
+[b-izn8z2fjdw] .register-link-container {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important; /* 左右中央寄せ */
+    margin-top: 30px !important; /* QRコードエリアとの間隔 */
+    margin-bottom: 10px !important;
+}
+
+[b-izn8z2fjdw] .btn-register-link {
+    font-size: 0.95rem !important;
+    color: #6c757d !important; /* 控えめなグレー文字 */
+    text-decoration: none !important; /* 下線を消す */
+    font-weight: bold !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    transition: all 0.2s ease;
+}
+
+/* マウスを乗せたときの動き（ホバー効果） */
+[b-izn8z2fjdw] .btn-register-link:hover {
+    color: #198754 !important; /* 登録画面のテーマ色（緑）に変化 */
+    background-color: rgba(25, 135, 84, 0.08) !important; /* うっすら緑の背景 */
+}
+
+
+/* スマートフォン接続待機中のアニメーション */
+.animate-pulse[b-izn8z2fjdw] {
+    animation: pulse-b-izn8z2fjdw 1.5s infinite;
+}
+
+@keyframes pulse-b-izn8z2fjdw {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+/* /Components/Account/Pages/PassKeyRegister.razor.rz.scp.css */
+[b-2si80z10rr] .login-screen-wrapper {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+    max-width: 850px !important;
+    padding: 20px !important;
+    z-index: 9999 !important;
+    box-sizing: border-box;
+}
+
+/* カード本体：背景を透明にし、内側に余白を確保 */
+[b-2si80z10rr] .login-card {
+    width: 100% !important;
+    border-radius: 15px !important;
+    padding: 50px !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* タイトル：文字を「左右中央」かつ「大きく」 */
+[b-2si80z10rr] .login-title {
+    font-size: 2.5rem !important;
+    font-weight: bold;
+    color: #198754; /* 登録画面と分かるようにBootstrapの「Success(緑)」に変更 */
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 30px;
+}
+
+/* 入力フォームエリアの調整 */
+[b-2si80z10rr] .register-form-area {
+    max-width: 400px;         /* フォームの横幅をスリムにして中央に集めます */
+    margin: 0 auto;           /* フォーム自体を完全に画面中央へ配置 */
+    text-align: left;         /* ラベルや文字の開始位置を左に揃える */
+}
+
+/* フォームの各項目（行全体）を縦並びにする設定 */
+[b-2si80z10rr] .form-group {
+    display: flex;
+    flex-direction: column;   /* ラベルの下に入力欄が来るように縦並びにする */
+    align-items: flex-start;  /* 行頭を綺麗に揃える */
+    width: 100%;
+    margin-bottom: 20px;      /* 項目間の隙間 */
+}
+
+[b-2si80z10rr] .form-group label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 6px;
+}
+
+[b-2si80z10rr] .form-group input {
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* 説明文(領域) */
+[b-2si80z10rr] .login-text-content {
+    max-width: 60%; /* 文字を広げるための設定 */
+    width: 100%;
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: none !important;
+    /* 左右の余白を自動で均等（中央寄せ）にする */
+    margin: 0 auto;
+}
+
+/* 説明文：左側に20pxの余白を設ける */
+[b-2si80z10rr] .login-text {
+    color: #6c757d;
+    text-align: center !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+[b-2si80z10rr] .login-text.text-center {
+    text-align: center !important;
+    padding-left: 0 !important;
+}
+
+/* 注意書きボックス */
+[b-2si80z10rr] .notice-box {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: 8px;
+    margin: 24px auto;
+    max-width: 500px;
+    font-size: 0.85rem;
+}
+
+/* ボタンの共通コンテナ */
+[b-2si80z10rr] .login-btn-container {
+    width: 100% !important;
+    display: block !important;
+    justify-content: center !important;
+    margin-top: 30px !important;
+    margin-bottom: 20px !important;
+}
+
+/* ボタン自体の基本デザイン */
+[b-2si80z10rr] .custom-login-btn,
+[b-2si80z10rr] .login-btn-container button {
+    display: block !important;          /* ブロック要素に変更 */
+    width: 100% !important;             /* これで入力欄と同じ幅までピシッと広がります */
+    font-size: 1.3rem !important;
+    font-weight: bold !important;
+    padding: 14px 20px !important;      /* 上下のパディングを確保し、左右は自動に委ねる */
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 30px !important;     /* 綺麗な丸角 */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #198754 !important;
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3) !important;
+    text-align: center !important;
+    white-space: nowrap !important;     /* 絶対に文字を改行させない */
+}
+
+/* パスキー登録ボタンは緑色に */
+[b-2si80z10rr] .custom-login-btn.success-color {
+    background-color: #198754 !important;
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3) !important;
+}
+
+[b-2si80z10rr] .custom-login-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px) !important;
+}
+
+/* ステータス・エラー表示領域（高さを固定してガタつき防止） */
+[b-2si80z10rr] .status-error-container {
+    width: 100% !important;
+    min-height: 80px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 20px !important;
+    text-align: center !important;
+}
+
+[b-2si80z10rr] .status-error-container .alert {
+    width: 100% !important;
+    max-width: 500px;
+}
+/* /Components/Account/Shared/PasskeyQrCode.razor.rz.scp.css */
+[b-l05m9x926h] .login-btn-container {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;     /* 左右中央に寄せる */
+    margin-top: 40px !important;            /* 上（注意書き）との間隔を開けて下側に配置 */
+    margin-bottom: 50px !important;         /* 下のQRコードとの間隔 */
+}
+
+/* ボタン自体のデザイン */
+[b-l05m9x926h] .custom-login-btn,
+[b-l05m9x926h] .login-btn-container button {
+    font-size: 1.25rem !important;          /* 文字を大きくする */
+    font-weight: bold !important;
+    padding: 12px 36px !important;          /* ボタン自体を大きく（上下12px、左右36pxの余白） */
+    color: #ffffff !important;              /* 文字色（白） */
+    background-color: #0d6efd !important;   /* ボタンの色（Bootstrapの青） */
+    border: none !important;
+    border-radius: 30px !important;         /* 角を丸く */
+    /* うっすら青い影を付ける */
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3) !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ボタンにマウスを乗せたと（ホバー効果） */
+[b-l05m9x926h] .custom-login-btn:hover,
+[b-l05m9x926h] .login-btn-container button:hover {
+    background-color: #0b5ed7 !important;   /* 少し濃い青に */
+    transform: translateY(-2px) !important; /* ほんの少し上に浮き上がらせる */
+}
+
+/* ステータス・エラー表示(領域) */
+.status-error-container[b-l05m9x926h] {
+    width: 100% !important;
+    min-height: 80px;                       /* 高さを80px確保 */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;         /* 左右中央に配置 */
+    justify-content: center !important;     /* 上下も中央に配置 */
+    margin-top: 20px !important;            /* ボタンとの間の余白 */
+    text-align: center !important;          /* 文字自体も中央揃え */
+}
+
+/* エラーの警告ボックス（出た時も幅を制限して中央に置く） */
+.status-error-container .alert[b-l05m9x926h] {
+    width: 100% !important;
+    max-width: 500px;                       /* アラートが広がりすぎないように制限 */
+    margin-top: 0 !important;               /* 余白の重複を防ぐ */
+}
+/* /Components/Layout/MainLayout.razor.rz.scp.css */
+#blazor-error-ui[b-t4a5t6bm0h] {
+    color-scheme: light only;
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss[b-t4a5t6bm0h] {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }

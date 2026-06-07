@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Java内でインスタンス化したクラスを設定する場合は、fxタグ:fx:controller="application.java.window.inventoryList.FormController"を指定しない -->
+<!-- コントローラーはJava側でインスタンス化するため fx:controller は未指定を維持 -->
+
+<AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="400.0" stylesheets="@../css/LoginStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      
+      <!-- 画面全体の中央に配置される黒いフォーム（HTMLのformタグに相当） -->
+      <VBox fx:id="titleBar" alignment="CENTER" prefHeight="550.0" prefWidth="400.0" spacing="20.0" styleClass="pane-form">
+         <children>
+            
+            <!-- ログインフォーム上部（h1, pに相当） -->
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label styleClass="title-h1" text="LOGIN" />
+                  <Label styleClass="desc-p" text="備品管理システム：AssetManagementSystem" textAlignment="CENTER" wrapText="true" />
+                  <Label layoutX="57.0" layoutY="55.0" styleClass="desc-p" text="パスキー認証 又は UserID・Passwordをご入力の上、「LOGIN」ボタンをクリックしてください。" textAlignment="CENTER" wrapText="true" />
+               </children>
+            </VBox>
+            
+            <Pane prefHeight="3.0" prefWidth="3.0" />
+           
+            <!-- パスキーログインボタン -->
+            <Button fx:id="passkeyAuth_Button" onAction="#onPassKeyAuthButtonClicked" styleClass="button-passkey" text="📱 パスキー（スマホ）でログイン" />
+
+            <Pane prefHeight="30" prefWidth="30" />
+       
+            <!-- ログインフォーム下部・入力エリア（inputタグ群に相当） -->
+            <VBox alignment="CENTER" spacing="15.0">
+               <children>
+                  <!-- ユーザーID入力（※コントローラー側と紐付けるため fx:id を付与） -->
+                  <TextField fx:id="txt_userId" promptText="E-MailAddress(:UserID)" styleClass="text-input-custom" />
+                  
+                  <!-- パスワード入力（※コントローラー側と紐付けるため fx:id を付与） -->
+                  <PasswordField fx:id="txt_password" promptText="Password" styleClass="text-input-custom" />
+                  
+                  <!-- LOGINボタン（※既存のonActionを引き継ぎ、スタイルをWeb用に変更） -->
+                  <Button fx:id="login_Button" onAction="#onLoginButtonClicked" styleClass="button-submit" text="LOGIN" />
+               </children>
+            </VBox>
+
+            <!-- 閉じる「×」ボタン -->
+            <Button fx:id="close_Button" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onExitButtonClicked" styleClass="button-close" text="×" />
+            
+         </children>
+      </VBox>
+      
+   </children>
+</AnchorPane>

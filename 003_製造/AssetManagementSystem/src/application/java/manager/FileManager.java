@@ -16,6 +16,7 @@ import application.java.common.AppUtil;
 
 /**
  * ファイル操作クラス
+ * @brief 使用する際はインスタンス化することを前提とする
  */
 public class FileManager {
 

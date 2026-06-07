@@ -1,5 +1,12 @@
-﻿<h3>Dashboard</h3>
+﻿@page "/dashboard"
 
-@code {
+<div class="dashboard-container">
+    <h1 class="dashboard-title-h1">LOGIN SUCCESS</h1>
+    <h2 class="dashboard-msg-h2">備品管理システムへのサインインが完了しました。</h2>
+    <p class="dashboard-desc-p">このブラウザのタブ（ウィンドウ）を閉じて、デスクトップアプリにお戻りください。</p>
 
-}
+    <!-- ユーザーが手動で閉じられるようにするボタン -->
+    <button class="dashboard-btn-close" onclick="window.close();">
+        タブを閉じる
+    </button>
+</div>

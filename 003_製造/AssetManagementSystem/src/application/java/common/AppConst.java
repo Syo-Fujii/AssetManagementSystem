@@ -260,6 +260,8 @@ public class AppConst {
 	public static final String CSS_PATH = "/application/resources/css/";
 	public static final String IMAGE_FOLDER_PATH = "/application/resources/images/";
 	
+	public static final String QR_AUTH_EXE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\LogInSystem\\publish\\";
+	
 	/**
 	 * 明細行付き行データ(クラス:record)
 	 * @param <T>
