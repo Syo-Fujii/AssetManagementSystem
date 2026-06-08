@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\Desktop\\Works\\\u5099\u54C1\u7BA1\u7406\u30B7\u30B9\u30C6\u30E0\\02_\u88FD\u9020\\003_\u88FD\u9020\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{54B91779-87A8-4454-BF0C-C043C643CE58}|CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj|c:\\users\\user\\desktop\\works\\\u5099\u54C1\u7BA1\u7406\u30B7\u30B9\u30C6\u30E0\\02_\u88FD\u9020\\003_\u88FD\u9020\\createsha256hashvalue\\createsha256hashvalue\\createsha256hashvalue\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{54B91779-87A8-4454-BF0C-C043C643CE58}|CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj|solutionrelative:createsha256hashvalue\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{54B91779-87A8-4454-BF0C-C043C643CE58}|CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj|c:\\users\\user\\desktop\\works\\\u5099\u54C1\u7BA1\u7406\u30B7\u30B9\u30C6\u30E0\\02_\u88FD\u9020\\003_\u88FD\u9020\\createsha256hashvalue\\createsha256hashvalue\\createsha256hashvalue\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{54B91779-87A8-4454-BF0C-C043C643CE58}|CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj|solutionrelative:createsha256hashvalue\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "DocumentMoniker": "C:\\Users\\User\\Desktop\\Works\\\u5099\u54C1\u7BA1\u7406\u30B7\u30B9\u30C6\u30E0\\02_\u88FD\u9020\\003_\u88FD\u9020\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\Form1.cs",
+              "RelativeDocumentMoniker": "CreateSha256Hashvalue\\Form1.cs",
+              "ToolTip": "C:\\Users\\User\\Desktop\\Works\\\u5099\u54C1\u7BA1\u7406\u30B7\u30B9\u30C6\u30E0\\02_\u88FD\u9020\\003_\u88FD\u9020\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\Form1.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "RelativeToolTip": "CreateSha256Hashvalue\\Form1.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T05:20:15.961Z",
+              "EditorCaption": " [\u30C7\u30B6\u30A4\u30F3]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Desktop\\Works\\\u5099\u54C1\u7BA1\u7406\u30B7\u30B9\u30C6\u30E0\\02_\u88FD\u9020\\003_\u88FD\u9020\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\Form1.cs",
+              "RelativeDocumentMoniker": "CreateSha256Hashvalue\\Form1.cs",
+              "ToolTip": "C:\\Users\\User\\Desktop\\Works\\\u5099\u54C1\u7BA1\u7406\u30B7\u30B9\u30C6\u30E0\\02_\u88FD\u9020\\003_\u88FD\u9020\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\Form1.cs",
+              "RelativeToolTip": "CreateSha256Hashvalue\\Form1.cs",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAgwDEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T05:08:10.656Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
