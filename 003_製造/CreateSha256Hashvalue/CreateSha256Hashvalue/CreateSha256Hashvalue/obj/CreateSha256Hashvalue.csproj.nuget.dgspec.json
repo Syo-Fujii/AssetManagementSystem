@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj": {}
+    "F:\\Ecripse\\001_備品管理システム\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj": {
+    "F:\\Ecripse\\001_備品管理システム\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj",
+        "projectUniqueName": "F:\\Ecripse\\001_備品管理システム\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj",
         "projectName": "CreateSha256Hashvalue",
-        "projectPath": "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj",
+        "projectPath": "F:\\Ecripse\\001_備品管理システム\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\obj\\",
+        "outputPath": "F:\\Ecripse\\001_備品管理システム\\003_製造\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\CreateSha256Hashvalue\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

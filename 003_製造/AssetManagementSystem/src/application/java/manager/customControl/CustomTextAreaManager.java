@@ -7,7 +7,6 @@ import javafx.scene.input.KeyEvent;
 
 public class CustomTextAreaManager extends TextArea {
     
-	private Node previousControl;
 	private Node nextControl;
 	
 	

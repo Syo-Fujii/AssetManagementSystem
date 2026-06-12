@@ -17,7 +17,7 @@ import javafx.beans.property.StringProperty;
 public class StaffMasterModel extends BaseTableViewModel {
 
     private IntegerProperty staffNo;
-	private StringProperty staffName;
+	private StringProperty name;
     private IntegerProperty authNo;
     private BooleanProperty del;
 	
@@ -51,7 +51,7 @@ public class StaffMasterModel extends BaseTableViewModel {
 	 * ※ DBとBINDする場合は取得時のカラム名を[staffName]とする<br>
 	 */
 	public String getStaffName() {
-		return staffName.get();
+		return name.get();
 		}
 
 	 /**
@@ -61,8 +61,8 @@ public class StaffMasterModel extends BaseTableViewModel {
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
 	 * ※ DBとBINDする場合は取得時のカラム名を[staffName]とする<br>
 	 */
-	public void setStaffName(String name) {
-		this.staffName.set(name);
+	public void setName(String name) {
+		this.name.set(name);
 		}
 	
 	/**
@@ -119,7 +119,7 @@ public class StaffMasterModel extends BaseTableViewModel {
      */
 	 public StaffMasterModel(){
 		 this.staffNo = new SimpleIntegerProperty();
-		 this.staffName = new SimpleStringProperty("");
+		 this.name = new SimpleStringProperty("");
 		 this.authNo = new SimpleIntegerProperty();
 		 this.del = new SimpleBooleanProperty(false);
 	 }
@@ -132,7 +132,7 @@ public class StaffMasterModel extends BaseTableViewModel {
 	     this();   
 		 
 	     this.setStaffNo(source.getStaffNo());
-		 this.setStaffName(source.getStaffName());
+		 this.setName(source.getStaffName());
 	     this.setAuthNo(source.getAuthNo());
 		 this.setDelFlg(source.getDelFlg());
 	 }	 

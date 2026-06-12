@@ -58,13 +58,14 @@ namespace AssetManagementPassKeyLogIn.Data
                 entity.Property(e => e.LockoutEnd).HasColumnName("lockout_end");
                 entity.Property(e => e.AccessFailedCount).HasColumnName("access_failed_count");
 
-
-                // 「staff_master」(社員マスター)テーブルを結合し、氏名(staff_name)を取得
-                // ※ EF Core「Split Table / Shared Table」機能
+                /* 「staff_master」(社員マスター)テーブルを結合し、氏名(name) / 削除フラグ(del)を取得
+                    ※ EF Core「Split Table / Shared Table」機能
+                    ※ SQL：INNER JOIN 相当 */
                 entity.SplitToTable("staff_master", table =>
                 {
                     table.Property(e => e.Id).HasColumnName("staff_no"); // 主キーの結合条件
                     table.Property(e => e.Name).HasColumnName("name");
+                    table.Property(e => e.Del).HasColumnName("del");
                 });
 
                 // 既存で未使用の[ApplicationUser]のプロパティを除外する

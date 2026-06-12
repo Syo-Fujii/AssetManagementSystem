@@ -353,7 +353,7 @@ public class FormController  extends BaseFormPage {
 	
 	    // Bulk処理にて一括更新を行うため、クエリ生成段階のResultとして常に[true]を返す。
 		return true;
-    }    	
+    } 	
 	
     /**
      * DBクエリ(CUD)発行結果に応じた処理(executeBulkQueryの処理結果)
@@ -377,7 +377,7 @@ public class FormController  extends BaseFormPage {
 			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
 			sb.append("システム管理者に連絡してください。" );
 			
-			showMessageException(title, sb.toString());
+			super.showMessageException(title, sb.toString());
 		}
 	}
 
@@ -518,13 +518,6 @@ public class FormController  extends BaseFormPage {
     }
 
     /**
-     * 例外Message：入力エラー
-     */
-    private void showMessageInputError(String message) {
-    	MessageBox.ShowErrorMessage("入力エラー", "", message);
-    }    
-    
-    /**
    	 *棚卸確認Message
    	 * @param rows 貸出するデータ(MODEL)のリスト
    	 * @return 確認結果
@@ -549,19 +542,7 @@ public class FormController  extends BaseFormPage {
        			"下記の備品の棚卸を行います。よろしいですか？",
        			sb.toString());
     }        
-    
-    /**
-     * 例外Message：例外エラー
-     * @param title String タイトル
-     * @param message String 表示する内容
-     */
-    private void showMessageException(String title, String message) {
-    	LogManager.writeError(title);
-    	LogManager.writeError(message);
 
-    	MessageBox.ShowErrorMessage("例外発生", title, message);
-    }        
-    
     /**
      * 棚卸データ 更新前チェック
      * @return AppConst.rowCheckResultData チェック結果

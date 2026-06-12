@@ -404,6 +404,7 @@ public class MenuController extends BaseFormPage {
     
     /**
      * finder風タイトルバー用画面移動イベント
+     * @brief Window枠を無効(不可視)化しているため、コンテンツ枠の移動をWindow枠に偽装する
      */
     private void onTitleBarMousePressEvent() {
     	

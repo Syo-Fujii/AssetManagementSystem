@@ -55,9 +55,11 @@
             gbSettings.Controls.Add(label2);
             gbSettings.Controls.Add(label1);
             gbSettings.Enabled = false;
-            gbSettings.Location = new Point(27, 27);
+            gbSettings.Location = new Point(19, 16);
+            gbSettings.Margin = new Padding(2);
             gbSettings.Name = "gbSettings";
-            gbSettings.Size = new Size(311, 189);
+            gbSettings.Padding = new Padding(2);
+            gbSettings.Size = new Size(218, 113);
             gbSettings.TabIndex = 0;
             gbSettings.TabStop = false;
             gbSettings.Text = "設定値";
@@ -65,9 +67,10 @@
             // txtSaltByte
             // 
             txtSaltByte.ImeMode = ImeMode.Disable;
-            txtSaltByte.Location = new Point(177, 140);
+            txtSaltByte.Location = new Point(124, 84);
+            txtSaltByte.Margin = new Padding(2);
             txtSaltByte.Name = "txtSaltByte";
-            txtSaltByte.Size = new Size(87, 31);
+            txtSaltByte.Size = new Size(62, 23);
             txtSaltByte.TabIndex = 5;
             txtSaltByte.Text = "16";
             txtSaltByte.TextChanged += SettingsTextBox_TextChanged;
@@ -76,9 +79,10 @@
             // txtHashBtye
             // 
             txtHashBtye.ImeMode = ImeMode.Disable;
-            txtHashBtye.Location = new Point(177, 87);
+            txtHashBtye.Location = new Point(124, 52);
+            txtHashBtye.Margin = new Padding(2);
             txtHashBtye.Name = "txtHashBtye";
-            txtHashBtye.Size = new Size(87, 31);
+            txtHashBtye.Size = new Size(62, 23);
             txtHashBtye.TabIndex = 4;
             txtHashBtye.Text = "32";
             txtHashBtye.TextChanged += SettingsTextBox_TextChanged;
@@ -87,9 +91,10 @@
             // txtIterations
             // 
             txtIterations.ImeMode = ImeMode.Disable;
-            txtIterations.Location = new Point(177, 39);
+            txtIterations.Location = new Point(124, 23);
+            txtIterations.Margin = new Padding(2);
             txtIterations.Name = "txtIterations";
-            txtIterations.Size = new Size(87, 31);
+            txtIterations.Size = new Size(62, 23);
             txtIterations.TabIndex = 3;
             txtIterations.Text = "60000";
             txtIterations.TextChanged += SettingsTextBox_TextChanged;
@@ -98,36 +103,40 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(31, 140);
+            label3.Location = new Point(22, 84);
+            label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(112, 25);
+            label3.Size = new Size(76, 15);
             label3.TabIndex = 2;
             label3.Text = "SALT長(Byte)";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(31, 90);
+            label2.Location = new Point(22, 54);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(122, 25);
+            label2.Size = new Size(82, 15);
             label2.TabIndex = 1;
             label2.Text = "HASH長(Byte)";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(31, 42);
+            label1.Location = new Point(22, 25);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(140, 25);
+            label1.Size = new Size(92, 15);
             label1.TabIndex = 0;
             label1.Text = "ストレッチング回数";
             // 
             // txtConvertWords
             // 
             txtConvertWords.ImeMode = ImeMode.Disable;
-            txtConvertWords.Location = new Point(20, 41);
+            txtConvertWords.Location = new Point(14, 25);
+            txtConvertWords.Margin = new Padding(2);
             txtConvertWords.Name = "txtConvertWords";
-            txtConvertWords.Size = new Size(697, 31);
+            txtConvertWords.Size = new Size(489, 23);
             txtConvertWords.TabIndex = 7;
             txtConvertWords.TextChanged += txtConvertWords_TextChanged;
             txtConvertWords.KeyPress += txtConvertWords_KeyPress;
@@ -135,9 +144,11 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(txtConvertWords);
-            groupBox2.Location = new Point(27, 234);
+            groupBox2.Location = new Point(19, 140);
+            groupBox2.Margin = new Padding(2);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(749, 92);
+            groupBox2.Padding = new Padding(2);
+            groupBox2.Size = new Size(524, 55);
             groupBox2.TabIndex = 8;
             groupBox2.TabStop = false;
             groupBox2.Text = "変換文字";
@@ -146,18 +157,21 @@
             // 
             groupBox3.Controls.Add(btnGenerateHash);
             groupBox3.Controls.Add(txtHashValue);
-            groupBox3.Location = new Point(27, 356);
+            groupBox3.Location = new Point(19, 214);
+            groupBox3.Margin = new Padding(2);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(749, 211);
+            groupBox3.Padding = new Padding(2);
+            groupBox3.Size = new Size(524, 140);
             groupBox3.TabIndex = 9;
             groupBox3.TabStop = false;
             groupBox3.Text = "HASH値";
             // 
             // btnGenerateHash
             // 
-            btnGenerateHash.Location = new Point(20, 42);
+            btnGenerateHash.Location = new Point(14, 20);
+            btnGenerateHash.Margin = new Padding(2);
             btnGenerateHash.Name = "btnGenerateHash";
-            btnGenerateHash.Size = new Size(151, 34);
+            btnGenerateHash.Size = new Size(106, 33);
             btnGenerateHash.TabIndex = 8;
             btnGenerateHash.Text = "HASH値 生成";
             btnGenerateHash.UseVisualStyleBackColor = true;
@@ -165,20 +179,22 @@
             // 
             // txtHashValue
             // 
-            txtHashValue.Location = new Point(20, 95);
+            txtHashValue.Location = new Point(14, 65);
+            txtHashValue.Margin = new Padding(2);
             txtHashValue.Multiline = true;
             txtHashValue.Name = "txtHashValue";
             txtHashValue.ReadOnly = true;
             txtHashValue.ScrollBars = ScrollBars.Vertical;
-            txtHashValue.Size = new Size(708, 100);
+            txtHashValue.Size = new Size(497, 66);
             txtHashValue.TabIndex = 7;
             // 
             // chkSettings
             // 
             chkSettings.AutoSize = true;
-            chkSettings.Location = new Point(356, 45);
+            chkSettings.Location = new Point(249, 27);
+            chkSettings.Margin = new Padding(2);
             chkSettings.Name = "chkSettings";
-            chkSettings.Size = new Size(128, 29);
+            chkSettings.Size = new Size(86, 19);
             chkSettings.TabIndex = 10;
             chkSettings.Text = "設定値変更";
             chkSettings.UseVisualStyleBackColor = true;
@@ -186,13 +202,14 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 605);
+            ClientSize = new Size(560, 363);
             Controls.Add(chkSettings);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(gbSettings);
+            Margin = new Padding(2);
             Name = "Form1";
             Text = "ハッシュ値(SHA256 - PBKDF2)生成システム";
             Load += Form1_Load;

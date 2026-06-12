@@ -21,6 +21,8 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
         [Inject] private PasskeyService PasskeyOp { get; set; } = default!;
         // ユーザー認証状態
         [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
+        // appsettings.jsonファイル
+        [Inject] private IConfiguration Configuration { get; set; } = default!;
 
 
         /// <summary>
@@ -143,12 +145,15 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
                 // ✨【修正】JavaFX側がポート8888（localhost）で待ち受けている受信用サーバーへデータを送信
                 try
                 {
-                    // JavaFXが指定した callback ポート（デフォルト 8888）
-                    int callbackPort = 8888;
+                    // appsettings.json からポート番号を取得 (設定がない場合はデフォルト 8888)
+                    int callbackPort = Convert.ToInt32(Configuration["fido2:CallBackPort"] ?? "8888");
+
+                    //トークンをクエリパラメータとして付与
+                    string queryParamName = "token";
 
                     // JavaFX側の受信用ローカルサーバーのURLを構築
                     // パラメータ名（"staffCode"など）は、既存のJavaFX側の受信解析ロジック（WebServiceManager等）の仕様に合わせて調整してください
-                    string callbackUrl = $"http://localhost:{callbackPort}/callback?staffCode={this.TargetStaffCode}";
+                    string callbackUrl = $"http://localhost:{callbackPort}/callback?{queryParamName}={this.TargetStaffCode}";
 
                     // HttpClientを使ってJavaFX側へ結果を通知（Fire and Forget / もしくは非同期待機）
                     using (var client = new HttpClient())
@@ -157,7 +162,7 @@ namespace AssetManagementPassKeyLogIn.Components.Account.Shared
                         client.Timeout = TimeSpan.FromSeconds(5);
 
                         // JavaFXのローカルサーバーを叩く（GETリクエスト）
-                        var response = await client.GetAsync(callbackUrl);
+                        var response = await client.GetAsync(callbackUrl, cts.Token);
 
                         if (response.IsSuccessStatusCode)
                         {

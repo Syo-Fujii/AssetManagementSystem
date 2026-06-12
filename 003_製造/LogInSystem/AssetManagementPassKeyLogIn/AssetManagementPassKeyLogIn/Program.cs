@@ -15,7 +15,10 @@ using Microsoft.EntityFrameworkCore;
 /* アプリエントリーポイント (個別での認証を有効にする) */
 var builder = WebApplication.CreateBuilder(args);
 
-// builder.WebHost.UseUrls("https://localhost:7215", "http://localhost:5058");
+// 認証サーバー(URLアドレス)設定
+var httpsUrl = builder.Configuration["Kestrel:Endpoints:Https:Url"] ?? "https://localhost:7215";
+var httpUrl = builder.Configuration["Kestrel:Endpoints:Http:Url"] ?? "http://localhost:5058";
+builder.WebHost.UseUrls(httpsUrl, httpUrl);
 
 // Razorコンポーネントの追加(Blazorサービス)
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
@@ -47,6 +50,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // DB操作クラス読込
 builder.Services.AddScoped<MySqlService>();
 
+// HASH変換クラス読込
+builder.Services.AddScoped<HashConverter>();
+
 // 認証ルール(内容)定義
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
@@ -68,14 +74,13 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 builder.Services.AddFido2((Fido2Configuration options) =>
 {
     // サーバーのドメイン（開発時は localhost）
-    options.ServerDomain = "localhost";
-    options.ServerName = "備品管理システム";
+    options.ServerDomain = builder.Configuration["fido2:ServerDomain"] ?? "localhost";
+    options.ServerName = builder.Configuration["fido2:ServerName"] ?? "備品管理システム";
     // ブラウザがアクセスを許可するオリジン（BlazorのURL）
     options.Origins = new HashSet<string> 
     {
-        "https://localhost:7215",
-        "https://localhost:7193", 
-        "http://localhost:5249" 
+        httpsUrl,
+        httpUrl
     };
     
     options.TimestampDriftTolerance = 300000; // 5分間の許容誤差

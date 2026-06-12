@@ -337,7 +337,7 @@ public class FormController extends BaseFormPage {
 			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
 			sb.append("システム管理者に連絡してください。" );
 			
-			showMessageException(title, sb.toString());
+			super.showMessageException(title, sb.toString());
 			
     		setEditControlsAllDisabled();
 		}
@@ -385,20 +385,6 @@ public class FormController extends BaseFormPage {
 
 		return false;
 	}
-
-	/**
-	 *登録項目編集中 変更(破棄)確認Message
-	 * @return 確認結果
-	 */
-    private Boolean showMessageEditControlsValue() {
-    	return MessageBox.ShowConfirmation(
-    			ShowButtonType.YES_NO,
-    			false,
-    			"確認",
-    			null,
-    			"編集中の登録項目を破棄します。" + AppUtil.newLine() +
-    			"よろしいですか？");
-    }
     
 	/**
 	 * DB処理確認Message
@@ -430,25 +416,6 @@ public class FormController extends BaseFormPage {
     			"下記の社員マスタの" + execute + "を行います。よろしいですか？",
     			sb.toString());
     }
-
-    /**
-     * 例外Message：入力エラー
-     */
-    private void showMessageInputError(String message) {
-    	MessageBox.ShowErrorMessage("入力エラー", "", message);
-    }    
-    
-    /**
-     * 例外Message：例外エラー
-     * @param title String タイトル
-     * @param message String 表示する内容
-     */
-    private void showMessageException(String title, String message) {
-    	LogManager.writeError(title);
-    	LogManager.writeError(message);
-
-    	MessageBox.ShowErrorMessage("例外発生", title, message);
-    }           
     
     /**
      * TableView設定
@@ -576,7 +543,7 @@ public class FormController extends BaseFormPage {
     		this.editMasterData.setStaffNo( no );
     	}
     	
-    	this.editMasterData.setStaffName( txt_Edit_Name.getText() );
+    	this.editMasterData.setName( txt_Edit_Name.getText() );
     	
 		Integer auth = AppUtil.parseInt( txt_Edit_Auth.getText(), AppConst.UNSET_NUMBER_VALUE );
 		this.editMasterData.setAuthNo( auth );

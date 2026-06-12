@@ -21,5 +21,9 @@ namespace AssetManagementPassKeyLogIn.Data
         /// </summary>
         public string? Name { get; set; }
 
+        /// <summary>
+        /// 削除フラグ
+        /// </summary>
+        public bool? Del { get; set; }
     }
 }

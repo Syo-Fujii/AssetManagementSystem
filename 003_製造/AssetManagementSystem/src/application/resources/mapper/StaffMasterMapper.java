@@ -35,7 +35,7 @@ public interface StaffMasterMapper {
 	 * @return 社員マスタのデータ
 	 * @brief [staff_no](主Key:一意)を条件として、取得する社員マスタのデータ()<br>
 	 */
-    StaffMasterModel selectByNo(int no);
+    List<StaffMasterModel> selectByNo(int no);
     
     /**
      * マスタ存在確認 

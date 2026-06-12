@@ -3,6 +3,7 @@ using AssetManagementPassKeyLogIn.Entities;
 using Fido2NetLib;
 using Fido2NetLib.Objects;
 using Microsoft.EntityFrameworkCore;
+using System.Security;
 using System.Text.Json;
 
 namespace AssetManagementPassKeyLogIn.Services
@@ -50,7 +51,6 @@ namespace AssetManagementPassKeyLogIn.Services
                 throw new Exception("パスキーが登録されていません。");
             }
 
-
             // 認証オプションの生成(Paramsオブジェクトを作成)
             var authParams = new GetAssertionOptionsParams
             {
@@ -59,7 +59,6 @@ namespace AssetManagementPassKeyLogIn.Services
             };
 
             return fido2Interface.GetAssertionOptions(authParams);
-
         }
 
         /// <summary>
@@ -70,13 +69,11 @@ namespace AssetManagementPassKeyLogIn.Services
         /// </remarks>
         public AssertionOptions GetAssertionOptionsForQrCode()
         {
-            // 💡 テスト対策：MySQLにある「すべての登録済みパスキー」を一旦取得してブラウザに教えてあげる
+            // テスト対策：MySQLにある「すべての登録済みパスキー」を一旦取得してブラウザに通知する
             // （スマホが読み取られた際、このリストの中にある鍵であればどれでもログインが成功します）
             var allExistingCredentials = mySqlDbContext.StaffPasskeys
                 .Select(p => new PublicKeyCredentialDescriptor(p.CredentialId))
                 .ToList(); // 同期処理なので ToList()
-
-
 
             // QRコード待ち受け時は、誰が来るか分からないため AllowedCredentials は指定しません
             var authParams = new GetAssertionOptionsParams
@@ -88,7 +85,6 @@ namespace AssetManagementPassKeyLogIn.Services
 
             // fido2-net-lib が自動的に「誰でもウェルカム」な認証オプションを作ってくれます
             return fido2Interface.GetAssertionOptions(authParams);
-
         }
 
         /// <summary>
@@ -177,12 +173,22 @@ namespace AssetManagementPassKeyLogIn.Services
 
                 if (res is not null)
                 {
+                    // 認証器から送られてきたカウンタが 0 の場合はパスキー（スマホ等）なのでチェックをスキップする
+                    if (res.SignCount > 0)
+                    {
+                        // 物理キーなどの場合のみ、複製検知（カウンタの厳密な増加チェック）を行う
+                        if (res.SignCount <= (uint)credential.SignatureCount)
+                        {
+                            throw new SecurityException("認証器の複製（クローン）が検知されました。");
+                        }
+                    }
+
                     // 署名カウンタを更新(行データ)
                     credential.SignatureCount = (int)res.SignCount;
                     // DB更新
                     await mySqlDbContext.SaveChangesAsync();
 
-                    return credential.SignatureCount;
+                    return credential.StaffNo;
                 }
 
                 return -1;
@@ -194,7 +200,6 @@ namespace AssetManagementPassKeyLogIn.Services
                 return -1;
             }
         }
-
 
         /// <summary>
         /// パキー新規登録開始：登録用オプションの生成
@@ -277,7 +282,5 @@ namespace AssetManagementPassKeyLogIn.Services
                 return $"エラー位置3（例外発生）: {ex.Message} (内訳: {ex.InnerException?.Message})";
             }
         }
-
-
     }
 }

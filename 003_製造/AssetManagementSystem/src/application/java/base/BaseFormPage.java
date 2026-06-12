@@ -7,6 +7,9 @@ import java.util.function.BiPredicate;
 import org.apache.ibatis.session.SqlSession;
 
 import application.java.common.AppConst.ExcuteQueryResultStatus;
+import application.java.common.AppUtil;
+import application.java.common.MessageBox;
+import application.java.common.MessageBox.ShowButtonType;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.form.JavaFxManager;
@@ -211,8 +214,31 @@ public abstract class BaseFormPage {
 	 */
 	public void pageDispose() {}
 
+
 	
     /**
+     * DB単一データ取得処理(同期処理)
+     * @brief controller内で用いる取得(Fill)処理<br>
+     * 単一の取得データ(複数ある場合、先頭)を返す。<br >
+     * 画面内にTableViewなどのDB取得を要するメソッド(処理)がある場合に用いる。<br>
+     * 当該基底では1つだけしか用意していないので、複数必要な場合は子クラスで個別に用意する。
+     */
+	protected final <T extends BaseTableViewModel> T getEntity()
+    {
+		var rows = MySqlManager.<T>Fill((SqlSession session) ->
+		{	try	{
+    			return executeSelectQuery(session);
+				
+    		} catch (Exception e){
+    			throw new RuntimeException(e);
+    		}});
+		
+	    if (rows != null && !rows.isEmpty()) { return rows.get(0);}
+	    
+	    return null;
+    }
+	
+	/**
      * DB取得処理(非同期処理)
      * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
      * @brief controller内で用いる取得(Fill)処理<br>
@@ -396,6 +422,39 @@ public abstract class BaseFormPage {
 	protected <T extends BaseTableViewModel> Boolean executeCudMapperFunction(SqlSession session, List<T> listData) {
 		return true;
     }
+
+    /**
+     * 例外Message：例外エラー
+     * @param title String タイトル
+     * @param message String 表示する内容
+     */
+	protected void showMessageException(String title, String message) {
+    	LogManager.writeError(title);
+    	LogManager.writeError(message);
+
+    	MessageBox.ShowErrorMessage("例外発生", title, message);
+    }          	
+
+    /**
+     * 例外Message：入力エラー
+     */
+	protected void showMessageInputError(String message) {
+    	MessageBox.ShowErrorMessage("入力エラー", "", message);
+    }    
+
+	/**
+	 *登録項目編集中 変更(破棄)確認Message
+	 * @return 確認結果
+	 */
+	protected Boolean showMessageEditControlsValue() {
+    	return MessageBox.ShowConfirmation(
+    			ShowButtonType.YES_NO,
+    			false,
+    			"確認",
+    			null,
+    			"編集中の登録項目を破棄します。" + AppUtil.newLine() +
+    			"よろしいですか？");
+    }
 	
 	/**
 	 * (stage)画面表示Shown(継承) 
@@ -440,5 +499,5 @@ public abstract class BaseFormPage {
 
     	} catch(Exception e){
     		throw new Exception(e);}
-    } 
+    }
 }

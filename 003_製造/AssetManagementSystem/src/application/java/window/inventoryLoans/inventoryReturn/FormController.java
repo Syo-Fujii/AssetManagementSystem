@@ -291,7 +291,7 @@ public class FormController extends BaseFormPage {
 			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
 			sb.append("システム管理者に連絡してください。" );
 			
-			showMessageException(title, sb.toString());
+			super.showMessageException(title, sb.toString());
 			
     		// 返却ボタン無効化
     		submit_button.setDisable(true);
@@ -370,19 +370,6 @@ public class FormController extends BaseFormPage {
     			"備品(在庫)データに不整合(重複データ)が存在します。システム管理者に連絡してください。" + AppUtil.newLine() +
     			rowMessage);
     }
-
-    /**
-     * 例外Message：例外エラー
-     * @param title String タイトル
-     * @param message String 表示する内容
-     */
-    private void showMessageException(String title, String message) {
-    	LogManager.writeError(title);
-    	LogManager.writeError(message);
-
-    	MessageBox.ShowErrorMessage("例外発生", title, message);
-    }    
-    
     
     /**
      * TableView設定

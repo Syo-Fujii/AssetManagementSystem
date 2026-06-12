@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="login-btn-container">
-                    <button class="custom-login-btn success-color" @onclick="CreateNewPasskey" disabled="@IsProcessing">
+                    <button class="custom-login-btn success-color" @onclick="() => CreateNewPasskey()" disabled="@IsProcessing">
                         @if (IsProcessing)
                         {
                             <span class="spinner-border spinner-border-sm me-2" role="status"></span>

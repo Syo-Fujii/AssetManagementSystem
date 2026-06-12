@@ -351,3 +351,103 @@
         right: 0.75rem;
         top: 0.5rem;
     }
+/* /Components/Pages/Dashboard.razor.rz.scp.css */
+/* 画面全体の背景とセンタリング */
+body[b-kibovcal0t] {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Meiryo, sans-serif;
+}
+
+.dashboard-container[b-kibovcal0t] {
+    max-width: 550px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    /* フワッと浮き出るアニメーション */
+    animation: fadeInUp-b-kibovcal0t 0.6s ease-out;
+}
+
+/* 成功アイコンサークル */
+.success-icon-circle[b-kibovcal0t] {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+}
+
+.success-checkmark[b-kibovcal0t] {
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* 各種テキストデザイン */
+.dashboard-title-h1[b-kibovcal0t] {
+    font-size: 28px;
+    font-weight: 800;
+    color: #2c3e50;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.dashboard-msg-h2[b-kibovcal0t] {
+    font-size: 18px;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 16px;
+}
+
+.dashboard-desc-p[b-kibovcal0t] {
+    font-size: 14px;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+/* かっこいいボタンデザイン（ホバーエフェクト付き） */
+.dashboard-btn-close[b-kibovcal0t] {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    color: #ffffff;
+    border: none;
+    padding: 12px 36px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(44, 62, 80, 0.2);
+    transition: all 0.25s ease;
+}
+
+    /* ボタンの上にマウスを乗せたときの動き */
+    .dashboard-btn-close:hover[b-kibovcal0t] {
+        background: linear-gradient(135deg, #455d7a, #34495e);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(44, 62, 80, 0.3);
+    }
+
+    /* ボタンをクリックしたときの動き */
+    .dashboard-btn-close:active[b-kibovcal0t] {
+        transform: translateY(1px);
+    }
+
+/* 登場アニメーションの定義 */
+@keyframes fadeInUp-b-kibovcal0t {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

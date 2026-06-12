@@ -1,4 +1,5 @@
 ﻿using AssetManagementPassKeyLogIn.Data;
+using AssetManagementPassKeyLogIn.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AssetManagementPassKeyLogIn.Services
@@ -49,5 +50,14 @@ namespace AssetManagementPassKeyLogIn.Services
             return entity.LockoutEnd.HasValue && entity.LockoutEnd.Value > DateTimeOffset.UtcNow;
         }
 
+        /// <summary>
+        /// 更新 : ユーザープロフィール情報
+        /// </summary>
+        /// <param name="appUserEntitty"></param>
+        public async Task UpdateApplicationUserAsync(ApplicationUser appUserEntitty)
+        {
+            dbContext.Entry(appUserEntitty).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

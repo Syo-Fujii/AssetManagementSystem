@@ -1,12 +1,17 @@
 ﻿@page "/dashboard"
 
 <div class="dashboard-container">
+
+    <div class="success-icon-circle">
+        <span class="success-checkmark">✓</span>
+    </div>
+
     <h1 class="dashboard-title-h1">LOGIN SUCCESS</h1>
     <h2 class="dashboard-msg-h2">備品管理システムへのサインインが完了しました。</h2>
     <p class="dashboard-desc-p">このブラウザのタブ（ウィンドウ）を閉じて、デスクトップアプリにお戻りください。</p>
 
     <!-- ユーザーが手動で閉じられるようにするボタン -->
-    <button class="dashboard-btn-close" onclick="window.close();">
+    <button class="dashboard-btn-close" onclick="window.open('about:blank','_self').close();">
         タブを閉じる
     </button>
 </div>

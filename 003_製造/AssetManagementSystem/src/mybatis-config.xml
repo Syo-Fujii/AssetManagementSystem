@@ -60,6 +60,7 @@
     <mapper class="application.resources.mapper.StaffMasterMapper"/>
     <mapper class="application.resources.mapper.GenericCodeMasterMapper"/>
     <mapper class="application.resources.mapper.StockDataMapper"/>
+    <mapper class="application.resources.mapper.ApplicationUserMapper"/>
   </mappers>
 
 </configuration>

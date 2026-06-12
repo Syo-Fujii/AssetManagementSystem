@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.ApplicationUserMapper">
+
+    <!-- ログインユーザ情報(社員マスター + 社員認証マスター（パスワード管理用）)の取得 -->
+    <select id="getLoginUserData" resultType="application.java.base.tableViewListModel.ApplicationUserModel">
+      SELECT
+         SM.staff_no,
+         SM.name,
+         SM.auth_no,
+         SM.del,
+         SA.email AS LoginId,
+         SA.password_hash AS Password,
+         SA.lockout_end AS LockOutDateTime,
+         SA.access_failed_count AS FailedCount
+      FROM
+        staff_master SM
+      INNER JOIN
+        staff_auth SA
+       ON SM.staff_no = SA.staff_no
+      WHERE
+       1 = 1
+      AND SM.del = false
+      AND SA.email = #{loginId}
+    </select>    
+
+    <!-- マスタ更新(社員認証マスター) -->
+    <update id="updStaffAuthOnes" parameterType="application.java.base.tableViewListModel.ApplicationUserModel">
+       UPDATE staff_auth
+        SET
+          lockout_end = #{ lockOutDateTime } ,
+          access_failed_count = #{ failedCount }
+       WHERE
+          staff_no = #{ staffNo }
+    </update>
+
+</mapper>

@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import application.java.common.AppConst;
 import application.resources.xml.HikariDataSourceFactory;
 
 /*
@@ -131,24 +132,21 @@ public class WebServiceManager {
         try {
         	LogManager.writeInfo("[Webサーバー操作クラス] ： 認証サーバーからデータを受信しました");
 
-        	this.authenticatedToken = ex.getRequestURI().getQuery();
+        	var query = ex.getRequestURI().getQuery();
 
+        	var resBody = AppConst.QR_AUTH_RESPONSE_BODY + "=";  
+        	
+            if (query != null && query.startsWith(resBody)) {
+                // "token=" の文字数（6文字分）をスキップして、純粋な値だけを切り出す
+                this.authenticatedToken = query.substring(resBody.length());
+            } else {
+                this.authenticatedToken = query; // 想定外の形式ならそのまま代入
+            }        	
+        	
             // 「返すデータなし(204 No Content)」のステータスだけを送信
             // 第2引数を「-1」にすることで、レスポンスボディが存在しないことを明示
             ex.sendResponseHeaders(204, -1);
 
-            // ブラウザ側に返す完了画面のHTML
-            /* String response = "<html><head><meta charset='UTF-8'></head><body>"
-                            + "<h2>認証が完了しました。</h2>"
-                            + "<p>このタブを閉じて、備品管理システムアプリに戻ってください。</p>"
-                            + "</body></html>";
-                            
-            httpEx.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
-            httpEx.sendResponseHeaders(200, response.getBytes("UTF-8").length);
-            
-            try (OutputStream os = httpEx.getResponseBody()) {
-                os.write(response.getBytes("UTF-8"));
-            }*/ 
         } catch (IOException e) {
             LogManager.writeError("[Webサーバー操作クラス] : レスポンス送信中にエラーが発生", e);
         } finally {

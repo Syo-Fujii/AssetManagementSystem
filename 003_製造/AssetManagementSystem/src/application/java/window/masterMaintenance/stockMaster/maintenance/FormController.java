@@ -263,16 +263,16 @@ public class FormController extends BaseFormPage {
 	protected void excuteQueryResult(ExcuteQueryResultStatus status){
 		// 更新件数が0件のクエリが存在していた場合、例外MSGを表示
 		if (status ==  ExcuteQueryResultStatus.NO_ROWS_AFFECTED) {
-			String title = "DB クエリ発行結果エラー";
+			this.submit_button.setDisable( true );
 			
+			String title = "DB クエリ発行結果エラー";
+
 			StringBuilder sb = new StringBuilder();
 			sb.append("更新(備品マスタ)処理にて、結果件数が0件のクエリが発行されました。").append(AppUtil.newLine());
 			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
 			sb.append("システム管理者に連絡してください。" );
 			
-			showMessageException(title, sb.toString());
-			
-			this.submit_button.setDisable( true );
+			super.showMessageException(title, sb.toString());
 		}
 	}	
     
@@ -504,25 +504,6 @@ public class FormController extends BaseFormPage {
 
     	MessageBox.ShowInformation(execute, execute + "しました。", sb.toString());
     }	    
-
-    /**
-     * 例外Message：入力エラー
-     */
-    private void showMessageInputError(String message) {
-    	MessageBox.ShowErrorMessage("入力エラー", "", message);
-    }     
-    
-    /**
-     * 例外Message：例外エラー
-     * @param title String タイトル
-     * @param message String 表示する内容
-     */
-    private void showMessageException(String title, String message) {
-    	LogManager.writeError(title);
-    	LogManager.writeError(message);
-
-    	MessageBox.ShowErrorMessage("例外発生", title, message);
-    }      
     
     /**
      * 画面初期設定

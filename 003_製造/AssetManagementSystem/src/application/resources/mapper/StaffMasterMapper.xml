@@ -37,7 +37,7 @@
     </select>
 
     <!-- 1件取得：#{no} は引数の値が入る場所 -->
-    <select id="selectByNo">    
+    <select id="selectByNo" resultType="application.java.base.dbTablesModel.StaffMasterModel"> 
         SELECT * FROM staff_master WHERE staff_no = #{no}
     </select>
 

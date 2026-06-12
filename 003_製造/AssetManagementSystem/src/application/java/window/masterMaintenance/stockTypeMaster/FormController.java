@@ -151,7 +151,7 @@ public class FormController extends BaseFormPage {
         	AppConst.rowCheckResultData checkResult = isMasterRowsCheck();
         	if (!checkResult.result()) {
         		if( checkResult.isShowMsgBox()) {
-        			this.showMessageInputError(checkResult.message());
+        			super.showMessageInputError(checkResult.message());
         		}
         		setupErrorInputControlsFocus( checkResult.colNo() );
         		return;
@@ -331,6 +331,8 @@ public class FormController extends BaseFormPage {
 
 		// 更新件数が0件のクエリが存在していた場合、例外MSGを表示
 		if (status ==  ExcuteQueryResultStatus.NO_ROWS_AFFECTED) {
+    		setEditControlsAllDisabled();
+			
 			String title = "DB クエリ発行結果エラー";
 			
 			StringBuilder sb = new StringBuilder();
@@ -339,9 +341,7 @@ public class FormController extends BaseFormPage {
 			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
 			sb.append("システム管理者に連絡してください。" );
 			
-			showMessageException(title, sb.toString());
-			
-    		setEditControlsAllDisabled();
+			super.showMessageException(title, sb.toString());
 		}
 	}	
 
@@ -386,20 +386,6 @@ public class FormController extends BaseFormPage {
 	}
 
 	/**
-	 *登録項目編集中 変更(破棄)確認Message
-	 * @return 確認結果
-	 */
-    private Boolean showMessageEditControlsValue() {
-    	return MessageBox.ShowConfirmation(
-    			ShowButtonType.YES_NO,
-    			false,
-    			"確認",
-    			null,
-    			"編集中の登録項目を破棄します。" + AppUtil.newLine() +
-    			"よろしいですか？");
-    }
-
-	/**
 	 *DB処理確認Message
 	 * @return 確認結果
 	 */
@@ -430,25 +416,6 @@ public class FormController extends BaseFormPage {
     			sb.toString());
     }
 
-    /**
-     * 例外Message：入力エラー
-     */
-    private void showMessageInputError(String message) {
-    	MessageBox.ShowErrorMessage("入力エラー", "", message);
-    }    
-    
-    /**
-     * 例外Message：例外エラー
-     * @param title String タイトル
-     * @param message String 表示する内容
-     */
-    private void showMessageException(String title, String message) {
-    	LogManager.writeError(title);
-    	LogManager.writeError(message);
-
-    	MessageBox.ShowErrorMessage("例外発生", title, message);
-    }           
-    
     /**
      * TableView設定
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>

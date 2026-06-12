@@ -245,13 +245,22 @@ public class AppConst {
 	public static final int UNSET_NUMBER_VALUE = -1;
 
 	/** DB処理 対象件数１件 */
-	public static final int DB_EXECUTE_ONES = 1;	
+	public static final int DB_EXECUTE_ONES = 1;
+
+	/** LOGIN 失敗最大数 */
+	public static final int LOGIN_FAILED_MAX = 10;	
+
+	/** LOGIN 再認証可能待ち時間(分) */
+	public static final int LOGIN_LOCKOUT_WAIT_TIME = 10;	
 	
 	/** 入力制限 正規表現(半角英数字) */
 	public static final String REGEX_ALPHA_NUMERIC = "^[a-zA-Z0-9 ]*$";
 	
 	/** 入力制限 正規表現(半角数字) */
 	public static final String REGEX_NUMERIC = "^[0-9 ]*$";	
+
+	/** LOGIN PassKey認証 受信内容(Response Body)識別文字(先頭識別文字) */
+	public static final String QR_AUTH_RESPONSE_BODY = "token";
 	
 	/** 各フォルダPATH */
 	public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
@@ -259,8 +268,8 @@ public class AppConst {
 	public static final String FXML_PATH = "/application/resources/fxml/";
 	public static final String CSS_PATH = "/application/resources/css/";
 	public static final String IMAGE_FOLDER_PATH = "/application/resources/images/";
-	
 	public static final String QR_AUTH_EXE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\LogInSystem\\publish\\";
+
 	
 	/**
 	 * 明細行付き行データ(クラス:record)
@@ -285,5 +294,4 @@ public class AppConst {
 			int rowNum,
 			int colNo,
 			String message) {};
-
 }

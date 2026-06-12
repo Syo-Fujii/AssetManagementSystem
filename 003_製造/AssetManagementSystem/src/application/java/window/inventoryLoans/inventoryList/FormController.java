@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
+import application.java.common.AppSession;
 import application.java.common.AppUtil;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
@@ -38,6 +39,7 @@ public class FormController extends BaseFormPage {
 	
 	@FXML private AnchorPane pane_form;
 	
+	@FXML private Label lbl_LoginUser;
 	@FXML private Label lbl_title;
 
 	@FXML private TableViewManager<InventoryListDataModel> tableListView;
@@ -84,8 +86,8 @@ public class FormController extends BaseFormPage {
     		this.tableViewSettings();
         	tableListView.setIsColumnSettingCompleted(true);
         	
+        	lbl_LoginUser.setText(AppSession.getLoginUserInfo());        	
         	lbl_title.setText(this.getPageTitle());
-        	lbl_title.getStyleClass().add("titletext");
     	}
     	
     	LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
@@ -168,7 +170,6 @@ public class FormController extends BaseFormPage {
      * @brief Page表示の際、常にPageを初期化(new 生成)しているため、常に呼出される。<br>
      * 多分Webページと同じ概念。
      */
-    @SuppressWarnings("unused")
 	private void tableViewSettings() {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： カラム・セル設定/定義");
     	
