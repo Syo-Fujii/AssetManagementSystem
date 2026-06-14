@@ -38,10 +38,13 @@ import javafx.stage.Stage;
 
 /*
  * ログイン画面
- * 
- * 
- * 
- * */
+ * 認証は[PassKey]を用いた認証と、ID/Passを検証する２種類を用意
+ * ① [PassKey]は、外部システム(Blazor:exe)にてPassKey専用のサーバー(LocalHost：URL)を呼び出す
+ * JavaFx側ではPassKey専用のサーバーより結果(Response)を受信するサーバー(LocalHost)を起動し、
+ * 結果(Response)を受信して、内容に応じて画面を遷移する。
+ * ② ID/Pass認証では、LOGIN ID(登録メールアドレス)を条件にDBに登録されているPasswordを検証する
+ * Passwordは[PBKDF2-SHA256]形式のHASH値で登録されている
+ */
 public class LoginController extends BaseFormPage {
 
 	private final String FORM_NAME = "ログイン画面";
