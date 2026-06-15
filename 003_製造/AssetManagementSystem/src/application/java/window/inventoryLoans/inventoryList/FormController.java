@@ -86,7 +86,9 @@ public class FormController extends BaseFormPage {
     		this.tableViewSettings();
         	tableListView.setIsColumnSettingCompleted(true);
         	
-        	lbl_LoginUser.setText(AppSession.getLoginUserInfo());        	
+        	lbl_LoginUser.setText(AppSession.getLoginUserInfo());
+        	lbl_LoginUser.setPrefWidth(pane_form.getPrefWidth());
+        	
         	lbl_title.setText(this.getPageTitle());
     	}
     	

@@ -11,7 +11,8 @@
 <!-- Java内でインスタンス化したクラスを設定する場合は、fxタグ:fx:controller="application.java.window.inventoryList.FormController"を指定しない -->
 <AnchorPane id="form" fx:id="pane_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label id="title" fx:id="lbl_title" layoutX="25.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="240.0" text="タイトル" textAlignment="CENTER">
+      <Label id="loginuser" fx:id="lbl_LoginUser" prefHeight="30.0" prefWidth="1000.0" text="ID： NAME：" />
+      <Label id="title" fx:id="lbl_title" layoutX="25.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="43.0" prefWidth="240.0" text="タイトル" textAlignment="CENTER">
          <font>
             <Font size="21.0" />
          </font>

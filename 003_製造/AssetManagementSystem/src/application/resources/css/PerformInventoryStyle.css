@@ -82,7 +82,12 @@ Eclipseが「こんなプロパティは知らないよ！」と親切に警告�
 }
 
 
-.titletext {
+#loginuser {
+    -fx-alignment: CENTER_RIGHT;
+	-fx-padding: 0 10 0 0;
+}
+
+#titletext {
     -fx-font-weight: bold;
 }
 

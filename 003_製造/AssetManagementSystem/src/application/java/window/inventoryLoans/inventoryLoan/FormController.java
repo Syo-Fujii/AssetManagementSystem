@@ -12,6 +12,7 @@ import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.InventoryLoanDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
+import application.java.common.AppSession;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
@@ -49,6 +50,7 @@ public class FormController extends BaseFormPage {
 	
 	@FXML private AnchorPane pane_form;
 	
+	@FXML private Label lbl_LoginUser;
 	@FXML private Label lbl_title;
 	@FXML private Label lbl_stock_name;
 	
@@ -706,6 +708,9 @@ public class FormController extends BaseFormPage {
     private void formInitialize()
     {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize");
+    	
+    	lbl_LoginUser.setText(AppSession.getLoginUserInfo());
+    	lbl_LoginUser.setPrefWidth(pane_form.getPrefWidth());
     	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");

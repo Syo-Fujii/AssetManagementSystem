@@ -10,6 +10,7 @@ import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 import application.java.common.AppConst;
+import application.java.common.AppSession;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
@@ -43,6 +44,7 @@ public class FormController extends BaseFormPage {
 	
 	@FXML private AnchorPane pane_form;
 	
+	@FXML private Label lbl_LoginUser;
 	@FXML private Label lbl_title;
 	@FXML private Label lbl_stock_name;
 	
@@ -485,6 +487,8 @@ public class FormController extends BaseFormPage {
     {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： 画面初期化処理");
     	
+    	lbl_LoginUser.setText(AppSession.getLoginUserInfo());
+    	
     	lbl_title.setText(this.getPageTitle());
     	lbl_title.getStyleClass().add("titletext");
     	
@@ -496,6 +500,8 @@ public class FormController extends BaseFormPage {
     		tableListView.setPrefWidth(860);
     		pane_form.setPrefWidth(910);
     		lbl_stock_name.setPrefWidth(910);
+    		
+    		lbl_LoginUser.setPrefWidth(pane_form.getPrefWidth());
     		return;
     	}
     	
@@ -504,6 +510,8 @@ public class FormController extends BaseFormPage {
     		tableListView.setPrefWidth(1350);
     		pane_form.setPrefWidth(1400);
     		lbl_stock_name.setPrefWidth(1400);
+    		
+    		lbl_LoginUser.setPrefWidth(pane_form.getPrefWidth());
     		return;
     	}
     	
@@ -512,6 +520,8 @@ public class FormController extends BaseFormPage {
     		tableListView.setPrefWidth(1200);
     		pane_form.setPrefWidth(1250);
     		lbl_stock_name.setPrefWidth(1250);
+    		
+    		lbl_LoginUser.setPrefWidth(pane_form.getPrefWidth());
     		return;
     	}
     }
