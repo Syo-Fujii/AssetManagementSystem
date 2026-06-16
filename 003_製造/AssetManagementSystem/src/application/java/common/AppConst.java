@@ -263,13 +263,13 @@ public class AppConst {
 	public static final String QR_AUTH_RESPONSE_BODY = "token";
 	
 	/** 各フォルダPATH */
-	public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
-	// public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\002_Repositories\\003_製造\\AssetManagementSystem\\src\\";
+	//public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
+	public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\AssetManagementSystem\\src\\";
 	public static final String FXML_PATH = "/application/resources/fxml/";
 	public static final String CSS_PATH = "/application/resources/css/";
 	public static final String IMAGE_FOLDER_PATH = "/application/resources/images/";
-	public static final String QR_AUTH_EXE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\LogInSystem\\publish\\";
-
+	//public static final String QR_AUTH_EXE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\LogInSystem\\publish\\";
+	public static final String QR_AUTH_EXE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\LogInSystem\\publish\\";
 	
 	/**
 	 * 明細行付き行データ(クラス:record)

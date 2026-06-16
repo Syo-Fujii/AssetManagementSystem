@@ -1,6 +1,7 @@
 package application.java.common;
 
 import application.java.base.dbTablesModel.StaffMasterModel;
+import application.java.base.tableViewListModel.ApplicationUserModel;
 
 /*
  * ログインユーザ情報 クラス
@@ -46,6 +47,21 @@ public class AppSession {
         var name = loginUser != null ? loginUser.getStaffName() : "";
     	
     	return "ID：" + stuffNo + " / NAME:"+ name ;
+    }
+    
+    /**
+     * ログインしているユーザの権限を取得
+	 * @brief ログインしたユーザの権限を取得<br />
+	 * ユーザー情報を(社員マスター)Entityにアップキャストして保持しているため<br />
+	 * ダウンキャストして、権限(権限マスター)を取得する
+     */
+    public static int getUserPermission()
+    {
+    	if (loginUser instanceof ApplicationUserModel appUser) {
+    	    return appUser.getPermissionMask();
+    	}
+    	
+    	return 0;
     }
     
     /**

@@ -16,6 +16,7 @@ import application.java.base.dbTablesModel.StockTypeMasterModel;
 import application.java.base.tableViewListModel.PerformInventoryDataModel;
 import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
+import application.java.common.AppSession;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
@@ -36,6 +37,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * 棚卸画面
@@ -54,7 +56,10 @@ public class FormController  extends BaseFormPage {
 	
 	private final String FORM_NAME = "棚卸画面";
 
-	@FXML private Label lbl_title;	
+	@FXML private AnchorPane pane_form;
+	
+	@FXML private Label lbl_LoginUser;
+	@FXML private Label lbl_title;
 	
 	@FXML private CustomComboBoxControlManager<String> cbo_Search_Type;
 	@FXML private CustomTextFieldControlManager txt_Search_Serial;
@@ -711,6 +716,9 @@ public class FormController  extends BaseFormPage {
     private void formInitialize()
     {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： controller initialize");
+    	
+    	lbl_LoginUser.setText(AppSession.getLoginUserInfo());
+    	lbl_LoginUser.setPrefWidth(pane_form.getPrefWidth());
     	
     	lbl_title.setText(this.getPageTitle());
     	

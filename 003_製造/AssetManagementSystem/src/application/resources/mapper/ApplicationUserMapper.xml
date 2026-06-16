@@ -9,6 +9,7 @@
          SM.staff_no,
          SM.name,
          SM.auth_no,
+         AM.permission_mask AS PermissionMask,
          SM.del,
          SA.email AS LoginId,
          SA.password_hash AS Password,
@@ -19,6 +20,9 @@
       INNER JOIN
         staff_auth SA
        ON SM.staff_no = SA.staff_no
+      INNER JOIN
+        auth_master AM
+       ON SM.auth_no = AM.auth_id
       WHERE
        1 = 1
       AND SM.del = false
