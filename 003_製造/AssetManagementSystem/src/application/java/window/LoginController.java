@@ -13,7 +13,6 @@ import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
-import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.ApplicationUserModel;
 import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
@@ -25,7 +24,6 @@ import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.WebServiceManager;
 import application.resources.mapper.ApplicationUserMapper;
-import application.resources.mapper.StaffMasterMapper;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -300,17 +298,18 @@ public class LoginController extends BaseFormPage {
      * @param session SQLセッション
      * @return List<T> 取得結果(行データ:T のList)
      * @brief controller内で用いるクエリ発行処理<br>
-     * 社員番号を条件にデータを取得する
+     * 社員番号を条件にデータを取得<br>
+     * PassKey認証成功の際、[社員番号]を条件にログインユーザー情報を取得する
 	 */
     @SuppressWarnings("unchecked")
 	@Override
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
-    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ取得処理");
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員 + 権限 取得処理");
     	
-    	StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
+    	ApplicationUserMapper mapper = session.getMapper(ApplicationUserMapper.class);
 	    
 	    // 社員マスタ データ取得
-	    return (List<T>) mapper.selectByNo(loginUserNo);
+	    return (List<T>) mapper.getLoginUserByNo(loginUserNo);
     }    
 
     /**
@@ -439,7 +438,7 @@ public class LoginController extends BaseFormPage {
             
             // 社員番号取得・ログインユーザ情報取得処理 
             this.loginUserNo = AppUtil.parseInt(token, -1);
-            AppSession.setLoginUser(super.<StaffMasterModel>getEntity());
+            AppSession.setLoginUser(super.<ApplicationUserModel>getEntity());
             
             LogManager.writeInfo("[" + FORM_NAME + "] ： メニュー画面へ切替"); 
             this.showMenuPage();

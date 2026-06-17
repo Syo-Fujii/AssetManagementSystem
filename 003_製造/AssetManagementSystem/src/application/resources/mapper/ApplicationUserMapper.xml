@@ -3,7 +3,7 @@
 
 <mapper namespace="application.resources.mapper.ApplicationUserMapper">
 
-    <!-- ログインユーザ情報(社員マスター + 社員認証マスター（パスワード管理用）)の取得 -->
+    <!-- ログインユーザ情報(社員マスター + 社員認証マスター（パスワード管理用） + 権限)の取得 -->
     <select id="getLoginUserData" resultType="application.java.base.tableViewListModel.ApplicationUserModel">
       SELECT
          SM.staff_no,
@@ -28,6 +28,24 @@
       AND SM.del = false
       AND SA.email = #{loginId}
     </select>    
+
+    <!-- ログインユーザ情報(社員マスター + 権限)の取得：PassKey認証の際に用いる -->
+    <select id="getLoginUserByNo" resultType="application.java.base.tableViewListModel.ApplicationUserModel"> 
+      SELECT 
+         SM.staff_no,
+         SM.name,
+         SM.auth_no,
+         AM.permission_mask AS PermissionMask
+      FROM 
+        staff_master SM
+      INNER JOIN
+        auth_master AM
+       ON SM.auth_no = AM.auth_id
+      WHERE
+       1 = 1
+      AND SM.del = false
+      AND SM.staff_no = #{no}
+    </select>
 
     <!-- マスタ更新(社員認証マスター) -->
     <update id="updStaffAuthOnes" parameterType="application.java.base.tableViewListModel.ApplicationUserModel">
