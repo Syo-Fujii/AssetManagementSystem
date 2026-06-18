@@ -7,7 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
+import application.java.base.dbTablesModel.AuthMasterModel;
 import application.java.base.dbTablesModel.StaffMasterModel;
+import application.java.base.tableViewListModel.ApplicationUserModel;
 import application.java.common.AppConst;
 import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.AppUtil;
@@ -17,7 +19,10 @@ import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
 import application.java.manager.TableViewManager;
+import application.java.manager.customControl.CustomComboBoxControlManager;
 import application.java.manager.customControl.CustomTextFieldControlManager;
+import application.resources.mapper.ApplicationUserMapper;
+import application.resources.mapper.AuthMasterMapper;
 import application.resources.mapper.StaffMasterMapper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -31,7 +36,7 @@ import javafx.scene.layout.AnchorPane;
 
 
 /**
- * 社員マスタ メンテナンス画面
+ * 社員マスタ( + 社員認証マスタ) メンテナンス画面
  * @brief [inventoryReturn]画面操作メソッド(Controller)<br>
  * <p>
  * TableViewを継承した[TableViewManager](カスタムControl)を用いる場合、
@@ -41,7 +46,9 @@ import javafx.scene.layout.AnchorPane;
  * 手動で、Source上の[TableViewManager]を[TableView]に書き換えてScreen Builderを起動・デザインの変更を行う。<br>
  * デザインを変更・確定後にControlを[TableViewManager]の戻すことで編集を行う。<br>
  * ※ Screen Builderでは、カスタムControlの継承元に関する各機能は実行できない。<br>
- * ※ [TableViewManager]を用いても、Build・動作は正常におこなわれる。
+ * ※ [TableViewManager]を用いても、Build・動作は正常におこなわれる。<br>
+ * <br>
+ * 
  */
 public class FormController extends BaseFormPage {
 	private final String FORM_NAME = "社員マスタ メンテナンス";
@@ -64,7 +71,10 @@ public class FormController extends BaseFormPage {
 	@FXML private CustomTextFieldControlManager txt_Edit_No;
 	@FXML private TextField txt_Edit_Name;
 	@FXML private CustomTextFieldControlManager txt_Edit_Auth;
+	@FXML private CustomComboBoxControlManager<String> cbo_Edit_Auth;
 	@FXML private CheckBox check_Edit_DelFlg;
+	@FXML private CustomTextFieldControlManager txt_Edit_Email;
+	@FXML private CustomTextFieldControlManager txt_Edit_Password;
 	
 	@FXML private Button insert_button;
 	@FXML private Button update_button;
@@ -104,12 +114,15 @@ public class FormController extends BaseFormPage {
 
 		// TableView起動設定
 		this.tableViewSettings();
+
+		// コンボボックスの生成(DB)
+		makeEditComboBox_AuthMembers();		
 		
 		// 画面起動設定
 		this.formInitialize();
 
 		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
-    	super.<StaffMasterModel>fillTableAsync();
+    	super.<ApplicationUserModel>fillTableAsync();
     }
 
     /**
@@ -237,12 +250,12 @@ public class FormController extends BaseFormPage {
     @SuppressWarnings("unchecked")
 	@Override
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
-    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ取得処理");
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ・社員認証マスタ取得処理");
     	
-    	StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
+    	ApplicationUserMapper mapper = session.getMapper(ApplicationUserMapper.class);
 	    
-	    // 社員マスタ データ取得
-	    return (List<T>) mapper.selectMaintenance();
+	    // 社員マスタ + 社員認証マスタ データ取得
+	    return (List<T>) mapper.getAllUsers();
     }
 
 	/**
@@ -256,7 +269,8 @@ public class FormController extends BaseFormPage {
     		LogManager.writeTrace("[" + FORM_NAME + "] ： 社員マスタ連携(BIND)処理");
     		
     		// データ設定(BIND・SELL設定値)を初期化
-    		tableListView.dataSourceClear();        	
+    		tableListView.dataSourceClear();
+    		// 明細項目の為、社員マスタの項目にDownCastする
     		List<StaffMasterModel> rows = (List<StaffMasterModel>) listData;
     		tableListView.setList( rows );
     	
@@ -333,7 +347,7 @@ public class FormController extends BaseFormPage {
 			String title = "DB クエリ発行結果エラー";
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append("更新(備品分類マスタ)処理にて、結果件数が0件のクエリが発行されました。").append(AppUtil.newLine());
+			sb.append("更新(社員マスタ・社員認証マスタ)処理にて、結果件数が0件のクエリが発行されました。").append(AppUtil.newLine());
 			sb.append("全ての更新処理を中断しています。").append(AppUtil.newLine());
 			sb.append("システム管理者に連絡してください。" );
 			
@@ -343,6 +357,51 @@ public class FormController extends BaseFormPage {
 		}
 	}	
 
+    /**
+     * 登録項目：権限ComboBox 選択リスト取得処理
+     * @brief コンボBOXのSource更新・差し替えのため、予めSourceとして設定したListを引数で受ける。<br>
+     */
+	private void fetchAuthMembers()
+    {
+		LogManager.writeTrace("登録項目・権限(ComboBox) 選択リスト取得処理");
+    	
+    	MySqlManager.<AuthMasterModel>FillOnParallel(
+    			(SqlSession session) -> {
+					try {
+						return this.getAuthMasterData(session);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				},
+    			listData -> { 
+    				setupComboBox_EditAuth( listData ); },
+    			exception -> {
+    				LogManager.writeError("登録項目・権限(ComboBox)  選択リスト取得失敗");
+    				super.exceptionResult(exception);
+    			}
+    	); 
+    }	
+
+    /**
+     * 権限一覧の取得
+     * @param session
+     * @throws Exception
+     * @return List<StaffMasterModel> 取得結果(行データ:AuthMasterModel のList)
+     */
+    private List<AuthMasterModel> getAuthMasterData(SqlSession session) throws Exception
+    {
+    	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 権限マスタ取得処理");
+    	try {
+    		AuthMasterMapper mapper = session.getMapper(AuthMasterMapper.class);
+    	    
+    	    // 権限マスター取得
+    	    return mapper.getAuthMasterData();
+
+    	} catch(Exception e){
+    		throw new Exception(e);
+    	}
+    }
+	
 	/**
 	 * 社員マスタ存在確認用クエリ発行処理(Mapper)
 	 * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
@@ -502,9 +561,33 @@ public class FormController extends BaseFormPage {
     	// 登録項目 入力制限　設定
     	this.txt_Edit_No.setValidInput(AppConst.REGEX_NUMERIC, null);
     	this.txt_Edit_Auth.setValidInput(AppConst.REGEX_NUMERIC, null);
+    	this.txt_Edit_Email.setValidInput(AppConst.REGEX_EMAIL_ADDR, null);
+    	this.txt_Edit_Password.setValidInput(AppConst.REGEX_ALPHA_NUMERIC, null);
     	
 		// 新規登録モード
 		setupNewRecordMode();
+    }    
+
+    /**
+     * コンボボックス:権限　生成処理
+     * @brief 登録項目の[権限]を設定する 
+     */   
+    private void makeEditComboBox_AuthMembers() {
+     	// データ取得・設定
+     	fetchAuthMembers();
+    }   
+
+    /**
+     * コンボボックス:権限 データ設定処理
+     * @brief 登録項目の[権限]を設定する 
+     */   
+    private void setupComboBox_EditAuth( List<AuthMasterModel> datas ) 
+    {
+    	cbo_Edit_Auth.setIsAddBlankRow(true);
+    	cbo_Edit_Auth.setDataSource_ModelList( datas, "id", "authName", String.class );
+
+    	// コンボボックスの初期位置(先頭 ≒ 空欄)    	
+    	cbo_Edit_Auth.getSelectionModel().selectFirst();
     }    
     
     /**
@@ -529,7 +612,26 @@ public class FormController extends BaseFormPage {
     	txt_Edit_Auth.setText( authString );
 
     	check_Edit_DelFlg.setSelected( del != null ? del : false );
-    }       
+    	
+    	// DownCast
+    	String email = "";
+    	if (this.editMasterData instanceof ApplicationUserModel) {
+            email = ((ApplicationUserModel) this.editMasterData).getLoginId();
+    	} else {
+            email = ""; 
+    	}
+    	this.txt_Edit_Email.setText(email);
+    	
+    	if (!isEditMode) 
+    	{
+    		this.txt_Edit_Password.setText("");
+    	}
+    	else
+    	{
+    		this.txt_Edit_Password.setText("********"); 
+    		this.txt_Edit_Password.setPromptText("変更する場合のみ入力してください");
+    	}
+    }
 
     /**
      * 登録項目 値取得処理

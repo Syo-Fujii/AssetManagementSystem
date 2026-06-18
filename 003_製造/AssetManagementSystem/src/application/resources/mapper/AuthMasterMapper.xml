@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application.resources.mapper.AuthMasterMapper">
+
+    <!-- 全件取得：idはメソッド名、resultTypeは戻り値のクラス -->
+    <select id="selectAll">
+        SELECT * FROM auth_master
+    </select>
+    
+    <!-- (ComboBox用)社員マスターの取得 -->
+    <select id="getAuthMasterData">
+      SELECT
+        AM.auth_id AS id,
+        AM.auth_name AS authName
+       FROM
+         auth_master AM
+       WHERE
+         1 = 1
+       AND AM.del = FALSE
+       ORDER BY AM.auth_id
+    </select>    
+
+    <!-- 全件取得(マスタメンテナンス用)：idはメソッド名、resultTypeは戻り値のクラス -->
+    <select id="selectMaintenance">
+      SELECT 
+        AM.auth_id AS id,
+        AM.auth_name AS authName,
+        AM.permission_mask AS permission,
+        AM.remarks,
+        SM.del AS delFlg
+      FROM 
+        auth_master AM
+      WHERE
+        1 = 1
+      ORDER BY
+        AM.auth_id
+    </select>
+
+    <!-- 1件取得：#{id} は引数の値が入る場所 -->
+    <select id="selectById" resultType="application.java.base.dbTablesModel.AuthMasterModel"> 
+        SELECT * FROM auth_master WHERE auth_id = #{id}
+    </select>
+
+    <!-- マスタデータ存在確認 -->
+    <select id="existsAuthId" resultType="boolean" parameterType="application.java.base.dbTablesModel.AuthMasterModel">
+      SELECT 
+         EXISTS 
+         (
+          SELECT 
+             1 
+          FROM
+            auth_master 
+          WHERE 
+            1 = 1
+          AND auth_id = #{id}
+         ) AS IS_EXISTS
+    </select>
+
+    <!-- 新規登録(マスタメンテナンス用) -->
+    <insert id="insAuthMasterOnes" parameterType="application.java.base.dbTablesModel.AuthMasterModel"> 
+        INSERT INTO auth_master
+        (
+          auth_id,
+          auth_name,
+          permission_mask,
+          remarks,
+          del
+        ) VALUES (
+          #{id} ,
+          #{authName} ,
+          #{permission} ,
+          #{remarks} ,
+          #{delFlg}
+        )
+    </insert>
+
+    <!-- マスタ更新 -->
+    <update id="updAuthMasterOnes" parameterType="application.java.base.dbTablesModel.AuthMasterModel">
+       UPDATE auth_master
+        SET
+          auth_name = #{authfName} ,
+          permission_mask = #{permission} ,
+          remarks = #{remarks} ,
+          del = #{delFlg}
+       WHERE
+          auth_id = #{id}
+    </update>
+
+</mapper>

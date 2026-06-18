@@ -251,16 +251,27 @@ public class AppConst {
 	public static final int LOGIN_FAILED_MAX = 10;	
 
 	/** LOGIN 再認証可能待ち時間(分) */
-	public static final int LOGIN_LOCKOUT_WAIT_TIME = 10;	
+	public static final int LOGIN_LOCKOUT_WAIT_TIME = 10;
 	
-	/** 入力制限 正規表現(半角英数字) */
+	/** 入力制限 正規表現(半角英数字Space) */
 	public static final String REGEX_ALPHA_NUMERIC = "^[a-zA-Z0-9 ]*$";
 	
-	/** 入力制限 正規表現(半角数字) */
-	public static final String REGEX_NUMERIC = "^[0-9 ]*$";	
+	/** 入力制限 正規表現(半角数字Space) */
+	public static final String REGEX_NUMERIC = "^[0-9 ]*$";
 
+	/** 入力制限 正規表現(メールアドレス) */
+	public static final String REGEX_EMAIL_ADDR = "^[a-zA-Z0-9_+-]+(\\\\.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\\\.)+[a-zA-Z]{2,}$";
+	
 	/** LOGIN PassKey認証 受信内容(Response Body)識別文字(先頭識別文字) */
 	public static final String QR_AUTH_RESPONSE_BODY = "token";
+	
+	/** HASH値 生成設定*/
+	/* ストレッチング回数 */
+	public static int ITERATIONS = 60000;
+	/* ソルト長(Byte) */
+	public static int SALT_BYTE = 32;
+	/* HASH長(Byte) */
+	public static int HASH_BYTE = 32;
 	
 	/** 各フォルダPATH */
 	//public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";

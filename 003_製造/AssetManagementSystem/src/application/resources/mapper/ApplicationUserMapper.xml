@@ -47,6 +47,26 @@
       AND SM.staff_no = #{no}
     </select>
 
+    <!-- 社員情報(マスタメンテナンス用)の取得 -->
+    <select id="getAllUsers" resultType="application.java.base.tableViewListModel.ApplicationUserModel">
+      SELECT
+         SM.staff_no,
+         SM.name,
+         SM.auth_no,
+         SM.del,
+         SA.email AS LoginId,
+         SA.password_hash AS Password
+      FROM
+        staff_master SM
+      INNER JOIN
+        staff_auth SA
+       ON SM.staff_no = SA.staff_no
+      WHERE
+       1 = 1
+      ORDER BY
+        SM.staff_no
+    </select>
+
     <!-- マスタ更新(社員認証マスター) -->
     <update id="updStaffAuthOnes" parameterType="application.java.base.tableViewListModel.ApplicationUserModel">
        UPDATE staff_auth

@@ -50,9 +50,9 @@ public interface StaffMasterMapper {
     /**
      * マスタ登録
      * @param row 社員マスタMODEL
-     * @return 更新件数
+     * @return 登録件数
      */
-    Integer insStaffMasterOnes(StaffMasterModel row);     
+    Integer insStaffMasterOnes(StaffMasterModel row);
     
     /**
      * マスタ更新

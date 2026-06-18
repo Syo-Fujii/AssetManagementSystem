@@ -25,6 +25,13 @@ public interface ApplicationUserMapper {
 	 * PassKey認証が成功した際、Response(JSON)より取得した[社員番号]を条件とする
 	 */
     List<ApplicationUserModel> getLoginUserByNo(int no);
+
+	/**
+	 * 社員情報(マスタメンテナンス用)取得
+	 * @return 社員情報(社員マスター + 社員認証マスター（パスワード管理用）)
+	 * @brief 社員マスタメンテナンス用に削除された社員を含む全社員を取得する<br>
+	 */
+    List<ApplicationUserModel> getAllUsers();
     
     /**
      * 社員認証マスタ更新
