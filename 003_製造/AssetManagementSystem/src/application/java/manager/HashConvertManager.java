@@ -26,7 +26,8 @@ public class HashConvertManager {
 	 * @return 判定結果
 	 * @brief 平文パスワードが、指定されたPBKDF2-SHA256ハッシュ値と一致するか検証する。<br>
 	 * 形式: $アルゴリズム$ストレッチング回数$ソルト$ハッシュ値<br>
-	 * "$pbkdf2-sha256$[ストレッチング回数]$[ソルト値]=$[ハッシュ値]="
+	 * "$pbkdf2-sha256$[ストレッチング回数]$[ソルト値]=$[ハッシュ値]="<br>
+	 * Exception発生後に、後処理(DBの失敗回数更新など)を行うため、Throwしない
 	 */
 	public boolean verifyPasswordSHA256PBKDF2(String passWord, String hashedValue, char separator) {
 
@@ -83,12 +84,13 @@ public class HashConvertManager {
 	 * @param words 平文パスワード
 	 * @param separator 区切り文字（デフォルトは '$' の文字）
 	 * @return ハッシュ値文字列
+	 * @throws Exception 
 	 * @brief 平文をPBKDF2-SHA256ハッシュ値に変換して返す。<br>
 	 * 形式: $アルゴリズム$ストレッチング回数$ソルト$ハッシュ値<br>
 	 * "$pbkdf2-sha256$[ストレッチング回数]$[ソルト値]=$[ハッシュ値]="<br>
 	 * 例外の(変換できなかった)場合、空白又はNULLを返す
 	 */
-	public String convertWordsToSHA256PBKDF2(String words, char separator) {
+	public String convertWordsToSHA256PBKDF2(String words, char separator) throws Exception {
 
 		if (AppUtil.StringIsNullOrWhiteSpace(words)) { return "";}
 
@@ -129,7 +131,16 @@ public class HashConvertManager {
 		} catch (Exception e) {
 			// 既存のログシステムに準拠
 			LogManager.writeError("[" + FORM_NAME + "] : ハッシュ生成中に例外が発生しました", e);
-			return null;
+			throw e;
 		}
 	}
+
+	/**
+	 * Javaでのオーバーロード用メソッド
+	 * @throws Exception 
+	 * @brief 区切り文字を'$'とする
+	 */
+	public String convertWordsToSHA256PBKDF2(String password) throws Exception {
+		return this.convertWordsToSHA256PBKDF2(password, '$');
+	}	
 }

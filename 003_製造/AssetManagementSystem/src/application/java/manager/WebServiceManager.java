@@ -100,7 +100,6 @@ public class WebServiceManager {
 		
 		} catch(Exception e) {
 			LogManager.writeError("[Webサーバー操作クラス] ： 受信サーバーの開始に失敗", e);
-	        
 	        throw new ExceptionInInitializerError(e);
 		}
     }
@@ -125,9 +124,10 @@ public class WebServiceManager {
 
     /**
      * 認証結果受信レスポンス設定処理
+     * @throws IOException 
      * @brief 現在はデータを何も返さない(204 No Content)
      */
-    private void SetReceiveResponse(HttpExchange ex) 
+    private void SetReceiveResponse(HttpExchange ex) throws IOException 
     {
         try {
         	LogManager.writeInfo("[Webサーバー操作クラス] ： 認証サーバーからデータを受信しました");
@@ -149,6 +149,7 @@ public class WebServiceManager {
 
         } catch (IOException e) {
             LogManager.writeError("[Webサーバー操作クラス] : レスポンス送信中にエラーが発生", e);
+            throw e;
         } finally {
             if (ex != null) {
                 ex.close(); 

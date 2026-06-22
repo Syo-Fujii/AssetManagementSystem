@@ -157,7 +157,12 @@ public class ApplicationUserModel extends StaffMasterModel {
      * コピー用のコンストラクタを用意する
      */
 	 public ApplicationUserModel(ApplicationUserModel source) {
-	     super( (StaffMasterModel) source );   
+	     this();
+		 
+	     this.setStaffNo(source.getStaffNo());
+	     this.setName(source.getStaffName());
+	     this.setAuthNo(source.getAuthNo());
+	     this.setDelFlg(source.getDelFlg());
 		 
 	     this.setLoginId(source.getLoginId());
 		 this.setPassword(source.getPassword());

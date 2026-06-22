@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.dbTablesModel.AuthMasterModel;
+import application.java.base.dbTablesModel.StaffAuthModel;
 import application.java.base.dbTablesModel.StaffMasterModel;
 import application.java.base.tableViewListModel.ApplicationUserModel;
 import application.java.common.AppConst;
@@ -15,6 +16,7 @@ import application.java.common.AppConst.ExcuteQueryResultStatus;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
 import application.java.common.MessageBox.ShowButtonType;
+import application.java.manager.HashConvertManager;
 import application.java.manager.LogManager;
 import application.java.manager.MySqlManager;
 import application.java.manager.TableColumnManager;
@@ -54,13 +56,15 @@ public class FormController extends BaseFormPage {
 	private final String FORM_NAME = "社員マスタ メンテナンス";
 	
 	private StaffMasterModel editMasterData = null;
+	private StaffAuthModel editAuthData = null;
+	
 	private Boolean isEditMode = false;
 	
 	@FXML private AnchorPane pane_form;
 	
 	@FXML private Label lbl_title;
 	
-	@FXML private TableViewManager<StaffMasterModel> tableListView;
+	@FXML private TableViewManager<ApplicationUserModel> tableListView;
 	@FXML private TableColumn<StaffMasterModel, Integer> col_no;
 	@FXML private TableColumn<StaffMasterModel, String> col_name;
 	@FXML private TableColumn<StaffMasterModel, Integer> col_auth;
@@ -70,7 +74,6 @@ public class FormController extends BaseFormPage {
 	
 	@FXML private CustomTextFieldControlManager txt_Edit_No;
 	@FXML private TextField txt_Edit_Name;
-	@FXML private CustomTextFieldControlManager txt_Edit_Auth;
 	@FXML private CustomComboBoxControlManager<String> cbo_Edit_Auth;
 	@FXML private CheckBox check_Edit_DelFlg;
 	@FXML private CustomTextFieldControlManager txt_Edit_Email;
@@ -266,16 +269,15 @@ public class FormController extends BaseFormPage {
 	@Override
     protected <T extends BaseTableViewModel> void successResult(List<T> listData) {
     	try {
-    		LogManager.writeTrace("[" + FORM_NAME + "] ： 社員マスタ連携(BIND)処理");
+    		LogManager.writeTrace("[" + FORM_NAME + "] ： 社員マスタ・社員認証マスタ連携(BIND)処理");
     		
     		// データ設定(BIND・SELL設定値)を初期化
     		tableListView.dataSourceClear();
-    		// 明細項目の為、社員マスタの項目にDownCastする
-    		List<StaffMasterModel> rows = (List<StaffMasterModel>) listData;
+    		List<ApplicationUserModel> rows = (List<ApplicationUserModel>) listData;
     		tableListView.setList( rows );
     	
     	} catch ( Exception e) {
-    		String title = "[" + FORM_NAME + "] ： 社員マスタの連携中にエラーが発生しました";
+    		String title = "[" + FORM_NAME + "] ： 社員マスタ・社員認証マスタの連携中にエラーが発生しました";
     		LogManager.showAndWriteError(title, e);
     	}
     }
@@ -435,9 +437,7 @@ public class FormController extends BaseFormPage {
 
 		if ( !Objects.equals(txt_Edit_Name.getText(), name) ) { return true; }	
 
-    	String authString = "";
-    	if ( !AppUtil.IsNull(auth) && auth > 0 ) { authString = auth.toString(); }		
-		if ( !Objects.equals(txt_Edit_Auth.getText(), authString) ) { return true; }
+		if ( !Objects.equals(this.cbo_Edit_Auth.getSelectedKey(), auth) ) { return true; }
 		
 		Boolean rowDataDelFlg = del != null ? del : false;
 		if ( !Objects.equals(check_Edit_DelFlg.isSelected(), rowDataDelFlg) ) { return true; }	
@@ -533,14 +533,15 @@ public class FormController extends BaseFormPage {
     /**
      * TableView 行選択イベント
      */
-    private void callbackTableSelectedRow(StaffMasterModel row) {
+    private void callbackTableSelectedRow(ApplicationUserModel row) {
     	if (row == null) { return; }
     	
     	LogManager.writeTrace("選択行 no: [ " + row.getStaffNo() + " ]");
 
        	this.isEditMode = true;
     	
-    	this.editMasterData = new StaffMasterModel( row );
+       	// アップキャスト
+    	this.editMasterData = new ApplicationUserModel( row );
     	setupEditControls();
     	
     	// ボタン有効化制御(更新状態)
@@ -560,9 +561,9 @@ public class FormController extends BaseFormPage {
  
     	// 登録項目 入力制限　設定
     	this.txt_Edit_No.setValidInput(AppConst.REGEX_NUMERIC, null);
-    	this.txt_Edit_Auth.setValidInput(AppConst.REGEX_NUMERIC, null);
+    	
     	this.txt_Edit_Email.setValidInput(AppConst.REGEX_EMAIL_ADDR, null);
-    	this.txt_Edit_Password.setValidInput(AppConst.REGEX_ALPHA_NUMERIC, null);
+    	this.txt_Edit_Password.setValidInput(AppConst.REGEX_PASSWORD, null);
     	
 		// 新規登録モード
 		setupNewRecordMode();
@@ -598,25 +599,32 @@ public class FormController extends BaseFormPage {
     {   
     	Integer no = this.editMasterData.getStaffNo();
     	String name = this.editMasterData.getStaffName();
-    	Integer auth = this.editMasterData.getAuthNo();
     	Boolean del = this.editMasterData.getDelFlg();
     	
     	String noString = "";
     	if ( !AppUtil.IsNull(no) && no > 0 ) { noString = no.toString(); }
-    	txt_Edit_No.setText( noString );
+    	this.txt_Edit_No.setText( noString );
 
-    	txt_Edit_Name.setText( !AppUtil.StringIsNullOrEmpty(name) ? name : "" ); 
-   	
-    	String authString = "";
-    	if ( !AppUtil.IsNull(auth) && auth > 0 ) { authString = auth.toString(); }
-    	txt_Edit_Auth.setText( authString );
+    	this.txt_Edit_Name.setText( !AppUtil.StringIsNullOrEmpty(name) ? name : "" ); 
 
-    	check_Edit_DelFlg.setSelected( del != null ? del : false );
+    	if (!isEditMode) 
+    	{
+        	this.cbo_Edit_Auth.setSelectedItem( AppConst.UNSET_NUMBER_VALUE );
+    	} 
+    	else
+    	{
+        	this.cbo_Edit_Auth.setSelectedItem( this.editMasterData.getAuthNo() );
+    	}
+    	
+    	this.check_Edit_DelFlg.setSelected( del != null ? del : false );
     	
     	// DownCast
     	String email = "";
     	if (this.editMasterData instanceof ApplicationUserModel) {
             email = ((ApplicationUserModel) this.editMasterData).getLoginId();
+
+            // 認証マスタMODELに複製
+            this.editAuthData.setEmailAddr(email);
     	} else {
             email = ""; 
     	}
@@ -628,17 +636,19 @@ public class FormController extends BaseFormPage {
     	}
     	else
     	{
-    		this.txt_Edit_Password.setText("********"); 
+    		this.txt_Edit_Password.setText(AppConst.PASSWORD_MASK); 
     		this.txt_Edit_Password.setPromptText("変更する場合のみ入力してください");
+
+    		this.editAuthData.setPass(AppConst.PASSWORD_MASK);
     	}
     }
 
     /**
      * 登録項目 値取得処理
+     * @throws Exception 
      * @brief [新規](登録)・[更新](明細行データの更新)に合わせて、各登録項目の値設定を行う<br>
      */
-    private void getEditControlsValue() {
-    	
+    private void getEditControlsValue() throws Exception {
     	if (!isEditMode) 
     	{
     		Integer no = AppUtil.parseInt( txt_Edit_No.getText(), AppConst.UNSET_NUMBER_VALUE );
@@ -646,11 +656,18 @@ public class FormController extends BaseFormPage {
     	}
     	
     	this.editMasterData.setName( txt_Edit_Name.getText() );
-    	
-		Integer auth = AppUtil.parseInt( txt_Edit_Auth.getText(), AppConst.UNSET_NUMBER_VALUE );
-		this.editMasterData.setAuthNo( auth );
-    	
+		this.editMasterData.setAuthNo( this.cbo_Edit_Auth.getSelectedKey() );
     	this.editMasterData.setDelFlg( check_Edit_DelFlg.isSelected() );
+    	
+    	this.editAuthData.setEmailAddr(this.txt_Edit_Email.getText());
+    	
+    	var inputPassword = this.txt_Edit_Password.getText();
+    	// 登録　又は　パスワードを変更した場合
+    	if (!isEditMode || !inputPassword.equals(AppConst.PASSWORD_MASK) ) 
+    	{
+    		// HASH変換した値を格納する
+    		this.editAuthData.setPass(new HashConvertManager().convertWordsToSHA256PBKDF2(inputPassword));
+    	}
     }    
     
     /**
@@ -659,11 +676,11 @@ public class FormController extends BaseFormPage {
      * @brief [新規](登録)・[更新](明細行データの更新)に合わせて、各ボタンの有効化設定を行う<br>
      */
     private void setupEditModeButtonsEnabled(Boolean isEditMode) {
-    	txt_Edit_No.setDisable( isEditMode );
+    	this.txt_Edit_No.setDisable( isEditMode );
     	
        	// ボタン制御
-    	insert_button.setDisable( isEditMode );	
-    	update_button.setDisable( !isEditMode );
+    	this.insert_button.setDisable( isEditMode );	
+    	this.update_button.setDisable( !isEditMode );
     }
  
     /**
@@ -671,15 +688,17 @@ public class FormController extends BaseFormPage {
      * @brief 登録項目の全コントロールを無効化を行う<br>
      */
     private void setEditControlsAllDisabled() {
-    	txt_Edit_No.setDisable( true );	
-    	txt_Edit_Name.setDisable( true ); 
-    	txt_Edit_Auth.setDisable( true ); 
-    	check_Edit_DelFlg.setDisable( true );
+    	this.txt_Edit_No.setDisable( true );	
+    	this.txt_Edit_Name.setDisable( true ); 
+    	this.cbo_Edit_Auth.setDisable( true ); 
+    	this.check_Edit_DelFlg.setDisable( true );
+    	this.txt_Edit_Email.setDisable( true );
+    	this.txt_Edit_Password.setDisable( true );
     	
        	// ボタン制御
-    	new_button.setDisable( true );
-    	insert_button.setDisable( true );	
-    	update_button.setDisable( true ); 	
+    	this.new_button.setDisable( true );
+    	this.insert_button.setDisable( true );	
+    	this.update_button.setDisable( true ); 	
     }        
     
     /**
@@ -691,6 +710,8 @@ public class FormController extends BaseFormPage {
 
     	// マスター登録用データ初期化
 		this.editMasterData = new StaffMasterModel();
+		this.editAuthData = new StaffAuthModel(); 
+		
     	setupEditControls();
     	
     	// ボタン有効化制御(新規状態)
@@ -712,13 +733,19 @@ public class FormController extends BaseFormPage {
     		switch (colNo)
     		{
     		 case 1:
-    	    	txt_Edit_No.requestFocus();
+    	    	this.txt_Edit_No.requestFocus();
     	        break;
     	     case 2:
-    	    	txt_Edit_Name.requestFocus();
+    	    	this.txt_Edit_Name.requestFocus();
     	        break;
     	     case 3:
-    	    	txt_Edit_Auth.requestFocus();
+    	    	 this.cbo_Edit_Auth.requestFocus();
+    	        break;
+    	     case 4:
+    	    	 this.txt_Edit_Email.requestFocus();
+    	        break;
+    	     case 5:
+    	    	 this.txt_Edit_Password.requestFocus();
     	        break;
     	     default:
     	        break;
@@ -747,8 +774,20 @@ public class FormController extends BaseFormPage {
 
 		// 必須確認：権限
 		if ( this.editMasterData.getAuthNo() < 1 ) {
-			sb.append("[権限]が入力されていません。");
+			sb.append("[権限]が選択されていません。");
 			return new AppConst.rowCheckResultData(false, true, -1, 3, sb.toString());
+		}
+		
+		// 必須確認：Email(LogInID)
+		if ( AppUtil.StringIsNullOrWhiteSpace(this.editAuthData.getEmailAddr()) ) {
+			sb.append("[メールアドレス(ログインID)]が入力されていません。");
+			return new AppConst.rowCheckResultData(false, true, -1, 4, sb.toString());
+		}	
+		
+		// 必須確認：Password(登録/更新含む)
+		if ( AppUtil.StringIsNullOrWhiteSpace(this.editAuthData.getPass()) ) {
+			sb.append("[パスワード]が入力されていません。");
+			return new AppConst.rowCheckResultData(false, true, -1, 5, sb.toString());
 		}	
 		
     	// 存在確認
