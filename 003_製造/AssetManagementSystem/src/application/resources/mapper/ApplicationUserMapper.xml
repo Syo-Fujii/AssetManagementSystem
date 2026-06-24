@@ -50,10 +50,10 @@
     <!-- 社員情報(マスタメンテナンス用)の取得 -->
     <select id="getAllUsers" resultType="application.java.base.tableViewListModel.ApplicationUserModel">
       SELECT
-         SM.staff_no,
+         SM.staff_no AS staffNo,
          SM.name,
-         SM.auth_no,
-         SM.del,
+         SM.auth_no AS authNo,
+         SM.del AS delFlg,
          SA.email AS LoginId,
          SA.password_hash AS Password
       FROM

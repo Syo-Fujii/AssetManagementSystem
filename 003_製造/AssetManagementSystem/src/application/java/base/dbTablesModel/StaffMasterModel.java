@@ -1,6 +1,7 @@
 package application.java.base.dbTablesModel;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppConst;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -20,7 +21,10 @@ public class StaffMasterModel extends BaseTableViewModel {
 	private StringProperty name;
     private IntegerProperty authNo;
     private BooleanProperty del;
-	
+    
+    private AppConst.DataRowState state;
+
+    
 	/**
 	 * [社員番号]取得
 	 * @return staffNo
@@ -59,7 +63,7 @@ public class StaffMasterModel extends BaseTableViewModel {
 	 * @param name 設定する値
 	 * @brief [javafx.beans.property] 
 	 *         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス<br>
-	 * ※ DBとBINDする場合は取得時のカラム名を[staffName]とする<br>
+	 * ※ DBとBINDする場合は取得時のカラム名を[name]とする<br>
 	 */
 	public void setName(String name) {
 		this.name.set(name);
@@ -107,8 +111,33 @@ public class StaffMasterModel extends BaseTableViewModel {
 	 */
 	public void setDelFlg(Boolean isdeleted) {
 		this.del.set(isdeleted);
-	}	 
+	}
 
+	/**
+	 * [データ行状態]取得
+	 * @return state
+	 * @brief 当該データ(DB データ)の状態を取得する<br>
+	 * ※ MOEDL新規作成(データ未設定：初期値)：DETACHED<br>
+	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
+	 * ※ データ設定(値変更・設定)：MODIFIED<br>
+	 */
+	public AppConst.DataRowState RowStatus() {
+		return state;
+	}
+
+	 /**
+	 * [データ行状態]項目設定
+	 * @param state 設定する値
+	 * @brief 当該データ(DB データ)の状態を取得する<br>
+	 * ※ MOEDL新規作成(データ未設定：初期値)：DETACHED<br>
+	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
+	 * ※ データ設定(値変更・設定)：MODIFIED<br>
+	 */
+	public void setStatus(AppConst.DataRowState state) {
+		this.state = state;
+	}
+	
+	
 	 /**
      * コンストラクタ
      * @brief　引数なしコンストラクタがMyBatisの一覧(List)生成で用いられる。<br>
@@ -122,6 +151,8 @@ public class StaffMasterModel extends BaseTableViewModel {
 		 this.name = new SimpleStringProperty("");
 		 this.authNo = new SimpleIntegerProperty();
 		 this.del = new SimpleBooleanProperty(false);
+		 
+		 this.state = AppConst.DataRowState.DETACHED;
 	 }
 	 /**
 	 * コンストラクタ(コピー生成用)
@@ -135,5 +166,7 @@ public class StaffMasterModel extends BaseTableViewModel {
 		 this.setName(source.getStaffName());
 	     this.setAuthNo(source.getAuthNo());
 		 this.setDelFlg(source.getDelFlg());
-	 }	 
+		 
+		 this.setStatus(source.RowStatus());
+	 }
 }

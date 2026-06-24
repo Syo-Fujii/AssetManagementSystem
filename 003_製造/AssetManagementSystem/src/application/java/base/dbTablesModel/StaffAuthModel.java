@@ -1,8 +1,9 @@
 package application.java.base.dbTablesModel;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import application.java.base.BaseTableViewModel;
+import application.java.common.AppConst;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -21,8 +22,10 @@ public class StaffAuthModel extends BaseTableViewModel {
     private IntegerProperty staffNo;
 	private StringProperty email;
 	private StringProperty passwordHash;
-	private ObjectProperty<LocalDate> lockoutEnd;
+	private ObjectProperty<LocalDateTime> lockoutEnd;
 	private IntegerProperty accessFailedCount;
+	
+	private AppConst.DataRowState state;
 
 	
 	/**
@@ -97,7 +100,7 @@ public class StaffAuthModel extends BaseTableViewModel {
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/		
-	public LocalDate getLockoutEnd() {
+	public LocalDateTime getLockoutEnd() {
 		return lockoutEnd.get();
 	}
 
@@ -107,7 +110,7 @@ public class StaffAuthModel extends BaseTableViewModel {
 	* @brief [javafx.beans.property] 
 	*         UIとデータを連動させる（データが変更されたらUIも更新する）ためのラッパークラス
 	*/
-	public void setLockoutEnd(LocalDate dateTime) {
+	public void setLockoutEnd(LocalDateTime dateTime) {
 		this.lockoutEnd.set(dateTime);
 	}		
 	
@@ -133,6 +136,31 @@ public class StaffAuthModel extends BaseTableViewModel {
 		this.accessFailedCount.set(count);
 	}	 
 
+	/**
+	 * [データ行状態]取得
+	 * @return state
+	 * @brief 当該データ(DB データ)の状態を取得する<br>
+	 * ※ MOEDL新規作成(データ未設定：初期値)：DETACHED<br>
+	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
+	 * ※ データ設定(値変更・設定)：MODIFIED<br>
+	 */
+	public AppConst.DataRowState RowStatus() {
+		return state;
+	}
+
+	 /**
+	 * [データ行状態]項目設定
+	 * @param state 設定する値
+	 * @brief 当該データ(DB データ)の状態を取得する<br>
+	 * ※ MOEDL新規作成(データ未設定：初期値)：DETACHED<br>
+	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
+	 * ※ データ設定(値変更・設定)：MODIFIED<br>
+	 */
+	public void setStatus(AppConst.DataRowState state) {
+		this.state = state;
+	}
+
+	
 	 /**
      * コンストラクタ
      * @brief　引数なしコンストラクタがMyBatisの一覧(List)生成で用いられる。<br>
@@ -147,6 +175,8 @@ public class StaffAuthModel extends BaseTableViewModel {
 		 this.passwordHash = new SimpleStringProperty("");
 		 this.lockoutEnd  = new SimpleObjectProperty<>();
 		 this.accessFailedCount = new SimpleIntegerProperty();
+		 
+		 this.state = AppConst.DataRowState.DETACHED;
 	 }
 	 /**
 	 * コンストラクタ(コピー生成用)
@@ -160,6 +190,8 @@ public class StaffAuthModel extends BaseTableViewModel {
 		 this.setEmailAddr(source.getEmailAddr());
 	     this.setPass(source.getPass());
 		 this.setLockoutEnd(source.getLockoutEnd());
-		 this.setFailedCount(source.getFailedCount());		 
-	 }	 
+		 this.setFailedCount(source.getFailedCount());
+		 
+		 this.setStatus(source.RowStatus());
+	 }
 }

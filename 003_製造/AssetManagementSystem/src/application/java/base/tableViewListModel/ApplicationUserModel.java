@@ -2,7 +2,9 @@ package application.java.base.tableViewListModel;
 
 import java.time.LocalDateTime;
 
+import application.java.base.dbTablesModel.StaffAuthModel;
 import application.java.base.dbTablesModel.StaffMasterModel;
+import application.java.common.AppConst;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -23,6 +25,9 @@ public class ApplicationUserModel extends StaffMasterModel {
     private ObjectProperty<LocalDateTime> lockout_end;
     private IntegerProperty access_failed_count;
     private IntegerProperty permission_mask;
+    
+    private AppConst.DataRowState masterDataState;
+    private AppConst.DataRowState authDataState;
     
 	/**
 	 * [メールアドレス(ログインID)]取得
@@ -133,6 +138,54 @@ public class ApplicationUserModel extends StaffMasterModel {
 		this.permission_mask.set(mask);
 		}
 	
+	/**
+	 * [社員マスタ：データ行状態]取得
+	 * @return authDataState
+	 * @brief 当該データ(DB データ)の状態を取得する<br>
+	 * ※ MOEDL新規作成(データ未設定：初期値)：DETACHED<br>
+	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
+	 * ※ データ設定(値変更・設定)：MODIFIED<br>
+	 */
+	public AppConst.DataRowState MasterRowStatus() {
+		return masterDataState;
+	}
+
+	 /**
+	 * [社員マスタ：データ行状態]項目設定
+	 * @param state 設定する値
+	 * @brief 当該データ(DB データ)の状態を取得する<br>
+	 * ※ MOEDL新規作成(データ未設定：初期値)：DETACHED<br>
+	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
+	 * ※ データ設定(値変更・設定)：MODIFIED<br>
+	 */
+	public void setMastetStatus(AppConst.DataRowState state) {
+		this.masterDataState = state;
+	}
+	
+	/**
+	 * [社員認証マスタ：データ行状態]取得
+	 * @return authDataState
+	 * @brief 当該データ(DB データ)の状態を取得する<br>
+	 * ※ MOEDL新規作成(データ未設定：初期値)：DETACHED<br>
+	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
+	 * ※ データ設定(値変更・設定)：MODIFIED<br>
+	 */
+	public AppConst.DataRowState AuthRowStatus() {
+		return authDataState;
+	}
+
+	 /**
+	 * [社員認証マスタ：データ行状態]項目設定
+	 * @param state 設定する値
+	 * @brief 当該データ(DB データ)の状態を取得する<br>
+	 * ※ MOEDL新規作成(データ未設定：初期値)：DETACHED<br>
+	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
+	 * ※ データ設定(値変更・設定)：MODIFIED<br>
+	 */
+	public void setAuthStatus(AppConst.DataRowState state) {
+		this.authDataState = state;
+	}
+	
 	
 	 /**
      * コンストラクタ
@@ -150,6 +203,9 @@ public class ApplicationUserModel extends StaffMasterModel {
 		 this.lockout_end = new SimpleObjectProperty<>();
 		 this.access_failed_count = new SimpleIntegerProperty();
 		 this.permission_mask = new SimpleIntegerProperty();
+		 
+		 this.masterDataState = AppConst.DataRowState.DETACHED;
+		 this.authDataState = AppConst.DataRowState.DETACHED;
 	 }
 	 /**
 	 * コンストラクタ(コピー生成用)
@@ -169,8 +225,32 @@ public class ApplicationUserModel extends StaffMasterModel {
 	     this.setLockOutDateTime(source.getLockOutDateTime());
 		 this.setFailedCount(source.getFailedCount());
 		 this.setPermissionMask(source.getPermissionMask());
+
+		 this.masterDataState = source.MasterRowStatus();
+		 this.authDataState = source.AuthRowStatus();
 	 }	 
-	
+	 /**
+	 * コンストラクタ(コピー生成用)
+     * @brief　Object.Cloneを用いた場合、Exception処理を考慮する必要があるため<br>
+     * コピー用のコンストラクタを用意する
+     */
+	 public ApplicationUserModel(StaffMasterModel masterEntity, StaffAuthModel authEntity) {
+	     this();
+		 
+	     this.setStaffNo(masterEntity.getStaffNo());
+	     this.setName(masterEntity.getStaffName());
+	     this.setAuthNo(masterEntity.getAuthNo());
+	     this.setDelFlg(masterEntity.getDelFlg());
+		 
+	     this.setLoginId(authEntity.getEmailAddr());
+		 this.setPassword(authEntity.getPass());
+	     this.setLockOutDateTime(authEntity.getLockoutEnd());
+		 this.setFailedCount(authEntity.getFailedCount());
+		 
+		 this.masterDataState = masterEntity.RowStatus();
+		 this.authDataState = authEntity.RowStatus();
+	 }
+	 
 	 /**
 	  * DB 社員マスターデータ(MODEL/ENTITY)取得
 	  * @brief　継承元の社員マスタのデータをMODELで返す
@@ -179,4 +259,21 @@ public class ApplicationUserModel extends StaffMasterModel {
 	{
 		return new StaffMasterModel(this);
 	}
+
+	 /**
+	  * DB 社員認証マスターデータ(MODEL/ENTITY)取得
+	  * @brief　社員認証マスタのデータをMODELで返す
+	  */
+	public StaffAuthModel GetStaffAuthData()
+	{
+		var entity = new StaffAuthModel();
+		
+		entity.setStaffNo(this.getStaffNo());
+		entity.setEmailAddr(this.getLoginId());
+		entity.setPass(this.getPassword());
+		entity.setLockoutEnd(this.getLockOutDateTime());
+		
+		return entity;
+	}
+
 }

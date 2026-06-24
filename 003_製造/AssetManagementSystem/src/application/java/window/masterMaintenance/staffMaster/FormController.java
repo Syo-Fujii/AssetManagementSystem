@@ -25,6 +25,7 @@ import application.java.manager.customControl.CustomComboBoxControlManager;
 import application.java.manager.customControl.CustomTextFieldControlManager;
 import application.resources.mapper.ApplicationUserMapper;
 import application.resources.mapper.AuthMasterMapper;
+import application.resources.mapper.StaffAuthMapper;
 import application.resources.mapper.StaffMasterMapper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -119,7 +120,7 @@ public class FormController extends BaseFormPage {
 		this.tableViewSettings();
 
 		// コンボボックスの生成(DB)
-		makeEditComboBox_AuthMembers();		
+		makeEditComboBox_AuthMembers();
 		
 		// 画面起動設定
 		this.formInitialize();
@@ -162,7 +163,7 @@ public class FormController extends BaseFormPage {
     		
     		if( isEditMode || !isEditControlsChanged() ) { return; }
     		
-    		getEditControlsValue();   		
+    		getEditControlsValue();
     		
         	AppConst.rowCheckResultData checkResult = isMasterRowsCheck();
         	if (!checkResult.result()) {
@@ -174,14 +175,14 @@ public class FormController extends BaseFormPage {
         	}
         	
         	// 登録実行確認
-        	if( !!showMessageIsExecuting("登録", this.editMasterData.getDelFlg()) ) { return; }
+        	if( !showMessageIsExecuting("登録", this.editMasterData.getDelFlg()) ) { return; }
     		
         	// 登録処理(社員マスタ登録処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 社員マスタ登録処理");
-        	super.executeCudQuery( List.of(editMasterData) ); 		   		
+        	super.executeCudQuery( List.of(new ApplicationUserModel(editMasterData, editAuthData )));
 
     		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
-        	super.<StaffMasterModel>fillTableAsync(); 		
+        	super.<StaffMasterModel>fillTableAsync();
 
     		// 新規登録モード
     		setupNewRecordMode();
@@ -189,7 +190,7 @@ public class FormController extends BaseFormPage {
     	} catch ( Exception e) {
     		String title = "[" + FORM_NAME + "] ： [登録]ボタン押下にて、エラーが発生しました";
     		LogManager.showAndWriteError(title, e);
-    		setEditControlsAllDisabled();    	
+    		setEditControlsAllDisabled();
     	}
     }
 
@@ -207,21 +208,34 @@ public class FormController extends BaseFormPage {
     			!showMessageIsExecuting("更新", check_Edit_DelFlg.isSelected()) ) { return; }
 
     		getEditControlsValue();
+    
+        	AppConst.rowCheckResultData checkResult = isMasterRowsCheck();
+        	if (!checkResult.result()) {
+        		if( checkResult.isShowMsgBox()) {
+        			this.showMessageInputError(checkResult.message());
+        		}
+        		setupErrorInputControlsFocus( checkResult.colNo() );
+        		return;
+        	}
     		
         	// 更新処理(社員マスタ更新処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 社員マスタ更新処理");
-        	super.executeCudQuery( List.of(editMasterData) );  		   		
-    		
-    		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
-        	super.<StaffMasterModel>fillTableAsync(); 		
+        	super.executeCudQuery( List.of(new ApplicationUserModel(editMasterData, editAuthData )) );
+
+        	this.editMasterData.setStatus(AppConst.DataRowState.UNCHANGED);
+        	this.editAuthData.setStatus(AppConst.DataRowState.UNCHANGED);
+        	
+        	LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
+        	super.<ApplicationUserModel>fillTableAsync();
 
     		// 新規登録モード
+        	this.isEditMode = false;
     		setupNewRecordMode();
-
+        	
     	} catch ( Exception e) {
     		String title = "[" + FORM_NAME + "] ： [更新]ボタン押下にて、エラーが発生しました";
     		LogManager.showAndWriteError(title, e);
-    		setEditControlsAllDisabled();    	
+    		setEditControlsAllDisabled();
     	}
     }
     
@@ -274,11 +288,13 @@ public class FormController extends BaseFormPage {
     		// データ設定(BIND・SELL設定値)を初期化
     		tableListView.dataSourceClear();
     		List<ApplicationUserModel> rows = (List<ApplicationUserModel>) listData;
+    		rows.forEach((row) -> row.setStatus( AppConst.DataRowState.UNCHANGED) );
+    		
     		tableListView.setList( rows );
     	
     	} catch ( Exception e) {
     		String title = "[" + FORM_NAME + "] ： 社員マスタ・社員認証マスタの連携中にエラーが発生しました";
-    		LogManager.showAndWriteError(title, e);
+    		LogManager.showAndWriteError(title, e); 
     	}
     }
     
@@ -317,21 +333,42 @@ public class FormController extends BaseFormPage {
 		String ExecuteTitle = this.isEditMode ? "更新" : "登録";
 		LogManager.writeDebug("[" + FORM_NAME + "] ： DB 社員マスタ" + ExecuteTitle + "処理");
 		
-		StaffMasterMapper mapper = session.getMapper(StaffMasterMapper.class);
-
-		Integer resultCount = AppConst.UNSET_NUMBER_VALUE;
-		StaffMasterModel data = (StaffMasterModel) listData.getFirst();
+		var masterMapper = session.getMapper(StaffMasterMapper.class);
+		var authMapper = session.getMapper(StaffAuthMapper.class);
+		
+		var data = (ApplicationUserModel) listData.getFirst();
 		
 		if (this.isEditMode)
 		{
 			// 更新処理
-			resultCount = mapper.updStaffMasterOnes( data );
+			if (data.MasterRowStatus().equals(AppConst.DataRowState.MODIFIED))
+			{
+				if ( masterMapper.updStaffMasterOnes( data.GetStaffMasterData()) != AppConst.DB_EXECUTE_ONES ) 
+				{ 
+					return false; 
+				}
+			}
+			
+			if (data.AuthRowStatus().equals(AppConst.DataRowState.MODIFIED))
+			{
+				if ( authMapper.updStaffAuthOnes( data.GetStaffAuthData()) != AppConst.DB_EXECUTE_ONES ) 
+				{ 
+					return false; 
+				}
+			}
 		} else {
 			// 登録処理
-			resultCount = mapper.insStaffMasterOnes( data ); 
+			if ( masterMapper.insStaffMasterOnes( data.GetStaffMasterData()) != AppConst.DB_EXECUTE_ONES ) 
+			{ 
+				return false; 
+			}
+			
+			if ( authMapper.insStaffAuthOnes( data.GetStaffAuthData()) != AppConst.DB_EXECUTE_ONES ) 
+			{ 
+				return false; 
+			}
 		}
-
-		return ( resultCount == AppConst.DB_EXECUTE_ONES ); 		
+		return true;
     }    	
 	
     /**
@@ -421,27 +458,92 @@ public class FormController extends BaseFormPage {
     }
 
 	/**
+	 * 社員認証マスタメール重複登録確認用クエリ発行処理(Mapper)
+	 * @param <T> TableViewの行データのクラス(基底クラス[BaseTableViewModel]の継承クラス)
+	 * @param session 継承元より渡される[SQLSession]
+	 * @param data 発行するクエリの条件の値( 行データのクラス )
+	 * @return 存在確認の結果
+     * @brief 登録の場合は、全マスタデータより重複を検索する<br>
+     *         更新の場合は、自メールアドレス以外で重複を検索する<br>
+	 */
+	private <T extends BaseTableViewModel> Boolean isExistsMailAddress(SqlSession session,  T data) {
+		LogManager.writeDebug("[" + FORM_NAME + "] ： DB メール重複確認");
+		
+		var email = ((StaffAuthModel) data).getEmailAddr();
+		Integer no = null;
+		if (isEditMode) { no = ((StaffAuthModel) data).getStaffNo(); }
+		
+		StaffAuthMapper mapper = session.getMapper(StaffAuthMapper.class);
+		
+		// 存在確認
+		return  mapper.existsEmail( email, no );
+    }	
+	
+	/**
 	 * 登録項目 値変更チェック処理
 	 * @return boolean 判定結果
      * @brief 登録用の各Controlの値が、初期と違う(値を編集した)場合は[真]<br>
 	 */
 	private boolean isEditControlsChanged() {
-    	Integer no = this.editMasterData.getStaffNo();
+
+		if(this.editMasterData.RowStatus().equals(AppConst.DataRowState.MODIFIED))
+    	{
+    		return true;
+    	}
+		
+		if(this.editAuthData.RowStatus().equals(AppConst.DataRowState.MODIFIED))
+    	{
+    		return true;
+    	}
+		
+		Integer no = this.editMasterData.getStaffNo();
     	String name = this.editMasterData.getStaffName();
     	Integer auth = this.editMasterData.getAuthNo();
     	Boolean del = this.editMasterData.getDelFlg();
     	
+    	String email = this.editAuthData.getEmailAddr();
+    	
     	String noString = "";
     	if ( !AppUtil.IsNull(no) && no > 0 ) { noString = no.toString(); }
-		if ( !Objects.equals(txt_Edit_No.getText(), noString) ) { return true; }
+		if ( !Objects.equals(txt_Edit_No.getText(), noString) ) 
+		{ 
+			this.editMasterData.setStatus(AppConst.DataRowState.MODIFIED);
+			return true; 
+		}
 
-		if ( !Objects.equals(txt_Edit_Name.getText(), name) ) { return true; }	
+		if ( !Objects.equals(txt_Edit_Name.getText(), name) ) 
+		{ 
+			this.editMasterData.setStatus(AppConst.DataRowState.MODIFIED);
+			return true; 
+		}	
 
-		if ( !Objects.equals(this.cbo_Edit_Auth.getSelectedKey(), auth) ) { return true; }
+		if ( !Objects.equals(this.cbo_Edit_Auth.getSelectedKey(), auth) ) 
+		{ 
+			this.editMasterData.setStatus(AppConst.DataRowState.MODIFIED);
+			return true; 
+		}
 		
 		Boolean rowDataDelFlg = del != null ? del : false;
-		if ( !Objects.equals(check_Edit_DelFlg.isSelected(), rowDataDelFlg) ) { return true; }	
+		if ( !Objects.equals(check_Edit_DelFlg.isSelected(), rowDataDelFlg) ) 
+		{ 
+			this.editMasterData.setStatus(AppConst.DataRowState.MODIFIED);
+			return true; 
+		}	
 
+		if ( !Objects.equals(this.txt_Edit_Email.getText(), email) ) 
+		{ 
+			this.editAuthData.setStatus(AppConst.DataRowState.MODIFIED);
+			return true; 
+		}	
+		
+    	var inputPassword = this.txt_Edit_Password.getText();
+    	// 登録 又は パスワードを変更した場合
+    	if (!isEditMode || !inputPassword.equals(AppConst.PASSWORD_MASK) ) 
+    	{
+			this.editAuthData.setStatus(AppConst.DataRowState.MODIFIED);
+			return true;
+    	}
+		
 		return false;
 	}
     
@@ -492,7 +594,7 @@ public class FormController extends BaseFormPage {
     	tableListView.setIsReorderabled(false);
 
     	// 項目(カスタムセル)型設定
-    	col_del.setCellTypeCustomCheckBox(false, true);      	
+    	col_del.setCellTypeCustomCheckBox(false, true);
     	
     	// 選択動作 設定
     	tableListView.setIsMultiSelected(false);
@@ -542,6 +644,8 @@ public class FormController extends BaseFormPage {
     	
        	// アップキャスト
     	this.editMasterData = new ApplicationUserModel( row );
+       	this.editAuthData = new StaffAuthModel();
+    	
     	setupEditControls();
     	
     	// ボタン有効化制御(更新状態)
@@ -562,7 +666,7 @@ public class FormController extends BaseFormPage {
     	// 登録項目 入力制限　設定
     	this.txt_Edit_No.setValidInput(AppConst.REGEX_NUMERIC, null);
     	
-    	this.txt_Edit_Email.setValidInput(AppConst.REGEX_EMAIL_ADDR, null);
+    	// this.txt_Edit_Email.setValidInput(AppConst.REGEX_EMAIL_ADDR, null);
     	this.txt_Edit_Password.setValidInput(AppConst.REGEX_PASSWORD, null);
     	
 		// 新規登録モード
@@ -618,17 +722,18 @@ public class FormController extends BaseFormPage {
     	
     	this.check_Edit_DelFlg.setSelected( del != null ? del : false );
     	
-    	// DownCast
+
+    	this.editAuthData.setStaffNo(no);
+    	// DownCast(更新の場合は、選択明細行より設定する)
     	String email = "";
     	if (this.editMasterData instanceof ApplicationUserModel) {
             email = ((ApplicationUserModel) this.editMasterData).getLoginId();
-
-            // 認証マスタMODELに複製
-            this.editAuthData.setEmailAddr(email);
     	} else {
             email = ""; 
     	}
     	this.txt_Edit_Email.setText(email);
+        // 認証マスタMODELに複製
+        this.editAuthData.setEmailAddr(email);
     	
     	if (!isEditMode) 
     	{
@@ -636,6 +741,7 @@ public class FormController extends BaseFormPage {
     	}
     	else
     	{
+    		// 更新の場合、取得値はHASH値の(平文には複合できない)為、マスクを表示する
     		this.txt_Edit_Password.setText(AppConst.PASSWORD_MASK); 
     		this.txt_Edit_Password.setPromptText("変更する場合のみ入力してください");
 
@@ -647,6 +753,7 @@ public class FormController extends BaseFormPage {
      * 登録項目 値取得処理
      * @throws Exception 
      * @brief [新規](登録)・[更新](明細行データの更新)に合わせて、各登録項目の値設定を行う<br>
+     * パスワードを登録(更新)する場合は、HASH値を設定する
      */
     private void getEditControlsValue() throws Exception {
     	if (!isEditMode) 
@@ -662,7 +769,7 @@ public class FormController extends BaseFormPage {
     	this.editAuthData.setEmailAddr(this.txt_Edit_Email.getText());
     	
     	var inputPassword = this.txt_Edit_Password.getText();
-    	// 登録　又は　パスワードを変更した場合
+    	// 登録　又は　パスワードを変更(パスワードを入力⇒MASKを変更)した場合
     	if (!isEditMode || !inputPassword.equals(AppConst.PASSWORD_MASK) ) 
     	{
     		// HASH変換した値を格納する
@@ -706,7 +813,7 @@ public class FormController extends BaseFormPage {
      */
     private void setupNewRecordMode()
     {
-		this.isEditMode = false; 
+		this.isEditMode = false;
 
     	// マスター登録用データ初期化
 		this.editMasterData = new StaffMasterModel();
@@ -756,6 +863,7 @@ public class FormController extends BaseFormPage {
     /**
      * 登録前チェック処理
      * @return AppConst.rowCheckResultData チェック結果
+     * @brief 入力項目チェック処理(必須・重複確認)<br>
      */
     private AppConst.rowCheckResultData isMasterRowsCheck() throws Exception {
 		StringBuilder sb = new StringBuilder();    	
@@ -791,13 +899,21 @@ public class FormController extends BaseFormPage {
 		}	
 		
     	// 存在確認
-		if( super.executeNonQuery( this::isExistsMasterData, this.editMasterData)) {
+		if( !isEditMode && super.executeNonQuery( this::isExistsMasterData, this.editMasterData)) {
 			sb.append("既に同じ社員番号が登録されています。");
     		sb.append(AppUtil.newLine());
     		sb.append("同一の社員番号は登録できません。");
 			return new AppConst.rowCheckResultData(false, true, -1, 1, sb.toString());
 		}
 
+    	// メールアドレス重複確認
+		if( super.executeNonQuery( this::isExistsMailAddress, this.editAuthData)) {
+			sb.append("既に同じメールアドレス(ログインID)が登録されています。");
+    		sb.append(AppUtil.newLine());
+    		sb.append("同一のメールアドレスは登録できません。");
+			return new AppConst.rowCheckResultData(false, true, -1, 4, sb.toString());
+		}
+		
     	return new AppConst.rowCheckResultData(
     			true, 
     			false, 

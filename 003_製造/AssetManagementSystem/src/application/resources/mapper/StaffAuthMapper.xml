@@ -1,90 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="application.resources.mapper.AuthMasterMapper">
+<mapper namespace="application.resources.mapper.StaffAuthMapper">
 
     <!-- 全件取得：idはメソッド名、resultTypeは戻り値のクラス -->
     <select id="selectAll">
-        SELECT * FROM auth_master
+        SELECT * FROM staff_auth
     </select>
     
-    <!-- (ComboBox用)社員マスターの取得 -->
-    <select id="getAuthMasterData">
-      SELECT
-        AM.auth_id AS id,
-        AM.auth_name AS authName
-       FROM
-         auth_master AM
-       WHERE
-         1 = 1
-       AND AM.del = FALSE
-       ORDER BY AM.auth_id
-    </select>    
-
-    <!-- 全件取得(マスタメンテナンス用)：idはメソッド名、resultTypeは戻り値のクラス -->
-    <select id="selectMaintenance">
-      SELECT 
-        AM.auth_id AS id,
-        AM.auth_name AS authName,
-        AM.permission_mask AS permission,
-        AM.remarks,
-        SM.del AS delFlg
-      FROM 
-        auth_master AM
-      WHERE
-        1 = 1
-      ORDER BY
-        AM.auth_id
-    </select>
-
-    <!-- 1件取得：#{id} は引数の値が入る場所 -->
-    <select id="selectById" resultType="application.java.base.dbTablesModel.AuthMasterModel"> 
-        SELECT * FROM auth_master WHERE auth_id = #{id}
+    <!-- 1件取得：#{no} は引数の値が入る場所 -->
+    <select id="selectByNo" resultType="application.java.base.dbTablesModel.StaffAuthModel"> 
+        SELECT * FROM staff_auth WHERE staff_no = #{no}
     </select>
 
     <!-- マスタデータ存在確認 -->
-    <select id="existsAuthId" resultType="boolean" parameterType="application.java.base.dbTablesModel.AuthMasterModel">
+    <select id="existsEmail" resultType="boolean">
       SELECT 
          EXISTS 
          (
           SELECT 
              1 
           FROM
-            auth_master 
-          WHERE 
+            staff_auth
+          <where>
             1 = 1
-          AND auth_id = #{id}
+            AND email = #{emailAddr}   
+            <if test= "staffNo != null and staffNo > 0 ">
+              AND staff_no != #{staffNo}
+            </if>
+          </where>
          ) AS IS_EXISTS
     </select>
 
     <!-- 新規登録(マスタメンテナンス用) -->
-    <insert id="insAuthMasterOnes" parameterType="application.java.base.dbTablesModel.AuthMasterModel"> 
-        INSERT INTO auth_master
+    <!-- ロックアウト終了日時・ログイン失敗回数は初期値とする -->
+    <insert id="insStaffAuthOnes" parameterType="application.java.base.dbTablesModel.StaffAuthModel"> 
+        INSERT INTO staff_auth
         (
-          auth_id,
-          auth_name,
-          permission_mask,
-          remarks,
-          del
+          staff_no,
+          email,
+          password_hash
         ) VALUES (
-          #{id} ,
-          #{authName} ,
-          #{permission} ,
-          #{remarks} ,
-          #{delFlg}
+          #{staffNo} ,
+          #{emailAddr} ,
+          #{pass}
         )
     </insert>
 
-    <!-- マスタ更新 -->
-    <update id="updAuthMasterOnes" parameterType="application.java.base.dbTablesModel.AuthMasterModel">
-       UPDATE auth_master
-        SET
-          auth_name = #{authfName} ,
-          permission_mask = #{permission} ,
-          remarks = #{remarks} ,
-          del = #{delFlg}
+    <!-- マスタ更新(マスタメンテナンス用) -->
+    <!-- ロックアウト終了日時・ログイン失敗回数は更新しない -->
+    <update id="updStaffAuthOnes" parameterType="application.java.base.dbTablesModel.StaffAuthModel">
+       UPDATE staff_auth
+         <set>
+           <if test="emailAddr != null and emailAddr != ''">email = #{emailAddr},</if>
+           <if test="password_hash != null and password_hash != ''">password_hash = #{pass},</if>
+         </set>
        WHERE
-          auth_id = #{id}
+          staff_no = #{staffNo}
     </update>
-
 </mapper>

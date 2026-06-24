@@ -241,6 +241,51 @@ public class AppConst {
 	    }	
 	}	
 
+	/**
+	 * Enum DBデータ変更状態
+	 */
+	public static enum DataRowState {
+	    /** 行は作成されたが、まだどのテーブルにも追加されていない状態 */
+		DETACHED(1, "新規作成：デーブル(List)に含めていない"),
+	    /** 前回の確定以降、変更がない状態 */
+	    UNCHANGED(2, "変更なし"),
+	    /** テーブルに新規追加された状態 */
+	    ADDED(4, "新規追加"),
+	    /** 削除された状態 */
+	    DELETED(8, "削除"),
+	    /** 既存の行の値が書き換えられた状態 */
+	    MODIFIED(16, "変更あり");
+
+	    private final int value;
+	    private final String description;
+
+	    // コンストラクタ
+	    DataRowState(int value, String description) {
+	        this.value = value;
+	        this.description = description;
+	    }
+
+	    // ビット値を取得するゲッター
+	    public int getValue() {
+	        return this.value;
+	    }
+
+	    // 説明文を取得するゲッター
+	    public String getDescription() {
+	        return this.description;
+	    }
+
+	    // 整数値から対応するEnum定数を安全に逆引きするメソッド
+	    public static DataRowState fromValue(int value) {
+	        for (DataRowState state : DataRowState.values()) {
+	            if (state.getValue() == value) {
+	                return state;
+	            }
+	        }
+	        throw new IllegalArgumentException("不正なRowState値です: " + value);
+	    }
+	}	
+	
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;
 
@@ -261,7 +306,7 @@ public class AppConst {
 	
 	/** 入力制限 正規表現(メールアドレス / マルチドメイン・サブドメイン構造を含む) */
 	// public static final String REGEX_EMAIL_ADDR = "^[a-zA-Z0-9_+-]+(\\.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}$";
-	public static final String REGEX_EMAIL_ADDR = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9.-]+$";
+	public static final String REGEX_EMAIL_ADDR = "^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9-]+)?$";
 	
 	/** 入力制限 正規表現(半角英数字Space、およびダミー表示用アスタリスク) */
 	public static final String REGEX_PASSWORD = "^[a-zA-Z0-9 *]*$";
@@ -282,13 +327,13 @@ public class AppConst {
 	public static int HASH_BYTE = 32;
 	
 	/** 各フォルダPATH */
-	public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
-	//public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\AssetManagementSystem\\src\\";
+	// public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
+	public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\AssetManagementSystem\\src\\";
 	public static final String FXML_PATH = "/application/resources/fxml/";
 	public static final String CSS_PATH = "/application/resources/css/";
 	public static final String IMAGE_FOLDER_PATH = "/application/resources/images/";
-	public static final String QR_AUTH_EXE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\LogInSystem\\publish\\";
-	//public static final String QR_AUTH_EXE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\LogInSystem\\publish\\";
+	// public static final String QR_AUTH_EXE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\LogInSystem\\publish\\";
+	public static final String QR_AUTH_EXE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\LogInSystem\\publish\\";
 	
 	/**
 	 * 明細行付き行データ(クラス:record)

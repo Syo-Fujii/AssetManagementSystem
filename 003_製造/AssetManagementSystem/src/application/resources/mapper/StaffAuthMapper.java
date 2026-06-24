@@ -2,59 +2,54 @@ package application.resources.mapper;
 
 import java.util.List;
 
-import application.java.base.dbTablesModel.AuthMasterModel;
+import org.apache.ibatis.annotations.Param;
+
+import application.java.base.dbTablesModel.StaffAuthModel;
 
 /**
- * マスタ：権限マスタ DB操作メソッド(Mapper)
+ * マスタ：社員認証マスター（パスワード管理用） DB操作メソッド(Mapper)
  */
 public interface StaffAuthMapper {
     
 	/**
 	 * 全件取得
-	 * @return　権限マスタ(ConboBox等に表示するデータ)
+	 * @return　社員認証マスタ(ConboBox等に表示するデータ)
 	 * @brief ConboBoxの選択肢一覧取得の際などに用いるデータ<br>
 	 */
-    List<AuthMasterModel> selectAll();
+    List<StaffAuthModel> selectAll();
   
 	/**
-	 * (ComboBox用)権限マスターの取得
-	 * @return 権限マスターの一覧
-	 * @brief 論理削除している権限を含める
-	 */
-    List<AuthMasterModel> getAuthMasterData();    
-    
-	/**
-	 * 全件取得
-	 * @return 権限マスタ(マスタメンテナンス用)
-	 * @brief マスタメンテナンス画面での一覧取得に用いるデータ<br>
-	 */
-    List<AuthMasterModel> selectMaintenance();    
-    
-	/**
 	 * 対象データ取得(1件：一意Key)
-	 * @return 権限マスタのデータ
-	 * @brief [auth_id](主Key:一意)を条件として、取得する権限マスタのデータ()<br>
+	 * @return 社員認証マスタのデータ
+	 * @brief [staff_no](主Key:一意)を条件として、取得する社員認証マスタのデータ()<br>
 	 */
-    List<AuthMasterModel> selectById(int id);
-    
-    /**
-     * マスタ存在確認 
-     * @param data 権限マスタMODEL
+    List<StaffAuthModel> selectByNo(int no);
+
+	/**
+	 * 登録メールアドレス存在確認
+     * @param emailAddr 対象メールアドレス
+     * @param rejectStaffNo 除外社員番号
      * @return 確認結果
-     */
-    Boolean existsAuthId(AuthMasterModel data);
+	 * @brief 除外社員番号を指定した場合、当該社員以外のメールアドレスを確認する(更新用)<br>
+	 */
+    boolean existsEmail(
+            @Param("emailAddr") String emailAddr,
+            @Param("staffNo") Integer rejectStaffNo
+        );    
     
     /**
      * マスタ登録
-     * @param row 権限マスタMODEL
+     * @param row 社員認証マスタMODEL
      * @return 登録件数
+	 * @brief ロックアウト終了日時・ログイン失敗回数は登録しない(初期値)<br>
      */
-    Integer insAuthMasterOnes(AuthMasterModel row);
+    Integer insStaffAuthOnes(StaffAuthModel row);
     
     /**
      * マスタ更新
-     * @param row 権限マスタMODEL
+     * @param row 社員認証マスタMODEL
      * @return 更新件数
+	 * @brief ロックアウト終了日時・ログイン失敗回数は更新しない<br>
      */
-    Integer updAuthMasterOnes(AuthMasterModel row); 
+    Integer updStaffAuthOnes(StaffAuthModel row); 
 }

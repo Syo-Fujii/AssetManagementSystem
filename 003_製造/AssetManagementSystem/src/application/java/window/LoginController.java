@@ -62,7 +62,6 @@ public class LoginController extends BaseFormPage {
     @FXML private Button passkeyAuth_Button;
     @FXML private Button login_Button;
     @FXML private Button close_Button;
-    
 
 
     // 最小化ボタンのアクション
