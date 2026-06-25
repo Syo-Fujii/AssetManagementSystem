@@ -149,7 +149,7 @@ public class StaffMasterModel extends BaseTableViewModel {
 	 public StaffMasterModel(){
 		 this.staffNo = new SimpleIntegerProperty();
 		 this.name = new SimpleStringProperty("");
-		 this.authNo = new SimpleIntegerProperty();
+		 this.authNo = new SimpleIntegerProperty(AppConst.UNSET_NUMBER_VALUE);
 		 this.del = new SimpleBooleanProperty(false);
 		 
 		 this.state = AppConst.DataRowState.DETACHED;

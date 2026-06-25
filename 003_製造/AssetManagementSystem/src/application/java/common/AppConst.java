@@ -306,7 +306,8 @@ public class AppConst {
 	
 	/** 入力制限 正規表現(メールアドレス / マルチドメイン・サブドメイン構造を含む) */
 	// public static final String REGEX_EMAIL_ADDR = "^[a-zA-Z0-9_+-]+(\\.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}$";
-	public static final String REGEX_EMAIL_ADDR = "^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9-]+)?$";
+	public static final String REGEX_EMAIL_ADDR = "^([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,})?$";
+	public static final String REGEX_EMAIL_INPUT_LIMIT = "^[a-zA-Z0-9_.+@-]*$";
 	
 	/** 入力制限 正規表現(半角英数字Space、およびダミー表示用アスタリスク) */
 	public static final String REGEX_PASSWORD = "^[a-zA-Z0-9 *]*$";
@@ -327,13 +328,13 @@ public class AppConst {
 	public static int HASH_BYTE = 32;
 	
 	/** 各フォルダPATH */
-	// public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
-	public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\AssetManagementSystem\\src\\";
+	public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
+	//public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\AssetManagementSystem\\src\\";
 	public static final String FXML_PATH = "/application/resources/fxml/";
 	public static final String CSS_PATH = "/application/resources/css/";
 	public static final String IMAGE_FOLDER_PATH = "/application/resources/images/";
-	// public static final String QR_AUTH_EXE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\LogInSystem\\publish\\";
-	public static final String QR_AUTH_EXE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\LogInSystem\\publish\\";
+	public static final String QR_AUTH_EXE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\LogInSystem\\publish\\";
+	//public static final String QR_AUTH_EXE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\LogInSystem\\publish\\";
 	
 	/**
 	 * 明細行付き行データ(クラス:record)

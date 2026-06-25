@@ -2,6 +2,7 @@ package application.java.window.masterMaintenance.staffMaster;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -84,6 +85,8 @@ public class FormController extends BaseFormPage {
 	@FXML private Button update_button;
 	@FXML private Button back_button;
 
+	// E-Mail形式(コンパイル済、形式)
+	private  Pattern emailPattern = Pattern.compile(AppConst.REGEX_EMAIL_ADDR);
 	
 	/** 
 	 * コンストラクタ
@@ -222,14 +225,14 @@ public class FormController extends BaseFormPage {
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 社員マスタ更新処理");
         	super.executeCudQuery( List.of(new ApplicationUserModel(editMasterData, editAuthData )) );
 
+    		// 新規登録モード
+        	this.isEditMode = false;
         	this.editMasterData.setStatus(AppConst.DataRowState.UNCHANGED);
         	this.editAuthData.setStatus(AppConst.DataRowState.UNCHANGED);
         	
         	LogManager.writeDebug("[" + FORM_NAME + "] ： リスト再表示処理");
         	super.<ApplicationUserModel>fillTableAsync();
 
-    		// 新規登録モード
-        	this.isEditMode = false;
     		setupNewRecordMode();
         	
     	} catch ( Exception e) {
@@ -485,15 +488,17 @@ public class FormController extends BaseFormPage {
      * @brief 登録用の各Controlの値が、初期と違う(値を編集した)場合は[真]<br>
 	 */
 	private boolean isEditControlsChanged() {
-
+		
 		if(this.editMasterData.RowStatus().equals(AppConst.DataRowState.MODIFIED))
     	{
-    		return true;
+			System.err.println("isEditControlsChanged: TracePoint : 1");
+			return true;
     	}
 		
 		if(this.editAuthData.RowStatus().equals(AppConst.DataRowState.MODIFIED))
     	{
-    		return true;
+			System.err.println("isEditControlsChanged: TracePoint : 1");
+			return true;
     	}
 		
 		Integer no = this.editMasterData.getStaffNo();
@@ -537,10 +542,14 @@ public class FormController extends BaseFormPage {
 		}	
 		
     	var inputPassword = this.txt_Edit_Password.getText();
-    	// 登録 又は パスワードを変更した場合
-    	if (!isEditMode || !inputPassword.equals(AppConst.PASSWORD_MASK) ) 
+    	if ( isEditMode && !inputPassword.equals(this.editAuthData.getPass()))
     	{
-			this.editAuthData.setStatus(AppConst.DataRowState.MODIFIED);
+    		this.editAuthData.setStatus(AppConst.DataRowState.MODIFIED);
+			return true;
+    	}
+    	else if ( isEditMode && !inputPassword.equals(AppConst.PASSWORD_MASK) )
+    	{
+    		this.editAuthData.setStatus(AppConst.DataRowState.MODIFIED);
 			return true;
     	}
 		
@@ -666,7 +675,7 @@ public class FormController extends BaseFormPage {
     	// 登録項目 入力制限　設定
     	this.txt_Edit_No.setValidInput(AppConst.REGEX_NUMERIC, null);
     	
-    	// this.txt_Edit_Email.setValidInput(AppConst.REGEX_EMAIL_ADDR, null);
+    	this.txt_Edit_Email.setValidInput(AppConst.REGEX_EMAIL_INPUT_LIMIT, null);
     	this.txt_Edit_Password.setValidInput(AppConst.REGEX_PASSWORD, null);
     	
 		// 新規登録モード
@@ -898,14 +907,41 @@ public class FormController extends BaseFormPage {
 			return new AppConst.rowCheckResultData(false, true, -1, 5, sb.toString());
 		}	
 		
-    	// 存在確認
+		// メールアドレス形式確認
+	    if (!emailPattern.matcher(this.editAuthData.getEmailAddr()).matches()) {
+			sb.append("メールアドレス(ログインID)の形式が正しくありません。");
+    		sb.append(AppUtil.newLine());
+    		sb.append("下記の形式が許可されています。");
+    		sb.append(AppUtil.newLine());
+    		sb.append("ローカル部：半角英数字(大文字含む)、");
+    		sb.append(AppUtil.newLine());
+    		sb.append("            記号(. ! # \\$ % & ' * + - / = ? ^ _  { | } ~`)、");
+    		sb.append(AppUtil.newLine());
+    		sb.append("            ドット（.）の連続禁止、");
+    		sb.append(AppUtil.newLine());
+    		sb.append("            ドット（.）の配置場所を制限(先頭及び＠前は禁止)");
+    		sb.append(AppUtil.newLine());
+    		sb.append("ドメイン部：角英数字(大文字含む)、");
+    		sb.append(AppUtil.newLine());
+    		sb.append("            記号(. -)、");
+    		sb.append(AppUtil.newLine());
+    		sb.append("            (-)の連続禁止、");
+    		sb.append(AppUtil.newLine());
+    		sb.append("            (-）の配置場所を制限(各ドメインの先頭及び末尾は禁止)");
+    		sb.append(AppUtil.newLine());	
+    		sb.append("            一番右端（トップレベルドメイン）は2文字以上の英字のみ");
+    		sb.append(AppUtil.newLine());	  		
+    		return new AppConst.rowCheckResultData(false, true, -1, 4, sb.toString());
+	    }
+		
+		// 存在確認
 		if( !isEditMode && super.executeNonQuery( this::isExistsMasterData, this.editMasterData)) {
 			sb.append("既に同じ社員番号が登録されています。");
     		sb.append(AppUtil.newLine());
     		sb.append("同一の社員番号は登録できません。");
 			return new AppConst.rowCheckResultData(false, true, -1, 1, sb.toString());
 		}
-
+		
     	// メールアドレス重複確認
 		if( super.executeNonQuery( this::isExistsMailAddress, this.editAuthData)) {
 			sb.append("既に同じメールアドレス(ログインID)が登録されています。");
