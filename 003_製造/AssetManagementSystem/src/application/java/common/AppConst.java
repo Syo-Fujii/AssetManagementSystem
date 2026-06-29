@@ -306,7 +306,7 @@ public class AppConst {
 	
 	/** 入力制限 正規表現(メールアドレス / マルチドメイン・サブドメイン構造を含む) */
 	// public static final String REGEX_EMAIL_ADDR = "^[a-zA-Z0-9_+-]+(\\.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}$";
-	public static final String REGEX_EMAIL_ADDR = "^([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,})?$";
+	public static final String REGEX_EMAIL_ADDR = "^([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,})?$";
 	public static final String REGEX_EMAIL_INPUT_LIMIT = "^[a-zA-Z0-9_.+@-]*$";
 	
 	/** 入力制限 正規表現(半角英数字Space、およびダミー表示用アスタリスク) */

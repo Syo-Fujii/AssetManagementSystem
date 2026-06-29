@@ -221,6 +221,12 @@ public class FormController extends BaseFormPage {
         		return;
         	}
     		
+        	// パスワードを変更(MASKを変更)しなかった場合 ⇒ パスワードを更新しない
+        	if (this.editAuthData.getPass().equals(AppConst.PASSWORD_MASK) ) 
+        	{
+        		this.editAuthData.setPass("");
+        	}
+        	
         	// 更新処理(社員マスタ更新処理):データ操作のため垂直処理にて行う
         	LogManager.writeDebug("[" + FORM_NAME + "] ： 社員マスタ更新処理");
         	super.executeCudQuery( List.of(new ApplicationUserModel(editMasterData, editAuthData )) );
@@ -673,9 +679,9 @@ public class FormController extends BaseFormPage {
     	lbl_title.getStyleClass().add("titletext");
  
     	// 登録項目 入力制限　設定
-    	this.txt_Edit_No.setValidInput(AppConst.REGEX_NUMERIC, null);
+    	this.txt_Edit_No.setValidInput(AppConst.REGEX_NUMERIC, 10);
     	
-    	this.txt_Edit_Email.setValidInput(AppConst.REGEX_EMAIL_INPUT_LIMIT, null);
+    	this.txt_Edit_Email.setValidInput(AppConst.REGEX_EMAIL_INPUT_LIMIT, 254);
     	this.txt_Edit_Password.setValidInput(AppConst.REGEX_PASSWORD, null);
     	
 		// 新規登録モード
@@ -754,6 +760,7 @@ public class FormController extends BaseFormPage {
     		this.txt_Edit_Password.setText(AppConst.PASSWORD_MASK); 
     		this.txt_Edit_Password.setPromptText("変更する場合のみ入力してください");
 
+    		// 編集中の判定の為、初期値を付与
     		this.editAuthData.setPass(AppConst.PASSWORD_MASK);
     	}
     }
@@ -779,11 +786,13 @@ public class FormController extends BaseFormPage {
     	
     	var inputPassword = this.txt_Edit_Password.getText();
     	// 登録　又は　パスワードを変更(パスワードを入力⇒MASKを変更)した場合
-    	if (!isEditMode || !inputPassword.equals(AppConst.PASSWORD_MASK) ) 
+    	if ((!isEditMode || !inputPassword.equals(AppConst.PASSWORD_MASK)) &&
+    		!inputPassword.contains("*"))
     	{
-    		// HASH変換した値を格納する
-    		this.editAuthData.setPass(new HashConvertManager().convertWordsToSHA256PBKDF2(inputPassword));
+    		// HASH変換した値を格納する 空白の場合は空白を返す
+    		inputPassword = new HashConvertManager().convertWordsToSHA256PBKDF2(inputPassword);
     	}
+    	this.editAuthData.setPass(inputPassword);
     }    
     
     /**
@@ -921,7 +930,7 @@ public class FormController extends BaseFormPage {
     		sb.append(AppUtil.newLine());
     		sb.append("            ドット（.）の配置場所を制限(先頭及び＠前は禁止)");
     		sb.append(AppUtil.newLine());
-    		sb.append("ドメイン部：角英数字(大文字含む)、");
+    		sb.append("ドメイン部：半角英数字(大文字含む)、");
     		sb.append(AppUtil.newLine());
     		sb.append("            記号(. -)、");
     		sb.append(AppUtil.newLine());
@@ -934,6 +943,14 @@ public class FormController extends BaseFormPage {
     		return new AppConst.rowCheckResultData(false, true, -1, 4, sb.toString());
 	    }
 		
+	    // パスワード確認
+    	if (!(isEditMode && this.editAuthData.getPass().equals(AppConst.PASSWORD_MASK)) &&
+    		this.editAuthData.getPass().contains("*")) 
+    	{
+    	    sb.append("パスワードに「*」は使用できません。");
+    	    return new AppConst.rowCheckResultData(false, true, -1, 5, sb.toString());
+    	}   
+
 		// 存在確認
 		if( !isEditMode && super.executeNonQuery( this::isExistsMasterData, this.editMasterData)) {
 			sb.append("既に同じ社員番号が登録されています。");
@@ -956,7 +973,7 @@ public class FormController extends BaseFormPage {
     			AppConst.UNSET_NUMBER_VALUE,
     			AppConst.UNSET_NUMBER_VALUE,
     			"") ;
-    }    
+    }
     
     /**
      * 遷移元画面呼び出し

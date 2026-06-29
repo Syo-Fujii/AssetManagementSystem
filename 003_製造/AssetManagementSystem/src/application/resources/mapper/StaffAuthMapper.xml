@@ -21,12 +21,16 @@
           SELECT 
              1 
           FROM
-            staff_auth
+            staff_auth SA
+          INNER JOIN 
+            staff_master SM
+           ON SA.staff_no = SM.staff_no
+          AND SM.del = FALSE
           <where>
             1 = 1
-            AND email = #{emailAddr}   
+            AND SA.email = #{emailAddr}   
             <if test= "staffNo != null and staffNo > 0 ">
-              AND staff_no != #{staffNo}
+              AND SA.staff_no != #{staffNo}
             </if>
           </where>
          ) AS IS_EXISTS
