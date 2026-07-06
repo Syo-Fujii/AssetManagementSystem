@@ -285,6 +285,113 @@ public class AppConst {
 	        throw new IllegalArgumentException("不正なRowState値です: " + value);
 	    }
 	}	
+
+    /**
+     * 操作対象の画面・機能の分類を定義するクラス
+     */
+    public enum PermissionType {
+        STOCK,           // 備品業務（一覧、詳細、貸出、返却）
+        INVENTORY,       // 棚卸業務
+        STOCK_MASTER,    // 備品系マスタ（備品分類、備品マスタ）
+        SYSTEM_MASTER    // システム系マスタ（社員、仕入先マスタ）
+    }		
+	
+	/**
+	 * 画面操作権限ビットマスク定義
+	 * @brief
+	 * 備品使用者権限 (1) ＝ 1 (VIEWのみ)<br>
+	 * 備品管理者権限 (7) ＝ 1 + 2 + 4 (VIEW + CREATE + UPDATE)<br>
+	 * 備品責任者権限 (15) ＝ 1 + 2 + 4 + 8 (VIEW + DELETE + UPDATE + CREATE)<br>
+	 * マスター権限/システム管理者 (31) ＝ 16 + 8 + 4 + 2 + 1 (すべて許可)<br>
+	 */
+	public enum PermissionMask {
+	    // 各権限に対応するビット値を定義（1, 2, 4, 8, 16 ...）
+	    VIEW(1 << 0, "閲覧"),           // 1  (00001)
+	    CREATE(1 << 1, "登録"),         // 2  (00010)
+	    UPDATE(1 << 2, "更新"),         // 4  (00100)
+	    DELETE(1 << 3, "削除"),         // 8  (01000)
+	    SYSTEM(1 << 4, "システム管理"); // 16 (10000)
+		
+		private final int bit;
+	    private final String name;
+
+	    /** マスター権限/システム管理者 (31)  */
+	    public static final int MASK_MASTER = Arrays.stream(values())
+	                                                 .mapToInt(PermissionMask::getBit)
+	                                                 .sum();	    
+	    /** 備品責任者権限 (15) */
+	    public static final int MASK_SUPERVISOR = VIEW.bit + DELETE.bit + UPDATE.bit + CREATE.bit; 
+	    /** 備品管理者権限 (7)  */
+	    public static final int MASK_MANAGER = VIEW.bit + CREATE.bit + UPDATE.bit;
+	    /** 備品使用者権限 (1)  */
+	    public static final int MASK_USER = VIEW.bit;
+
+	    
+	    /**
+	     * コンストラクタ 
+	     */
+	    PermissionMask(int bit, String name) {
+	        this.bit = bit;
+	        this.name = name;
+	    }
+
+	    public int getBit() { return bit; }
+	    public String getName() { return name; }	    
+	    
+	    /**
+	     * 指定されたマスク値の中に、この権限が含まれているか判定する
+	     * @param userMask ユーザーの持つpermission_mask値
+	     * @return 含まれている場合 true
+	     */
+	    public boolean hasPermission(int userMask) {
+	        return (userMask & this.bit) == this.bit;
+	    }
+
+	    /**
+	     * 画面（機能）と操作に応じた、DB仕様準拠の厳密な権限チェック
+	     * @param userMask ユーザーのpermission_mask値 (31, 15, 7, 1)
+	     * @param targetType 操作対象の画面・機能タイプ
+	     * @return 許可される場合 true
+	     */
+	    public boolean hasPermission(int userMask, PermissionType targetType) {
+	        // システム管理者(31)はすべての画面・操作を許可
+	        if (userMask == MASK_MASTER) { return true; }
+
+	        // 画面ごとの詳細な業務ルール判定
+	        switch (targetType) {
+	            case STOCK: // 備品管理（一覧・詳細・貸出・返却）
+	                if (userMask == MASK_SUPERVISOR) { return true; }
+	                // 管理者は削除(DELETE)以外はOK
+	                if (userMask == MASK_MANAGER) { return this != DELETE; }
+                    // 使用者は閲覧(VIEW)のみOK
+	                if (userMask == MASK_USER) { return this == VIEW; }
+
+	                break;
+
+	            case INVENTORY: // 棚卸業務
+	                if (userMask == MASK_SUPERVISOR || userMask == MASK_MANAGER) {
+	                    // 責任者・管理者は「RU（閲覧・更新）」のみ許可
+	                    return this == VIEW || this == UPDATE;
+	                }
+
+	                // 使用者は棚卸不可
+	                return false;
+
+	            case STOCK_MASTER: // マスタ：備品分類マスタ・備品マスタ
+	            	 // 責任者はCRUDすべてOK
+	            	if (userMask == MASK_SUPERVISOR) { return true; }
+
+	            	// 管理者(7)・使用者(1)はアクセス不可
+	                return false;
+
+	            case SYSTEM_MASTER: // マスタ：社員マスタ・仕入先マスタなど
+	                // 31以外の権限（15, 7, 1）は一律不可
+	                return false;
+	        }
+	        return false;
+	    }	
+	}	
+	
 	
 	/** 数値未設定 初期値 */
 	public static final int UNSET_NUMBER_VALUE = -1;

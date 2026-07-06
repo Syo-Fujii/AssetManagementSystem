@@ -158,7 +158,7 @@ public class ApplicationUserModel extends StaffMasterModel {
 	 * ※ データ取得(DB連携)未変更(DBと同じ値)：UNCHANGED<br>
 	 * ※ データ設定(値変更・設定)：MODIFIED<br>
 	 */
-	public void setMastetStatus(AppConst.DataRowState state) {
+	public void setMasterStatus(AppConst.DataRowState state) {
 		this.masterDataState = state;
 	}
 	
@@ -275,5 +275,4 @@ public class ApplicationUserModel extends StaffMasterModel {
 		
 		return entity;
 	}
-
 }

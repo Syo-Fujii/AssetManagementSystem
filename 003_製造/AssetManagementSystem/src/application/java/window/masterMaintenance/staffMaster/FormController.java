@@ -507,12 +507,22 @@ public class FormController extends BaseFormPage {
 			return true;
     	}
 		
+		var isMasterChanged = isMasterValuesChanged();
+		var isAuthChanged = isAuthValuesChanged();
+		
+		return ( isMasterChanged || isAuthChanged );
+	}
+    
+	/**
+	 * 社内マスター項目 値変更チェック処理
+	 * @return boolean 判定結果
+     * @brief 登録用の各Controlの値が、初期と違う(値を編集した)場合は[真]<br>
+	 */
+	private boolean isMasterValuesChanged() {
 		Integer no = this.editMasterData.getStaffNo();
     	String name = this.editMasterData.getStaffName();
     	Integer auth = this.editMasterData.getAuthNo();
     	Boolean del = this.editMasterData.getDelFlg();
-    	
-    	String email = this.editAuthData.getEmailAddr();
     	
     	String noString = "";
     	if ( !AppUtil.IsNull(no) && no > 0 ) { noString = no.toString(); }
@@ -539,7 +549,18 @@ public class FormController extends BaseFormPage {
 		{ 
 			this.editMasterData.setStatus(AppConst.DataRowState.MODIFIED);
 			return true; 
-		}	
+		}
+		
+		return false;
+	}
+
+	/**
+	 * 社内認証マスター項目 値変更チェック処理
+	 * @return boolean 判定結果
+     * @brief 登録用の各Controlの値が、初期と違う(値を編集した)場合は[真]<br>
+	 */	
+	private boolean isAuthValuesChanged() {
+    	String email = this.editAuthData.getEmailAddr();
 
 		if ( !Objects.equals(this.txt_Edit_Email.getText(), email) ) 
 		{ 
@@ -558,10 +579,9 @@ public class FormController extends BaseFormPage {
     		this.editAuthData.setStatus(AppConst.DataRowState.MODIFIED);
 			return true;
     	}
-		
 		return false;
 	}
-    
+	
 	/**
 	 * DB処理確認Message
 	 * @return 確認結果

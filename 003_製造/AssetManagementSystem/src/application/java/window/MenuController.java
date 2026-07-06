@@ -5,6 +5,8 @@ import java.util.List;
 
 import application.java.base.BaseFormPage;
 import application.java.common.AppConst;
+import application.java.common.AppConst.PermissionMask;
+import application.java.common.AppSession;
 import application.java.common.AppUtil;
 import application.java.manager.FileManager;
 import application.java.manager.LogManager;
@@ -16,6 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -123,8 +126,13 @@ public class MenuController extends BaseFormPage {
     @FXML private AnchorPane masterPane;    
     
     @FXML private ToggleButton loanlist_button;
+    @FXML private ToggleButton verifyLocation_Button;
     @FXML private ToggleButton masterMainte_Button;
 
+    @FXML private Button StockTypeMaster_Button;
+    @FXML private Button StockMaster_Button;
+    @FXML private Button StaffMaster_Button; 
+    
     
     // 閉じるボタンのアクション
     @FXML
@@ -183,6 +191,9 @@ public class MenuController extends BaseFormPage {
     	
     	onTitleBarMousePressEvent();
 
+    	//
+    	setUserPermissionControls( AppSession.getUserPermission() );    	
+    	
         Platform.runLater(() -> {
         	if (imagesCache != null && imagesCache.size() > 0) {
             	startBackgroundSlideShowFade(frontImage, backImage, 5);
@@ -610,6 +621,36 @@ public class MenuController extends BaseFormPage {
         image = null;
     }
 
+    /**
+     * ログインユーザ権限による画面制御
+     * @param userMask ログインしたユーザの権限(Permission Mask)
+     * @brief ユーザの権限に応じた各Controlの有効化制御を行う<br>
+     */
+    private void setUserPermissionControls(int userMask) {
+    	var isEnabled = false;
+    	
+    	// 貸出業務ボタン有効化制御
+    	isEnabled = PermissionMask.VIEW.hasPermission(userMask, AppConst.PermissionType.STOCK);
+    	this.loanlist_button.setDisable(!isEnabled);
+    	
+    	// 棚卸業務ボタン有効化制御
+    	isEnabled = PermissionMask.VIEW.hasPermission(userMask, AppConst.PermissionType.INVENTORY);
+    	this.verifyLocation_Button.setDisable(!isEnabled);
+
+    	// マスタメンテナンスボタン有効化制御
+    	isEnabled = PermissionMask.VIEW.hasPermission(userMask, AppConst.PermissionType.STOCK_MASTER);
+    	this.masterMainte_Button.setDisable(!isEnabled);
+    	
+    	if (isEnabled)
+    	{
+    	    this.StockTypeMaster_Button.setDisable(!isEnabled);
+    	    this.StockMaster_Button.setDisable(!isEnabled);
+    	    
+    	    isEnabled = PermissionMask.VIEW.hasPermission(userMask, AppConst.PermissionType.SYSTEM_MASTER);
+    	    this.StaffMaster_Button.setDisable(!isEnabled);   		
+    	}
+    }
+    
     /**
      * 背景画像一覧取得
      * @throws Exception
