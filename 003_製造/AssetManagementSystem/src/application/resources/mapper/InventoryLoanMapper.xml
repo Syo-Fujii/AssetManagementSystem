@@ -106,7 +106,7 @@
     <select id="getStaffMasterData">
       SELECT
         SM.staff_no AS staffNo,
-        SM.name AS staffName
+        SM.name
        FROM
          staff_master SM
        WHERE

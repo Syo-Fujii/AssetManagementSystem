@@ -477,9 +477,10 @@ public class FormController extends BaseFormPage {
 	 */
 	private <T extends BaseTableViewModel> Boolean isExistsMailAddress(SqlSession session,  T data) {
 		LogManager.writeDebug("[" + FORM_NAME + "] ： DB メール重複確認");
-		
+
 		var email = ((StaffAuthModel) data).getEmailAddr();
 		Integer no = null;
+
 		if (isEditMode) { no = ((StaffAuthModel) data).getStaffNo(); }
 		
 		StaffAuthMapper mapper = session.getMapper(StaffAuthMapper.class);
@@ -494,16 +495,13 @@ public class FormController extends BaseFormPage {
      * @brief 登録用の各Controlの値が、初期と違う(値を編集した)場合は[真]<br>
 	 */
 	private boolean isEditControlsChanged() {
-		
 		if(this.editMasterData.RowStatus().equals(AppConst.DataRowState.MODIFIED))
     	{
-			System.err.println("isEditControlsChanged: TracePoint : 1");
 			return true;
     	}
 		
 		if(this.editAuthData.RowStatus().equals(AppConst.DataRowState.MODIFIED))
     	{
-			System.err.println("isEditControlsChanged: TracePoint : 1");
 			return true;
     	}
 		

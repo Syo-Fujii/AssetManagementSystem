@@ -434,6 +434,9 @@ public class AppConst {
 	/* HASH長(Byte) */
 	public static int HASH_BYTE = 32;
 	
+	/* 使用者権限定数 */
+	public static int STOCK_USER_AUTH = 99;
+	
 	/** 各フォルダPATH */
 	public static final String SOURCE_FULL_PATH = "F:\\Ecripse\\001_備品管理システム\\003_製造\\AssetManagementSystem\\src\\";
 	//public static final String SOURCE_FULL_PATH = "C:\\Users\\User\\Desktop\\Works\\備品管理システム\\02_製造\\003_製造\\AssetManagementSystem\\src\\";

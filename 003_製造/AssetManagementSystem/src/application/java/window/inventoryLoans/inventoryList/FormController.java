@@ -1,12 +1,14 @@
 package application.java.window.inventoryLoans.inventoryList;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.ibatis.session.SqlSession;
 
 import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryListDataModel;
+import application.java.common.AppConst;
 import application.java.common.AppSession;
 import application.java.common.AppUtil;
 import application.java.manager.LogManager;
@@ -127,10 +129,11 @@ public class FormController extends BaseFormPage {
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
     	LogManager.writeTrace("[" + FORM_NAME + "] ： DB 備品一覧データ取得");
     	
-    	InventoryListMapper mapper = session.getMapper(InventoryListMapper.class);
-	    
+    	var staffNo = Objects.equals(AppSession.getLoginAuthId(), AppConst.STOCK_USER_AUTH) ? AppSession.getLoginStaffCode() : 0; 
+    	
 	    // 備品一覧データ取得
-	    return (List<T>) mapper.getTableRecords();
+    	InventoryListMapper mapper = session.getMapper(InventoryListMapper.class);
+	    return (List<T>) mapper.getTableRecords(AppSession.getLoginAuthId(), staffNo);
     }
 
 	/**

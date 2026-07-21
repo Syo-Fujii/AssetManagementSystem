@@ -40,6 +40,14 @@ public class AppSession {
     }
 
     /**
+     * ログインしている権限IDを取得
+     * @brief 未取得の場合は'-1'を返す
+     */
+    public static int getLoginAuthId() {
+        return loginUser != null ? loginUser.getAuthNo() : -1;
+    }
+    
+    /**
      * ログインしているユーザの社員番号・氏名を取得
      */
     public static String getLoginUserInfo() {

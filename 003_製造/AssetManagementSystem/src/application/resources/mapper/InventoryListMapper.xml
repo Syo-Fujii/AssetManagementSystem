@@ -5,14 +5,13 @@
 
     <!-- 備品一覧の取得 -->
     <select id="getTableRecords">
-     <![CDATA[
        WITH SUB_TOTAL AS
        (
            SELECT 
                ST.stock_type
              , ST.stock_code
              , SUM(CASE
-                      WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+                      WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) &lt;= 365 )
                         THEN 1
                       ELSE
                         0
@@ -21,7 +20,7 @@
                       /* 在庫 = [staff_no]：貸出先ユーザーの社員番号 が未設定(NULL) 且つ
                                 [return_date]：返却日が未設定(NULL) 且つ
                                 [confirmed_date]：最終所在確認日 が１年以内 */
-                      WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+                      WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) &lt;= 365 )
                         THEN 1
                       ELSE
                         0
@@ -31,20 +30,27 @@
                                  [confirmed_date]：最終所在確認日 が１年前以前 
                           ※ 貸出中・在庫を問わず１年前以前のデータを不明とする
                       */
-                      WHEN (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) > 365 )
+                      WHEN (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) &gt; 365 )
                         THEN 1
                       ELSE
                         0
                      END) AS unknown_count  -- 不明備品の数
            FROM
              (SELECT
-                  stock_type
-                , stock_code
+                  S.stock_type
+                , S.stock_code
               FROM
-                stock_type_master
+                stock_type_master S
+              /* ログインユーザに合わせた制御 */
+              INNER JOIN 
+                stock_type_auth_master STAM
+               ON S.stock_type = STAM.stock_type
+              AND STAM.auth_id = #{authId}
+              -- 参照権限がある備品分類を指定
+              AND (STAM.permission &amp; 00001 &gt; 0) 
               WHERE
                 1 = 1
-              AND del = FALSE) ST 
+              AND S.del = FALSE) ST 
            INNER JOIN 
              stock_master SM
             ON ST.stock_type = SM.stock_type 
@@ -57,8 +63,13 @@
            /* 返却済データの除去 */
            AND SD.return_date IS NULL
            AND SD.del = FALSE 
-           WHERE
-            1 = 1
+           /* 社員番号を設定した場合のみ、抽出条件とする */
+           <where>
+               <if test="staffNo != null and staffNo > 0">
+                   AND SD.staff_no = #{staffNo}
+               </if>
+           </where>
+
            GROUP BY
              ST.stock_type
            , ST.stock_code
@@ -92,7 +103,6 @@
         ORDER BY 
             ST.stock_type
           , St.stock_code
-     ]]>
     </select>
 
     <!-- Viwew[equip_list_view]から全データの取得 -->
