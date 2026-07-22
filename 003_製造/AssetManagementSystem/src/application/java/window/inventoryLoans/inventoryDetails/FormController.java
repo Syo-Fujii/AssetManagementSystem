@@ -3,6 +3,7 @@ package application.java.window.inventoryLoans.inventoryDetails;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -10,6 +11,7 @@ import application.java.base.BaseFormPage;
 import application.java.base.BaseTableViewModel;
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 import application.java.common.AppConst;
+import application.java.common.AppConst.PermissionMask;
 import application.java.common.AppSession;
 import application.java.common.AppUtil;
 import application.java.common.MessageBox;
@@ -116,6 +118,9 @@ public class FormController extends BaseFormPage {
 		
 		// 画面起動設定
 		this.formInitialize();
+		
+    	// ログインユーザの権限による制御
+    	setUserPermissionControls( AppSession.getUserPermission() );    	
 
 		LogManager.writeDebug("[" + FORM_NAME + "] ： リスト表示処理");
     	super.<InventoryDetailsDataModel>fillTableAsync();
@@ -253,10 +258,11 @@ public class FormController extends BaseFormPage {
     protected <T extends BaseTableViewModel> List<T> executeMapperFunction(SqlSession session) {
     	LogManager.writeDebug("[" + FORM_NAME + "] ： DB 備品詳細データ取得処理");
     	
+    	var staffNo = Objects.equals(AppSession.getLoginAuthId(), AppConst.STOCK_USER_AUTH) ? AppSession.getLoginStaffCode() : 0; 
+    	
     	InventoryDetailsMapper mapper = session.getMapper(InventoryDetailsMapper.class);
-	    
 	    // 備品詳細データ取得
-	    return (List<T>) mapper.getTableDetailRecords(this.stockType, this.stockCode);
+	    return (List<T>) mapper.getTableDetailRecords(this.stockType, this.stockCode, staffNo);
     }
 
 	/**
@@ -536,6 +542,33 @@ public class FormController extends BaseFormPage {
     }
 
     /**
+     * ログインユーザ権限による画面制御
+     * @param userMask ログインしたユーザの権限(Permission Mask)
+     * @brief ユーザの権限に応じた各Controlの有効化制御を行う<br>
+     */
+    private void setUserPermissionControls(int userMask) {
+        
+    	// システム管理者(31)は無条件で全ボタンを有効化する
+        if (userMask == PermissionMask.MASK_MASTER) {
+            this.inventoryCounting_button.setDisable(false);
+            this.loan_button.setDisable(false);
+            
+            return;
+        }
+
+        // 「登録(CREATE)」と「更新(UPDATE)」の両方のビットが立っているか判定 (00110)
+        int requiredMask = PermissionMask.CREATE.getBit() | PermissionMask.UPDATE.getBit(); // 2 + 4 = 6
+        
+        // ユーザーの権限（userMask）に、requiredMaskのビットがすべて含まれているか
+        var isEnabled = (userMask & requiredMask) == requiredMask;
+        
+        // ボタン有効化制御
+        this.inventoryCounting_button.setDisable( !isEnabled );
+        this.loan_button.setDisable( !isEnabled );
+        this.return_button.setDisable( !isEnabled );
+    }
+    
+    /**
      * ボタン項目 無効化処理
      * @brief ボタンの全コントロールを無効化を行う<br>
      */
@@ -543,8 +576,8 @@ public class FormController extends BaseFormPage {
      	
        	// ボタン制御
     	inventoryCounting_button.setDisable( true );
-    	loan_button.setDisable( true );	
-    	return_button.setDisable( true ); 	
+    	loan_button.setDisable( true );
+    	return_button.setDisable( true );
     }      
     
     /**

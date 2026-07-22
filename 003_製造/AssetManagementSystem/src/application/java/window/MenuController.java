@@ -191,8 +191,8 @@ public class MenuController extends BaseFormPage {
     	
     	onTitleBarMousePressEvent();
 
-    	//
-    	setUserPermissionControls( AppSession.getUserPermission() );    	
+    	// ログインユーザの権限による制御
+    	setUserPermissionControls( AppSession.getUserPermission() ); 
     	
         Platform.runLater(() -> {
         	if (imagesCache != null && imagesCache.size() > 0) {

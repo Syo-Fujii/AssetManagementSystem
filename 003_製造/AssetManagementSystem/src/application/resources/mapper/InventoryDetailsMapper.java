@@ -2,6 +2,8 @@ package application.resources.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import application.java.base.tableViewListModel.InventoryDetailsDataModel;
 
 /**
@@ -13,7 +15,10 @@ public interface InventoryDetailsMapper {
 	 * 備品詳細データ取得(テーブルより取得)
 	 * @return 備品データ(備品詳細に表示するデータ)
 	 */
-    List<InventoryDetailsDataModel> getTableDetailRecords(Integer type, String code );
+    List<InventoryDetailsDataModel> getTableDetailRecords(
+    		Integer type, 
+    		String code,
+    		@Param("staffNo") Integer staffNo);
     
 	/**
 	 * 備品データの最終所在確認日更新

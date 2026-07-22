@@ -5,38 +5,42 @@
 
     <!-- 備品詳細の取得 -->
     <select id="getTableDetailRecords">
-     <![CDATA[
-       WITH BASE_TABLE AS
-       (
-         SELECT
-           DISTINCT
-              SM.serial_no
-            , SD.id
-         FROM
-           stock_type_master STM
-         /* 参照権限を考慮する場合に用いる
-         INNER JOIN 
-           stock_type_data STD
-          ON STM.stock_type = STD.stock_type
-         AND STM.stock_code = STD.stock_code*/ 
-         INNER JOIN 
+      WITH BASE_TABLE AS
+      (
+        SELECT
+          DISTINCT
+             SM.serial_no
+           , SD.id
+        FROM
+          stock_type_master STM
+        /* 参照権限を考慮する場合に用いる
+        INNER JOIN 
+          stock_type_data STD
+         ON STM.stock_type = STD.stock_type
+        AND STM.stock_code = STD.stock_code*/ 
+        INNER JOIN 
            stock_master SM
-          ON STM.stock_type = SM.stock_type 
-         AND STM.stock_code = SM.stock_code
-         AND STM.del = FALSE 
-         AND SM.del = FALSE 
+         ON STM.stock_type = SM.stock_type 
+        AND STM.stock_code = SM.stock_code
+        AND STM.del = FALSE 
+        AND SM.del = FALSE 
 
-         /* 未登録データを考慮しLEFT JOINとする */
-         LEFT JOIN
-           stock_data SD
-          ON SM.serial_no = SD.serial_no 
-           /* 返却済データの除去 ≒ 最新の備品データを取得 */
-         AND SD.return_date IS NULL
-         AND SD.del = FALSE
-         WHERE
-            1 = 1
-         AND STM.stock_type = #{type}
-         AND STM.stock_code = #{code}  
+        /* 未登録データを考慮しLEFT JOINとする */
+        LEFT JOIN
+          stock_data SD
+         ON SM.serial_no = SD.serial_no 
+        /* 返却済データの除去 ≒ 最新の備品データを取得 */
+        AND SD.return_date IS NULL
+        AND SD.del = FALSE
+        <where>
+              STM.stock_type = #{type}
+          AND STM.stock_code = #{code}
+
+          /* 社員番号を設定した場合のみ、抽出条件とする */
+          <if test="staffNo != null and staffNo > 0">
+              AND SD.staff_no = #{staffNo}
+          </if>
+        </where>
        )
 
        SELECT
@@ -48,13 +52,13 @@
                WHEN SM.rent_flg
                    THEN '4'                           -- 不可 / 貸出可否(TRUEの場合、貸出不可)
                /* 返却処理に含めるため、[貸出中]で[不明]のデータを分ける */
-               WHEN SD.staff_no IS NOT NULL AND DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
+               WHEN SD.staff_no IS NOT NULL AND DATEDIFF(CURRENT_DATE (), SD.confirmed_date) &gt; 365 
                    THEN '5'                           -- 不明 / 可否表示は不明だがデータの種別は分ける [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする)
-               WHEN DATEDIFF(CURRENT_DATE (), SD.confirmed_date) > 365 
+               WHEN DATEDIFF(CURRENT_DATE (), SD.confirmed_date) &gt; 365 
                    THEN '3'                           -- 不明 / [confirmed_date]：最終所在確認日 が１年前以前(可・貸出中に関わらず不明とする)
-               WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+               WHEN SD.staff_no IS NOT NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) &lt;= 365 )
                    THEN '2'                           -- 貸出中
-               WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) <= 365 )
+               WHEN SD.staff_no IS NULL AND (DATEDIFF(CURRENT_DATE(), SD.confirmed_date) &lt;= 365 )
                    THEN '1'                           -- 可
                ELSE  
                    '4'                                -- 不可 / 備品データが未登録の場合など、異常なデータ
@@ -102,7 +106,6 @@
          1 = 1
        ORDER BY
         SM.serial_no
-     ]]>
     </select>
 
     <!-- 備品データの最終所在確認日更新 -->
