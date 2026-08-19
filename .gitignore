@@ -4,3 +4,4 @@
 *.user
 *.cache
 003_製造/LogInSystem/AssetManagementPassKeyLogIn/AssetManagementPassKeyLogIn/obj/
+*.log
